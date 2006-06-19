@@ -24,60 +24,63 @@ DROP TABLE IF EXISTS languages;
 
 CREATE TABLE humans (
 
-    id			INTEGER PRIMARY KEY,
-    created_at		DATETIME,
-    updated_at		DATETIME,
-    lock_version		INTEGER NOT NULL DEFAULT 0,
-    type 			ENUM(	'Individual',
-                    'Collective',
-                    'User'),
-    name			VARCHAR(255) NOT NULL DEFAULT 'Unknown',
-    givenNames		VARCHAR(255),
+    id                  INTEGER PRIMARY KEY AUTO_INCREMENT,
+    created_at		    DATETIME,
+    updated_at		    DATETIME,
+    lock_version	    INTEGER NOT NULL DEFAULT 0,
+    type 			    ENUM(	'Individual',
+                                'Collective',
+                                'User') NOT NULL,
+    name			    VARCHAR(255) NOT NULL DEFAULT 'Unknown',
+    username            VARCHAR(255),
+    givenNames		    VARCHAR(255),
     nameQualification 	VARCHAR(255),
-    place			VARCHAR(255),
-    address			TEXT,
-    password		VARCHAR(255)
+    place			    VARCHAR(255),
+    address			    TEXT,
+    password		    VARCHAR(255)
 
 ) ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-CREATE TABLE works (
+-- add index on name, given names
+ALTER TABLE HUMANS ADD INDEX HUMAN_NAME_IDX (name(100), givenNames(100));
 
-    id			INTEGER PRIMARY KEY,
+CREATE TABLE works (
+    id              INTEGER PRIMARY KEY AUTO_INCREMENT,
     created_at		DATETIME,
     updated_at		DATETIME,
-    lock_version		INTEGER NOT NULL DEFAULT 0,
+    lock_version	INTEGER NOT NULL DEFAULT 0,
     type 			ENUM(	'AbstractWork',
-                    'Article',
-                    'Book',
-                    'Booklet',
-                    'Conference',
-                    'Inbook',
-                    'Incollection',
-                    'Inproceedings',
-                    'Journal',
-                    'Manual',
-                    'MastersThesis',
-                    'Misc',
-                    'OnlineResource',
-                    'PhdThesis',
-                    'Proceedings',
-                    'Techreport',
-                    'Unpublished' ),
+                            'Article',
+                            'Book',
+                            'Booklet',
+                            'Conference',
+                            'Inbook',
+                            'Incollection',
+                            'Inproceedings',
+                            'Journal',
+                            'Manual',
+                            'MastersThesis',
+                            'Misc',
+                            'OnlineResource',
+                            'PhdThesis',
+                            'Proceedings',
+                            'Techreport',
+                            'Unpublished' ) NOT NULL,
     title			TEXT NOT NULL,
-    year			YEAR,
+    year			YEAR NOT NULL,
     month			INTEGER,
-    day			INTEGER,
+    day			    INTEGER,
     pages			VARCHAR(255),
-    howpublished		VARCHAR(255),
+    howpublished    VARCHAR(255),
     note			TEXT,
     edition			VARCHAR(255),
     volume			VARCHAR(255),
     number			VARCHAR(255),
     chapter			VARCHAR(255)
-
-
 )
 ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+ALTER TABLE works ADD FULLTEXT INDEX TITLE_IDX (title);
 
 CREATE TABLE languages
 (
@@ -87,43 +90,52 @@ CREATE TABLE languages
 )
 ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+ALTER TABLE languages ADD UNIQUE INDEX LANG_IDX (id, code);
+
 CREATE TABLE languages_works
 (
-    languages_id	INTEGER NOT NULL,
-    works_id	INTEGER NOT NULL
+    languages_id	INTEGER NOT NULL REFERENCES languages(id),
+    works_id	    INTEGER NOT NULL REFERENCES works(id),
+    PRIMARY KEY     (languages_id, works_id)
 )
 ENGINE = MyISAM;
 
 CREATE TABLE humanWorkRelationships
 (
-    id			INTEGER PRIMARY KEY,
+    id			    INTEGER PRIMARY KEY AUTO_INCREMENT,
     created_at		DATETIME,
     updated_at		DATETIME,
-    lock_version		INTEGER NOT NULL DEFAULT 0,
-    humans_id		INTEGER NOT NULL,
-    works_id		INTEGER NOT NULL,
+    lock_version	INTEGER NOT NULL DEFAULT 0,
+    humans_id		INTEGER NOT NULL REFERENCES humans(id),
+    works_id		INTEGER NOT NULL REFERENCES works(id),
     relationship		ENUM(	'Author',
-                    'Editor',
-                    'Publisher',
-                    'Organization',
-                    'Institution',
-                    'School',
-                    'Subject' )
+                                'Editor',
+                                'Publisher',
+                                'Organization',
+                                'Institution',
+                                'School',
+                                'Subject' ) NOT NULL
 )
 ENGINE = MyISAM CHARACTER SET UTF8 COLLATE utf8_general_ci;
 
+ALTER TABLE humanWorkRelationships ADD INDEX human2workIdx (humans_id, relationship, works_id);
+ALTER TABLE humanWorkRelationships ADD INDEX work2HumanIdx (works_id, relationship, humans_id) ;
+
 CREATE TABLE workWorkRelationships
 (
-    id			INTEGER PRIMARY KEY,
+    id			    INTEGER PRIMARY KEY AUTO_INCREMENT,
     created_at		DATETIME,
     updated_at		DATETIME,
-    lock_version		INTEGER NOT NULL DEFAULT 0,
-    from_id			INTEGER NOT NULL,
-    to_id			INTEGER NOT NULL,
-    relationship		ENUM (	'containment',
-                    'expression',
-                    'subject',
-                    'translation',
-                    'citation' )
+    lock_version	INTEGER NOT NULL DEFAULT 0,
+    from_id			INTEGER NOT NULL REFERENCES works(id),
+    to_id			INTEGER NOT NULL REFERENCES works(id),
+    relationship	ENUM (	'containment',
+                            'expression',
+                            'subject',
+                            'translation',
+                            'citation' ) NOT NULL
 )
 ENGINE = MyISAM CHARACTER SET UTF8 COLLATE utf8_general_ci;
+
+ALTER TABLE workWorkRelationships ADD INDEX fromToIdx (from_id, relationship, to_id);
+ALTER TABLE workWorkRelationships ADD INDEX toFromIdx (to_id, relationship, from_id);
