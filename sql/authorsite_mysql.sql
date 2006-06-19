@@ -118,7 +118,7 @@ CREATE TABLE humanWorkRelationships
 )
 ENGINE = MyISAM CHARACTER SET UTF8 COLLATE utf8_general_ci;
 
-ALTER TABLE humanWorkRelationships ADD INDEX human2workIdx (humans_id, relationship, works_id);
+ALTER TABLE humanWorkRelationships ADD UNIQUE INDEX human2workIdx (humans_id, relationship, works_id);
 ALTER TABLE humanWorkRelationships ADD INDEX work2HumanIdx (works_id, relationship, humans_id) ;
 
 CREATE TABLE workWorkRelationships
@@ -137,5 +137,5 @@ CREATE TABLE workWorkRelationships
 )
 ENGINE = MyISAM CHARACTER SET UTF8 COLLATE utf8_general_ci;
 
-ALTER TABLE workWorkRelationships ADD INDEX fromToIdx (from_id, relationship, to_id);
+ALTER TABLE workWorkRelationships ADD UNIQUE INDEX fromToIdx (from_id, relationship, to_id);
 ALTER TABLE workWorkRelationships ADD INDEX toFromIdx (to_id, relationship, from_id);
