@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 2.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-configuration-2.0.dtd" [
+    <!ENTITY fileList SYSTEM "file:hibernate-resource-files.xml">
+]>
+
+<hibernate-configuration>
+
+  <session-factory>
+
+    <!-- This will include a list of all the mapping files to
+         be used for this configuration.
+         -->
+  &fileList;
+  </session-factory>
+
+</hibernate-configuration>

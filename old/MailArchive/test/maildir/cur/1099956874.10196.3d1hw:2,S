@@ -1,0 +1,122 @@
+Return-Path: <jejking2@vfemail.net>
+X-Original-To: jejking@localhost
+Delivered-To: jejking@localhost.tiramisu.local
+Received: from localhost (localhost [127.0.0.1])
+	by tiramisu.local (Postfix) with ESMTP id D279130BD6
+	for <jejking@localhost>; Sat, 19 Jun 2004 19:08:56 +0100 (BST)
+Delivered-To: jejking@zelaza.pair.com
+X-Envelope-To: jejking@zelaza.pair.com
+Received: from zelaza.pair.com [209.68.2.92]
+	by localhost with POP3 (fetchmail-6.2.1)
+	for jejking@localhost (single-drop); Sat, 19 Jun 2004 19:08:56 +0100 (BST)
+Received: (qmail 27626 invoked from network); 19 Jun 2004 18:06:16 -0000
+Received: from mx4.pair.com (209.68.1.66)
+  by zelaza.pair.com with SMTP; 19 Jun 2004 18:06:16 -0000
+Received: from vfemail.net (211.valeoinc.com [64.243.213.211])
+	by mx4.pair.com (Postfix) with ESMTP id A54336DD83
+	for <jejking@pair.com>; Sat, 19 Jun 2004 14:06:16 -0400 (EDT)
+Received: (qmail 65765 invoked by uid 85); 19 Jun 2004 18:06:15 -0000
+Received: from jejking2@vfemail.net by mail.vfemail.net by uid 0 with qmail-scanner-1.16 
+ (clamscan: 0.60. spamassassin: 2.55.  Clear:. 
+ Processed in 0.03811 secs); 19 Jun 2004 18:06:15 -0000
+Received: from unknown (HELO localhost) (64.243.213.211)
+  by 211.valeoinc.com with SMTP; 19 Jun 2004 18:06:15 -0000
+Received: from host81-155-14-166.range81-155.btcentralplus.com
+	(host81-155-14-166.range81-155.btcentralplus.com [81.155.14.166]) by
+	www.vfemail.net (Horde) with HTTP for <jejking2@vfemail.net>; Sat, 19 Jun
+	2004 13:06:15 -0500
+Message-ID: <1087668375.ae943a67ece19@www.vfemail.net>
+X-Priority: 3 (Normal)
+Date: Sat, 19 Jun 2004 13:06:15 -0500
+From: jejking2@vfemail.net
+To: John King <jejking@pair.com>
+Subject: a class file
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+  boundary="=_87ba9dcdea03691f479568"
+Content-Transfer-Encoding: 7bit
+User-Agent: Internet Messaging Program (IMP) 4.0-cvs
+X-Spam-Filtered: 2de8cb6b622de007ea9e91945a89f7af
+X-Spam-Status: No, hits=3.1 required=3.5 tests=PRIORITY_NO_NAME,NO_REAL_NAME,BAYES_80,RCVD_IN_SORBS
+X-Spam-Flag: NO
+X-Spam-Level: ***
+Status: RO
+X-Status: OR
+X-KMail-EncryptionState:  
+X-KMail-SignatureState:  
+X-KMail-MDN-Sent:  
+
+This message is in MIME format.
+
+--=_87ba9dcdea03691f479568
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+
+This is a nifty class file. You might find it useful for reading Maildirs. Or
+some of them, anyway.
+
+JT
+
+
+-------------------------------------------------
+This mail sent through Virus Free Email
+http://www.vfemail.net
+
+
+--=_87ba9dcdea03691f479568
+Content-Type: text/plain; name="MailDirReader.class"; charset="ISO-8859-1"
+Content-Disposition: attachment; filename="MailDirReader.class"
+Content-Transfer-Encoding: base64
+
+yv66vgADAC0AnQEAKG9yZy9hdXRob3JzaXRlL21haWxhcmNoaXZlL01haWxEaXJSZWFkZXIHAAEB
+ABBqYXZhL2xhbmcvT2JqZWN0BwADAQAGPGluaXQ+AQADKClWAQAEQ29kZQwABQAGCgAEAAgBAA9M
+aW5lTnVtYmVyVGFibGUBABJMb2NhbFZhcmlhYmxlVGFibGUBAAR0aGlzAQAqTG9yZy9hdXRob3Jz
+aXRlL21haWxhcmNoaXZlL01haWxEaXJSZWFkZXI7AQAEbWFpbgEAFihbTGphdmEvbGFuZy9TdHJp
+bmc7KVYBABRqYXZhL3V0aWwvUHJvcGVydGllcwcAEAoAEQAIAQAUbWFpbC5tYWlsZGlyLm1haWxk
+aXIIABMBABkvaG9tZS9qZWpraW5nL01haWwvaW5ib3gJCAAVAQATamF2YS91dGlsL0hhc2h0YWJs
+ZQcAFwEAA3B1dAEAOChMamF2YS9sYW5nL09iamVjdDtMamF2YS9sYW5nL09iamVjdDspTGphdmEv
+bGFuZy9PYmplY3Q7DAAZABoKABgAGwEAEmphdmF4L21haWwvU2Vzc2lvbgcAHQEAC2dldEluc3Rh
+bmNlAQAsKExqYXZhL3V0aWwvUHJvcGVydGllczspTGphdmF4L21haWwvU2Vzc2lvbjsMAB8AIAoA
+HgAhAQASamF2YXgvbWFpbC9VUkxOYW1lBwAjAQAcbWFpbGRpcjovLy9ob21lL2plamtpbmcvTWFp
+bAgAJQEAFShMamF2YS9sYW5nL1N0cmluZzspVgwABQAnCgAkACgBAAhnZXRTdG9yZQEAKChMamF2
+YXgvbWFpbC9VUkxOYW1lOylMamF2YXgvbWFpbC9TdG9yZTsMACoAKwoAHgAsAQAQamF2YS9sYW5n
+L1N5c3RlbQcALgEAA291dAEAFUxqYXZhL2lvL1ByaW50U3RyZWFtOwwAMAAxCQAvADIBAAlHb3Qg
+c3RvcmUIADQBABNqYXZhL2lvL1ByaW50U3RyZWFtBwA2AQAHcHJpbnRsbgwAOAAnCgA3ADkBABJq
+YXZheC9tYWlsL1NlcnZpY2UHADsBAAdjb25uZWN0DAA9AAYKADwAPgEACHRvU3RyaW5nAQAUKClM
+amF2YS9sYW5nL1N0cmluZzsMAEAAQQoAPABCAQAQamF2YXgvbWFpbC9TdG9yZQcARAEAEGdldERl
+ZmF1bHRGb2xkZXIBABUoKUxqYXZheC9tYWlsL0ZvbGRlcjsMAEYARwoARQBIAQARamF2YXgvbWFp
+bC9Gb2xkZXIHAEoBAAtnZXRGdWxsTmFtZQwATABBCgBLAE0BAAVpbmJveAgATwEACWdldEZvbGRl
+cgEAJyhMamF2YS9sYW5nL1N0cmluZzspTGphdmF4L21haWwvRm9sZGVyOwwAUQBSCgBLAFMBAAtn
+ZXRNZXNzYWdlcwEAFygpW0xqYXZheC9tYWlsL01lc3NhZ2U7DABVAFYKAEsAVwEAEmphdmF4L21h
+aWwvTWVzc2FnZQcAWQEAB2dldEZyb20BABcoKVtMamF2YXgvbWFpbC9BZGRyZXNzOwwAWwBcCgBa
+AF0BABZqYXZhL2xhbmcvU3RyaW5nQnVmZmVyBwBfCgBgAAgBAAZhcHBlbmQBACwoTGphdmEvbGFu
+Zy9PYmplY3Q7KUxqYXZhL2xhbmcvU3RyaW5nQnVmZmVyOwwAYgBjCgBgAGQBAAEgCABmAQAsKExq
+YXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1N0cmluZ0J1ZmZlcjsMAGIAaAoAYABpCgBgAEIB
+AAVwcmludAwAbAAnCgA3AG0BAApnZXRTdWJqZWN0DABvAEEKAFoAcAEAEGphdmEvbGFuZy9TdHJp
+bmcHAHIBAAd2YWx1ZU9mAQAmKExqYXZhL2xhbmcvT2JqZWN0OylMamF2YS9sYW5nL1N0cmluZzsM
+AHQAdQoAcwB2CgBgACgBAAEKCAB5AQATamF2YS9sYW5nL1Rocm93YWJsZQcAewEAD3ByaW50U3Rh
+Y2tUcmFjZQwAfQAGCgB8AH4BACJqYXZheC9tYWlsL05vU3VjaFByb3ZpZGVyRXhjZXB0aW9uBwCA
+AQAdamF2YXgvbWFpbC9NZXNzYWdpbmdFeGNlcHRpb24HAIIBAARhcmdzAQATW0xqYXZhL2xhbmcv
+U3RyaW5nOwEAEG1haWxTZXNzaW9uUHJvcHMBABZMamF2YS91dGlsL1Byb3BlcnRpZXM7AQALbWFp
+bFNlc3Npb24BABRMamF2YXgvbWFpbC9TZXNzaW9uOwEAA3VybAEAFExqYXZheC9tYWlsL1VSTE5h
+bWU7AQAFc3RvcmUBABJMamF2YXgvbWFpbC9TdG9yZTsBAARyb290AQATTGphdmF4L21haWwvRm9s
+ZGVyOwEABHNwYW0BAAZteVNwYW0BABVbTGphdmF4L21haWwvTWVzc2FnZTsBAAFpAQABSQEABGZy
+b20BABVbTGphdmF4L21haWwvQWRkcmVzczsBAAFqAQABZQEAJExqYXZheC9tYWlsL05vU3VjaFBy
+b3ZpZGVyRXhjZXB0aW9uOwEAH0xqYXZheC9tYWlsL01lc3NhZ2luZ0V4Y2VwdGlvbjsBAApTb3Vy
+Y2VGaWxlAQASTWFpbERpclJlYWRlci5qYXZhACEAAgAEAAAAAAACAAEABQAGAAEABwAAAC8AAQAB
+AAAABSq3AAmxAAAAAgAKAAAABgABAAAAIgALAAAADAABAAAABQAMAA0AAAAJAA4ADwABAAcAAAH8
+AAUACwAAAOq7ABFZtwASTCsSFBIWtgAcVyu4ACJNuwAkWRImtwApTiwttgAtOgSyADMSNbYAOhkE
+tgA/sgAzGQS2AEO2ADoZBLYASToFsgAzGQW2AE62ADoZBRJQtgBUOgayADMZBrYATrYAOhkGtgBY
+OgcDNginAF4ZBxUIMrYAXjoJAzYKpwAjsgAzuwBgWbcAYRkJFQoytgBlEme2AGq2AGu2AG6ECgEV
+ChkJvqH/27IAM7sAYFkZBxUIMrYAcbgAd7cAeBJ6tgBqtgBrtgBuhAgBFQgZB76h/6CnABQ6BRkF
+tgB/pwAKOgUZBbYAf7EAAgAgANgA2ACBACAA2ADiAIMAAgAKAAAAZgAZAAAAJgAIACcAEQAoABYA
+KQAgACwAJwAtAC8ALgA0AC8APwAwAEYAMQBRADIAWgA0AGUANQBsADYAcgA3AHwAOACCADkAnwA4
+AKoAOwDKADYA2AA+ANoAQADiAEEA5ABDAOkASAALAAAAhAANAAAA6gCEAIUAAAAIAOIAhgCHAAEA
+FgDUAIgAiQACACAAygCKAIsAAwAnALEAjACNAAQARgCSAI4AjwAFAFoAfgCQAI8ABgBsAGwAkQCS
+AAcAbwBpAJMAlAAIAHwATgCVAJYACQB/ACsAlwCUAAoA2gAFAJgAmQAFAOQABQCYAJoABQABAJsA
+AAACAJw=
+
+--=_87ba9dcdea03691f479568--
+
+

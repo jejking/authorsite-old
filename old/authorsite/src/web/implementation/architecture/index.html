@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc>
+    <ia>
+        <title>authorsite.org - bibliographic application - implementation - architecture and design</title>
+    </ia>
+    <block id="main">
+        <h1>architecture and design</h1>
+        <h2>a multi-tier J2EE architecture</h2>
+        <p>
+            The application is implemented as multi-tiered J2EE application utilising core J2EE technologies.
+            Entity EJBs leveraging Container Managed Persistence and Container Managed Relationships provide the 
+            persistence layer, communicating with a relational database (currently PostgreSQL). Session EJBs provide
+            business logic and services, supported by plain java objects, as well as the external application of the API
+            which exposes business methods.
+        </p>
+        <p>
+            Whilst the architecture facilitates the development and deployment of multiple client platforms, the first to be
+            developed is a Java web application using servlets and JSPs, leveraging the <a href="http://jakarta.apache.org/struts/"
+            target="_blank" title="jakarta struts website">Jakarta Struts</a> framework, which provides a powerful MVC
+            architecture. Custom tags are used to minimise java code in the JSPs whilst filters and servlet event listeners provide
+            powerful runtime functionality.
+        </p>
+        <p>
+            The application draws heavily on J2EE patterns and the good practice these are said to embody. Examples include: 
+            Session Facade, DTO Factory, Data Transfer Object, Sequence Block Primary Key Generation, Data Transfer Hashmap (for
+            details DTOs) and MVC/Front Controller (utilising Struts).
+        </p>
+        <p>
+            A variety of factors influenced the choice of architecture.
+        </p>
+        <p>
+            Java was chosen as the main implementation language because it offered a degree of familiarity (from previous employment), a
+            a powerful and flexibility core API with many more libraries available, and platform indepedence.
+        </p>
+        <p>
+            Given that a key requirement was web-enablement, at least some of the J2EE platform would need to be used. Although there are sa 
+            great many alternatives to Sun's servlet/JSP combination, this is the one with the greatest familiarity to developers, and 
+            this was the reason it was chosen. Whilst there is no critical reason to use EJBs to implement business logic and persistence,
+            the availability of open source container implementations in the form of JBoss and JoNAS (we currently use the former) together
+            with the huge time savings afforded by the provision of transactions, security, connection and instance pooling, etc, meant
+            that their use was highly advantageous. Similar concerns over ease of implementation motivated the use of the Jakarta Struts
+            framework and its valuable support code.
+        </p>
+        <h2>ontology and code generation</h2>
+        <p>
+            A key feature of the bibliographic application is its flexibility regarding the types of media items and their attributes 
+            and the interrelationships amongst them. These are documented in an xml file - <code>bibTypesRelationships.xml</code>, which
+            is in turn constrained by a W3C xml schema file, <code>bibTypesRelationships.xsd</code>. This provides the facility for 
+            defining a basic bibliography ontology, albeit with some limitations.
+        </p>
+        <p>
+            The ontology file is used by the business logic components to enforce the logical integrity of the database at application
+            level because the complexity is such that it could not be handled by standard relational database constraints. The current
+            approach uses XPath via the open-source Jaxen library. Struts action methods also use the rules engine API to load
+            type-appropriate choices into the session context for media items which are currently being edited.  
+        </p>
+        <p>
+            However, perhaps the most interesting use of the ontology file is in code generation. Because it is in xml, xslt is used
+            to generate java source code representing entity EJBs, DTOs, DTO Assembler objects and JSPs, whilst we currently use a
+            custom SAX based class to generate the corresponding SQL DDL statements.
+        </p>
+        <p>
+            Further code generation is faciliated by the use of <a href="http://xdoclet.sourceforge.net/" target="_blank">xdoclet</a>
+            to maintain ejb and jboss deployment descriptors. XSLT is further used to generate the final JSPs and HTML pages for use
+            in the web application, thus ensuring a high degree of homogeneity and providing one point to amend the site look and feel.
+            All code generation, as with other build related activities, are controlled by <a href="http://jakarta.apache.org/ant/"
+            target ="_blank">Jakarta Ant</a> scripts.
+        </p>
+    </block>
+</doc>

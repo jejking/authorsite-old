@@ -1,0 +1,138 @@
+/* main stylesheet for authorsite.org bibliography application website
+ * Created Sun Dec 29 22:15:35 GMT 2002 @969 /Internet Time/
+ * $Header: /cvsroot/authorsite/authorsite/src/web/css/main.css,v 1.3 2003/01/28 21:49:33 jejking Exp $
+ * Version No: $Revision: 1.3 $
+ */
+
+
+/* set up common elements */
+body {
+    background-color:#FFFFFF;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 0.8em;
+}
+
+/* define the div classes */
+div.container {
+    width: 100%;
+    border: thin solid #373799;
+}
+
+div.header {
+    margin-right: 3em; /* so search box is not jammed against the right margin */
+    height: 67px; /* allows a gap between the logo and the topNav */
+}
+
+div.logo {
+    float: left;
+}
+
+div.simpleSearch {
+    float: right;
+}
+
+form {
+    width: 18em;
+}
+
+legend {
+    font-size: smaller;
+    font-weight: bolder;
+    color: #373799;
+}
+
+div.topNav {
+    padding-left: 1em;
+    padding-bottom: 0.25em;
+    padding-top: 0.25em;
+    border-top: thin solid #373799;
+    border-bottom: thin solid #373799;
+    font-size: larger;
+    font-weight: bolder;
+    background-color: #EEEEFF;    
+}
+
+a.top {
+    padding: 0.25em 0.25em 0.25em 0.25em;
+    text-decoration: none;
+}
+
+a.top:HOVER {
+    background-color: #C4C1DE;
+}
+
+span.currentLocationTopNav {
+    padding: 0.25em 0.25em 0.25em 0.25em;
+    text-decoration: underline;
+    background-color: #C4C1DE;
+}
+
+div.mainContent {
+    margin-top: 0.5em; 
+}
+
+div.info {
+    position: absolute;
+    left: 1em;
+    
+    width: 10em;
+}
+
+div.functions {
+    position: absolute;
+    right: 1em;
+    width: 10em;
+    
+    
+}
+
+div.box {
+    border:  thin solid #373799;
+}
+
+div.boxItem {
+    border:  thin solid #373799;
+    margin-top: 1em;
+}
+
+ul.box { /* style allows us to retain the semantic markup of a list, but keep it tight in the column box */
+    margin-left: 1em;
+    padding-left: 0em;
+    list-style-type: none;
+    font-size: smaller;
+}
+
+div.boxHeader {
+    padding: 0.1em 0.1em 0.1em 0.5em;
+    background-color: #EEEEFF;
+    border-bottom: thin solid #373799;
+    font-weight: bolder;
+}
+
+div.centreColumn {
+    width: auto;
+    margin-top: 1em;
+    margin-left: 12em;
+    margin-right: 12em;
+    border: thin solid #373799;
+    padding-left: 1em;
+    padding-right: 0.5em;
+}
+
+div.leftFloater{
+    float: left;
+    padding: 1em;
+}
+
+p {
+    margin-left: 1em;
+}
+
+div.footer {
+    margin-left: 16em;
+    margin-right: 16em;
+    margin-top: 3em;
+    font-size: smaller;
+    padding-bottom: 1em;
+    text-align: center;
+}

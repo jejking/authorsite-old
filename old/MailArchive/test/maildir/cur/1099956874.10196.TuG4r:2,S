@@ -1,0 +1,67 @@
+Return-Path: <jejking2@vfemail.net>
+X-Original-To: jejking@localhost
+Delivered-To: jejking@localhost.tiramisu.local
+Received: from localhost (localhost [127.0.0.1])
+	by tiramisu.local (Postfix) with ESMTP id BDEAF30DAB
+	for <jejking@localhost>; Sat, 19 Jun 2004 19:08:57 +0100 (BST)
+Delivered-To: jejking-juenger:org-testing@juenger.org
+X-Envelope-To: testing@juenger.org
+Received: from zelaza.pair.com [209.68.2.92]
+	by localhost with POP3 (fetchmail-6.2.1)
+	for jejking@localhost (single-drop); Sat, 19 Jun 2004 19:08:57 +0100 (BST)
+Received: (qmail 34725 invoked from network); 19 Jun 2004 18:08:34 -0000
+Received: from 211.valeoinc.com (HELO vfemail.net) (64.243.213.211)
+  by zelaza.pair.com with SMTP; 19 Jun 2004 18:08:34 -0000
+Received: (qmail 67081 invoked by uid 85); 19 Jun 2004 18:08:32 -0000
+Received: from jejking2@vfemail.net by mail.vfemail.net by uid 0 with qmail-scanner-1.16 
+ (clamscan: 0.60. spamassassin: 2.55.  Clear:. 
+ Processed in 0.119799 secs); 19 Jun 2004 18:08:32 -0000
+Received: from unknown (HELO localhost) (64.243.213.211)
+  by 211.valeoinc.com with SMTP; 19 Jun 2004 18:08:32 -0000
+Received: from host81-155-14-166.range81-155.btcentralplus.com
+	(host81-155-14-166.range81-155.btcentralplus.com [81.155.14.166]) by
+	www.vfemail.net (Horde) with HTTP for <jejking2@vfemail.net>; Sat, 19 Jun
+	2004 13:08:32 -0500
+Message-ID: <1087668512.e1c89551ebe55@www.vfemail.net>
+X-Priority: 3 (Normal)
+Date: Sat, 19 Jun 2004 13:08:32 -0500
+From: jejking2@vfemail.net
+To: testing@juenger.org
+Subject: eine Mail auf Deutsch und Englisch
+MIME-Version: 1.0
+Content-Type: text/plain;
+  charset="ISO-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+User-Agent: Internet Messaging Program (IMP) 4.0-cvs
+X-Spam-Filtered: 2de8cb6b622de007ea9e91945a89f7af
+X-Spam-Status: No, hits=-0.1 required=3.5 tests=BAYES_01,PRIORITY_NO_NAME,NO_REAL_NAME,RCVD_IN_SORBS
+X-Spam-Flag: NO
+X-Spam-Level: 
+Status: RO
+X-Status: OR
+X-KMail-EncryptionState:  
+X-KMail-SignatureState:  
+X-KMail-MDN-Sent:  
+
+Hi Testus,
+
+ich wollte Dir eben eine Mail auf Deutsch schreiben. Und hier ist sie auch.
+
+Und ich muss dazu noch was auf Englisch schreieben. So ist diese Mail eben
+zweisprachig. Das erkennt der Computer allerdings noch nicht automatisch. Mal
+gucken, ob wir das irgendwann hinkriegen.
+
+Gruss,
+
+John
+
+Yes - I can officially confirm this a piece of text in two distinct languages.
+
+JT
+
+-------------------------------------------------
+This mail sent through Virus Free Email
+http://www.vfemail.net
+
+

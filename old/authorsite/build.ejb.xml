@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+<!-- handles the details of building the EJBs and associated classes
+Created 6 January 2003
+$Header: /cvsroot/authorsite/authorsite/build.ejb.xml,v 1.2 2003/03/01 13:28:35 jejking Exp $
+Version $Revision: 1.2 $
+Date $Date: 2003/03/01 13:28:35 $ 
+
+ * Copyright (C) 2003  John King
+ *
+ * This file is part of the authorsite.org bibliographic
+ * application.
+ *
+ * This application is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+-->
+<project name="authorsite.ejb" default="deployEJBs">
+
+    <target name="generateEJBSource" description="creates remaining EJB source">
+            <!-- run the buildutil to generate sql to create relationships and mediaDetails types -->
+        <java classname="org.authorsite.bib.buildutil.xml2java.MediaTypeXMLSplitter" fork="true">
+            <arg file="${src.xml}/bibTypesRelationships.xml"/>
+            <arg file="${build.src.xml}"/>
+            <classpath>
+                <pathelement path="${build.classes}"/>
+            </classpath>
+        </java>
+
+            <!-- run an xslt job to turn all those generated files into java/xdoclet source -->
+        <xslt basedir="${build.src.xml}" destdir="${build.src.java.entityBeans}" extension="Bean.java" style="${src.xml}/bibEntityGen.xsl"/>
+
+            <!-- and now generate the DTO source code from them as well -->
+        <xslt basedir="${build.src.xml}" destdir="${build.src.java.dto}" extension="DTO.java" style="${src.xml}/bibTypesDTOGen.xsl"/>
+
+            <!-- and the DTOAssemblers -->
+        <xslt basedir="${build.src.xml}" destdir="${build.src.java.dtoAssemblers}" extension="DTOAssembler.java" style="${src.xml}/bibTypesDTOAssemblerGen.xsl"/>
+
+             <!-- and the DTOFactories -->
+        <xslt basedir="${build.src.xml}" destdir="${build.src.java.dtoAssemblers}" extension="DTOFactory.java" style="${src.xml}/bibTypesDTOFactoryGen.xsl"/>
+
+             <!-- and the DetailsHandlers -->
+        <xslt basedir="${build.src.xml}" destdir="${build.src.java.detailsHandlers}" extension="Handler.java" style="${src.xml}/bibTypesDetailsHandlerGen.xsl"/>
+
+                <!-- run xdoclet over the ejb *Bean.java sources -->
+        <taskdef name="ejbdoclet" classname="xdoclet.modules.ejb.EjbDocletTask" classpath="${j2eeJar}; ${xdoclet.jar}; ${xjavadoc.jar}; ${xdoclet-ejb-module.jar}; ${xdoclet-jboss-module.jar}; ${xdoclet-jmx-module.jar}; ${xdoclet-web-module.jar}; ${commons-logging-api.jar}; ${commons-logging.jar}; ${log4jJar}; ${antJar}"/>
+
+        <ejbdoclet destdir="${build.src.java}" excludedtags="@version,@author" ejbspec="2.0" force="${xdoclet.force}">
+
+            <fileset dir="${src.java}">
+                <include name="org/authorsite/bib/ejb/**/**Bean.java"/>
+                <exclude name="org/authorsite/bib/ejb/entity/MediaItemDetailsBean.java"/>
+ <!-- an abstract class that shouldn't be processed -->
+            </fileset>
+            <fileset dir="${build.src.java}">
+                <include name="org/authorsite/bib/ejb/**/**Bean.java"/>
+            </fileset>
+
+            <remoteinterface/>
+            <localinterface/>
+            <localhomeinterface/>
+            <homeinterface/>
+            <deploymentdescriptor destdir="${build.lib.ejb.META-INF}"/>
+
+            <jboss version="3.0" xmlencoding="UTF-8" typemapping="PostgreSQL 7.2" datasource="java:/PostgresDS" mergeDir="${jbossMergeDir}" destdir="${build.lib.ejb.META-INF}"/>
+        </ejbdoclet>
+    </target>
+
+    <target name="compileEJBs" depends="generateEJBSource" description="compiles and jars EJBs for app">
+
+                <!-- having generated the code, compile it -->
+        <javac classpath="${j2eeJar}" destdir="${build.classes}" srcdir="${src.java};${build.src.java}" includes="org/authorsite/bib/ejb/**, org/authorsite/bib/dto/**, org/authorsite/bib/exceptions/**"/>
+
+                <!-- before we build the jar, copy over the bibTypesRelationships.xml file so RulesProcessor can get it -->
+        <copy file="${src.xml}/bibTypesRelationships.xml" todir="${build.classes}/org/authorsite/bib/ejb/services/rules"/>
+
+        <jar jarfile="${build.lib.ejb}/${ejbApp.jar}">
+
+            <fileset dir="${build.classes}" includes="org/authorsite/bib/ejb/**, org/authorsite/bib/dto/**, org/authorsite/bib/exceptions/**"/>
+
+            <fileset dir="${build.lib.ejb}" includes="META-INF/*.xml" excludes="jaws.xml"/>
+        </jar>
+
+                <!-- make client jar with the EJB interfaces and jndi.properties in it -->
+        <jar jarfile="${build.lib.client}/${ejbClient.jar}">
+
+            <fileset dir="${build.classes}" includes="org/authorsite/bib/ejb/**, org/authorsite/bib/dto/**, org/authorsite/bib/exceptions/**" excludes="**/*Bean.class"/>
+
+            <fileset dir="${conf.dir}" includes="*.properties"/>
+        </jar>
+    </target>
+
+    <target name="deployEJBs" depends="compileEJBs" description="copy ejb jar to the jboss deploy directory">
+        <copy file="${build.lib.ejb}/${ejbApp.jar}" todir="${jbossDeployDir}"/>
+    </target>
+</project>

@@ -1,0 +1,194 @@
+/* CSS Stylesheet for authorsite.org's standard mail archive web application
+ *
+ * Copyright John King, 2004.
+ *
+ *  main.css is part of authorsite.org's MailArchive program.
+ *
+ *  VocabManager is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  VocabManager is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with VocabManager; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * 
+ * Version No: $Revision: 1.2 $
+ */
+
+
+/*
+ * COMMON STYLE ELEMENTS
+ */ 
+body {
+    background-color:#FFFFFF;
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 0.8em;
+}
+
+p {
+    margin-left: 1em;
+}
+
+table {
+    margin-left: 1em;
+}
+
+a {
+    color: #37453C;
+}
+
+a:HOVER {
+       background-color: #B9B8CF;
+}
+
+legend {
+    font-size: smaller;
+    font-weight: bolder;
+    color: #58656F;
+}
+
+div.container {
+    width: 100%;
+    border: thin solid #58656F;
+    height: 100%;
+}
+
+/*
+ * ELEMENTS AND CLASSES USED AT THE TOP
+ */ 
+
+div.header {
+    margin-right: 3em; /* so search box is not jammed against the right margin */
+    height: 80px; /* allows a gap between the logo and the topNav */
+}
+
+div.logo {
+    float: left;
+}
+
+
+div.breadcrumb {
+    padding-left: 1em;
+    padding-bottom: 0.25em;
+    padding-top: 0.25em;
+    border-top: thin solid #58656F;
+    border-bottom: thin solid #58656F;
+    background-color: #C9C8DF;
+}
+
+a.breadcrumb {
+    padding: 0.25em 0.25em 0.25em 0.25em;
+    font-weight: bold;
+    color: #37453C;
+}
+
+
+
+/*
+ * SIDE NAVIGATION ELEMENTS AND CLASSES
+ */
+ 
+div.sidenav {
+    border:  thin solid #58656F;
+    float: left;
+    margin-left: 1em;
+    margin-top: 1em;
+    width: 10em;
+    background-color: #C9C8DF;
+}
+
+
+ul.sidenav { /* style allows us to retain the semantic markup of a list, but keep it tight in the column box */
+    list-style-type: none;
+    padding-left: 0.5em;
+}
+
+li.sidenav {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+a.sidenav1 {
+    color: #37453C;
+    font-weight: bold;
+}
+
+
+/*
+ * MAIN CONTENT ELEMENTS AND CLASSES
+ */
+
+div.mainContent {
+    width: 80%;
+    margin-top: 1em;
+    margin-left: 12em;
+    padding-right: 1em;
+    padding-left: 1em;
+    border: thin solid #58656F;
+}
+
+
+
+div.footer {
+    margin-top: 3em;
+    margin-bottom: 1em;
+    font-size: smaller;
+    text-align: center;
+    background-color: #999999
+    clear: both;
+}
+
+/*
+ * LOGIN ELEMENTS AND CLASSES
+ */ 
+
+table.login {
+    margin: 1em;
+    border: thin solid #58656F;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+tr.login {   
+}
+
+tr.loginButton {
+    padding-left: 1em;
+    padding-right: 2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    
+}
+
+td.loginText {
+    background-color: #EFEFEF;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+ 
+}
+
+td.loginField {
+    background-color: #BEBEBE;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+td.loginButton {
+    background-color: #CFCFCF;
+    padding-left: 1em;
+    padding-right: 2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}

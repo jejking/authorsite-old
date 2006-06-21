@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : application.xml
+    Created on : 13 March 2003, 18:21
+    Author     : jejking
+    Description:
+        Deployment Descriptor for Enterprise Archive bibApp.ear
+-->
+<application>
+    <display-name>Authorsite.org bibliographic application</display-name>
+
+    <module>
+        <web>
+            <web-uri>bibWebApp.war</web-uri>
+            <context-root>/bibWebApp</context-root>
+        </web>
+    </module>
+
+    <module>
+        <ejb>bib-ejb.jar</ejb>
+    </module>
+
+</application>

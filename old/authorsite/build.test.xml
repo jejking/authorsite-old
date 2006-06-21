@@ -1,0 +1,112 @@
+<?xml version="1.0" ?>
+<!-- handles the details of building the EJBs and associated classes
+Created 6 January 2003
+$Header: /cvsroot/authorsite/authorsite/build.test.xml,v 1.2 2003/03/01 13:28:35 jejking Exp $
+Version $Revision: 1.2 $
+Date $Date: 2003/03/01 13:28:35 $ 
+
+ * Copyright (C) 2003  John King
+ *
+ * This file is part of the authorsite.org bibliographic
+ * application.
+ *
+ * This application is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+-->
+<project name="authorsite.test" default="testAll">
+
+    <property file="build.properties"/>
+    
+    <target name="testAll" description="runs all tests. Assumes ejb and web app are compiled, deployed and app server is running">
+        <antcall target="testEJBs"/>
+    </target>
+    
+    <target name="testEJBs" description="compiles and runs ejb tests. Assumes that EJBs are compiled, deployed and app server is running">
+            <javac	 classpath="${j2eeJar};${build.lib.ejb}/${ejbApp.jar};${junit.jar}" 
+                         destdir="${test.build.classes}" 
+                         srcdir="${test.src.java}"
+                         includes="org/authorsite/bib/**"
+                         />
+                         
+            <jar	jarfile="${build.lib}/${ejbTests.jar}">
+                        
+                <fileset        dir="${test.build.classes}"
+                                        includes = "org/authorsite/bib/**" />
+            </jar>
+            
+            <junit printsummary="true" fork="true">
+                        
+                <formatter type="xml"/>
+                
+                <batchtest todir="${test.reports.ejb}">
+                    <fileset dir="${test.build.classes}">
+                        <include name="**/**Test.class"/>
+                    </fileset>
+                </batchtest>
+                
+                <classpath>
+                        <pathelement path="${build.lib.client}/${ejbClient.jar}"/>
+                        <pathelement path="${build.lib}/${ejbTests.jar}"/>
+                        <pathelement path="${junit.jar}"/>
+                        <fileset dir="${jbossClientLibsDir}">
+                                <include name="*.jar"/>
+                        </fileset>
+                </classpath>
+            </junit>
+                
+            <junitreport todir="${test.reports.ejb}">
+                <fileset dir="${test.reports.ejb}">
+                    <include name="TEST-*.xml"/>
+                </fileset>
+                <report format="frames" todir="${test.reports.html.ejb}"/>
+            </junitreport>
+        </target>
+        
+        <target name="testWebUtils" description="unit tests for bits of web utility classes">
+            <!-- compile the web util classes 
+                    - we assume this has been already done, and the compiled classes
+                    are in build/classes
+            -->
+           
+            <!-- compile the web util test classes -->
+            <javac classpath="${junit.jar};${build.classes}"
+                   destdir="${test.build.classes}" 
+                   srcdir="${test.src.java}"
+                   includes="org/authorsite/bib/web/**"/>
+            
+            <!-- run the web util test classes -->
+            <junit printsummary="true" fork="true">
+                        
+                <formatter type="xml"/>
+                
+                <batchtest todir="${test.reports.ejb}">
+                    <fileset dir="${test.build.classes}">
+                        <include name="**/web/util/*Test.class"/>
+                    </fileset>
+                </batchtest>
+                
+                <classpath>
+                       <pathelement path="${build.classes};${junit.jar};${test.build.classes}"/>
+                </classpath>
+            </junit>
+                
+            <!-- build report -->
+            <junitreport todir="${test.reports.ejb}">
+                <fileset dir="${test.reports.ejb}">
+                    <include name="TEST-*.xml"/>
+                </fileset>
+                <report format="frames" todir="${test.reports.html.ejb}"/>
+            </junitreport>
+        </target>
+</project>

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE book SYSTEM "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
+        [<!ENTITY requirements SYSTEM "requirements.xml">]
+        >
+<!-- $Header: /cvsroot/authorsite/authorsite/src/doc/bibdoc.xml,v 1.1 2002/09/17 15:18:33 jejking Exp $ -->
+<book lang="en" vendor="authorsite.org">
+        <bookinfo>
+                <title>Authorsite.org Bibliography Application Documentation</title>
+                <author>
+                        <honorific>Dr.</honorific>
+                        <firstname>John</firstname>
+                        <surname>King</surname>
+                        <email>jejking@btopenworld.com</email>
+                </author>
+                <copyright>
+                        <holder>John King</holder>
+                        <year>2002</year>
+                </copyright>
+                <abstract>
+                        <para>
+                        Full documentation set for the authorsite.org bibliography application. The documentation
+                        gives background and domain analysis for the application, specific requirements analysis,
+                        elucidates application design and architecture decisions, describes build scenarios and finally 
+                        provides basic instructions in the usage of the application.
+                        </para>
+                </abstract>
+                <orgname>authorsite.org</orgname>
+        </bookinfo>
+        <dedication>
+                <para>
+                Dedicated to...
+                </para>
+        </dedication>
+        <preface>
+                <title>Forward</title>
+                <para>
+                Forward blurb.
+                </para>
+        </preface>
+        <preface>
+                <title>Introduction</title>
+                <para>
+                Introduction blurb
+                </para>
+        </preface>
+        
+        &requirements;
+</book>

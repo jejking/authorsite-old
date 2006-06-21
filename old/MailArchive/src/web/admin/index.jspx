@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright John King, 2004.
+ 
+index.jspx is part of authorsite.org's MailArchive program.
+ 
+MailArchive is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ 
+ MailArchive is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with MailArchive; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Version: $Revision: 1.3 $
+Last Updated: $Date: 2005/05/13 15:08:32 $
+-->
+<html   xmlns="http://www.w3.org/1999/xhtml" 
+        xmlns:jsp="http://java.sun.com/JSP/Page"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+        xmlns:as="http://www.authorsite.org/taglibs"
+        lang="${pageContext.request.locale.language}">
+
+
+    <jsp:directive.page contentType="text/html" />
+    
+    <jsp:output doctype-root-element="html"
+        doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+        doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
+
+    <fmt:setBundle basename="org.authorsite.mailarchive.view.resources.Index"/>
+
+    <jsp:directive.include file="/WEB-INF/jspf/header.jspf"/>
+
+    <jsp:directive.include file="/WEB-INF/jspf/sidenav.jspf"/>
+
+    
+            
+            <div class="mainContent" id="mainContent">
+            <h1><fmt:message key="greetings"/></h1>
+               <h1>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</h1>
+               <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi justo dui, blandit pharetra, ultricies in, porta a, augue.
+               Proin mattis mauris ac arcu consequat consequat. Suspendisse nec ipsum sit amet metus molestie fermentum.
+               Maecenas luctus elit id risus. Nulla facilisi. Proin nisl lorem, sagittis sed, sollicitudin a, sagittis iaculis, tellus. 
+               Maecenas dictum feugiat purus. Vivamus ornare erat non eros. Fusce dignissim. Aliquam non purus in felis condimentum ultrices. 
+               Sed posuere. Morbi mollis, nibh ut feugiat venenatis, nulla purus placerat felis, quis convallis odio dolor sit amet risus. Duis ornare varius tortor. Vestibulum quis mi.
+               Sed condimentum arcu non turpis. Maecenas sollicitudin velit a orci.
+               </p>
+               <p>
+               Curabitur at turpis. Praesent elementum elit non massa. Nam dolor. In sit amet metus eu libero cursus convallis.
+               Curabitur non dolor nec augue volutpat auctor. Ut euismod nibh id nibh. Donec dapibus ornare mi. 
+               Duis quis purus ut dolor lacinia dapibus. Morbi nonummy lobortis elit. Ut in lectus. Ut et leo. Aenean tristique nunc.
+               Phasellus enim sapien, vestibulum ut, auctor et, aliquam at, libero. Duis ut pede. Praesent ligula metus, ultrices at, feugiat vel, porttitor vel, pede.
+               </p>
+               <p>
+               Proin semper tempor odio. Quisque ultrices felis fermentum augue. Sed vel mi. Aliquam viverra rhoncus neque. 
+               Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
+               Vestibulum ornare. Integer in justo a nisl blandit suscipit. Nullam erat diam, ultrices ut, blandit a, placerat eget, wisi.
+               Etiam viverra. Cras orci purus, consectetuer eu, luctus in, commodo ut, wisi. Vestibulum id ante eget quam consequat ultricies. 
+               Morbi orci. Curabitur eu velit sit amet mauris tincidunt faucibus. Vestibulum rhoncus, nunc et consectetuer elementum, 
+               dui lacus pulvinar enim, at aliquam enim nulla eu lectus. Integer quis tortor quis purus ultricies sodales. Sed viverra massa vel lorem. 
+               </p>
+
+            </div>
+             
+
+    <jsp:directive.include file="/WEB-INF/jspf/footer.jspf"/>
+
+</html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ project.xml, created 15:00, 4th November 2004
+  
+ Copyright John King, 2004.
+ 
+ project.xml is part of authorsite.org's MailArchive program.
+ 
+ MailArchive is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ 
+ MailArchive is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with MailArchive; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+ Version: $Revision: 1.1 $
+ Last Updated: $Date: 2004/11/04 18:00:06 $
+ 
+ -->
+<project xsi:noNamespaceSchemaLocation="http://maven.apache.org/xsd/maven-project-3.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <pomVersion>3</pomVersion>
+    <id>MailArchve-core</id>
+	<name>Mail Archive</name>
+	<groupId>MailArchive</groupId>
+    <currentVersion>0.0.1</currentVersion>
+    <organization>
+        <name>authorsite.org</name>
+        <url>http://www.authorsite.org/</url>
+    </organization>
+    <inceptionYear>2004</inceptionYear>
+	<package>org.authorsite.mailarchive.*</package>
+	<description>A RDBMS backed email archive</description>
+	<shortDescription>An email archive</shortDescription>
+	<url>http://www.authorsite.org/MailArchive/</url>
+	<developers>
+		<developer>
+			<name>John King</name>
+			<id>jejking</id>
+            <email>jejking@authorsite.org</email>
+			<organization>authorsite.org</organization>
+			<url>http://www.jejking.info/</url>
+		</developer>
+	</developers>
+	<build>
+		<nagEmailAddress>john.king@simulacramedia.com</nagEmailAddress>
+		<sourceDirectory>src/java</sourceDirectory>
+		<unitTestSourceDirectory>test/java</unitTestSourceDirectory>
+		<unitTest>
+      		<includes>
+        		<include>**/*Test.java</include>
+      		</includes>
+    	</unitTest>
+	</build>
+    
+    <reports>
+        
+    </reports>
+	
+</project>

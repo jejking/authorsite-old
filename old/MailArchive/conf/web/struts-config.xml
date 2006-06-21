@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ Copyright John King, 2004.
+ 
+struts-config.xml is part of authorsite.org's MailArchive program.
+ 
+ MailArchive is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ 
+ MailArchive is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with MailArchive; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Version: $Revision: 1.7 $
+Last Updated: $Date: 2004/12/19 22:18:51 $
+-->
+
+<!DOCTYPE struts-config PUBLIC
+              "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+              "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+              
+<struts-config>
+    <display-name>authorsite</display-name>
+    <description>configuration of struts for authorsite.org's MailArchive default web application</description>
+    
+    <form-beans>
+        <form-bean name="simpleEmailAddressForm" type="org.authorsite.mailarchive.view.web.struts.forms.SimpleEmailAddressForm"/>
+        <form-bean name="addressSearchEmailForm" type="org.authorsite.mailarchive.view.web.struts.forms.EmailAddressStringSearchForm"/>
+    </form-beans>
+    
+    
+    <action-mappings>
+        <action path="/admin/login/logout" type="org.authorsite.mailarchive.view.web.struts.actions.LogoutAction">
+            <forward name="success" path="/admin/login/logoutSuccessful.jspx"  />
+            <forward name="noAuthenticatedUser" path="/admin/login/noAuthenticatedUser.jspx" />
+        </action>
+        <action path="/admin/addresses/addAddress" type="org.authorsite.mailarchive.view.web.struts.actions.AddEmailAddressAction"
+                input="/admin/addresses/addAddress.jspx" name="simpleEmailAddressForm" scope="request" validate="true">
+            <display-name>Add Address</display-name>
+            <description>Action to add an email address to the archive manually.</description>
+            <forward name="success" path="/admin/addresses/addressCreationResults.jspx"/>
+        </action>
+        <action path="/admin/addresses/deleteAddress" type="org.authorsite.mailarchive.view.web.struts.actions.DeleteEmailAddressAction"
+                input="/admin/addresses/deleteAddress.jspx" name="simpleEmailAddressForm" scope="request" validate="true">
+            <display-name>Delete Address</display-name>
+            <description>Action to remove an email address from the archive manually.</description>
+            <forward name="success" path="/admin/addresses/addressDeletionResults.jspx"/>
+            <forward name="notInArchive" path="/admin/addresses/addressNotInArchive.jspx"/>
+            <forward name="addressStillInUse" path="/admin/addresses/addressStillInUse.jspx"/>
+        </action>
+        <action path="/admin/addresses/addressSearchEmail" type="org.authorsite.mailarchive.view.web.struts.actions.AddressSearchEmailAction"
+                input="/admin/addresses/searchAddresses.jspx" name="addressSearchEmailForm" scope="request" validate="true">
+            <display-name>Search Email Addresses by Email</display-name>
+            <description>Action to search for email addresses by the address string.</description>
+            <forward name="success" path="/admin/addresses/addressSearchResults.jspx"/>
+            <forward name="nothingFound" path="/admin/addresses/nothingFound.jspx"/>
+        </action>
+   </action-mappings>
+   
+   <!-- need to tell struts about our resource bundles as well -->
+   <message-resources key="INDEX" null="false" parameter="org.authorsite.mailarchive.view.resources.Index"/>
+   <message-resources key="NAVIGATION" null="false" parameter="org.authorsite.mailarchive.view.resources.Navigation"/>
+   <message-resources key="ADMIN" null="false" parameter="org.authorsite.mailarchive.view.resources.AdminResources"/>
+   <message-resources key="LOGIN" null="false" parameter="org.authorsite.mailarchive.view.resources.LoginResources"/>
+   <message-resources key="EMAIL_ADDRESS" null="false" parameter="org.authorsite.mailarchive.view.resources.EmailAddressResources"/>
+   
+        
+</struts-config>              

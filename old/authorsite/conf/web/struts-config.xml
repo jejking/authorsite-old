@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<!--
+ * Copyright (C) 2002  John King
+ *
+ * This file is part of the authorsite.org bibliographic
+ * application.
+ *
+ * This application is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ -->
+<struts-config>
+    <form-beans>
+        <form-bean name="PersonPublicSearchForm" type="org.authorsite.bib.web.struts.form.PersonPublicSearchForm" />
+        <form-bean name="PersonPublicGetDetailsForm" type="org.authorsite.bib.web.struts.form.PersonPublicGetDetailsForm"/>
+        <form-bean name="PersonManagementCreationForm" type="org.authorsite.bib.web.struts.form.PersonManagementCreationForm"/>
+        <form-bean name="OrgPublicSearchForm" type="org.authorsite.bib.web.struts.form.OrgPublicSearchForm" />
+        <form-bean name="OrgPublicGetDetailsForm" type="org.authorsite.bib.web.struts.form.OrgPublicGetDetailsForm" />
+        <form-bean name="OrgManagementCreationForm" type="org.authorsite.bib.web.struts.form.OrgManagementCreationForm"/>
+        <form-bean name="MediaItemManagementCreateCoreForm" type="org.authorsite.bib.web.struts.form.MediaItemManagementCreateCoreForm"/>
+        <form-bean name="ClipboardPeopleForm" type="org.authorsite.bib.web.struts.form.ClipboardAddPeopleForm"/>
+        <form-bean name="ClipboardOrgsForm" type="org.authorsite.bib.web.struts.form.ClipboardOrgsForm"/>
+        <form-bean name="ClipboardClearForm" type="org.authorsite.bib.web.struts.form.ClipboardClearForm"/>
+        <form-bean name="LanguagesForm" type="org.authorsite.bib.web.struts.form.LanguagesForm"/>
+        <form-bean name="ProdRelsForm" type="org.authorsite.bib.web.struts.form.ProdRelsForm"/>
+        <form-bean name="MediaItemSearchForm" type="org.authorsite.bib.web.struts.form.MediaItemSearchForm"/>
+        <form-bean name="MediaItemGetDetailsForm" type="org.authorsite.bib.web.struts.form.MediaItemGetDetailsForm"/>
+        <form-bean name="MediaItemsForm" type="org.authorsite.bib.web.struts.form.MediaItemsForm"/>
+        <form-bean name="IMRSelectForm" type="org.authorsite.bib.web.struts.form.IMRSelectForm"/>
+        <!-- need to insert the mediaType specific forms here programmatically -->
+    </form-beans>
+    <global-exceptions>
+        <exception type="javax.ejb.FinderException" key="global.error.FinderException" path="/errors/systemError.jsp" />
+        <exception type="javax.ejb.EJBException" key="global.error.EJBException" path="/errors/systemError.jsp" />
+        <exception type="java.rmi.RemoteException" key="global.error.RemoteException" path="/errors/systemError.jsp" />
+        <exception type="javax.ejb.CreateException" key="global.error.CreateException" path="/errors/systemError.jsp" />
+    </global-exceptions>
+    <action-mappings>
+    
+        <!-- PUBLIC SEARCH ACTIONS -->
+        <!-- PERSON SEARCH AND BROWSE -->
+        <action path="/public/personSearchInit" forward="/bibPublic/personSearch.jsp" />
+        <action path="/public/personSearch" type="org.authorsite.bib.web.struts.action.PersonPublicSearchAction" name="PersonPublicSearchForm" scope="request" input="/bibPublic/personSearch.jsp">
+            <forward name="nothingFound" path="bibPublic/personSearch.jsp" redirect="false" />
+            <forward name="peopleFound" path="bibPublic/personSearchResults.jsp" redirect="false" />
+        </action>
+        <action path="/public/getPersonDetails" type="org.authorsite.bib.web.struts.action.PersonPublicGetDetailsAction" name="PersonPublicGetDetailsForm" scope="request" input="/bibPublic/personSearch.jsp">
+            <forward name="nothingFound" path="bibPublic/personSearch.jsp" redirect="false"/>
+            <forward name="gotDetails" path="bibPublic/personDetailsResults.jsp" redirect="false"/>
+        </action>
+        <action path="/public/personMediaItemSearch" type="org.authorsite.bib.web.struts.action.MediaItemSearchAction" name="MediaItemSearchForm" scope="request" input="/bibPublic/personSearch.jsp">
+            <forward name="nothingFound" path="bibPublic/personDetailsResults.jsp" redirect="false"/>
+            <forward name="itemsFound" path="bibPublic/mediaItemSeachResults.jsp" redirect="false"/>
+        </action>
+        
+        <!-- ORG SEARCH AND BROWSE -->
+        <action path="/public/orgSearchInit" forward="/bibPublic/orgSearch.jsp" />
+        <action path="/public/orgSearch" type="org.authorsite.bib.web.struts.action.OrgPublicSearchAction" name="OrgPublicSearchForm" scope="request" input="/bibPublic/orgSearch.jsp">
+            <forward name="nothingFound" path="bibPublic/orgSearch.jsp"/>
+            <forward name="orgsFound" path="bibPublic/orgSearchResults.jsp"/>
+        </action>
+        <action path="/public/getOrgDetails" type="org.authorsite.bib.web.struts.action.OrgPublicGetDetailsAction" name="OrgPublicGetDetailsForm" scope="request" input="/bibPublic/orgSearch.jsp">
+            <forward name="nothingFound" path="bibPublic/orgSearch.jsp" redirect="false"/>
+            <forward name="gotDetails" path="bibPublic/orgDetailsResults.jsp" redirect="false"/>
+        </action>
+        <action path="/public/orgMediaItemSearch" type="org.authorsite.bib.web.struts.action.MediaItemSearchAction" name="MediaItemSearchForm" scope="request" input="/bibPublic/orgSearch.jsp">
+            <forward name="nothingFound" path="bibPublic/orgDetailsResults.jsp" redirect="false"/>
+            <forward name="itemsFound" path="bibPublic/mediaItemSearchResults.jsp" redirect="false"/>
+        </action>
+        
+        <!-- MEDIA ITEM SEARCH AND BROWSE -->
+        <action path="/public/mediaItemSearchInit" forward="/bibPublic/mediaItemSearch.jsp"/>
+        <action path="/public/mediaItemSearch" type="org.authorsite.bib.web.struts.action.MediaItemSearchAction" name="MediaItemSearchForm" scope="request" input="/bibPublic/mediaItemSearch.jsp">
+            <forward name="nothingFound" path="bibPublic/mediaItemSearch.jsp" redirect="false"/>
+            <forward name="itemsFound" path="bibPublic/mediaItemSearchResults.jsp" redirect="false"/>
+        </action>
+        <action path="/public/getMediaItemDetails" type="org.authorsite.bib.web.struts.action.MediaItemPublicGetDetailsAction" name="MediaItemGetDetailsForm" scope="request" input="/bibPublic/mediaItemSearch.jsp">
+            <forward name="nothingFound" path="bibPublic/mediaItemSearch.jsp" redirect="false"/>
+            <forward name="gotDetails" path="bibPublic/mediaItemDetailsResults.jsp" redirect="false"/>
+        </action>
+        
+        <!-- PEOPLE MANAGEMENT ACTIONS -->
+        <action path="/management/peopleManagementInit" forward="/management/peopleManagement.jsp"/>
+        <action path="/management/createPersonInit" forward="/management/createPerson.jsp"/>
+        <action path="/management/createPerson" type="org.authorsite.bib.web.struts.action.PersonManagementCreationAction" name="PersonManagementCreationForm" scope="request" input="/management/createPerson.jsp">
+            <forward name="personCreated" path="/management/personCreated.jsp" redirect="false"/>
+        </action>
+        
+        <!-- ORG MANAGEMENT ACTIONS -->
+        <action path="/management/orgManagementInit" forward="/management/orgManagement.jsp"/>
+        <action path="/management/createOrgInit" forward="/management/createOrg.jsp"/>
+        <action path="/management/createOrg" type="org.authorsite.bib.web.struts.action.OrgManagementCreationAction" name="OrgManagementCreationForm" scope="request" input="/management/createOrg.jsp">
+            <forward name="orgCreated" path="/management/orgCreated.jsp"/>
+        </action>
+        
+        <!-- MEDIA ITEM MANAGEMENT ACTIONS -->
+        <action path="/management/mediaItemManagementInit" forward="/management/mediaItemManagement.jsp"/>
+        <action path="/management/createMediaItemInit" forward="/management/createMediaItemCore.jsp"/>
+        <action path="/management/createMediaItemCore" type="org.authorsite.bib.web.struts.action.MediaItemManagementCreateCoreAction" name="MediaItemManagementCreateCoreForm" scope="request" input="/management/createMediaItemCore.jsp">
+            <!-- forwards here must be written in programatically from bibTypesRelationships.xml -->
+        </action>
+        <action path="/management/addLanguagesToItem" type="org.authorsite.bib.web.struts.action.MediaItemManagementAddLanguagesAction" name="LanguagesForm" scope="request" input="/management/addLanguages.jsp">
+            <forward name="languagesAdded" path="/management/addProductionRelationships.jsp"/>
+        </action>
+        <action path="/management/addProductionRelationshipsToItem" type="org.authorsite.bib.web.struts.action.MediaItemManagementAddProdRelsAction" name="ProdRelsForm" scope="request" input="/management/addProductionRelationships.jsp">
+            <forward name="addMoreProdRels" path="/management/addProductionRelationships.jsp"/>
+            <forward name="addIMRs" path="/management/addIntraMediaRelationships.jsp"/>
+        </action>
+        <action path="/management/selectIntraMediaRelationship" type="org.authorsite.bib.web.struts.action.SelectIMRAction" name="IMRSelectForm" scope="request" input="/management/addIntraMediaRelationships.jsp">
+            <forward name="IMRSelected" path="/management/addMediaItemsToIntraMediaRelationship.jsp"/>
+        </action>
+        <action path="/management/addMediaItemsToIntraMediaRelationship" type="org.authorsite.bib.web.struts.action.MediaItemManagementAddItemsToIMRAction" name="IMRSelectForm" scope="request" input="/management/addIntraMediaRelationships.jsp">
+            <forward name="itemsAddedToIMR" path="/management/addIntraMediaRelationships.jsp"/>
+        </action>
+        <action path="/management/publishMediaItemInit" forward="/management/publishMediaItem.jsp"/>
+        <action path="/management/publishMediaItem" type="org.authorsite.bib.web.struts.action.PublishMediaItemAction">
+            <forward name="itemPublished" path="/management/mediaItemPublished.jsp"/>
+            <forward name="publicationFailed" path="/management/publishMediaItem.jsp"/>
+        </action>
+        <!-- actions which are specific to each mediaType will be inserted programmatically -->
+        
+        <!-- CLIPBOARD ACTIONS -->
+        <action path="/management/clipboard/clipboardInit" forward="/management/clipboard/index.jsp"/>
+        <action path="/management/clipboard/clearClipboard" type="org.authorsite.bib.web.struts.action.ClearClipboardAction" name="ClipboardClearForm" scope="request" input="/management/clipboard/index.jsp">
+            <forward name="clipboardCleared" path="/management/clipboard/clipboardUpdated.jsp"/>
+        </action>
+        <!-- PEOPLE AND CLIPBOARD -->
+        <action path="/management/clipboard/personSearchInit" forward="/management/clipboard/personSearch.jsp"/>
+        <!-- reuse the actions and form for the public search form. Only difference is we forward onto different jsps! -->
+        <action path="/management/clipboard/personSearch" type="org.authorsite.bib.web.struts.action.PersonPublicSearchAction" name="PersonPublicSearchForm" scope="request" input="/management/clipboard/personSearch.jsp">
+            <forward name="nothingFound" path="/management/clipboard/personSearch.jsp"/>
+            <forward name="peopleFound" path="/management/clipboard/personSearchResults.jsp"/>
+        </action>
+        <action path="/management/clipboard/addPeopleToClipboard" type="org.authorsite.bib.web.struts.action.ClipboardAddPeopleAction" name="ClipboardPeopleForm" scope="request" input="/management/clipboard/personSearch.jsp">
+            <forward name="peopleAdded" path="/management/clipboard/clipboardUpdated.jsp"/>
+        </action>
+        <action path="/management/clipboard/removePeopleFromClipboard" type="org.authorsite.bib.web.struts.action.ClipboardRemovePeopleAction" name="ClipboardPeopleForm" scope="request" input="/management/clipboard/index.jsp">
+            <forward name="peopleRemoved" path="/management/clipboard/clipboardUpdated.jsp"/>
+            <forward name="noPeopleClipboard" path="/management/clipboard/index.jsp"/>
+        </action>
+        
+        <!-- ORGS AND CLIPBOARD -->
+        <action path="/management/clipboard/orgSearchInit" forward="/management/clipboard/orgSearch.jsp"/>
+        <action path="/management/clipboard/orgSearch" type="org.authorsite.bib.web.struts.action.OrgPublicSearchAction" name="OrgPublicSearchForm" scope="request" input="/management/clipboard/orgSearch.jsp">
+            <forward name="nothingFound" path="/management/clipboard/orgSearch.jsp"/>
+            <forward name="orgsFound" path="/management/clipboard/orgSearchResults.jsp"/>
+        </action>
+        <action path="/management/clipboard/addOrgsToClipboard" type="org.authorsite.bib.web.struts.action.ClipboardAddOrgsAction" name="ClipboardOrgsForm" scope="request" input="/management/clipboard/index.jsp">
+            <forward name="orgsAdded" path="/management/clipboard/clipboardUpdated.jsp"/>
+        </action>
+        <action path="/management/clipboard/removeOrgsFromClipboard" type="org.authorsite.bib.web.struts.action.ClipboardRemoveOrgsAction" name="ClipboardOrgsForm" scope="request" input="/management/clipboard/index.jsp">
+            <forward name="orgsRemoved" path="/management/clipboard/clipboardUpdated.jsp"/>
+            <forward name="noOrgsClipboard" path="/management/clipboard/index.jsp"/>
+        </action>
+        
+        <!-- MEDIA ITEMS AND CLIPBOARD -->
+        <action path="/management/clipboard/mediaItemSearchInit" forward="/management/clipboard/mediaItemSearch.jsp"/>
+        <action path="/management/clipboard/mediaItemSearch" type="org.authorsite.bib.web.struts.action.MediaItemSearchAction" name="MediaItemSearchForm" scope="request" input="/management/clipboard/mediaItemSearch.jsp">
+            <forward name="nothingFound" path="/management/clipboard/mediaItemSearch.jsp"/>
+            <forward name="itemsFound" path="/management/clipboard/mediaItemSearchResults.jsp"/>
+        </action>
+        <action path="/management/clipboard/addMediaItemsToClipboard" type="org.authorsite.bib.web.struts.action.ClipboardAddMediaItemsAction" name="MediaItemsForm" scope="request" input="/management/clipboard/index.jsp">
+            <forward name="mediaItemsAdded" path="/management/clipboard/clipboardUpdated.jsp"/>
+        </action>
+        <action path="/management/clipboard/removeMediaItemsFromClipboard" type="org.authorsite.bib.web.struts.action.ClipboardRemoveMediaItemsAction" name="MediaItemsForm" scope="request" input="/management/clipboard/index.jsp">
+            <forward name="mediaItemsRemoved" path="/management/clipboard/clipboardUpdated.jsp"/>
+            <forward name="noMediaItemsClipboard" path="/management/clipboard/index.jsp"/>
+        </action>
+        
+        <!-- LANGUAGES AND CLIPBOARD -->
+        <action path="/management/clipboard/selectLanguagesInit" forward="/management/clipboard/selectLanguagesTwo.jsp"/>
+        <action path="/management/clipboard/selectLanguagesTwo" type="org.apache.struts.actions.ForwardAction" 
+                scope="request" name="LanguagesForm" validate="false" input="/management/clipboard/selectLanguagesTwo.jsp" 
+                parameter="/management/clipboard/selectLanguagesTwo.jsp"/>
+        <action path="/management/clipboard/selectLanguagesThree" type="org.apache.struts.actions.ForwardAction" 
+                scope="request" name="LanguagesForm" validate="false" input="/management/clipboard/selectLanguagesThree.jsp" 
+                parameter="/management/clipboard/selectLanguagesThree.jsp"/>
+        <action path="/management/clipboard/addLangsToClipboard" type="org.authorsite.bib.web.struts.action.ClipboardAddLangsAction" name="LanguagesForm" scope="request" input="/management/clipboard/addLanguages.jsp">
+            <forward name="langsAdded_ClipboardContext" path="/management/clipboard/clipboardUpdated.jsp"/>
+            <forward name="langsAdded_ItemEditingContext" path="/management/addLanguages.jsp"/>
+        </action>
+        <action path="/management/clipboard/removeLanguagesFromClipboard" type="org.authorsite.bib.web.struts.action.ClipboardRemoveLangsAction" name="LanguagesForm" scope="request" input="/management/clipboard/index.jsp">
+            <forward name="langsRemoved" path="/management/clipboard/clipboardUpdated.jsp"/>
+        </action>
+        
+       <!-- ERRORS. simple forwards to the appropriate jsp -->
+        <action path="/errors/400" forward="/errors/400.jsp"/>
+        <action path="/errors/401" forward="/errors/401.jsp"/>
+        <action path="/errors/403" forward="/errors/403.jsp"/>
+        <action path="/errors/404" forward="/errors/404.jsp"/>
+        <action path="/errors/500" forward="/errors/500.jsp"/>
+        <action path="/errors/systemError" forward="/errors/systemError.jsp"/>
+    </action-mappings>
+    <message-resources parameter="org.authorsite.bib.web.struts.messages.BibApplicationResources" />
+    <message-resources key="MEDIA_TYPES_KEY" parameter="org.authorsite.bib.web.struts.messages.MediaTypeResources" />
+    <message-resources key="LANGUAGES_KEY" parameter="org.authorsite.bib.web.struts.messages.Languages" />
+    <message-resources key="RELATIONSHIPS_KEY" parameter="org.authorsite.bib.web.struts.messages.Relationships"/>
+</struts-config>

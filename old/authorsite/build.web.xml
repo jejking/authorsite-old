@@ -1,0 +1,333 @@
+<?xml version="1.0" ?>
+<!-- handles the details of building the EJBs and associated classes
+Created 7 January 2003
+$Header: /cvsroot/authorsite/authorsite/build.web.xml,v 1.7 2003/03/29 16:38:10 jejking Exp $
+Version $Revision: 1.7 $
+Date $Date: 2003/03/29 16:38:10 $ 
+
+ * Copyright (C) 2003  John King
+ *
+ * This file is part of the authorsite.org bibliographic
+ * application.
+ *
+ * This application is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+-->
+<project name="authorsite.web" default="deployWebApplication">
+    <property file="build.properties"/>
+    
+    <path id="build.web.classpath">
+        <pathelement location="${j2eeJar}"/>
+        <pathelement location="${struts.lib.dir}/commons-beanutils.jar"/>
+        <pathelement location="${struts.lib.dir}/commons-collections.jar"/>
+        <pathelement location="${struts.lib.dir}/commons-dbcp.jar"/>
+        <pathelement location="${struts.lib.dir}/commons-digester.jar"/>
+        <pathelement location="${struts.lib.dir}/commons-logging.jar"/>
+        <pathelement location="${struts.lib.dir}/commons-pool.jar"/>
+        <pathelement location="${struts.lib.dir}/commons-services.jar"/>
+        <pathelement location="${struts.lib.dir}/commons-validator.jar"/>
+        <pathelement location="${struts.lib.dir}/log4j.jar"/>
+        <pathelement location="${struts.lib.dir}/struts.jar"/>
+        <pathelement location="${struts.lib.dir}/tiles.jar"/>
+    </path>
+    
+    <target name="generateCode" description="generate html, jsp, actions, action forms as required">
+    
+        <!-- generate the jsp to enter the core media item creation data with the correct media type options -->
+        <xslt in="${src.xml}/bibTypesRelationships.xml" out="${build.src.web}/management/createMediaItemCore.jsp"
+              style="${src.xml}/xsl/createMediaItemCoreJSP.xsl"/>
+
+        <!-- generate the action form to hold and validate the core media item creation data. Must have the correct options
+        coded in during the build, so that it only accepts the predefined media types -->
+        <xslt in="${src.xml}/bibTypesRelationships.xml" out="${build.src.java.struts}/form/MediaItemManagementCreateCoreForm.java"
+              style="${src.xml}/xsl/MediaItemManagementCreateCoreFormGen.xsl"/>
+        
+        <!-- clear any pre-existing create**Details.jsp files out of the build src directory -->
+        <delete>
+            <fileset dir="${build.src.web}/management" includes="create*Details.jsp"/>
+        </delete>
+              
+        <!-- generate the jsps to enter new data to create media Details references -->
+        <xslt basedir="${build.src.xml}" destdir="${build.src.web}/management"
+              style="${src.xml}/xsl/MediaItemManagementCreateDetailsJspGen.xsl"
+              extension=".jsp"/>
+              
+        <!-- rename $mediaTypeDetails.jsp to create$mediaTypeDetails.jsp so they match with our filenaming
+        convention and with the strings built in StrutsConfigurator -->
+        <move todir="${build.src.web}/management" >
+            <fileset dir="${build.src.web}/management" >
+                <include name="*Details.jsp"/>
+            </fileset>
+            <mapper type="glob" from="*" to="create*"/>
+         </move>   
+        
+        <!-- generate the ActionForms to hold the data entered in create/edit media details jsp forms -->
+        <xslt basedir="${build.src.xml}" destdir="${build.src.java.struts}/form" 
+              style="${src.xml}/xsl/MediaItemDetailsActionFormGen.xsl"
+              extension="Form.java"/>
+         
+         <!-- rename the generated forms to conform to naming convention used elsewhere -->
+         <!--
+         <move todir="${build.src.java.struts}/form" >
+            <fileset dir="${build.src.java.struts}/form" >
+                <include name="*DetailsForm.java"/>
+            </fileset>
+            <mapper type="glob" from="*" to="MediaItemManagement*"/>
+         </move> -->
+       
+        <!-- generate the Actions to use the data in the action forms to create the action forms -->
+        <xslt basedir="${build.src.xml}" destdir="${build.src.java.struts}/action"
+              style="${src.xml}/xsl/MediaItemDetailsCreateActionGen.xsl"
+              extension="CreateAction.java"/>
+        
+        
+              
+       <!-- skeleton jsp source generated during this phase must also be postprocessed into the final form here -->
+        <xslt basedir="${src.web}" destdir="${build.webapp}" extension=".jsp" style="${src.xml}/xsl/mainJspGen.xsl"
+              includes="**/*.jsp" excludes="**/*.html">
+              <param name="base" expression="${base}"/>
+        </xslt>
+        
+        <xslt basedir="${build.src.web}" destdir="${build.webapp}" extension=".jsp" style="${src.xml}/xsl/mainJspGen.xsl"
+              includes="**/*.jsp" excludes="**/*.html">
+              <param name="base" expression="${base}"/>
+        </xslt>
+        
+    </target>
+    
+    <!-- documentation targets -->
+        <target name="javadoc" description="generates javadoc">
+            <javadoc    author="true"
+                        charset="ISO-8859-1"
+                        destdir="${build.doc.javadoc}"
+                        locale="en_GB"
+                        package="true"
+                        verbose="true"
+                        windowtitle="authorsite.org - bibliography application - javadoc">
+                        <package name="org.authorsite.bib.*"/>
+                        <sourcepath>
+                            <pathelement path="${src.java}"/>
+                            <pathelement path="${build.src.java}"/>
+                        </sourcepath>
+             </javadoc>
+        </target>
+        <target name="javadocPrettify" description="prettifies javadoc">
+            <mkdir dir="${build.webStaticContent}/implementation"/>
+            <mkdir dir="${build.webStaticContent}/implementation/javadoc"/>
+            <java classname="org.authorsite.bib.buildutil.misc.JavadocPrettifier" fork="true">
+                <arg file="${build.doc.javadoc}"/>
+                <arg file="${build.webStaticContent}/implementation/javadoc"/>
+                <arg value="${base}"/>
+            <classpath>
+                <pathelement path="${Tidy.jar}"/>
+                <pathelement path="${build.classes}"/>
+            </classpath>
+            </java>
+        </target>
+    
+    <path id="javasrc.classpath">
+        <pathelement location="${javasrc.jar}"/>
+        <pathelement location="${javasrc-antlr.jar}"/>
+    </path>    
+        
+    <!-- javasrc -->
+    <target name="javasrc" description="uses javasrc to build source cross reference">
+        <mkdir dir="${build.webStaticContent}/implementation/xref"/>
+        <java classname="javasrc.app.Pass1" fork="true">
+            <sysproperty key="title" value="authorsite.org - bibliographic application - xref"/>
+            <sysproperty key="outdir" file="${build.webStaticContent}/implementation/xref"/>
+            <arg file="${src.java}"/>
+            <arg file="${build.src.java}"/>
+            <classpath refid="javasrc.classpath"/>
+        </java>
+        <java classname="javasrc.app.Pass2" fork="true">
+            <sysproperty key="outdir" file="${build.webStaticContent}/implementation/xref"/>
+            <classpath refid="javasrc.classpath"/>
+        </java>
+        <echo message="now tidying up"/>
+        <!-- now tidy its output up a bit -->
+        <!-- clean up the output of javasrc - we don't need the .txt and .def files in the deployment -->
+        <delete>
+            <fileset dir="${build.webStaticContent}">
+                <include name="**/*.txt"/>
+                <include name="**/*.def"/>
+                <exclude name="**/*.html"/>
+            </fileset>
+        </delete>
+        <java classname="org.authorsite.bib.buildutil.misc.XrefPrettifier" fork="true">
+            <classpath>
+                <pathelement location="${Tidy.jar}"/>
+                <pathelement path="${build.classes}"/>
+            </classpath>
+            <arg file="${build.webStaticContent}/implementation/xref"/>
+            <arg value="${base}"/>
+        </java>
+        <!-- slot in a useful "index.html" instead of the less than useful file provided by javasrc -->
+        <copy file="${src.dir}/misc/xref-index.html" tofile="${build.webStaticContent}/implementation/xref/index.html"
+              overwrite="true"/>
+    </target>
+        
+    <target name="buildStaticContent" description="builds all static content - html, javadoc, jxr, etc">
+        <!-- process html through the packaging xslt stylesheet -->
+        
+        <xslt basedir="${src.web}" destdir="${build.webStaticContent}" extension=".html" style="${src.xml}/xsl/mainHtmlGen.xsl"
+              includes="**/*.html" excludes="**/*.jsp">
+                <param name="base" expression="${base}"/>
+       </xslt>
+       <antcall target="javadoc"/>
+       <antcall target="javadocPrettify"/>
+       <antcall target="javasrc"/>
+       <!-- copy cv over. this isn't part of the overall site architecture so isn't processed around all over the place -->
+       <copy file="${src.dir}/misc/cv1.html" tofile="${build.webStaticContent}/people/cv1.html"/>
+       <!-- copy web resources. .html files have been processed above. .jsp files are processed and bundled into the WAR file -->
+        <copy todir="${build.webStaticContent}">
+            <fileset dir="${src.web}">
+                <include name="**/*.gif"/>
+                <include name="**/*.jpg"/>
+                <include name="**/*.css"/>
+                <include name="**/*.png"/>
+                <exclude name="**/*.html"/>
+                <exclude name="**/*.jsp"/>
+             </fileset>
+        </copy>
+        <!-- build bzip2'ed tar file to deploy to apache's document root -->
+        <tar destfile="${build.final}/content.tar.bz2" basedir="${build.webStaticContent}" compression="bzip2"/>
+    </target>
+    
+    <target name="compileAll" depends="generateCode" description="compiles all source code for the web application">
+        <!-- we could then get compileJava target to compile the java source generated by Jasper -->
+        <antcall target="compileJava"/>
+    </target>
+    
+    <target name="compileJava" description="compiles all servlets, struts components, etc">
+        <!-- need to compile the xslt-generated form and action sources as well as the ones written by hand -->
+        <javac srcdir="${src.java};${build.src.java}" destdir="${build.classes}" 
+            includes="org/authorsite/bib/web/**, org/authorsite/bib/dto/**, org/authorsite/bib/exceptions/**" >
+            <classpath refid="build.web.classpath"/>
+        </javac>            
+    </target>
+    
+    <target name="constructInterimWebApp" depends="compileAll" description="moves everything needed for the web app into one place">
+        <!-- move all compiled java over to the interim web app directory -->
+        <echo message="about to copy from ${build.classes}"/>
+        <copy todir="${build.webapp}/WEB-INF/classes">
+            
+            <fileset dir="${build.classes}">
+                <include name="org/authorsite/bib/web/**"/>
+                <include name="org/authorsite/bib/dto/**"/>
+                <include name="org/authorsite/bib/exceptions/**"/>
+            </fileset>
+            
+            <!-- and the resource bundles -->
+            <fileset dir="${src.java}">
+                <include name="org/authorsite/bib/web/**/*.properties"/>
+            </fileset>
+        </copy>
+
+        <!-- copy over base config files. dynamic manipulations if necessary will take place here and not in the normal src dir -->
+        <copy todir="${build.webapp}/WEB-INF">
+            <fileset dir="${conf.dir}/web" includes="web.xml, *.tld" excludes="struts-config.xml"/>
+        </copy>
+        <copy todir="${build.webapp}/WEB-INF">
+            <fileset dir="${conf.dir}/jboss" includes="jboss-web.xml"/>
+        </copy>
+        <!-- copy standard struts tld files -->
+        <copy todir="${build.webapp}/WEB-INF">
+            <fileset dir="${struts.dir}/lib" includes="*.tld"/>
+        </copy>
+    </target>
+    
+    <target name="configureWebApplication" depends="constructInterimWebApp" description="performs any further configuration of web.xml and jboss-web.xml required">
+        <!-- 
+            - configure
+                - might need to manipulate web.xml as well to take into account anything else we might have built
+                - jboss-web.xml might need some tweaking, such as regarding security & JAAS
+        -->
+        
+        <!-- call StrutsConfigurator util to update the struts-config.xml file with the additional forsm, actions and forwards
+        generated during the build process -->
+        <java classname="org.authorsite.bib.buildutil.struts.StrutsConfigurator" fork="true">
+            <arg file="${src.xml}/bibTypesRelationships.xml"/>
+            <arg file="${conf.dir}/web/struts-config.xml"/> <!-- read in our manually edited and version controlled config file -->
+            <arg file="${build.webapp}/WEB-INF/struts-config.xml"/> <!-- output the updated config file -->
+            <classpath>
+                <pathelement path="${build.classes}"/>
+            </classpath>
+        </java> 
+    </target>
+    
+    <target name="buildWar" depends="configureWebApplication" description="construct web application archive">
+        <!-- assemble rest of web application in ${build.webapp} and turn it into a WAR file -->
+        <!-- we'll need a few library files for the app to function ok -->
+        <copy todir="${build.webapp}/WEB-INF/classes/org/authorsite/bib/web/listeners" file="${src.xml}/languages.xml"/>
+        <copy todir="${build.webapp}/WEB-INF/lib">
+            <fileset dir="${struts.lib.dir}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.webapp}/WEB-INF/lib" file="${build.lib.client}/${ejbClient.jar}"/>
+        <!-- can do a simple jar to build the WAR as everything's already nicely in one place -->
+        <jar basedir="${build.webapp}" jarfile="${build.lib.web}/${webApp.war}"/>
+    </target>
+    
+    <target name="deployWebApplication" depends="buildWar" description="deploys web app to development server as a WAR">
+        <!-- <delete dir="${build.webapp}"/> -->
+        <!--
+            - deploy (initially assume we're using the JBoss/Tomcat bundle)
+                - EJB Client classes needed? (probably not, should be available anyway, but we can check)
+                - assemble WAR out of servlets, actions, actionForms, properties, message bundles, html, images, etc
+                - copy WAR to deploy directory
+         -->
+         <delete file="${jbossDeployDir}/${webApp.war}"/>
+         <!-- copy WAR to deployment directory --> 
+         <copy file="${build.lib.web}/${webApp.war}" todir="${jbossDeployDir}"/>
+    </target>
+    
+    <target name="cleanInterimWebApplication" description="removes the interim web app folders">
+        <delete dir="${build.webapp}"/>
+    </target>
+    
+    <target name="buildSourceForgeSite" description="assembles html for sourceforge site">
+         <xslt basedir="${src.web}" destdir="${build.webStaticContent}" extension=".html" style="${src.xml}/xsl/mainHtmlGen.xsl"
+              includes="**/*.html" excludes="**/*.jsp" force="true">
+                <param name="base" expression="http://authorsite.sourceforge.net/"/>
+                <param name="htmlOnly" expression="true"/>
+         </xslt>
+       <antcall target="javadoc"/>
+       <antcall target="javadocPrettify"/>
+       <antcall target="javasrc"/>
+       <!-- copy cv over. this isn't part of the overall site architecture so isn't processed around all over the place -->
+       <copy file="${src.dir}/misc/cv1.html" tofile="${build.webStaticContent}/people/cv1.html"/>
+       <!-- copy web resources. .html files have been processed above. .jsp files are processed and bundled into the WAR file -->
+        <copy todir="${build.webStaticContent}">
+            <fileset dir="${src.web}">
+                <include name="**/*.gif"/>
+                <include name="**/*.jpg"/>
+                <include name="**/*.css"/>
+                <include name="**/*.png"/>
+                <exclude name="**/*.html"/>
+                <exclude name="**/*.jsp"/>
+             </fileset>
+        </copy>
+        <!-- overwrite index.html with custom sourceforge homepage -->
+        <xslt in="${src.dir}/misc/sourceforge-home.html" out="${build.webStaticContent}/home/index.html" style="${src.xml}/xsl/mainHtmlGen.xsl"
+              force="true">
+              <param name="base" expression="http://authorsite.sourceforge.net/"/>
+              <param name="htmlOnly" expression="true"/>
+         </xslt>
+        <!-- build bzip2'ed tar file to deploy to apache's document root -->
+        <tar destfile="${build.final}/sourceforge.tar.bz2" basedir="${build.webStaticContent}" compression="bzip2"/>
+    </target>
+</project>

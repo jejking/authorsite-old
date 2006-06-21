@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<!-- template test -->
+
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>1.2</jsp-version>
+    <short-name>bibWebApp</short-name>
+    <display-name>bibWebApp</display-name>
+    <description>The custom tags for the authorsite.org web bibliographic web application.
+    </description>
+    
+    <!-- Validators are new in JSP1.2. You may have zero or one validator
+         in a tag library. They look like this:
+      <validator>
+          <validator-class>org.your.web.app.ValidateTaglibUsage</validator-class>
+          <init-param>
+             <param-name>aparameter</param-name>
+             <param-value>value</param-value>
+             <description>Describe this parameter</description>
+	  </init-param>
+      </validator>
+   -->
+
+   <!-- listeners are new in JSP1.2. You may have as many listeners as you like
+        in a tag library. They look like this:
+     <listener>
+         <listener-class>org.your.web.app.TaglibListener1</listener-class> 
+     </listener>
+   -->
+   <tag>
+        <name>peopleClipboard</name>
+        <tag-class>org.authorsite.bib.web.taglib.PeopleClipboardTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>displays the people on the clipboard</description>
+        <attribute>
+            <name>formBeanName</name>
+            <required>false</required>
+        </attribute>
+   </tag>
+   <tag>
+        <name>person</name>
+        <tag-class>org.authorsite.bib.web.taglib.PersonTag</tag-class>
+        <body-content>empty</body-content>
+        <description>renders a person DTO in html</description>
+        <attribute>
+            <name>beanName</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>checkBoxFlag</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>detail</name>
+            <required>true</required>
+        </attribute>
+   </tag>
+   <tag>
+        <name>orgsClipboard</name>
+        <tag-class>org.authorsite.bib.web.taglib.OrganisationsClipboardTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>iterates through the "OrgsClipboardMap" session attribute, if present</description>
+        <attribute>
+            <name>formBeanName</name>
+            <required>false</required>
+        </attribute>
+   </tag>
+   <tag>
+        <name>mediaItemsClipboard</name>
+        <tag-class>org.authorsite.bib.web.taglib.MediaItemsClipboardTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>iterates through the "MediaItemsClipboardMap" session attribute, it present</description>
+        <attribute>
+            <name>formBeanName</name>
+            <required>false</required>
+        </attribute>
+   </tag>
+   <tag>
+        <name>org</name>
+        <tag-class>org.authorsite.bib.web.taglib.OrganisationTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>beanName</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>checkBoxFlag</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>detail</name>
+            <required>true</required>
+        </attribute>
+   </tag>
+   <tag>
+        <name>mediaItem</name>
+        <tag-class>org.authorsite.bib.web.taglib.MediaItemTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>beanName</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>checkBoxFlag</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>publicFlag</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>detail</name>
+            <required>true</required>
+        </attribute>
+   </tag>
+   <tag>
+        <name>hiddenID</name>
+        <tag-class>org.authorsite.bib.web.taglib.HiddenIDTag</tag-class>
+        <body-content>empty</body-content>
+        <description>renders a hidden html form field with the ID of the selected bean as its value</description>
+        <attribute>
+            <name>beanName</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>true</required>
+        </attribute>
+   </tag>
+   <tag>
+        <name>editIMRs</name>
+        <tag-class>org.authorsite.bib.web.taglib.EditIMRsClipboardTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>displays appropriate media items from clipboard for a specific intra media relationship</description>
+   </tag>
+</taglib>

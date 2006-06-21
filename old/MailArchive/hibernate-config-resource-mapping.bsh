@@ -1,0 +1,73 @@
+/*
+
+hibernate-config-resource-mapping.bsh created 22:20, 8th August 2004
+
+Copyright John King, 2004.  
+
+hibernate-config-resource-mapping.bsh is part of authorsite.org's MailArchive program.
+
+VocabManager is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+VocabManager is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VocabManager; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Version: $Revision: 1.2 $
+Last Updated: $Date: 2004/08/09 22:04:20 $
+
+*/
+import org.jdom.output.*;
+import org.jdom.*;
+
+
+// set up io
+File configFileDir = new File("build/src/conf");
+File configFile = new File("build/src/conf/hibernate.cfg.xml");
+
+// create the base document
+DocType hibernateConfDocType = new DocType("hibernate-configuration",
+                                 "-//Hibernate/Hibernate Configuration DTD 2.0//EN",
+                                 "http://hibernate.sourceforge.net/hibernate-configuration-2.0.dtd");
+Element hibernateConfigurationElement = new Element("hibernate-configuration");
+Element sessionFactoryElement = new Element("session-factory");
+hibernateConfigurationElement.addContent(sessionFactoryElement); 
+Document configFileDoc = new Document(hibernateConfigurationElement, hibernateConfDocType);
+
+
+void processDirectory(String pathSoFar, File directory) {
+        print("processing directory" + pathSoFar + "/" + directory);
+        File[] contents = directory.listFiles();
+        for (i = 0; i < contents.length; i++)
+                if (contents[i].isDirectory())
+                           if (pathSoFar.equals(""))
+                                   processDirectory(pathSoFar + contents[i].getName(), contents[i]);
+                           else        
+                                   processDirectory(pathSoFar + "/" + contents[i].getName(), contents[i]);
+                else if (contents[i].getName().endsWith(".hbm.xml"))
+                            processFile(pathSoFar, contents[i]);
+}
+
+void processFile(String pathSoFar, File mappingFile) {
+        print("processing mapping file " + pathSoFar + "/" + mappingFile);
+        Element mappingElement = new Element("mapping");
+        mappingElement.setAttribute("resource", pathSoFar + "/" + mappingFile.getName());
+        sessionFactoryElement.addContent(mappingElement);
+}
+
+// do the work
+processDirectory("", configFileDir);
+
+// write the file
+XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+Writer writer = new BufferedWriter(new FileWriter(configFile));
+outputter.output(configFileDoc, writer);
+writer.flush();
+writer.close();

@@ -1,0 +1,39 @@
+<%-- 
+Copyright John King, 2004.
+ 
+header.jspf is part of authorsite.org's MailArchive program.
+ 
+MailArchive is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ 
+ MailArchive is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with MailArchive; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Version: $Revision: 1.1 $
+Last Updated: $Date: 2005/05/13 14:47:25 $
+--%>
+
+<head>
+    <title>&#60;mail @rchive/&#62;</title>
+    <link type="text/css" href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet" />
+</head>
+<body>
+<div title="container for all content" class="container">
+            <div title="header with logo and search" class="header" id="header">
+                <div title="logo" class="logo">
+                    <a id="top">
+                        <img title="&lt;mail @archive/&gt;" alt="site logo" height="80" width="168" src="${pageContext.request.contextPath}/images/mailarchive-small.jpg" />
+                    </a>
+                </div>
+            </div>
+            <div title="navigation with links" class="breadcrumb" id="breadcrumb">
+                <as:breadcrumb/>
+            </div>

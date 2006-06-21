@@ -1,0 +1,76 @@
+Return-Path: <jejking2@vfemail.net>
+X-Original-To: jejking@localhost
+Delivered-To: jejking@localhost.tiramisu.local
+Received: from localhost (localhost [127.0.0.1])
+	by tiramisu.local (Postfix) with ESMTP id 4FAEA23DCE
+	for <jejking@localhost>; Sun, 20 Jun 2004 17:40:59 +0100 (BST)
+Delivered-To: jejking-juenger:org-testing@juenger.org
+X-Envelope-To: testing@juenger.org
+Received: from zelaza.pair.com [209.68.2.92]
+	by localhost with POP3 (fetchmail-6.2.1)
+	for jejking@localhost (single-drop); Sun, 20 Jun 2004 17:40:59 +0100 (BST)
+Received: (qmail 97441 invoked from network); 20 Jun 2004 16:39:10 -0000
+Received: from 211.valeoinc.com (HELO vfemail.net) (64.243.213.211)
+  by zelaza.pair.com with SMTP; 20 Jun 2004 16:39:10 -0000
+Received: (qmail 58895 invoked by uid 85); 20 Jun 2004 16:39:09 -0000
+Received: from jejking2@vfemail.net by mail.vfemail.net by uid 0 with qmail-scanner-1.16 
+ (clamscan: 0.60. spamassassin: 2.55.  Clear:. 
+ Processed in 0.034422 secs); 20 Jun 2004 16:39:09 -0000
+Received: from unknown (HELO localhost) (64.243.213.211)
+  by 211.valeoinc.com with SMTP; 20 Jun 2004 16:39:09 -0000
+Received: from host81-153-199-249.range81-153.btcentralplus.com
+	(host81-153-199-249.range81-153.btcentralplus.com [81.153.199.249]) by
+	vfemail.net (Horde) with HTTP for <jejking2@vfemail.net>; Sun, 20 Jun 2004
+	11:39:09 -0500
+Message-ID: <1087749549.40886d0f32324@vfemail.net>
+X-Priority: 3 (Normal)
+Date: Sun, 20 Jun 2004 11:39:09 -0500
+From: jejking2@vfemail.net
+To: testing@juenger.org
+Subject: a multilingual picture
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+  boundary="=_8ca5f8f47dab96033838be"
+Content-Transfer-Encoding: 7bit
+User-Agent: Internet Messaging Program (IMP) 4.0-cvs
+X-Spam-Filtered: 2de8cb6b622de007ea9e91945a89f7af
+X-Spam-Status: No, hits=0.6 required=3.5 tests=PRIORITY_NO_NAME,NO_REAL_NAME,BAYES_10,RCVD_IN_SORBS
+X-Spam-Flag: NO
+X-Spam-Level: 
+Status: RO
+X-Status: OR
+X-KMail-EncryptionState:  
+X-KMail-SignatureState:  
+X-KMail-MDN-Sent:  
+
+This message is in MIME format.
+
+--=_8ca5f8f47dab96033838be
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+
+I think you'll find this is quite an interesting picture. It's in German and
+English.
+
+Ja, das Bild ist sogar zweisprachig. Erstaunlich.
+
+Gruss,
+
+John
+
+
+
+-------------------------------------------------
+This mail sent through Virus Free Email
+http://www.vfemail.net
+
+
+--=_8ca5f8f47dab96033838be
+Content-Type: image/png; name="test.png"
+Content-Disposition: attachment; filename="test.png"
+Content-Transfer-Encoding: base64
+
+
+--=_8ca5f8f47dab96033838be--
+

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc>
+    <ia>
+        <title>authorsite.org - bibliographic application - implementation - conceptual analysis</title>
+    </ia>
+    <block id="main">
+        <h1>conceptual analysis</h1>
+        <p>
+            Authorsite.org's bibliographic application represents a significant step forward in the field of 
+            bibliographic database management software. This has been achieved by rethinking the fundamental
+            tasks such software is asked to deliver and the models used in their delivery.
+        </p>
+        <h2>tasks</h2>
+        <p>
+            Typically, bibliographic database software is used to manage a list of records of predefined atomic types (books,
+            journal articles, theses, conference proceedings, etc), which can then be queried and the results formatted according
+            to various style prescriptons. They also facilitate the attachment of annotations to individual records and may provide
+            some form of categorisation of records by "keyword".
+        </p>
+        <p>
+           In one respect, our software is quite similar - it manages a number of records of predefined atomic types. However,
+           if differs fundamentally in the way that the records are linked together - it actually links them together to form a network 
+           of inter-related items and producers rather than leaving them as a list of unrelated items. This facility to create a network of 
+           relationships is what makes the software a critical step forward for academic and other users as well as enrichening the
+           web experience. Users can thus interrelate items - subject to predefined but highly customisable business rules - to record
+           both hard (A is an edition of B, C is a film of D, E is a translation of F) and soft (G was inspired by H, I is a criticism of J)
+           statements which are of substantial use value in documenting and understanding a particular area of investigation.
+        </p>
+        <h2>model</h2>
+        <h3>media items and media producers</h3>
+        <p>
+            At the lowest level, the conceptual model identifies discrete media items and media producers, which can either be people
+            or organisations (such as companies, NGOs, governments, universities, etc). Media items are modelled in two parts: core data
+            which is common to all items regardless of type (title, year of production, type, comments) and type specific detail. The
+            software recognises that there can be a series of composition relationships between media items. For example, a chapter in a 
+            book of critical essays is seen to be in a "containment" relationship with the book it is published in, or a journal article can
+            be seen to be contained in a volume or issue which would in turn be "contained" in a record for that journal. Finally,
+            media items are associated with one or more languages - an essential improvement on much software in this area.
+        </p>
+        <h3>production relationships</h3>
+        <p>
+            Media producers (people and organisations) are related to media items through the notion of "production relationships".
+            Each media item has a number of obligatory and possible production relationships (e.g. a book must have a publisher, but may
+            or may not have a translator or illustrator) with which an arbitrary number of people or organisations can then be associated, thus
+            dispensing with artificial constraints such as "Author 1", "Author 2", etc. A media producer may also be associated with more than
+            one production relationship for a given media item. For example, an individual may be both the author and publisher of a book.
+         </p>
+         <h3>intra media relationships</h3>
+         <p>
+            The network of relationships between media items is implemented through the concept of "intra media relationships" which
+            carry the information about translation, edition, criticism and other relationships between discrete media item records.
+         </p>
+         <h3>rules</h3>
+         <p>
+            With the extra expressive power given by production and intra media relationships, strict rules are required in order to maintain
+            the logical integrity of the bibliography. These allow the application to provide high-level sanity checks on the data being
+            entered, to prevent for instance the declaration of a person as the film director of a journal article or the same article being
+            declared as the film version of a book. The rules declare "obligatory" relationships which must be in place before an item can
+            be published as well as "expected" and "permitted" relationships which are not absolutely necessary but which may be required to
+            describe an item and its context fully. Furthermore, the rules define "obligatory" attributes - the minimum data set required to
+            describe the item as a discrete entity.
+         </p>
+         <p>
+            The definition of the rules is therefore a key aspect in preparing a deployment of the bibliographic application.
+         </p>
+         <p>
+            The syntax for defining the rules will shortly be reviewed to enable more powerful and flexible means of describing the
+            rules. A new approach will bring this syntax into line with established current approaches to ontologies.
+         </p>
+    </block>
+</doc>

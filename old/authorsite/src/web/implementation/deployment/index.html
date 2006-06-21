@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc>
+    <ia>
+        <title>authorsite.org - bibliographic application - implementation - deployment</title>
+    </ia>
+    <block id="main">
+        <h1>building and installing the application</h1>
+        <p>
+            This is a brief guide to building, installing and configuring the application.
+        </p>
+        <h2>Required Software</h2>
+        <p>
+            The following software is required to run the software as it currently stands:
+        </p>
+        <ul>
+            <li><a href="http://java.sun.com/j2se/1.4.1/download.html">JDK 1.4.1`</a>. A 1.4 JDK is required because I am
+            using its Regular Expression library at the moment.</li>
+            <li><a href="http://www.jboss.org/" target="_blank">JBoss</a>. I am currently running the 
+            JBoss_3.0.6_Tomcat_4.1.18 release with embedded Tomcat.</li>
+            <li><a href="http://www.postgresql.org/" target="_blank">PostgreSQL</a>. The software currently runs
+            with the 7.2 version. Changes in the 7.3 release mean that some of the SQL scripts complain and I
+            haven't updated them yet.</li>
+            <li><a href="http://jdbc.postgresql.org/" target="_blank">PostgreSQL JDBC Driver</a>. pg73jdbc.jar seems to work fine.</li>
+            <li><a href="http://jakarta.apache.org/ant/" target="_blank">Ant</a>. The build scripts require the 1.5
+            release.</li>
+            <li><a href="http://xdoclet.sourceforge.net/" target="_blank">XDoclet</a>.</li>
+            <li><a href="http://www.jdom.org/" target="_blank">JDOM</a>. Beta 8 is the latest release.</li>
+            <li><a href="http://jaxen.sourceforge.net/" target="_blank">Jaxen</a>. Jaxen is an open-source XPath implementation in Java</li>
+            <li><a href="http://saxpath.sourceforge.net/" target="_blank">Saxpath</a>. Is needed by Jaxen.</li>
+            <li><a href="http://www.junit.org/" target="_blank">JUnit</a>. Required to run the test suites.</li>
+            <li><a href="http://http://sourceforge.net/projects/jtidy" target="_blank">JTidy</a>. Java port of W3C's Tidy application. Needed to tidy up
+            Javadoc and manipulate its output.</li>
+            <li><a href="http://javasrc.sourceforge.net/" target="_blank">Javasrc</a>. Produces java source cross reference and without
+            all the hassle of trying to knock Maven's JXR into shape.</li>
+            <li><a href="http://httpd.apache.org/" target="_blank">Apache Webserver</a>. The demonstration application is running
+            a tuned version of Apache 2.0.44.</li>
+            <li><a href="http://jakarta.apache.org/builds/jakarta-tomcat-connectors/jk2/doc/" target="_blank">mod_jk2</a>. If you are
+            running an Apache front end to the bibliographic application, you'll need this to pass requests through to Tomcat and JBoss.
+            Configuring this is a black art, however.</li>
+            <li><a href="http://sourceforge.net/cvs/?group_id=74211" target="_blank">the application source code</a>. Download the source
+            from the Sourceforge CVS servers.</li> 
+        </ul>
+        <h2>Configure the environment</h2>
+        <p>
+            Full details of how to do this will follow. However, given the alpha nature of the software, I only expect
+            people with a significant level of IT knowledge to be experimenting it and so only give guidelines here.
+        </p>
+        <h3>Database server</h3>
+        <p>
+            The application should connect to the database server as the user "application". The sql scripts also expect the presence
+            of users "dbreader" and "dbwriter". These users should be created independently of the sql scripts (preferably without privileges
+            to create users or databases) and given suitably secure passwords.
+        </p>
+        <p>
+            Some database tuning may be required, including the setting of OS kernel shared memory parameters. I currently run PostgreSQL
+            with Linux's shmall and shmmax set to 128M, postgres' shared buffers set to 15200 and sort memory at 32168. This is probably 
+            overkill and more precise tuning advice will only emerge following sustained and systematic load testing.
+        </p>
+        <h3>Application Server</h3>
+        <p>
+            JBoss is a powerful and flexible application server. The default server set up starts more services than are strictly necessary
+            for the application to run and which could be dispensed with to free resources and minimise any unnecessary security risks. You
+            will need to pay particular attention to configuring <code>postgres-service.xml</code>, <code>tomcat41-service.xml</code> in the
+            deploy directory, <code>jboss-service.xml</code> and <code>login-config.xml</code> in the conf directory. I will shortly supply
+            details of my configuration. The PostgreSQL JDBC driver should be placed in the lib directory.
+        </p>
+        <p>
+            If you are going to use Apache to front the web application and leverage its many modules, including caching and compression,
+            you will need to configure this as well. The current build scripts produce a tar.bz2 file with static content (html and images)
+            to be deployed to apache in a directory /bibWebApp under DocumentRoot. As well as the Apache binaries, you will also need to 
+            compile mod_jk2 and deploy that into Apache's modules directory and configure workers2.properties to handle Struts actions.
+            Example configuration files to follow.
+        </p>
+        <h3>Build Environment</h3>
+        <p>
+            You will need to edit <code>build.properties</code> and <code>build.database.properties</code> to suit your personal environment.
+            JDOM, Jaxen and Saxpath should also be placed somewhere on the classpath so that the EJBs will compile. Ant must on your
+            path.
+        </p>
+        <h2>Build</h2>
+        <p>
+            The first task is to create the database tables. Run <code>ant createDatabase</code>. You can then run 
+            <code>ant productionBuild -Dbase="http://pathToYourServer/bibWebApp/"</code>. This produces two files
+            in the build/final directory - <code>content.tar.bz2</code> and <code>bibWebApp.ear</code>.
+        </p>
+        <h2>Deploy</h2>
+        <p>
+            Static content is deployed to the bibWebApp directory under Apache's configured DocumentRoot. Copy 
+            <code>content.tar.bz2</code> to that directory and unpack it.
+        </p>
+        <p>
+            The J2EE application is the EAR file. Copy this to JBoss's server/default/deploy directory and either
+            start up JBoss or let it hot deploy.
+        </p>
+        <p>
+            That's it. The application is now usable from http://pathToYourServer/bibWebApp/home/index.html.
+        </p>
+        <p>
+            These guidelines are rough and rudimentary in nature, but should help get you started. The software and the documentation
+            are very much works in progress and I would very much appreciate feedbacks, comments, suggestions and positive criticism.
+            Detailed configuration and set up instructions will follow. Some aspects of the deployment <em>are</em> difficult because
+            they are so badly documented - mod_jk2, JBoss' JAAS and JDBC authentication are prime examples. I will also be bringing
+            together various aspects of Linux configuration and security which impact on a deployment of the application.
+        </p>
+    </block>
+</doc>

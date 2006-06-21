@@ -1,0 +1,182 @@
+<?xml version="1.0" ?>
+<!-- build file for authorsite.org bibliographic application -->
+<!-- $Header: /cvsroot/authorsite/authorsite/build.xml,v 1.19 2003/03/28 17:58:36 jejking Exp $ -->
+
+<!--
+ * Copyright (C) 2003  John King
+ *
+ * This file is part of the authorsite.org bibliographic
+ * application.
+ *
+ * This application is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ 
+ -->
+<project name="authorsite" default="all" basedir=".">
+        
+        <property file="build.properties"/>
+                
+        <target name="checkout" description="check out source">
+                <cvs command="checkout" cvsroot="/cvsroot" dest=".." package="authorsite"/>
+        </target>
+        
+        <target name="prepare" description="create build directories">
+                <!-- create build directories -->
+                <mkdir dir="${build.dir}"/>
+                <mkdir dir="${build.classes}"/> <!-- all compiled classes go here -->
+                <mkdir dir="${build.lib}"/> <!-- all jars for clients (including web) & ejb deployment go here -->
+                <!-- ejb -->
+                <mkdir dir="${build.lib.ejb}"/>
+                <mkdir dir="${build.lib.ejb.META-INF}"/>
+                <!-- client -->
+                <mkdir dir="${build.lib.client}"/>
+                <!-- web -->
+                <mkdir dir="${build.webapp}"/>
+                <mkdir dir="${build.webapp}/META-INF"/>
+                <mkdir dir="${build.webapp}/WEB-INF"/>
+                <mkdir dir="${build.webapp}/WEB-INF/classes"/>
+                <mkdir dir="${build.lib}/web"/>
+                
+                <!-- for apache rather than tomcat -->
+                <mkdir dir="${build.webStaticContent}"/>
+                
+                <!-- where apache's tar.bz2 and jboss/tomcat's EAR end up -->
+                <mkdir dir ="${build.final}"/>
+                
+                <!-- docs -->
+                <mkdir dir="${build.doc}"/>
+                <mkdir dir="${build.doc.javadoc}"/>
+                
+                <!-- make directories for code generated in the build process -->
+                <mkdir dir="${build.src}"/>
+                <mkdir dir="${build.src.java}"/>
+                <mkdir dir="${build.src.java.entityBeans}"/>
+                <mkdir dir="${build.src.java.struts}"/>
+                <mkdir dir="${build.src.java.struts}/form"/>
+                <mkdir dir="${build.src.java.struts}/action"/>
+                <mkdir dir="${build.src.sql}"/>
+                <mkdir dir="${build.src.xml}"/>
+                <mkdir dir="${build.src.web}"/> <!-- for any JSP/HTML pages we generate xsl for special details types -->
+                <mkdir dir="${build.src.web}/management"/> <!-- the generated source for the skelton media item type specific management jsps will go here -->
+                
+                <!-- make testing directories -->
+                <mkdir dir="${test.build.classes}"/>
+                <mkdir dir="${test.reports}"/>
+                <mkdir dir="${test.reports.html}"/>
+                <mkdir dir="${test.reports.ejb}"/>
+                
+                <!-- compile build utils (until we move them to xslt) -->
+                <javac destdir="${build.classes}" srcdir="${src.java}/org/authorsite/bib/buildutil/">
+                    <classpath>
+                        <pathelement location="${Tidy.jar}"/>
+                    </classpath>
+                </javac>
+                <tstamp/>
+        </target>
+        
+        <!-- database targets -->
+        <target name="createDatabase" depends="prepare" description="execute core sql scripts, generate and execute sql for various media types">
+            <ant antfile="build.database.xml" target="createDatabase"/>
+        </target>
+        <!-- TODO add truncate tables, drop database, insert known sample data -->
+        
+        <target name="clean" description="remove build directory and any deployed applications">
+                <delete dir="${build.dir}"/>
+                <delete file="${jbossDeployDir}/${ejbApp.jar}"/>
+                <delete file="${jbossDeployDir}/${webApp.jar}"/>
+                <delete dir="${test.reports}"/>
+        </target>
+        
+        <target name="cleanWebApp" description="removes interim web app directory">
+            <ant antfile="build.web.xml" target="cleanInterimWebApplication"/>
+        </target>
+        
+        <!-- ejb targets -->
+        <target name="generateEJBSource" depends="prepare" description="generate media type source, home, remote interfaces, deployment descriptors using xdoclet">
+            <ant antfile="build.ejb.xml" target="generateEJBSource"/>
+        </target>
+        
+        <target name="compileEJBs" depends="prepare" description="compile and jar all EJB source code">
+            <ant antfile="build.ejb.xml" target="compileEJBs"/>
+        </target>
+        
+        <target name="deployEJBs" depends="prepare" description="deploy EJB jar to JBoss">
+            <ant antfile="build.ejb.xml" target="deployEJBs"/>
+        </target>
+        
+        <target name="testAll" depends="prepare" description="run all tests">
+            <ant antfile="build.test.xml" target="testAll"/>
+        </target>
+        
+        <!-- web application targets -->
+        <target name="generateWebCode" depends="prepare" description="generate html, jsp, actions, action forms as required">
+            <ant antfile="build.web.xml" target="generateCode"/>
+        </target>
+        
+        <target name="compileWebCode" depends="prepare" description="compile web application code">
+            <ant antfile="build.web.xml" target="compileAll"/>
+        </target>
+        
+        <target name="configureWebApplication" depends="prepare" description="performs any further configuration of web.xml and jboss-web.xml required">
+            <ant antfile="build.web.xml" target="configureWebApplication"/>
+        </target>
+        
+        <target name="deployWebApplication" depends="prepare" description="deploys web app to development server as a WAR">
+            <ant antfile="build.web.xml" target="deployWebApplication"/>
+        </target>
+        
+        <!-- enterprise application targets -->
+        <!-- 
+            build and jar ejbs and WAR
+            assemble EAR
+            deploy EAR -->
+        <target name="productionBuild" depends="prepare" description="builds static content and java enterprise archive">
+            <ant antfile="build.ejb.xml" target="compileEJBs"/>
+            <ant antfile="build.web.xml" target="buildWar"/>
+            <ant antfile="build.web.xml" target="buildStaticContent"/>
+            <copy todir="${build.final}" file="${build.lib.web}/${webApp.war}"/>
+            <copy todir="${build.final}" file="${build.lib.ejb}/${ejbApp.jar}"/>
+            <ear destfile="${build.final}/bibWebApp.ear" appxml="${conf.dir}/ear/application.xml"
+                basedir="${build.final}" includes="${ejbApp.jar} ${webApp.war}"  />
+        </target>
+        
+        <target name="buildEarOnly" depends="prepare" description="builds full J2EE app">
+            <ant antfile="build.ejb.xml" target="compileEJBs"/>
+            <ant antfile="build.web.xml" target="buildWar"/>
+            <copy todir="${build.final}" file="${build.lib.web}/${webApp.war}"/>
+            <copy todir="${build.final}" file="${build.lib.ejb}/${ejbApp.jar}"/>
+            <ear destfile="${build.final}/bibWebApp.ear" appxml="${conf.dir}/ear/application.xml"
+                basedir="${build.final}" includes="${ejbApp.jar} ${webApp.war}"  />
+        </target>
+            
+        <!-- test targets -->
+        <target name="testEJBs" depends="prepare" description="run all EJB tests">
+            <ant antfile="build.text.xml" target="testEJBs"/>
+        </target>
+        
+        
+        <!-- other doc targets to build 
+            - docbook transformation
+            - Alexandria/Maven?? Source code cross-reference
+            -->
+            
+        <!-- production deployment targets
+            - remember to exclude all test EJBs/servlets from production archivess
+            - execute production database scripts
+            - sign application archive
+            - scp it to production server
+            - generate and deploy docs to production web server
+            - update anything on sourceforge that may be necessary
+            -->
+</project> 

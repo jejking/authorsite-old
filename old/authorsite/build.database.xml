@@ -1,0 +1,88 @@
+<?xml version="1.0" ?>
+<!-- handles all the build action for the database -->
+
+<!--
+
+ * Copyright (C) 2003  John King
+ *
+ * This file is part of the authorsite.org bibliographic
+ * application.
+ *
+ * This application is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ 
+ -->
+<project name="authorsite.database" default="createDatabase">
+    <property file="build.database.properties"/>
+    <!-- database preparation -->
+        <!-- target to run the core database creation scripts -->
+        <target name="createDatabase" description="processes xml, generates sql, executes sql to create database">
+                <sql    classpath="${postgresJdbcJar}" 
+                        driver="${postgresDriver}" 
+                        onerror="continue" 
+                        password="${postgresPassword}" 
+                        userid="${postgresUser}"
+                        url="${postgresURL}"
+                        src="${src.sql}/authorsite_coredb_creation.sql"
+                        autocommit="on"/>
+                <!-- TODO - implement the sql generation in XSL -->
+                <!-- run the buildutil to convert languages.xml into sql -->
+                <java classname="org.authorsite.bib.buildutil.xml2sql.LanguageListConverter" fork="true">
+                        <!-- input file -->
+                        <arg file="${src.xml}/languages.xml"/>
+                        
+                        <!-- output file -->
+                        <arg file="${build.src.sql}/languages.sql"/>
+                        <classpath>
+                            <pathelement path="${build.classes}"/>
+                        </classpath>
+                </java>
+                
+                <!-- run the buildutil to generate sql to create relationships and mediaDetails types -->
+                <java classname="org.authorsite.bib.buildutil.xml2sql.TypesAndRelationshipsSQLGenerator" fork="true">
+                    <arg file="${src.xml}/bibTypesRelationships.xml"/>
+                    <arg file="${build.src.sql}/bibTypesRelationships.sql"/>
+                    <classpath>
+                        <pathelement path="${build.classes}"/>
+                    </classpath>
+                </java>
+                
+                <!-- run the generated languages sql script -->
+                <sql    classpath="${postgresJdbcJar}"
+                        driver="${postgresDriver}"
+                        onerror="continue"
+                        password="${postgresPassword}"
+                        userid="${postgresUser}"
+                        url="${postgresURL}"
+                        src="${build.src.sql}/languages.sql"
+                        autocommit="on"/>
+                
+                <!-- run the generated typesAndRelationships sql script -->
+                <sql    classpath="${postgresJdbcJar}"
+                        driver="${postgresDriver}"
+                        onerror="continue"
+                        password="${postgresPassword}"
+                        userid="${postgresUser}"
+                        url="${postgresURL}"
+                        src="${build.src.sql}/bibTypesRelationships.sql"
+                        autocommit="on"/>       
+        </target>
+        
+        <!-- we also need targets to:
+            - truncate all the tables
+            - drop the database
+            - load a known set of data for functional testing 
+            -->
+        
+</project>

@@ -1,0 +1,54 @@
+/*
+ * SelectIMRAction.java
+ *
+ * Created on 27 February 2003, 12:10
+ * $Header: /cvsroot/authorsite/authorsite/src/java/org/authorsite/bib/web/struts/action/SelectIMRAction.java,v 1.1 2003/03/01 13:33:55 jejking Exp $
+ *
+ * Copyright (C) 2003  John King
+ *
+ * This file is part of the authorsite.org bibliographic
+ * application.
+ *
+ * This application is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
+package org.authorsite.bib.web.struts.action;
+import java.util.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import org.apache.struts.action.*;
+import org.authorsite.bib.web.struts.form.*;
+/**
+ *
+ * @author  jejking
+ * @version $Revision: 1.1 $
+ */
+public class SelectIMRAction extends BibAbstractAction {
+    
+    /** Creates a new instance of SelectIMRAction */
+    public SelectIMRAction() {
+    }
+    
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        System.out.println("execute method of SelectIMRAction called");
+        
+        // obtain variables from form
+        String intraMediaRelationship = ((IMRSelectForm)form).getIntraMediaRelationship();
+        request.setAttribute("IMRSelectForm", form); // make sure it's included in the forward
+        return mapping.findForward("IMRSelected");
+    }
+    
+}

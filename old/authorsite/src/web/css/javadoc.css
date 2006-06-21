@@ -1,0 +1,56 @@
+/* 
+    Document   : javadoc
+    Created on : 18 March 2003, 23:22
+    Author     : jejking
+    Description:
+        Derived from the javadoc standard stylesheet.
+*/
+
+@import "main.css"; /* imports the main authorsite stylesheet */
+
+img {
+    border: 0px;
+}
+dt {
+    font-weight: bolder;
+}
+/* Table colors */
+.TableHeadingColor     {
+ background: #CCCCFF /* Dark mauve */
+} 
+.TableSubHeadingColor  {
+ background: #EEEEFF /* Light mauve */
+} 
+.TableRowColor {
+ background: #FFFFFF /* White */
+} 
+
+/* Font used in left-hand frame lists */
+.FrameTitleFont   { 
+    
+}
+.FrameHeadingFont { 
+    
+}
+.FrameItemFont    { 
+    
+}
+
+/* Navigation bar fonts and colors */
+.NavBarCell1    { /* standard nav bar */
+    background-color:#EEEEFF; /* Light mauve */
+}
+.NavBarCell1Rev { /* the "active" view */
+    background-color:#C4C1DE; /* Dark Blue */
+}
+
+.NavBarCell2    { 
+    font-size: smaller;
+    background-color:#FFFFFF;
+}
+.NavBarCell3    { 
+    font-size: smaller;
+    background-color:#FFFFFF;
+}
+
+

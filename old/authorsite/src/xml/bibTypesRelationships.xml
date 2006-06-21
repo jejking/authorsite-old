@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!--
+ * Copyright (C) 2003  John King
+ *
+ * This file is part of the authorsite.org bibliographic
+ * application.
+ *
+ * This application is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ -->
+
+<bib:typesAndRelationships
+        xmlns:bib="http://www.authorsite.org/bibTypesRelationships"
+        xmlns:xhtml="http://www.w3c.org/1999/xhtml"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://www.authorsite.org/bibTypesRelationships bibTypesRelationships.xsd"
+        name="books">
+	
+<!-- $Header: /cvsroot/authorsite/authorsite/src/xml/bibTypesRelationships.xml,v 1.6 2003/03/29 13:59:58 jejking Exp $ -->
+
+
+<!-- cf LOC MARC relator code list for more productionRelationship ideas -->
+    <description>
+        <xhtml:p>
+            This instance document is the one that will be used to carry out substantial development on the code-generation
+            and rules engine tools. It is based on a simple domain analysis of books which is complex enough not to be trivial
+        </xhtml:p>
+    </description>
+	
+    <comment>
+        <xhtml:p>
+            This is the initial shot. The analysis is not meant to be exhaustive but rather exemplary..
+        </xhtml:p>
+    </comment>
+	
+    <!-- production relationships start here -->
+    
+	<productionRelationship name="author">
+		<description/>
+                <comment/>
+	</productionRelationship>
+	
+	<productionRelationship name="translator">
+            <description/>
+            <comment/>
+            <impliedObligatoryRelationshipList>
+		<relationshipRef ref="translation"/>
+            </impliedObligatoryRelationshipList>
+	</productionRelationship>
+	
+	<productionRelationship name="publisher">
+            <description/>
+            <comment/>
+	</productionRelationship>
+	
+        <productionRelationship name="editor">
+            <description/>
+            <comment/>
+        </productionRelationship>
+        
+        <productionRelationship name="copyrightHolder">
+            <description/>
+            <comment/>
+        </productionRelationship>
+        
+        <productionRelationship name="technicalReviewer">
+            <description/>
+            <comment/>
+        </productionRelationship>
+        
+        <productionRelationship name="illustrator">
+            <description/>
+            <comment/>
+        </productionRelationship>
+        
+        <productionRelationship name="coverIllustrator">
+            <description/>
+            <comment/>
+        </productionRelationship>
+        
+        <productionRelationship name="notAllowed">
+            <description/>
+            <comment/>
+        </productionRelationship>
+        
+                
+   <!-- intraMediaRelationships start here -->
+        
+	<intraMediaRelationship name="translation">
+            <description>describes a translation relationship between two items</description>
+            <comment>lets see if the keys work</comment>
+	</intraMediaRelationship>
+	
+	<intraMediaRelationship name="containment">
+            <description/>
+            <comment/>
+	</intraMediaRelationship>
+	
+        <intraMediaRelationship name="review">
+            <description/>
+            <comment/>
+        </intraMediaRelationship>
+        
+        <intraMediaRelationship name="edition">
+            <description/>
+            <comment/>
+        </intraMediaRelationship>
+        
+        <intraMediaRelationship name="printing">
+            <description/>
+            <comment/>
+        </intraMediaRelationship>
+        
+        <intraMediaRelationship name="facsimile">
+            <description/>
+            <comment/>
+        </intraMediaRelationship>
+        
+        <intraMediaRelationship name="introduction">
+            <description/>
+            <comment/>
+        </intraMediaRelationship>
+        
+        <intraMediaRelationship name="foreword">
+            <description/>
+            <comment/>
+        </intraMediaRelationship>
+        
+        <intraMediaRelationship name="appendix">
+            <description/>
+            <comment/>
+        </intraMediaRelationship>
+        
+        <intraMediaRelationship name="bibliography">
+            <description/>
+            <comment/>
+        </intraMediaRelationship>
+        
+        <intraMediaRelationship name="extract">
+            <description/>
+            <comment/>
+        </intraMediaRelationship>
+        
+        <intraMediaRelationship name="inspiration">
+            <description/>
+            <comment/>
+        </intraMediaRelationship>
+        
+        <intraMediaRelationship name="criticism">
+            <description/>
+            <comment/>
+        </intraMediaRelationship>
+        
+        <!--
+        <intraMediaRelationship name="paperBack">
+            <description/>
+            <comment/>
+        </intraMediaRelationship>
+        ** would be better off as a relationship qualifier of "printing" **
+        -->
+   <!-- mediaTypes start here -->
+        
+	<mediaType name="book">
+            <description>book</description>
+            <comment>erm, a book's a book</comment>
+                <field fieldName="subtitle" priority="expected" fieldType="string" fieldSize="large" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+		<field fieldName="numberOfPages" priority="expected" fieldType="string" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+		</field>
+                <field fieldName="numberOfPreliminaryPages" priority="expected" fieldType="string" fieldSize="small" searchable="false">
+                    <description>
+                        <xhtml:p>
+                            From my copy of the <xhtml:i>MHRA Style Book</xhtml:i>:
+                        </xhtml:p>
+                        <xhtml:p>
+                            <xhtml:cite>
+                                Often, however, the preliminary material is paginated in small roman numerals separately from the 
+                                main text; this should be shown [...]
+                            </xhtml:cite>
+                        </xhtml:p>
+                        <xhtml:p>
+                            This is particularly useful for book reviews, etc.
+                        </xhtml:p>
+                    </description>
+                    <comment/>
+                </field>
+                <field fieldName="isbn" priority="expected" fieldType="string" fieldSize="small" searchable="true">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="originalPrice" priority="permitted" fieldType="float" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="originalCurrency" priority="permitted" fieldType="string" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment>
+                        <xhtml:p>
+                            We ought to put a validation rule that ensures that if we have originalPrice, we also have originalCurrency.
+                        </xhtml:p>
+                    </comment>
+                </field>
+                <!-- the following were taken (at my discretion and subject to my amendment) from the LOC text "Understanding MARC Bibligraphic
+                located at http://lcweb.loc.gov/marc/umb/um07to10.html -->
+                <field fieldName="dimensions" priority="permitted" fieldType="string" fieldSize="small" searchable="false">
+                    <description>
+                        <xhtml:p>
+                            a single dimension in cm. As often found in MARC records.
+                        </xhtml:p>
+                     </description>
+                     <comment/>
+                 </field>
+                 <field fieldName="accompanyingMaterial" priority="permitted" fieldType="string" fieldSize="large" searchable="false">
+                    <description>
+                        <xhtml:p>
+                            list CD-ROMs, teacher's materials, etc
+                        </xhtml:p>
+                    </description>
+                    <comment/>
+                </field>
+                <!-- following are listed in part X codes 18-21 for illustrations and are part of the physical description -->
+                <field fieldName="illustrations" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="maps" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="portraits" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="charts" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="plans" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="plates" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="music" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="facsimiles" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="coatsOfArms" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="genealogicalTables" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="forms" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="samples" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="soundRecording" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="photographs" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+                <field fieldName="illuminations" priority="permitted" fieldType="integer" fieldSize="small" searchable="false">
+                    <description/>
+                    <comment/>
+                </field>
+		<producerRelationshipList priority="obligatory">
+                    <relationshipRef ref="publisher"/>
+		</producerRelationshipList>
+		<producerRelationshipList priority="expected">
+                    <relationshipRef ref="author"/>
+                    <relationshipRef ref="editor"/>
+                    <relationshipRef ref="translator"/>
+                </producerRelationshipList>
+		<producerRelationshipList priority="permitted">
+                    <relationshipRef ref="illustrator"/>
+                    <relationshipRef ref="coverIllustrator"/>
+                    <relationshipRef ref="technicalReviewer"/>
+                    <relationshipRef ref="copyrightHolder"/>
+                </producerRelationshipList>
+		<intraMediaRelationshipList priority="obligatory"/>
+		<intraMediaRelationshipList priority="expected">
+                    <relationshipSet ref="containment">
+                        <mediaTypeRef ref="bookSeries"/>
+                    </relationshipSet>
+                    <relationshipSet ref="criticism">
+                        <mediaTypeRef ref="bookArticle"/>
+                        <mediaTypeRef ref="book"/>
+                        <mediaTypeRef ref="bookSeries"/>
+                    </relationshipSet>
+                    <relationshipSet ref="translation">
+                        <mediaTypeRef ref="book"/>
+                    </relationshipSet>
+                    <relationshipSet ref="edition">
+                        <mediaTypeRef ref="book"/>
+                        <mediaTypeRef ref="bookSeries"/> <!-- could be a big thick book with small print and thin pages -->
+                    </relationshipSet>
+                    <relationshipSet ref="printing">
+                        <mediaTypeRef ref="book"/>
+                    </relationshipSet>
+                    <relationshipSet ref="facsimile">
+                        <mediaTypeRef ref="book"/>
+                    </relationshipSet>
+                </intraMediaRelationshipList>
+		<intraMediaRelationshipList priority="permitted">
+                    <relationshipSet ref="inspiration">
+                        <mediaTypeRef ref="bookArticle"/>
+                        <mediaTypeRef ref="book"/>
+                        <mediaTypeRef ref="bookSeries"/>
+                    </relationshipSet>
+                    <relationshipSet ref="extract">
+                        <mediaTypeRef ref="book"/>
+                        <mediaTypeRef ref="bookArticle"/>
+                    </relationshipSet>
+                </intraMediaRelationshipList>
+	</mediaType>
+	
+	<mediaType name="bookArticle">
+            <description>chapter in a book</description>
+            <comment/>
+            <field fieldName="firstPage" priority="obligatory" fieldType="string" fieldSize="small" searchable="false">
+            	<description/>
+		<comment/>
+            </field>
+            <field fieldName="lastPage" priority="obligatory" fieldType="string" fieldSize="small" searchable="false">
+                <description/>
+                <comment/>
+            </field>
+            <producerRelationshipList priority="obligatory">
+                <relationshipRef ref="author"/>
+            </producerRelationshipList>
+            <producerRelationshipList priority="expected">
+                <relationshipRef ref="translator"/>
+                <relationshipRef ref="technicalReviewer"/>
+            </producerRelationshipList>
+            <producerRelationshipList priority="permitted">
+                <relationshipRef ref="illustrator"/>
+                <relationshipRef ref="copyrightHolder"/>
+            </producerRelationshipList>
+		
+            <intraMediaRelationshipList priority="obligatory">
+                <relationshipSet ref="containment">
+                    <mediaTypeRef ref="book"/>
+                </relationshipSet>
+            </intraMediaRelationshipList>
+		
+            <intraMediaRelationshipList priority="expected">
+                <relationshipSet ref="introduction">
+                    <mediaTypeRef ref="book"/>
+                </relationshipSet>
+                <relationshipSet ref="foreword">
+                    <mediaTypeRef ref="book"/>
+                </relationshipSet>
+                <relationshipSet ref="appendix">
+                    <mediaTypeRef ref="book"/>
+                </relationshipSet>
+                <relationshipSet ref="bibliography">
+                    <mediaTypeRef ref="book"/>
+                </relationshipSet>
+                <relationshipSet ref="criticism">
+                    <mediaTypeRef ref="bookArticle"/>
+                    <mediaTypeRef ref="book"/>
+                    <mediaTypeRef ref="bookSeries"/>
+                </relationshipSet>
+            </intraMediaRelationshipList>
+	
+            <intraMediaRelationshipList priority="permitted">
+                <relationshipSet ref="review">
+                    <mediaTypeRef ref="book"/>
+                    <mediaTypeRef ref="bookSeries"/>
+                </relationshipSet>
+            </intraMediaRelationshipList>
+	</mediaType>
+	
+        <mediaType name="bookSeries">
+            <description>
+                <xhtml:p>
+                    A series of books. Two types are most likely:
+                </xhtml:p>
+                <xhtml:ol>
+                    <xhtml:li>multi-volume books, such as the OED or Nietzche's <xhtml:i>Werke</xhtml:i>.</xhtml:li>
+                    <xhtml:li>a series of thematically related books from a given publisher and identified by the publisher
+                        as such</xhtml:li>
+                </xhtml:ol>
+            </description>
+            <comment>
+               <xhtml:p>
+                   This is going to be tricky to manage when we have a series spread over such a long period of time
+                   that the production relationships involved with the series actually change. For instance, the editors involved
+                   in the collected works of Nietzsche have changed over time due to the longevity of the edition project. This
+                   involvement over time will have to be captured in the first instance either as a comment or as a relationship
+                   attribute.
+               </xhtml:p>
+               <xhtml:p>
+                   One further issue is that the output component which generates the bibliographies from the logical records which
+                   are built up out of mediaItems, relationships and mediaProducers will need to know to look in the relationship
+                   attribute for this information. The schema will still need to be refined to be able to capture this type of 
+                   knowledge and make it available to the application.
+               </xhtml:p>
+            </comment>
+            <field fieldName="volumesConstituteWholeItem" priority="obligatory" fieldType="boolean" fieldSize="small" searchable="false">
+                <description>
+                    <xhtml:p>
+                        This field signifies whether the book series is either a single coherent work divided into a number of volumes for
+                        ease of printing (such as the OED) or whether it is a series of discrete items (Veroeffentlichungen der 
+                        Schillergeselleschaft). A series which constitutes a "Complete Works of Shakespeare", for example, would be flagged
+                        "true" here as the editorial intent is to produce a single item, even if that item encompasses a large number of 
+                        discrete, individual works.
+                    </xhtml:p>
+                </description>
+                <comment/>
+            </field>
+            <field fieldName="isbn" priority="expected" fieldType="string" fieldSize="small" searchable="true">
+                <description/>
+                <comment/>
+            </field>
+            <field fieldName="startDate" priority="expected" fieldType="integer" fieldSize="small" searchable="false">
+                <description/>
+                <comment/>
+            </field>
+            <field fieldName="endDate" priority="expected" fieldType="integer" fieldSize="small" searchable="false">
+                <description/>
+                <comment/>
+            </field>
+            <producerRelationshipList priority="obligatory">
+                <relationshipRef ref="publisher"/>
+            </producerRelationshipList>
+            <producerRelationshipList priority="expected">
+                <relationshipRef ref="editor"/> <!-- might be a multi-volume work with just an author and no editor -->
+                <relationshipRef ref="translator"/>
+            </producerRelationshipList>
+            <producerRelationshipList priority="permitted">
+                <relationshipRef ref="technicalReviewer"/>
+            </producerRelationshipList>
+            <intraMediaRelationshipList priority="obligatory"/>
+            <intraMediaRelationshipList priority="expected">
+                <relationshipSet ref="edition">
+                    <mediaTypeRef ref="bookSeries"/>
+                </relationshipSet>
+                <relationshipSet ref="printing">
+                    <mediaTypeRef ref="bookSeries"/>
+                </relationshipSet>
+            </intraMediaRelationshipList>
+            <intraMediaRelationshipList priority="permitted"/>
+        </mediaType>
+        
+</bib:typesAndRelationships>

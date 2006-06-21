@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database_3_1.dtd">
+<!--
+Authorsite.org Mail Archive Application
+Torque Database Schema
+
+Copyright (C) 2004 John King
+
+This file is part of the authorsite.org Mail Archive application.
+
+This application is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+Version: $Revision: 1.2 $
+Updated: $Date: 2004/03/16 00:02:10 $
+-->
+<database name="mailarchive">
+    <table name="email_message" description="abstraction of an email message">
+        <column name="email_messageID" required="true" primaryKey="true" type="INTEGER" description="message primary key"/>
+        <column name="sent_date" required="false" type="TIMESTAMP" description="date when the email claims to have been sent"/>
+        <column name="received_date" description="date when email was received" required="false" type="DATE"/>
+        <column name="subject" required="false" type="VARCHAR" size="1000" description="subject header of email"/>
+        <column name="msg_id" required="false" type="VARCHAR" size="500" description="rfc 822 msgID, should theoretically be unique"/>
+        <column name="in_reply_to" required="false" type="VARCHAR" size="500" description="should be able to track replies or threads using this"/>
+        <column name="msg_references" required="false" type="VARCHAR" size="500" description="also used to track replies and threads"/>
+        <column name="importance" required="false" type="VARCHAR" size="10" description="importance flag"/>
+        <column name="sensitivity" required="false" type="VARCHAR" size="20" description="intended confidentiality level"/>
+        <column name="description" required="false" type="VARCHAR" size="1000" description="rfc 822 description header"/>
+        <column name="disposition" required="false" size="1000" type="VARCHAR" description="rfc 822 content-disposition header"/>
+    </table>
+    <table name="email_address" description="abstraction of an email address">
+        <column name="email_addressID" required="true" primaryKey="true" type="INTEGER" description="email address abstract primary key"/>
+        <column name="email_address" required="true" type="VARCHAR" size="1000" description="the actual email address"/>
+        <column name="personal_name" required="false" type="VARCHAR" size="1000" description="personal name, if one is included with the email address"/>
+        <column name="personID" required="false" type="INTEGER"/>
+        <column name="is_mailing_list" required="false" default="false" type="BIT"/>
+        <column name="is_process" required="false" default="false" type="BIT"/>
+        <unique name="unique_email_address">
+            <unique-column name="email_address"/>
+        </unique>
+        <foreign-key foreignTable="person">
+            <reference foreign="personID" local="personID"/>
+        </foreign-key>
+    </table>
+    <table name="person" description="abstraction of a person">
+        <column name="personID" required="true" primaryKey="true" type="INTEGER" description="unique identifier for a person"/>
+        <column name="prefix" required="false" type="VARCHAR" size="50" description="title, such as Mr, Mrs, Dr, Herr, Professor..."/>
+        <column name="given_name" required="false" type="VARCHAR" size="1000" description="person's first name"/>
+        <column name="main_name" required="false" type="VARCHAR" size="1000" description="person's surname"/>
+        <column name="other_names" required="false" type="VARCHAR" size="2000" description="any other middle names"/>
+        <column name="suffix" required="false" type="VARCHAR" size="50" description="any suffix to a person's name Esq, III, Jnr, etc"/>
+        <column name="gender_code" required="false" type="INTEGER" default="0" description="gender code 0 = 'not known', 1 = 'male', 2 = 'female', 9 = 'not specified'"/>
+        <column name="date_of_birth" required="false" type="DATE"/>
+        <column name="date_of_death" required="false" type="DATE"/>
+    </table>
+    <table name="text_content" description="holds various different types of text content">
+        <column name="text_contentID" required="true" primaryKey="true" type="INTEGER"/>
+        <column name="text_content" required="true" type="LONGVARCHAR"/> <!-- or CLOB... -->
+        <column name="mime_type" required="true" type="VARCHAR" size="50"/>
+        <column name="role" required="true" size="15" type="CHAR"/>
+        <column name="email_messageID" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="email_message">
+            <reference foreign="email_messageID" local="email_messageID"/>
+        </foreign-key>
+    </table>
+    <table name="binary_content" description="holds various types of binary content">
+        <column name="binary_contentID" required="true" primaryKey="true" type="INTEGER"/>
+        <column name="binary_content" required="true" type="LONGVARBINARY"/> <!-- or BLOB... -->
+        <column name="mime_type" required="true" type="VARCHAR" size="50"/>
+        <column name="email_messageID" required="true" type="INTEGER"/>
+        <foreign-key foreignTable="email_message">
+            <reference foreign="email_messageID" local="email_messageID"/>
+        </foreign-key>
+    </table>
+    <table name="language" description="holds iso639 language codes">
+        <column name="languageID" required="true" primaryKey="true" type="INTEGER"/>
+        <column name="iso_code" required="true" type="CHAR" size="2" description="2 letter iso639 language code"/>
+        <unique>
+            <unique-column name="iso_code"/>
+        </unique>
+    </table>
+    <table name="email_message_email_address">
+        <column name="email_messageID" required="true" primaryKey="true" type="INTEGER"/>
+        <column name="email_addressID" required="true" primaryKey="true" type="INTEGER"/>
+        <column name="role" required="true" primaryKey="true" type="CHAR" size="4" description="from, to, cc, bcc"/>
+        <foreign-key foreignTable="email_message">
+            <reference foreign="email_messageID" local="email_messageID"/>
+        </foreign-key>
+        <foreign-key foreignTable="email_address">
+            <reference foreign="email_addressID" local="email_addressID"/>
+        </foreign-key>
+    </table>
+    <table name="text_content_language">
+        <column name="text_contentID" required="true" primaryKey="true" type="INTEGER"/>
+        <column name="languageID" required="true" primaryKey="true" type="INTEGER"/>
+        <foreign-key foreignTable="text_content">
+            <reference foreign="text_contentID" local="text_contentID"/>
+        </foreign-key>
+        <foreign-key foreignTable="language">
+            <reference foreign="languageID" local="languageID"/>
+        </foreign-key>
+    </table>
+    <table name="binary_content_language">
+        <column name="binary_contentID" required="true" primaryKey="true" type="INTEGER"/>
+        <column name="languageID" required="true" primaryKey="true" type="INTEGER"/>
+        <foreign-key foreignTable="binary_content">
+            <reference foreign="binary_contentID" local="binary_contentID"/>
+        </foreign-key>
+        <foreign-key foreignTable="language">
+            <reference foreign="languageID" local="languageID"/>
+        </foreign-key>
+    </table>
+</database>

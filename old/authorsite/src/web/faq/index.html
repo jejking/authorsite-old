@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc>
+    <ia>
+        <title>authorsite.org - bibliographic application - frequently asked questions</title>
+    </ia>
+    <block id="main">
+        <h1>frequently asked questions</h1>
+        <p>
+            These are answers to questions which, it is anticipated, will be frequently asked. If you
+            have a question which is not answered here, please <a href="contact/index.html">contact us</a>.
+        </p>
+
+        <h3>who are you?</h3>
+        <p>
+            Authorsite.org was created by John King in 2002. See <a href="people/index.html">people</a> for 
+            more details.
+        </p>
+        
+        <h3>what exactly is authorsite.org?</h3>
+        <p>
+            Authorsite.org is a project whose ultimate goal is the creation of a powerful toolkit to facilicate
+            the construction of websites focussed on the life and work of individual authors. It is committed to
+            using open-source packages. As such, it is envisaged that the toolkit will bring together technology
+            in the areas of content management, forums, mailing lists and advanced meta-data. The first part of the
+            platform is the bibliographic application which will be used to create, manage and publish bibliographic
+            data.
+        </p>
+
+        <h3>why are you doing this?</h3>
+        <p>
+            There are a variety of different reasons for creating the application:
+        </p>
+        <ul>
+            <li>
+                <em>to create an adequate and free bibliographic management system for scholarly use</em>.
+                During the course of my <a href="http://www.juenger.org/criticism_thesis.php" title="my D.Phil thesis on Ernst Jünger" target="_blank">
+                D.Phil</a> (1995-99) at the <a href="http://www.ox.ac.uk/" target="_blank">University of Oxford</a>
+                I had to read and track substantial quanitites of primary and secondary source material. Although it was clear
+                that using a card index was already then out of the question, the DOS bibliographic database I used,
+                <a href="http://www.researchsoftwaredesign.com/" title="research software design, makers of Papyrus" target="_blank">Papyrus</a>,
+                whilst it did sterling service, was clearly limited in its capabilities. As explained in greater detail in
+                the <a href="implementation/concept/index.html">Conceptual Analysis</a>, the power of this application
+                lies in the huge flexibility it provides regarding media types and, in particular, their interrelationships. In this
+                way, scholars can record key relationships between individual items - edition, translation, criticism, etc - in a 
+                way that mere lists cannot provide.
+            </li>
+            <li>
+                <em>to create a web-enabled bibliography for juenger.org</em>. During the course of my D.Phil I created a small
+                web site related to the German author Ernst Jünger, about whose First World War writings I was conducting my
+                research. That site is now at <a href="http://www.juenger.org/index.php" target="_blank" title="my web site on Ernst
+                Jünger">www.juenger.org</a>, and contains a number of bibliographies. The largest is an html-ised listing of a Word
+                document outputted by Papyrus of my bibliography of secondary literature assembled over the course of five years. The
+                fact that none of the commercial bibliographic database management programs are based on normalized, relational databases
+                - a standard technology - or presents an API which is easily programmable to on non-Windows platforms, meant that a 
+                new application had to be created to meet the immediate requirement for a web-enabled bibliography.
+            </li>
+            <li>
+                <em>to advance my knowledge of the J2EE platform</em>. Following the completion of my D.Phil, and having decided to
+                move away from UK academia given the decline in standards, rise in meaningless audits and general drop in interest in
+                modern languages, I joined mondus, a b2b marketplace set up in Oxford, where I hoped to pursue my burgeoning interest
+                in internet technologies. That goal was met for the most part and I gained a great breadth of experience. However, I
+                didn't get quite the degree of detailed, low-level exposure to J2EE that I wanted - possibly just as well, given that our
+                software "partners", who shall remain nameless, based their efforts on a product which might be considered to
+                exemplify nearly all known J2EE anti-patterns. To remedy that, and to provide a solid basis for moving my career on, I 
+                decided that the best way to learn was to do, and thus this project was created, using the J2EE platform.
+            </li>
+        </ul>
+        
+        <h3>Why is it open source?</h3>
+        <p>
+            I have chosen to publish the source code for the bibliographic application under the GNU <a href="http://www.gnu.org/licenses/gpl.html"
+            title="text of the GNU General Public License" target="_blank">General Public License</a> for two main reasons.
+            First, I admire the ethos of free software development and what it has accomplished. Second, the project is large in
+            scope and Open Source Development provides a clear framework for other people to get involved and help the project grow
+            beyond what I can achieve on my own.
+        </p>
+
+        <h3>What distinguishes your application from EndNote, Papyrus, et al?</h3>
+        <p>
+            Some of the differences have already been mentioned - it is open source, web-enabled, platform independent, highly
+            configurable and flexible, focussed on relationship networks rather than lists and is based on industry standard 
+            relational databases and the J2EE framework. It is primarily a server application with its functionality available to 
+            multiple users rather than a single desktop. The web application, and the remainder of the application, will also shortly
+            be fully internationalized and it will thus be available in as many languages as there are people willing to provide
+            translations.
+        </p>
+
+        <h3>Can I use it with MS Word?</h3>
+        <p>
+            The short answer is "no". It is not a desktop Windows application - it is server-side Java and XML, and thus cannot
+            exploit the integration possibilities afforded by Microsoft's COM-orientated API for Word. We will, however, be looking to
+            provide a degree of integration with Word in the future by exporting RTF (Rich Text Format, which is usable by Word) using 
+            <a href="http://www.jfor.org/" target="_blank">JFor</a>.
+        </p>
+
+        <h3>What is the current state of development?</h3>
+        <p>
+            The application has made steady progress since work was started on it in September 2002. The EJB layer is essentially complete.
+            The development of the web application is ongoing. Generally, the code may be thought of as alpha quality.
+        </p>
+
+        <h3>Is there a road map for future development?</h3>
+        <p>
+            Following the completion of the web application, a period of consolidation is planned. This will include:
+        </p>
+        <ul>
+            <li>Refactoring. Some areas of the code are better than others. Code will be reviewed and systematically improved
+            with an eye to robustness, performance and clarity.</li>
+            <li>Improved Test Suite.</li>
+            <li>Improved Ontology. The current ontology which provides a description of type attributes and the rules for type
+            interrelationships is limited in its expressive power and needs improving.</li>
+            <li>Tidied Build Scripts. The ant build scripts need improving.</li>
+        </ul>
+        <p>
+            In the longer term, developments in the following areas are currently envisaged:
+        </p>
+        <ul>
+            <li>Full Multiuser capability</li>
+            <li>Creation of abstract media references. Currently, the application accurately models concrete media types and provides
+            the facility to model and capture data relating to specific items in the real world. However, if were to say that a book is
+            "about Macbeth" - then the likelihood is that is about Shakespeare's play in the abstract sense, rather than a specific and
+            concrete edition or printing of it.</li>
+            <li>Subject Classification. The organisation of content into subject categories is notoriously difficult, but we will 
+            nevertheless be attempting to address this issue. One approach we will be looking at involves 
+            <a href="http://www.topicmaps.org/" title="xml topicmaps" target="_blank">Topic Maps</a>.</li>
+            <li>Different client platforms. Because the application is structured as a multi-tier application with the business logic
+            cleanly separated from presentation, it should not be difficult to provide the server application with new types of clients.
+            Possibilities include peer to peer (using <a href="http://www.jxta.org/" title="Project JXTA" target="_blank">JXTA</a>), a conventional GUI using Java Swing, web services, etc, depending on how
+            things evolve.</li>
+        </ul>
+        <h3>How can I get involved?</h3>
+        <p>
+            Sign up as a member of <a href="http://sourceforge.net/" target="_blank">Sourceforge</a>, and let me know you want to join in.
+            You might want to let me know what experience you have of XML, Java (including EJB, servlets/JSP, struts, JDOM, Jaxen), SQL
+            or advanced meta-data.
+        </p>
+        
+        <h3>I downloaded the application, but I can't get it working</h3>
+        <p>
+            I can't promised to be able to solve every problem, but get in <a href="contact/index.html">contact</a> with a full
+            description of your set up and the problems you're encountering and I'll do my best to help.
+        </p>
+    </block>
+</doc>

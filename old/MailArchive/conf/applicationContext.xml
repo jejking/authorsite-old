@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+  - Root application context definition for a web app that uses Hibernate.
+  - Does not depend on web infrastructure or any web-specific classes!
+  -
+  - Assumes running in a J2EE environment in the "myDataSource" definition, as
+  - it looks for a "java:comp/env/jdbc/myds" JNDI DataSource that the Hibernate
+  - SessionFactory will use to access the database, but that can be replaced easily
+  - (as noted). Such a context definition can thus be reused in test environments
+  - or standalone applications without any hassle.
+  -
+  - Alternatively, the simple JNDI implementation in org.springframework.jndi.support
+  - can be leveraged to set up a JNDI environment outside of a J2EE container,
+  - binding a DataSource instance like DriverManagerDataSource or a Jakarta Commons
+  - DBCP BasicDataSource to the expected JNDI location.
+  -->
+
+<beans>
+
+	<!-- ========================= PERSISTENCE DEFINITIONS ========================= -->
+
+	<!--
+	  - Makes a JNDI DataSource available as bean reference, assuming a J2EE environment.
+	  - By default, "java:comp/env/" will be prepended if not already specified.
+	  -
+	  - If giving this DataSource to LocalSessionFactoryBean, an alternative DataSource
+	  - could be used here too, e.g. for non-J2EE environments (see "webapp-typical").
+	  - Alternatively, one can omit the context-level DataSource definition, and let
+	  - Hibernate use its own connection provider, specified via Hibernate properties.
+	  -->
+	<bean id="myDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	  <property name="jndiName">
+            <value>java:comp/env/jdbc/mailarchive_hsql</value>
+          </property>
+	</bean>
+
+	<!--
+	  - Builds a Hibernate SessionFactory and makes it available as bean reference.
+	  - All necessary settings get specified here, without relying on an external
+	  - Hibernate config file like "WEB-INF/classes/hibernate.cfg.xml".
+	  -
+	  - The SessionFactory will use the locally defined DataSource in this context.
+	  - This allows for convenient sharing of transactions with plain JDBC access
+	  - code, if HibernateTransactionManager is explictly given the same DataSource.
+	  -
+	  - This definition could also use a JDBC DataSource specified via Hibernate
+	  - properties. Note that to be able to share transactions with plain JDBC access
+	  - code then, that DataSource would need to be a JNDI one that should match the
+	  - one given to HibernateTransactionManager and data access objects.
+	  -
+	  - This definition can be replaced by a JndiObjectFactoryBean definition for fetching
+	  - a JNDI-bound SessionFactory, but this only makes sense when using Hibernate's
+	  - JCA Connector (not recommended for most types of applications).
+	  -->
+	<bean id="mySessionFactory" class="org.springframework.orm.hibernate.LocalSessionFactoryBean">
+		<property name="dataSource">
+                    <ref local="myDataSource"/>
+                </property>
+		<property name="mappingResources">
+		  <list>
+		    <value>org/authorsite/mailarchive/model/Language.hbm.xml</value>
+                    <value>org/authorsite/mailarchive/model/impl/BinaryContentImpl.hbm.xml</value>
+                    <value>org/authorsite/mailarchive/model/impl/EmailAddressImpl.hbm.xml</value>
+                    <value>org/authorsite/mailarchive/model/impl/PersonImpl.hbm.xml</value>
+                    <value>org/authorsite/mailarchive/model/impl/TextContentImpl.hbm.xml</value>
+                    <value>org/authorsite/mailarchive/model/impl/EmailMessageImpl.hbm.xml</value>
+		  </list>
+		</property>
+		<property name="hibernateProperties">
+		  <props>
+		    <prop key="hibernate.dialect">net.sf.hibernate.dialect.HSQLDialect</prop>
+                    <prop key="hibernate.cache.use_query_cache">true</prop>
+		    <prop key="hibernate.show_sql">true</prop>
+                    <prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.Provider</prop>
+		  </props>
+		</property>
+	</bean>
+
+	<!-- ========================= BUSINESS DEFINITIONS ========================= -->
+
+	<!--
+	  - Example data access object, to be used higher-level objects in this context
+	  - as <ref local="exampleDataAccessObject"/> bean reference.
+	  -
+	  - Can also be used by web controllers or any other clients of this context,
+	  - either via context.getBean("exampleDataAccessObject") or as
+	  - <ref bean="exampleDataAccessObject"/> bean reference -
+	  - but shouldn't for the sake of clear application layering.
+	  -
+	  - Is assumed to use the SessionFactory reference, passed to it via a
+	  - "setSessionFactory" bean property setter, probably with HibernateTemplate.
+    -->
+	<bean id="emailAddressDAO" class="org.authorsite.mailarchive.services.storage.impl.HibernateEmailAddressDAO">
+		<property name="sessionFactory">
+                    <ref local="mySessionFactory"/>
+                </property>
+                <property name="messageDAO">
+                    <ref local="emailMessageDAO"/>
+                </property>
+	</bean>
+        
+        <bean id="emailMessageDAO" class="org.authorsite.mailarchive.services.storage.impl.HibernateEmailMessageDAO">
+                <property name="sessionFactory">
+                    <ref local="mySessionFactory"/>
+                </property>
+        </bean>
+        
+        <bean id="personDAO" class="org.authorsite.mailarchive.services.storage.impl.HibernatePersonDAO">
+                <property name="sessionFactory">
+                    <ref local="mySessionFactory"/>
+                </property>
+        </bean>
+
+
+</beans>

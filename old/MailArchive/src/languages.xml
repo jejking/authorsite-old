@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!--
+ * Copyright (C) 2003  John King
+ *
+ * This file is part of the authorsite.org bibliographic
+ * application.
+ *
+ * This application is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ -->
+<!-- 
+$Header: /cvsroot/authorsite/MailArchive/src/languages.xml,v 1.1.1.1 2004/03/09 23:18:41 jejking Exp $
+This is the language list for the authorsite.org bibliography application.
+
+iso639 codes and the English names are derived from the ISO 639-2 codes located at
+http://lcweb.loc.gov/standards/iso639-2/langcodes.html
+
+Where there are synonyms in the 3 letter codes, the terminology code has been chosen.
+
+Priority is user-configurable. However, the defaults are -
+1. Languages frequently used in writing about Ernst Juenger
+2. Languages with an ISO 639-1 code
+3. All other languages
+4. Not used.
+
+Priority field will be used by the UI to present language choices to the user.
+Languages have been prioritised so that users will be presented initially with a 
+short list of languages to assign to a media item, thus retaining a degree of user
+friendliness. However, they will also have all reasonable language choices (minus dialects)
+only a couple of clicks away.
+-->
+
+<langlist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:noNamespaceSchemaLocation="languageSchema.xsd">
+        <language iso639="aar" priority="2" engName="Afar" />
+        <language iso639="abk" priority="2" engName="Abkhazian" />
+        <language iso639="ace" priority="3" engName="Achinese" />
+        <language iso639="ach" priority="3" engName="Acoli" />
+        <language iso639="ada" priority="3" engName="Adangme" />
+        <language iso639="afa" priority="3" engName="Afro-Asiatic (Other)" />
+        <language iso639="afh" priority="3" engName="Afrihili" />
+        <language iso639="afr" priority="2" engName="Afrikaans" />
+        <language iso639="aka" priority="3" engName="Akan" />
+        <language iso639="akk" priority="3" engName="Akkadian" />
+        <language iso639="ale" priority="3" engName="Aleut" />
+        <language iso639="alg" priority="3" engName="Algonquian languages" />
+        <language iso639="amh" priority="2" engName="Amharic" />
+        <language iso639="ang" priority="3" engName="English, Old (ca.450-1100)" />
+        <language iso639="apa" priority="3" engName="Apache languages" />
+        <language iso639="ara" priority="2" engName="Arabic" />
+        <language iso639="arc" priority="3" engName="Aramaic" />
+        <language iso639="hye" priority="2" engName="Armenian" />
+        <language iso639="arn" priority="3" engName="Araucanian" />
+        <language iso639="arp" priority="3" engName="Arapaho" />
+        <language iso639="art" priority="3" engName="Artificial (Other)" />
+        <language iso639="arw" priority="3" engName="Arawak" />
+        <language iso639="asm" priority="2" engName="Assamese" />
+        <language iso639="ast" priority="3" engName="Asturian; Bable" />
+        <language iso639="ath" priority="3" engName="Athapascan languages" />
+        <language iso639="aus" priority="3" engName="Australian languages" />
+        <language iso639="ava" priority="3" engName="Avaric" />
+        <language iso639="ave" priority="2" engName="Avestan" />
+        <language iso639="awa" priority="3" engName="Awadhi" />
+        <language iso639="aym" priority="2" engName="Aymara" />
+        <language iso639="aze" priority="2" engName="Azerbaijani" />
+        <language iso639="bad" priority="3" engName="Banda" />
+        <language iso639="bai" priority="3" engName="Bamileke languages" />
+        <language iso639="bak" priority="2" engName="Bashkir" />
+        <language iso639="bal" priority="3" engName="Baluchi" />
+        <language iso639="bam" priority="3" engName="Bambara" />
+        <language iso639="ban" priority="3" engName="Balinese" />
+        <language iso639="eus" priority="2" engName="Basque" />
+        <language iso639="bas" priority="3" engName="Basa" />
+        <language iso639="bat" priority="3" engName="Baltic (Other)" />
+        <language iso639="bej" priority="3" engName="Beja" />
+        <language iso639="bel" priority="2" engName="Belarusian" />
+        <language iso639="bem" priority="3" engName="Bemba" />
+        <language iso639="ben" priority="2" engName="Bengali" />
+        <language iso639="ber" priority="3" engName="Berber (Other)" />
+        <language iso639="bho" priority="3" engName="Bhojpuri" />
+        <language iso639="bih" priority="2" engName="Bihari" />
+        <language iso639="bik" priority="3" engName="Bikol" />
+        <language iso639="bin" priority="3" engName="Bini" />
+        <language iso639="bis" priority="2" engName="Bislama" />
+        <language iso639="bla" priority="3" engName="Siksika" />
+        <language iso639="bnt" priority="3" engName="Bantu (Other)" />
+        <language iso639="bod" priority="2" engName="Tibetan" />
+        <language iso639="bos" priority="2" engName="Bosnian" />
+        <language iso639="bra" priority="3" engName="Braj" />
+        <language iso639="bre" priority="2" engName="Breton" />
+        <language iso639="btk" priority="3" engName="Batak (Indonesia)" />
+        <language iso639="bua" priority="3" engName="Buriat" />
+        <language iso639="bug" priority="3" engName="Buginese" />
+        <language iso639="bul" priority="2" engName="Bulgarian" />
+        <language iso639="cad" priority="3" engName="Caddo" />
+        <language iso639="cai" priority="3" engName="Central American Indian (Other)" />
+        <language iso639="car" priority="3" engName="Carib" />
+        <language iso639="cat" priority="2" engName="Catalan" />
+        <language iso639="cau" priority="3" engName="Caucasian (Other)" />
+        <language iso639="ceb" priority="3" engName="Cebuano" />
+        <language iso639="cel" priority="3" engName="Celtic (Other)" />
+        <language iso639="ces" priority="2" engName="Czech" />
+        <language iso639="cha" priority="2" engName="Chamorro" />
+        <language iso639="chb" priority="3" engName="Chibcha " />
+        <language iso639="che" priority="2" engName="Chechen " />
+        <language iso639="chg" priority="3" engName="Chagatai" />
+        <language iso639="chk" priority="3" engName="Chuukese" />
+        <language iso639="chm" priority="3" engName="Mari" />
+        <language iso639="chn" priority="3" engName="Chinook jargon" />
+        <language iso639="cho" priority="3" engName="Choctaw" />
+        <language iso639="chp" priority="3" engName="Chipewyan" />
+        <language iso639="chr" priority="3" engName="Cherokee" />
+        <language iso639="chu" priority="2" engName="Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic" />
+        <language iso639="chv" priority="2" engName="Chuvash" />
+        <language iso639="chy" priority="3" engName="Cheyenne" />
+        <language iso639="cmc" priority="3" engName="Chamic languages" />
+        <language iso639="cop" priority="3" engName="Coptic" />
+        <language iso639="cor" priority="2" engName="Cornish" />
+        <language iso639="cos" priority="2" engName="Corsican" />
+        <language iso639="cpe" priority="3" engName="Creoles and pidgins, English based (Other)" />
+        <language iso639="cpf" priority="3" engName="Creoles and pidgins, French-based (Other)" />
+        <language iso639="cpp" priority="3" engName="Creoles and pidgins, Portuguese-based (Other) " />
+        <language iso639="cre" priority="3" engName="Cree" />
+        <language iso639="crp" priority="3" engName="Creoles and pidgins (Other)" />
+        <language iso639="cus" priority="3" engName="Cushitic (Other)" />
+        <language iso639="cym" priority="2" engName="Welsh" />
+        <language iso639="dak" priority="3" engName="Dakota" />
+        <language iso639="dan" priority="2" engName="Danish " />
+        <language iso639="day" priority="3" engName="Dayak" />
+        <language iso639="del" priority="3" engName="Delaware" />
+        <language iso639="den" priority="3" engName="Slave (Athapascan)" />
+        <language iso639="deu" priority="1" engName="German" />
+        <language iso639="dgr" priority="3" engName="Dogrib" />
+        <language iso639="din" priority="3" engName="Dinka" />
+        <language iso639="div" priority="3" engName="Divehi" />
+        <language iso639="doi" priority="3" engName="Dogri" />
+        <language iso639="dra" priority="3" engName="Dravidian (Other)" />
+        <language iso639="dua" priority="3" engName="Duala" />
+        <language iso639="dum" priority="3" engName="Dutch, Middle (ca.1050-1350)" />
+        <language iso639="dyu" priority="3" engName="Dyula" />
+        <language iso639="dzo" priority="2" engName="Dzongkha" />
+        <language iso639="efi" priority="3" engName="Efik" />
+        <language iso639="egy" priority="3" engName="Egyptian (Ancient)" />
+        <language iso639="eka" priority="3" engName="Ekajuk" />
+        <language iso639="ell" priority="2" engName="Greek, Modern (1453-)" />
+        <language iso639="elx" priority="3" engName="Elamite" />
+        <language iso639="eng" priority="1" engName="English" />
+        <language iso639="enm" priority="3" engName="English, Middle (1100-1500)" />
+        <language iso639="epo" priority="2" engName="Esperanto" />
+        <language iso639="est" priority="2" engName="Estonian" />
+        <language iso639="ewe" priority="3" engName="Ewe" />
+        <language iso639="ewo" priority="3" engName="Ewondo" />
+        <language iso639="fan" priority="3" engName="Fang" />
+        <language iso639="fao" priority="2" engName="Faroese" />
+        <language iso639="fas" priority="2" engName="Persian" />
+        <language iso639="fat" priority="3" engName="Fanti" />
+        <language iso639="fij" priority="2" engName="Fijian" />
+        <language iso639="fin" priority="2" engName="Finnish" />
+        <language iso639="fiu" priority="3" engName="Finno-Ugrian (Other)" />
+        <language iso639="fon" priority="3" engName="Fon" />
+        <language iso639="fra" priority="1" engName="French" />
+        <language iso639="frm" priority="3" engName="French, Middle (ca.1400-1800)" />
+        <language iso639="fro" priority="3" engName="French, Old (842-ca.1400)" />
+        <language iso639="fry" priority="2" engName="Frisian" />
+        <language iso639="ful" priority="3" engName="Fulah" />
+        <language iso639="fur" priority="3" engName="Friulian" />
+        <language iso639="gay" priority="3" engName="Gayo" />
+        <language iso639="gba" priority="3" engName="Gbaya" />
+        <language iso639="gem" priority="3" engName="Germanic (Other)" />
+        <language iso639="gez" priority="3" engName="Geez" />
+        <language iso639="gil" priority="3" engName="Gilbertese" />
+        <language iso639="gla" priority="2" engName="Gaelic; Scottish Gaelic" />
+        <language iso639="gle" priority="2" engName="Irish" />
+        <language iso639="glg" priority="2" engName="Gallegan" />
+        <language iso639="glv" priority="2" engName="Manx" />
+        <language iso639="gmh" priority="3" engName="German, Middle High (ca.1050-1500)" />
+        <language iso639="goh" priority="3" engName="German, Old High (ca.750-1050)" />
+        <language iso639="gon" priority="3" engName="Gondi" />
+        <language iso639="gor" priority="3" engName="Gorontalo" />
+        <language iso639="got" priority="3" engName="Gothic" />
+        <language iso639="grb" priority="3" engName="Grebo" />
+        <language iso639="grc" priority="3" engName="Greek, Ancient (to 1453)" />
+        <language iso639="grn" priority="2" engName="Guarani" />
+        <language iso639="guj" priority="2" engName="Gujarati" />
+        <language iso639="gwi" priority="3" engName="Gwich´in" />
+        <language iso639="hai" priority="3" engName="Haida" />
+        <language iso639="hau" priority="2" engName="Hausa" />
+        <language iso639="haw" priority="3" engName="Hawaiian" />
+        <language iso639="heb" priority="2" engName="Hebrew" />
+        <language iso639="her" priority="2" engName="Herero" />
+        <language iso639="hil" priority="3" engName="Hiligaynon" />
+        <language iso639="him" priority="3" engName="Himachali" />
+        <language iso639="hin" priority="2" engName="Hindi " />
+        <language iso639="hit" priority="3" engName="Hittite" />
+        <language iso639="hmn" priority="3" engName="Hmong" />
+        <language iso639="hmo" priority="2" engName="Hiri Motu" />
+        <language iso639="hrv" priority="2" engName="Croatian" />
+        <language iso639="hun" priority="2" engName="Hungarian" />
+        <language iso639="hup" priority="3" engName="Hupa" />
+        <language iso639="iba" priority="3" engName="Iban" />
+        <language iso639="ibo" priority="3" engName="Igbo" />
+        <language iso639="isl" priority="2" engName="Icelandic" />
+        <language iso639="ido" priority="2" engName="Ido" />
+        <language iso639="ijo" priority="3" engName="Ijo" />
+        <language iso639="iku" priority="2" engName="Inuktitut" />
+        <language iso639="ile" priority="2" engName="Interlingue" />
+        <language iso639="ilo" priority="3" engName="Iloko" />
+        <language iso639="ina" priority="2" engName="Interlingua (International Auxiliary Language Association)" />
+        <language iso639="inc" priority="3" engName="Indic (Other)" />
+        <language iso639="ind" priority="2" engName="Indonesian" />
+        <language iso639="ine" priority="3" engName="Indo-European (Other)" />
+        <language iso639="ipk" priority="2" engName="Inupiaq" />
+        <language iso639="ira" priority="3" engName="Iranian (Other)" />
+        <language iso639="iro" priority="3" engName="Iroquoian languages" />
+        <language iso639="ita" priority="1" engName="Italian" />
+        <language iso639="jav" priority="2" engName="Javanese" />
+        <language iso639="jpn" priority="1" engName="Japanese" />
+        <language iso639="jpr" priority="3" engName="Judeo-Persian" />
+        <language iso639="jrb" priority="3" engName="Judeo-Arabic" />
+        <language iso639="kaa" priority="3" engName="Kara-Kalpak" />
+        <language iso639="kab" priority="3" engName="Kabyle" />
+        <language iso639="kac" priority="3" engName="Kachin" />
+        <language iso639="kal" priority="2" engName="Kalaallisut" />
+        <language iso639="kam" priority="3" engName="Kamba" />
+        <language iso639="kan" priority="2" engName="Kannada" />
+        <language iso639="kar" priority="3" engName="Karen" />
+        <language iso639="kas" priority="2" engName="Kashmiri" />
+        <language iso639="kat" priority="2" engName="Georgian" />
+        <language iso639="kau" priority="3" engName="Kanuri" />
+        <language iso639="kaw" priority="3" engName="Kawi" />
+        <language iso639="kaz" priority="2" engName="Kazakh" />
+        <language iso639="kha" priority="3" engName="Khasi" />
+        <language iso639="khi" priority="3" engName="Khoisan (Other)" />
+        <language iso639="khm" priority="2" engName="Khmer" />
+        <language iso639="kho" priority="3" engName="Khotanese" />
+        <language iso639="kik" priority="2" engName="Kikuyu; Gikuyu" />
+        <language iso639="kin" priority="2" engName="Kinyarwanda" />
+        <language iso639="kir" priority="2" engName="Kirghiz" />
+        <language iso639="kmb" priority="3" engName="Kimbundu" />
+        <language iso639="kok" priority="3" engName="Konkani" />
+        <language iso639="kom" priority="2" engName="Komi" />
+        <language iso639="kon" priority="3" engName="Kongo" />
+        <language iso639="kor" priority="2" engName="Korean" />
+        <language iso639="kos" priority="3" engName="Kosraean" />
+        <language iso639="kpe" priority="3" engName="Kpelle" />
+        <language iso639="kro" priority="3" engName="Kru" />
+        <language iso639="kru" priority="3" engName="Kurukh" />
+        <language iso639="kua" priority="2" engName="Kuanyama; Kwanyama" />
+        <language iso639="kum" priority="3" engName="Kumyk" />
+        <language iso639="kur" priority="2" engName="Kurdish" />
+        <language iso639="kut" priority="3" engName="Kutenai" />
+        <language iso639="lad" priority="3" engName="Ladino" />
+        <language iso639="lah" priority="3" engName="Lahnda" />
+        <language iso639="lam" priority="3" engName="Lamba" />
+        <language iso639="lao" priority="2" engName="Lao" />
+        <language iso639="lat" priority="2" engName="Latin" />
+        <language iso639="lav" priority="2" engName="Latvian" />
+        <language iso639="lez" priority="3" engName="Lezghian" />
+        <language iso639="lim" priority="2" engName="Limburgan; Limburger; Limburgish" />
+        <language iso639="lin" priority="2" engName="Lingala" />
+        <language iso639="lit" priority="2" engName="Lithuanian" />
+        <language iso639="lol" priority="3" engName="Mongo" />
+        <language iso639="loz" priority="3" engName="Lozi" />
+        <language iso639="ltz" priority="2" engName="Luxembourgish; Letzeburgesch" />
+        <language iso639="lua" priority="3" engName="Luba-Lulua" />
+        <language iso639="lub" priority="3" engName="Luba-Katanga" />
+        <language iso639="lug" priority="3" engName="Ganda" />
+        <language iso639="lui" priority="3" engName="Luiseno" />
+        <language iso639="lun" priority="3" engName="Lunda" />
+        <language iso639="luo" priority="3" engName="Luo (Kenya and Tanzania)" />
+        <language iso639="lus" priority="3" engName="lushai" />
+        <language iso639="mkd" priority="2" engName="Macedonian" />
+        <language iso639="mad" priority="3" engName="Madurese" />
+        <language iso639="mag" priority="3" engName="Magahi" />
+        <language iso639="mah" priority="2" engName="Marshallese" />
+        <language iso639="mai" priority="3" engName="Maithili" />
+        <language iso639="mak" priority="3" engName="Makasar" />
+        <language iso639="mal" priority="2" engName="Malayalam" />
+        <language iso639="man" priority="3" engName="Mandingo" />
+        <language iso639="mri" priority="2" engName="Maori" />
+        <language iso639="map" priority="3" engName="Austronesian (Other)" />
+        <language iso639="mar" priority="2" engName="Marathi" />
+        <language iso639="mas" priority="3" engName="Masai" />
+        <language iso639="msa" priority="2" engName="Malay" />
+        <language iso639="mdr" priority="3" engName="Mandar" />
+        <language iso639="men" priority="3" engName="Mende" />
+        <language iso639="mga" priority="3" engName="Irish, Middle (900-1200)" />
+        <language iso639="mic" priority="3" engName="Micmac" />
+        <language iso639="min" priority="3" engName="Minangkabau" />
+        <language iso639="mis" priority="3" engName="Miscellaneous languages" />
+        <language iso639="mkh" priority="3" engName="Mon-Khmer (Other)" />
+        <language iso639="mlg" priority="2" engName="Malagasy" />
+        <language iso639="mlt" priority="2" engName="Maltese" />
+        <language iso639="mnc" priority="3" engName="Manchu" />
+        <language iso639="mni" priority="3" engName="Manipuri" />
+        <language iso639="mno" priority="3" engName="Manobo languages " />
+        <language iso639="moh" priority="3" engName="Mohawk" />
+        <language iso639="mol" priority="2" engName="Moldavian" />
+        <language iso639="mon" priority="2" engName="Mongolian" />
+        <language iso639="mos" priority="3" engName="Mossi" />
+        <language iso639="mul" priority="3" engName="Multiple languages" />
+        <language iso639="mun" priority="3" engName="Munda languages" />
+        <language iso639="mus" priority="3" engName="Creek" />
+        <language iso639="mwr" priority="3" engName="Marwari" />
+        <language iso639="mya" priority="2" engName="Burmese" />
+        <language iso639="myn" priority="3" engName="Mayan languages" />
+        <language iso639="nah" priority="3" engName="Nahuatl" />
+        <language iso639="nai" priority="3" engName="North American Indian" />
+        <language iso639="nap" priority="3" engName="Neapolitan" />
+        <language iso639="nau" priority="2" engName="Nauru" />
+        <language iso639="nav" priority="2" engName="Navajo; Navaho" />
+        <language iso639="nbl" priority="2" engName="Ndebele, South; South Ndebele" />
+        <language iso639="nde" priority="2" engName="Ndebele, North; North Ndebele" />
+        <language iso639="ndo" priority="2" engName="Ndonga" />
+        <language iso639="nds" priority="3" engName="Low German; Low Saxon; German, Low; Saxon, Low" />
+        <language iso639="nep" priority="2" engName="Nepali" />
+        <language iso639="new" priority="3" engName="Newari" />
+        <language iso639="nia" priority="3" engName="Nias" />
+        <language iso639="nic" priority="3" engName="Niger-Kordofanian (Other)" />
+        <language iso639="niu" priority="3" engName="Niuean" />
+        <language iso639="nld" priority="1" engName="Dutch" />
+        <language iso639="non" priority="3" engName="Norse, Old" />
+        <language iso639="nor" priority="2" engName="Norwegian" />
+        <language iso639="nno" priority="2" engName="Norwegian Nynorsk; Nynorsk, Norwegian" />
+        <language iso639="nob" priority="2" engName="Norwegian Bokmål; Bokmål, Norwegian" />
+        <language iso639="nso" priority="3" engName="Sotho, Northern" />
+        <language iso639="nub" priority="3" engName="Nubian languages" />
+        <language iso639="nya" priority="2" engName=" Chichewa; Chewa; Nyanja" />
+        <language iso639="nym" priority="3" engName="Nyamwezi" />
+        <language iso639="nyn" priority="3" engName="Nyankole" />
+        <language iso639="nyo" priority="3" engName="Nyoro" />
+        <language iso639="nzi" priority="3" engName="Nzima" />
+        <language iso639="oci" priority="2" engName="Occitan (post 1500); Provençal" />
+        <language iso639="oji" priority="3" engName="Ojibwa" />
+        <language iso639="ori" priority="2" engName="Oriya" />
+        <language iso639="orm" priority="2" engName="Oromo" />
+        <language iso639="osa" priority="3" engName="Osage" />
+        <language iso639="oss" priority="2" engName="Ossetian; Ossetic" />
+        <language iso639="ota" priority="3" engName="Turkish, Ottoman (1500-1928)" />
+        <language iso639="oto" priority="3" engName="Otomian languages" />
+        <language iso639="paa" priority="3" engName="Papuan (Other)" />
+        <language iso639="pag" priority="3" engName="Pangasinan" />
+        <language iso639="pal" priority="3" engName="Pahlavi" />
+        <language iso639="pam" priority="3" engName="Pampanga" />
+        <language iso639="pan" priority="2" engName="Panjabi" />
+        <language iso639="pap" priority="3" engName="Papiamento" />
+        <language iso639="pau" priority="3" engName="Palauan" />
+        <language iso639="peo" priority="3" engName="Persian, Old (ca.600-400 B.C.)" />
+        <language iso639="phi" priority="3" engName="Philippine (Other)" />
+        <language iso639="phn" priority="3" engName="Phoenician" />
+        <language iso639="pli" priority="2" engName="Pali" />
+        <language iso639="pol" priority="1" engName="Polish " />
+        <language iso639="pon" priority="3" engName="Pohnpeian" />
+        <language iso639="por" priority="1" engName="Portuguese " />
+        <language iso639="pra" priority="3" engName="Prakrit languages" />
+        <language iso639="pro" priority="3" engName="Provençal, Old (to 1500)" />
+        <language iso639="pus" priority="2" engName="Pushto" />
+        <language iso639="que" priority="2" engName="Quechua" />
+        <language iso639="raj" priority="3" engName="Rajasthani" />
+        <language iso639="rap" priority="3" engName="Rapanui " />
+        <language iso639="rar" priority="3" engName="Rarotongan" />
+        <language iso639="roa" priority="3" engName="Romance (Other)" />
+        <language iso639="roh" priority="2" engName="Raeto-Romance" />
+        <language iso639="rom" priority="3" engName="Romany" />
+        <language iso639="ron" priority="2" engName="Romanian" />
+        <language iso639="run" priority="2" engName="Rundi" />
+        <language iso639="rus" priority="1" engName="Russian" />
+        <language iso639="sad" priority="3" engName="Sandawe" />
+        <language iso639="sag" priority="2" engName="Sango" />
+        <language iso639="sah" priority="3" engName="Yakut" />
+        <language iso639="sai" priority="3" engName="South American Indian (Other)" />
+        <language iso639="sal" priority="3" engName="Salishan languages " />
+        <language iso639="sam" priority="3" engName="Samaritan Aramaic" />
+        <language iso639="san" priority="2" engName="Sanskrit" />
+        <language iso639="sas" priority="3" engName="Sasak" />
+        <language iso639="sat" priority="3" engName="Santali" />
+        <language iso639="srp" priority="2" engName="Serbian" />
+        <language iso639="sco" priority="3" engName="Scots" />
+        <language iso639="sel" priority="3" engName="Selkup" />
+        <language iso639="sem" priority="3" engName="Semitic (Other) " />
+        <language iso639="sga" priority="3" engName="Irish, Old (to 900) " />
+        <language iso639="sgn" priority="3" engName="Sign Languages" />
+        <language iso639="shn" priority="3" engName="Shan " />
+        <language iso639="sid" priority="3" engName="Sidamo" />
+        <language iso639="sin" priority="2" engName="Sinhalese" />
+        <language iso639="sio" priority="3" engName="Siouan languages " />
+        <language iso639="sit" priority="3" engName="Sino-Tibetan (Other)" />
+        <language iso639="sla" priority="3" engName="Slavic (Other)" />
+        <language iso639="slk" priority="2" engName="Slovak" />
+        <language iso639="slv" priority="2" engName="Slovenian" />
+        <language iso639="sma" priority="3" engName="Southern Sami" />
+        <language iso639="sme" priority="2" engName="Northern Sami" />
+        <language iso639="smi" priority="3" engName="Sami languages (Other) " />
+        <language iso639="smj" priority="3" engName="Lule Sami" />
+        <language iso639="smn" priority="3" engName="Inari Sami" />
+        <language iso639="smo" priority="2" engName="Samoan " />
+        <language iso639="sms" priority="3" engName="Skolt Sami" />
+        <language iso639="sna" priority="2" engName="Shona" />
+        <language iso639="snd" priority="2" engName="Sindhi" />
+        <language iso639="snk" priority="3" engName="Soninke " />
+        <language iso639="sog" priority="3" engName="Sogdian" />
+        <language iso639="som" priority="2" engName="Somali" />
+        <language iso639="son" priority="3" engName="Songhai" />
+        <language iso639="sot" priority="2" engName="Sotho, Southern " />
+        <language iso639="spa" priority="1" engName="Spanish; Castilian" />
+        <language iso639="sqi" priority="2" engName="Albanian" />
+        <language iso639="srd" priority="2" engName="Sardinian" />
+        <language iso639="srr" priority="3" engName="Serer" />
+        <language iso639="ssa" priority="3" engName="Nilo-Saharan (Other)" />
+        <language iso639="ssw" priority="2" engName="Swati" />
+        <language iso639="suk" priority="3" engName="Sukuma" />
+        <language iso639="sun" priority="2" engName="Sundanese " />
+        <language iso639="sus" priority="3" engName="Susu" />
+        <language iso639="sux" priority="3" engName="Sumerian" />
+        <language iso639="swa" priority="2" engName="Swahili" />
+        <language iso639="swe" priority="2" engName="Swedish" />
+        <language iso639="syr" priority="3" engName="Syriac" />
+        <language iso639="tah" priority="2" engName="Tahitian" />
+        <language iso639="tai" priority="3" engName="Tai (Other)" />
+        <language iso639="tam" priority="2" engName="Tamil" />
+        <language iso639="tat" priority="2" engName="Tatar " />
+        <language iso639="tel" priority="2" engName="Telugu" />
+        <language iso639="tem" priority="3" engName="Timne" />
+        <language iso639="ter" priority="3" engName="Tereno" />
+        <language iso639="tet" priority="3" engName="Tetum" />
+        <language iso639="tgk" priority="2" engName="Tajik" />
+        <language iso639="tgl" priority="2" engName="Tagalog" />
+        <language iso639="tha" priority="2" engName="Thai" />
+        <language iso639="tig" priority="3" engName="Tigre" />
+        <language iso639="tir" priority="2" engName="Tigrinya" />
+        <language iso639="tiv" priority="3" engName="Tiv" />
+        <language iso639="tkl" priority="3" engName="Tokelau" />
+        <language iso639="tli" priority="3" engName="Tlingit" />
+        <language iso639="tmh" priority="3" engName="Tamashek" />
+        <language iso639="tog" priority="3" engName="Tonga (Nyasa) " />
+        <language iso639="ton" priority="2" engName="Tonga (Tonga Islands)" />
+        <language iso639="tpi" priority="3" engName="Tok Pisin" />
+        <language iso639="tsi" priority="3" engName="Tsimshian" />
+        <language iso639="tsn" priority="2" engName="Tswana" />
+        <language iso639="tso" priority="2" engName="Tsonga" />
+        <language iso639="tuk" priority="2" engName="Turkmen" />
+        <language iso639="tum" priority="3" engName="Tumbuka" />
+        <language iso639="tup" priority="3" engName="Tupi languages" />
+        <language iso639="tur" priority="2" engName="Turkish" />
+        <language iso639="tut" priority="3" engName="Altaic (Other)" />
+        <language iso639="tvl" priority="3" engName="Tuvalu" />
+        <language iso639="twi" priority="2" engName="Twi" />
+        <language iso639="tyv" priority="3" engName="Tuvinian" />
+        <language iso639="uga" priority="3" engName="Ugaritic" />
+        <language iso639="uig" priority="2" engName="Uighur" />
+        <language iso639="ukr" priority="2" engName="Ukrainian" />
+        <language iso639="umb" priority="3" engName="Umbundu" />
+        <language iso639="und" priority="3" engName="Undetermined " />
+        <language iso639="urd" priority="2" engName="Urdu" />
+        <language iso639="uzb" priority="2" engName="Uzbek" />
+        <language iso639="vai" priority="3" engName="Vai" />
+        <language iso639="ven" priority="3" engName="Venda" />
+        <language iso639="vie" priority="2" engName="Vietnamese" />
+        <language iso639="vol" priority="2" engName="Volapük" />
+        <language iso639="vot" priority="3" engName="Votic" />
+        <language iso639="wak" priority="3" engName="Wakashan languages" />
+        <language iso639="wal" priority="3" engName="Walamo" />
+        <language iso639="war" priority="3" engName="Waray" />
+        <language iso639="was" priority="3" engName="Washo" />
+        <language iso639="wen" priority="3" engName="Sorbian languages" />
+        <language iso639="wln" priority="2" engName="Walloon" />
+        <language iso639="wol" priority="2" engName="Wolof" />
+        <language iso639="xho" priority="2" engName="Xhosa" />
+        <language iso639="yao" priority="3" engName="Yao" />
+        <language iso639="yap" priority="3" engName="Yapese" />
+        <language iso639="yid" priority="2" engName="Yiddish" />
+        <language iso639="yor" priority="2" engName="Yoruba" />
+        <language iso639="ypk" priority="3" engName="Yupik languages" />
+        <language iso639="zap" priority="3" engName="Zapotec" />
+        <language iso639="zen" priority="3" engName="Zenaga" />
+        <language iso639="zha" priority="2" engName="Zhuang; Chuang" />
+        <language iso639="zho" priority="2" engName="Chinese" />
+        <language iso639="znd" priority="3" engName="Zande" />
+        <language iso639="zul" priority="2" engName="Zulu" />
+        <language iso639="zun" priority="3" engName="Zuni" />
+</langlist>

@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no" ?>
+<!--
+ * Copyright (C) 2003  John King
+ *
+ * This file is part of the authorsite.org bibliographic
+ * application.
+ *
+ * This application is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ -->
+<!-- $Header: /cvsroot/authorsite/authorsite/src/xml/bibTypesRelationships.xsd,v 1.6 2003/03/01 13:29:51 jejking Exp $ -->
+<xs:schema  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:xhtml="http://www.w3c.org/1999/xhtml"
+            targetNamespace="http://www.authorsite.org/bibTypesRelationships"
+            xmlns="http://www.authorsite.org/bibTypesRelationships"
+                        >
+
+<xs:annotation>
+    <xs:documentation>
+        <xhtml:p>
+            This schema is a key part of the configuration and build process for the authorsite.org bibliography application.
+            The build process reads an xml file conforming to this schema and uses it to generate both SQL DDL which will be 
+            executed to create the tables which will contain the details fields for each specific media item type and the EJB
+            code for the entity beans which represent them at application level. Automating the code generation, promises
+            significant increases in speed and accuracy of coding since only two files need to be created - the configuration
+            xml file and the java class to process the file into source code. If XDoclet is used, then further automation through
+            automatic generation of home, local home, remote and local interfaces as well as deployment descriptors can be 
+            achieved and controlled through the ant build scripts.
+        </xhtml:p>
+        <xhtml:p>
+            One further advanced application of the schema is in providing validation and sanity checking java code to be used 
+            in the get and set methods of the EJB which would normally be enclosed in a CDATA section and written directly into
+            the generated source for the bean in question.
+        </xhtml:p>
+        <xhtml:p>
+            The xml file defined according to the rules in this schema is also used by the rules engine to enforce constraints
+            on the permitted relationships between mediaItems and mediaProducers in a flexible manner. The rules engine is a 
+            server side component (stateless session EJB) which controls write access to the entity EJBs according to the rules
+            defined the xml file. The rules engine has particular responsibility for enforcing high-level logical integrity regarding
+            relationships. For example, books must have an author (even if that author is anonymous or not known) and a publisher but
+            cannot have a director, and other items, such as a journal article, cannot not exist independently of another, such as a
+            journal printing. Putting the logical constraints into a flexibly configurable file allows not only massive simplification
+            of the database schema and corresponding EJB code but also promises the ability to extend the application with an 
+            arbitrary number of new relationships and media item types.
+        </xhtml:p>
+        <xhtml:p>
+            The xml file deployed with the application can be used to enforce simple business rules on the media item types
+            by defining obligatory minimum fields which must be supplied for the details to make sense. By making the file available
+            to clients, validation can also be performed prior to data submission to the EJB layer.
+        </xhtml:p>    
+    </xs:documentation>
+</xs:annotation>            
+
+<xs:complexType name="bibDocType" mixed="true">
+    <xs:sequence>
+      <xs:any namespace="http://www.w3c.org/1999/xhtml" minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+
+            
+<xs:group name="bibDocGroup">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                bibDocGroup bundles together two elements <xhtml:pre>description</xhtml:pre> and <xhtml:pre>comment</xhtml:pre>.
+            </xhtml:p>
+            <xhtml:p>
+                <xhtml:pre>description</xhtml:pre> should house a concise description of the purpose of the elememnt within which
+                it is contained along with any specific instructions on how the element should be used.
+            </xhtml:p>
+            <xhtml:p>
+                <xhtml:pre>comment</xhtml:pre> should be used for a more discursive discussion of the element, elucidating any
+                design choices which were made and any issues which were addressed in making those choices. It should also lay out
+                any unresolved issues.
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+        <xs:element name="description" type="bibDocType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="comment" type="bibDocType" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+</xs:group>
+
+<xs:complexType name="refType">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>refType</xhtml:pre> is a basic type which will be an empty element with one attribute,
+                <xhtml:pre>ref</xhtml:pre>. Within the various element contexts, the <xhtml:pre>ref</xhtml:pre>
+                attribute refers to relationships and mediaTypes, linking them together.
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+        <xs:extension base="xs:string">
+            <xs:attribute name="ref" type="xs:NMTOKEN" use="required"/>
+        </xs:extension>
+    </xs:simpleContent>
+</xs:complexType>
+
+<xs:complexType name="relationshipSetMediaRefsType">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>relationshipSetMediaRefsType</xhtml:pre> is used to list a set of mediaTypes which participate
+                in a particular intraMediaRelationship. It consists of a sequence of elements of type <xhtml:pre>refType</xhtml:pre>
+                The particular relationship it is being used to describe is referred to by the attribute <xhtml:pre>ref</xhtml:pre>.
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+        <xs:element name="mediaTypeRef" type="refType" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="ref" type="xs:NMTOKEN" use="required"/>
+</xs:complexType>
+
+<xs:simpleType name="priorityType">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>priorityType</xhtml:pre> is a simple enumeration of three possible values:
+            </xhtml:p>
+            <xhtml:ol>
+                <xhtml:li>obligatory</xhtml:li>
+                <xhtml:li>expected</xhtml:li>
+                <xhtml:li>permitted</xhtml:li>
+            </xhtml:ol>
+            <xhtml:p>
+                These priorities in turn have three main uses. First, in mediaType field definitions, those fields defined as being
+                "obligatory" will generate sql ddl "not null" constraints. Second, those fields marked as "obligatory" or 
+                "expected" will be used in defining eager load groups in the generated EJB/XDoclet source. Third, the client
+                software can avail itself of the priorities of various fields, etc, when presenting both input forms and output
+                results to the end user (e.g. the client software could decide to reduce screen clutter by not initially presenting
+                fields marked as "permitted" on the grounds that they are deemed to be of less interest to users within that 
+                particular configuration).
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+        <xs:enumeration value="obligatory"/>
+        <xs:enumeration value="expected"/>
+        <xs:enumeration value="permitted"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="fieldDataType">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>fieldDataType</xhtml:pre> is a simple list of the data types a mediaType field may be. The code 
+                generation software generates appropriate SQL and java types from these, and may use a database specific 
+                configuration in so doing.
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+        <xs:enumeration value="string"/>
+        <xs:enumeration value="integer"/>
+        <xs:enumeration value="float"/>
+        <xs:enumeration value="text"/>
+        <xs:enumeration value="blob"/>
+        <xs:enumeration value="boolean"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="fieldSizeType">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>fieldSizeType</xhtml:pre> lists three generalised sizes, small, medium and large, which the 
+                code generation software will use in conjunction with database specific configuration files to map the
+                generic <xhtml:pre>fieldDataTypes</xhtml:pre> more closely to optimal database SQL types.
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+        <xs:enumeration value="small"/>
+        <xs:enumeration value="medium"/>
+        <xs:enumeration value="large"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="baseTypeName">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>baseTypeName</xhtml:pre> is a simple type used as the type for name attributes. Its type is 
+                <xhtml:pre>NMTOKEN</xhtml:pre> which constrains it to one token with no white space, as is required for
+                java and sql variables. Its length is constrained to 20 characters as that is the typical maximum length
+                of the varchar fields for type names the application uses in the database (primarily because anything longer
+                than that would start to lose human readability).
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:NMTOKEN">
+        <xs:maxLength value="30"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="fieldDetailsType">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>fieldDetailsType</xhtml:pre> defines each data field in the definition of a new mediaType. Each
+                field must be documented using the <xhtml:pre>bibDocGroup</xhtml:pre>. the <xhtml:pre>validationCode</xhtml:pre>
+                element provides the facility for the inclusion of custom java validation code to be inserted into generated
+                code. The <xhtml:pre>searchable</xhtml:pre> attribute will be used to determine whether an ejbFinder method
+                should be generated to search on the data field.
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+        <xs:group ref="bibDocGroup" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element name="validationCode" minOccurs="0" maxOccurs="1" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="fieldName" type="baseTypeName" use="required"/>
+    <xs:attribute name="priority" type="priorityType" use="required"/>
+    <xs:attribute name="fieldType" type="fieldDataType" use="required"/>
+    <xs:attribute name="fieldSize" type="fieldSizeType" use="required"/>
+    <xs:attribute name="searchable" type="xs:boolean" use="required"/>
+</xs:complexType>
+
+<!-- we define some common features for relationship and mediaDetails in here to avoid duplication -->
+<xs:complexType name="bibBaseType">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>bibBaseType,</xhtml:pre> defines some basic components which will be used by the main building
+                blocks of the schema, namely the relationship and mediaType types. It uses the <xhtml:pre>bibDocGroup</xhtml:pre>
+                and <xhtml:pre>baseTypeName</xhtml:pre> types to enforce document. The <xhtml:pre>name</xhtml:pre> attribute
+                will be used in key definitions.
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+        <xs:group ref="bibDocGroup" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="baseTypeName" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="baseRelationshipRefListType">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>baseRelationshipListType</xhtml:pre> is a simple sequence of <xhtml:pre>refTypes</xhtml:pre>. It is
+                intended to represent a simple of list of relationship references.
+             </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+        <xs:element name="relationshipRef" type="refType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="mediaProductionRelationshipRefListType">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>mediaProductionRelationshipRefListType</xhtml:pre> is used in the mediaType element to list the
+                different mediaProduction relationships which are, as defined in the <xhtml:pre>priorityType</xhtml:pre> attribute
+                <xhtml:pre>priority</xhtml:pre>, "obligatory", "expected" or "permitted". For each of these levels, a list of
+                references to mediaProduction relationships is given.
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+    	<xs:extension base="baseRelationshipRefListType">
+		<xs:attribute name="priority" type="priorityType" use="required"/>
+	</xs:extension>
+    </xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="intraMediaRelationshipRefListType">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>intraMediaRelationshipRefListType</xhtml:pre> is not derived from <xhtml:pre>baseRelationshipRefListType</xhtml:pre>
+                because of the additional complexity in listing the intraMediaRelationships for each priority category. Instead, it
+                defines a number of <xhtml:pre>relationshipSet</xhtml:pre> elements which in turn contain the valid mediaTypes which
+                can particapte in the intraMediaRelationship in question.
+            </xhtml:p>
+            <xhtml:p>
+                In other words, for a given mediaType, three lists of intraMediaRelationships must be given - obligatory, expected
+                and permitted. Within each list, the intraMedia relationships are listed as attributes of the relationshipSets. For
+                example, "book article" will have in its list of obligatory intraMedia relationships the relationshipSet "containment".
+                Within the relationshipSet defined with the attribute "containment", we will have one mediaTypeRef with the attribute
+                "book".
+             </xhtml:p>
+             <xhtml:p>
+                Put more simply, this simply states "an article in a book must be contained in a book and in nothing else". A more 
+                complex might be a "transcriptOf" relationship which could point to a much larger list of mediayTypes such as
+                "film", "televisionProgramme", "radioProgramme", etc. These logical constraints mean that the writer of the configuration
+                file can prevent nonsensical relationships between items being formed, such as a book being a "filmOf" a lecture. These
+                relationships and the listings of the legitimate participants effectively forms a mini-ontology for the bibliographic
+                field and it is right that this ontology should drive the business rules rather than hard-coded java as it allows for
+                flexibility in different usage domains.
+             </xhtml:p>   
+        </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+        <xs:element name="relationshipSet" type="relationshipSetMediaRefsType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="priority" type="priorityType" use="required"/>
+</xs:complexType>
+
+<xs:complexType name="relationshipType">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>relationshipType</xhtml:pre> is a complex type used to define mediaProduction and intraMedia 
+                relationships, building on <xhtml:pre>bibBaseType</xhtml:pre>.
+            </xhtml:p>
+            <xhtml:p>
+                The element <xhtml:pre>impliedObligatoryRelationshiplist</xhtml:pre> is used to extend the standard list of
+                obligatory relationships in the definition of a mediaType. For example, take a book which is a translation
+                of another one. Whilst translation would obviously be a "permitted" intraMediaRelationship for book to have with
+                another book, when that book has a "translator" mediaProduction relationship (and we thus *know* it is a translation),
+                it then becomes necessary to document the "translation" intraMedia relationship so we know what the translated book
+                is a translation of. In other words, "translation" has become an "obligatory" intraMedia relationship because
+                of the "translator" relationsihp. This element allows for this sort of "implied Obligatory" relationship to
+                be documented and made available to the rules engine for enforcement.
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+        <xs:extension base="bibBaseType">
+            <xs:sequence>
+                <xs:element name="impliedObligatoryRelationshipList" type="baseRelationshipRefListType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:extension>
+    </xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="mediaItemDetailsType">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>mediaItemDetailsType</xhtml:pre> is a complex type used to model the full complexity of the mediaTypes
+                we need to model within the bibiography application. It contains all the details required to generate the sql and java
+                code needed to store the details associated with mediaType it describes. By means of the relationship lists, it is
+                also in a position to describe the rules regarding the relationships the mediaType may be involved in as well as listing
+                the other mediaTypes which may participate in those intraMediaRelationships specified.
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+        <xs:extension base="bibBaseType">
+            <xs:sequence>
+                <xs:element name="field" type="fieldDetailsType" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="producerRelationshipList" type="mediaProductionRelationshipRefListType" minOccurs="3" maxOccurs="3"/>
+                <xs:element name="intraMediaRelationshipList" type="intraMediaRelationshipRefListType" minOccurs="3" maxOccurs="3"/>
+            </xs:sequence>
+        </xs:extension>
+    </xs:complexContent>
+</xs:complexType>
+
+<xs:element name="typesAndRelationships">
+    <xs:annotation>
+        <xs:documentation>
+            <xhtml:p>
+                <xhtml:pre>typesAndRelationships</xhtml:pre> is the only element defined independently of complexType definitions, the
+                reason being that this schema should only be used for the definition of one type of xml file, a full configuration
+                file. In future iterations, a more flexible and modular design may be required to permit configuration changes during
+                the operation of a system running the bibliographic server software.
+            </xhtml:p>
+            <xhtml:p>
+                The element definition prescribes a sequence of one or more <xhtml:pre>productionRelationship</xhtml:pre> elements,
+                one or more <xhtml:pre>intraMediaRelationship</xhtml:pre> elements and one or more <xhtml:pre>mediaType</xhtml:pre>
+                elements, all of which are closely interrelated through reference attributes. At various contextual levels within
+                the element, logical integrity constraints are defined which govern the possible sets of interrelationships between
+                the elements defined in the xml configuration file.
+            </xhtml:p>
+        </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+        <xs:complexContent>
+            <xs:extension base="bibBaseType">
+                <xs:sequence minOccurs="1" maxOccurs="1">
+                    <xs:element name="productionRelationship" type="relationshipType" minOccurs="1" maxOccurs="unbounded">
+                        <xs:unique name="impliedRefsUnique">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <xhtml:p>
+                                        The list of implied obligatory relationships must not contain duplicates.
+                                    </xhtml:p>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:selector xpath="impliedObligatoryRelationshipList/relationshipRef"/>
+                            <xs:field xpath="@ref"/>
+                        </xs:unique>
+                    </xs:element>
+                    <xs:element name="intraMediaRelationship" type="relationshipType" minOccurs="1" maxOccurs="unbounded"/>
+                    <xs:element name="mediaType" type="mediaItemDetailsType" minOccurs="1" maxOccurs="unbounded">
+                        <xs:key name="FieldUnique">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <xhtml:p>
+                                        Each field defined in a mediaType must not contain duplicates. Duplicate values would
+                                        produce erroneous sql and java code.
+                                    </xhtml:p>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:selector xpath="field"/>
+                            <xs:field xpath="@fieldName"/>
+                        </xs:key>
+                        <xs:key name="ProducerRelsUnique">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <xhtml:p>
+                                        For each media type, we can only have one list of "obligatory", one list of "expected"
+                                        and one list of "permitted" producerRelationships.
+                                    </xhtml:p>
+                                    <xhtml:p>
+                                        Note that because the <xhtml:pre>mediaItemDetailsType</xhtml:pre> means that there must be
+                                        a minimum of three (and a maximum) of three <xhtml:pre>producerRelationshipList</xhtml:pre>
+                                        elements, we automatically obtain a constraint that means that all three different priorities
+                                        must be listed, even if those elements are then empty. The writer of the configuration file
+                                        is thus obliged at least to consider each priority in turn.
+                                    </xhtml:p>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:selector xpath="producerRelationshipList"/>
+                            <xs:field xpath="@priority"/>
+                        </xs:key>
+                        <xs:key name="IntraMediaRelsUnique">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <xhtml:p>
+                                        For each media type, we can only have one list of "obligatory", one list of "expected"
+                                        and one list of "permitted" intraMediaRelationships. 
+                                    </xhtml:p>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:selector xpath="intraMediaRelationshipList"/>
+                            <xs:field xpath="@priority"/>
+                        </xs:key>
+                        <xs:unique name="producerRelationshipsInProducerRelationshipsListUnique">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <xhtml:p>
+                                        A particular relationship can only be referred to once in all of the three lists
+                                        required for each relationshipList. In other words, a particular relationship cannot
+                                        occur in both the "obliged" and "expected" lists.
+                                    </xhtml:p>
+                                    <xhtml:p>
+                                        Type integrity is enforced through keyrefs at the level of the
+                                        <xhtml:pre>typesAndRelationships</xhtml:pre> element.
+                                    </xhtml:p>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:selector xpath="producerRelationshipList/relationshipRef"/>
+                            <xs:field xpath="@ref"/>
+                        </xs:unique>
+                        <xs:key name="intraMediaRelationshipListRelationshipSetsUnique">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <xhtml:p>
+                                        A particular relationship can only be referred to once in all the three lists required
+                                        for each relationshipList.
+                                    </xhtml:p>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:selector xpath="intraMediaRelationshipList/relationshipSet"/>
+                            <xs:field xpath="@ref"/>
+                        </xs:key>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:key name="productionRelationshipKey">
+        <xs:annotation>
+            <xs:documentation>
+                <xhtml:p>
+                    The name attribute of a productionRelationship element functions as its key.
+                </xhtml:p>
+            </xs:documentation>
+        </xs:annotation>
+    	<xs:selector xpath="productionRelationship"/>
+        <xs:field xpath="@name"/>
+    </xs:key>
+    <xs:key name="intraMediaRelationshipKey">
+        <xs:annotation>
+            <xs:documentation>
+                <xhtml:p>
+                    The name attribute of an intraMedia relationship element functions as its key.
+                </xhtml:p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:selector xpath="intraMediaRelationship"/>
+        <xs:field xpath="@name"/>
+    </xs:key>
+    <xs:key name="mediaTypeKey">
+        <xs:annotation>
+            <xs:documentation>
+                <xhtml:p>
+                    The name attribute a mediaType element functions as its key.
+                </xhtml:p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:selector xpath="mediaType"/>
+        <xs:field xpath="@name"/>
+    </xs:key>
+    <xs:keyref name="productionRelationshipsMustBeValid" refer="productionRelationshipKey">
+        <xs:annotation>
+            <xs:documentation>
+                <xhtml:p>
+                    This constraint ensures that the relationships referred to in the producerRelationship
+                    lists of a <xhtml:pre>mediaType</xhtml:pre> element are valid production relationships.
+                </xhtml:p>
+            </xs:documentation>
+        </xs:annotation>
+       <xs:selector xpath="mediaType/producerRelationshipList/relationshipRef"/>
+       <xs:field xpath="@ref"/>
+    </xs:keyref>
+    <xs:keyref name="intraMediaRelationshipsMustBeValid" refer="intraMediaRelationshipKey">
+        <xs:annotation>
+            <xs:documentation>
+                <xhtml:p>
+                    This constraint ensures that the relationships referred to in the intraMediaRelationship
+                    lists of a <xhtml:pre>mediaType</xhtml:pre> are valid intraMedia relationships.
+                </xhtml:p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:selector xpath="mediaType/intraMediaRelationshipList/relationshipSet"/>
+        <xs:field xpath="@ref"/>
+    </xs:keyref>
+    <xs:keyref name="impliedRefsMustBeValid" refer="intraMediaRelationshipKey">
+        <xs:annotation>
+            <xs:documentation>
+                <xhtml:p>
+                    The list of obligatory relationships that may be implied by a productionRelationship are
+                    further constrained in that they must refer to valid intraMediaRelationships.
+                </xhtml:p>
+            </xs:documentation>
+        </xs:annotation>
+    	<xs:selector xpath="productionRelationship/impliedObligatoryRelationshipList/relationshipRef"/>
+        <xs:field xpath="@ref"/>
+    </xs:keyref>
+    <xs:keyref name="mediaItemsInRelationshipSetsMustBeValid" refer="mediaTypeKey">
+        <xs:annotation>
+            <xs:documentation>
+                <xhtml:p>
+                    The mediaTypes listed as being valid participants in intraMediaRelationships within a particular
+                    mediaType element must be valid mediaTypes.
+                </xhtml:p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:selector xpath="mediaType/intraMediaRelationshipList/relationshipSet/mediaTypeRef"/>
+        <xs:field xpath="@ref"/>
+    </xs:keyref>
+</xs:element>
+	
+</xs:schema>

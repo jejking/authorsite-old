@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter SYSTEM "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<!-- $Header: /cvsroot/authorsite/authorsite/src/doc/requirements.xml,v 1.1 2002/09/17 15:18:52 jejking Exp $ -->
+
+<chapter id="requirements" lang="en">
+        <chapterinfo>
+                <title>Requirements Analysis</title>
+                <subtitle>Use Cases and Other Requirements</subtitle>
+        </chapterinfo>
+</chapter>

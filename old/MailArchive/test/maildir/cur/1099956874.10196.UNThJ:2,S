@@ -1,0 +1,58 @@
+From: Testus McTest <testing@juenger.org>
+To: john_e_j_king@hotmail.com
+Subject: testing - a document
+Date: Sat, 19 Jun 2004 19:23:23 +0100
+User-Agent: KMail/1.5.1
+Organization: Test Co
+X-KMail-Identity: 1047511553
+MIME-Version: 1.0
+Content-Type: Multipart/Mixed;
+  boundary="Boundary-00=_bSI1A5wCFhn82Ug"
+Message-Id: <200406191923.23360.testing@juenger.org>
+Status: RO
+X-Status: ORS
+X-KMail-EncryptionState:  
+X-KMail-SignatureState:  
+X-KMail-MDN-Sent:  
+
+
+--Boundary-00=_bSI1A5wCFhn82Ug
+Content-Type: text/plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+
+
+--Boundary-00=_bSI1A5wCFhn82Ug
+Content-Type: text/rtf;
+  charset="us-ascii";
+  name="testing.rtf"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="testing.rtf"
+
+{\rtf1\ansi\deff0\adeflang1025
+{\fonttbl{\f0\froman\fprq2\fcharset0 Nimbus Roman No9 L;}{\f1\froman\fprq2\fcharset0 Nimbus Roman No9 L;}{\f2\fswiss\fprq2\fcharset0 Nimbus Sans L;}{\f3\fnil\fprq2\fcharset0 HG Mincho Light J;}{\f4\fnil\fprq2\fcharset0 Arial Unicode MS;}}
+{\colortbl;\red0\green0\blue0;\red128\green128\blue128;}
+{\stylesheet{\s1{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\rtlch\afs24\lang255\ltrch\dbch\af3\afs24\langfe255\loch\f0\fs24\lang1033\snext1 Default;}
+{\s2\sb240\sa120\keepn{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\rtlch\afs28\lang255\ltrch\dbch\afs28\langfe255\loch\f2\fs28\lang1033\sbasedon1\snext3 Heading;}
+{\s3\sa120{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\rtlch\afs24\lang255\ltrch\dbch\af3\afs24\langfe255\loch\f0\fs24\lang1033\sbasedon1\snext3 Text body;}
+{\s4\sb240\sa120\keepn{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\rtlch\afs32\lang255\ab\ltrch\dbch\afs32\langfe255\ab\loch\f2\fs32\lang1033\b\sbasedon2\snext3{\*\soutlvl0} Heading 1;}
+{\s5\sb240\sa120\keepn{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\rtlch\afs28\lang255\ai\ab\ltrch\dbch\afs28\langfe255\ai\ab\loch\f2\fs28\lang1033\i\b\sbasedon2\snext3{\*\soutlvl1} Heading 2;}
+}
+{\info{\creatim\yr2004\mo6\dy19\hr19\min17}{\revtim\yr2004\mo6\dy19\hr19\min21}{\printim\yr1601\mo1\dy1\hr0\min0}{\comment StarWriter}{\vern6410}}\deftab1250
+{\*\pgdsctbl
+{\pgdsc0\pgdscuse195\pgwsxn11905\pghsxn16837\marglsxn1134\margrsxn1134\margtsxn1134\margbsxn1134\pgdscnxt0 Default;}}
+\paperh16837\paperw11905\margl1134\margr1134\margt1134\margb1134\sectd\sbknone\pgwsxn11905\pghsxn16837\marglsxn1134\margrsxn1134\margtsxn1134\margbsxn1134\ftnbj\ftnstart1\ftnrstcont\ftnnar\aenddoc\aftnrstcont\aftnstart1\aftnnrlc
+\pard\plain \sb240\sa120\keepn\f2\fs32\b\fs32\b\fs32\b \s4\sb240\sa120\keepn{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\rtlch\afs32\lang255\ab\ltrch\dbch\afs32\langfe255\ab\loch\f2\fs32\lang1033\b {\ltrch\loch\f2 This is all about Testing}
+\par \pard\plain \s3\sa120{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\rtlch\afs24\lang255\ltrch\dbch\af3\afs24\langfe255\loch\f0\fs24\lang1033 {\ltrch\loch\f0 John has decided to write a short document about testing. This is a very important thing, as we all know. We need documents in order to show everyone what we're doing and why, so that anyone else getting involved will know what it's all about.}
+\par {\ltrch\loch\f0 Nevertheless, this document is being knocked up very quickly and probably doesn't make a lot of sense.}
+\par {\ltrch\loch\f0 That doesn't matter too much \endash  {\i but why, you ask?}{\i0  That's because it's going to be used in testing itself.}}
+\par \pard\plain \s3\sa120{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\rtlch\afs24\lang255\ltrch\dbch\af3\afs24\langfe255\loch\f0\fs24\lang1033 {\ltrch\loch\f0 I'm going to attach it to some emails. And I'm going to attach it in various different formats.}
+\par {\ltrch\loch\f0 But why? You ask again.}
+\par \pard\plain \sb240\sa120\keepn\f2\fs28\i\b\fs28\i\b\fs28\i\b \s5\sb240\sa120\keepn{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\rtlch\afs28\lang255\ai\ab\ltrch\dbch\afs28\langfe255\ai\ab\loch\f2\fs28\lang1033\i\b {\ltrch\loch\f2 Why on earth did I write this document?}
+\par \pard\plain \s3\sa120{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\rtlch\afs24\lang255\ltrch\dbch\af3\afs24\langfe255\loch\f0\fs24\lang1033 {\ltrch\loch\f0 So that I can use to test. In an oddly self-referential way, this document is about testing and it is testing. It's helping to test the authorsite.org mailarchive code.}
+\par {\ltrch\loch\f0 And that gives me a warm and slightly fuzzy feeling.}
+\par }
+--Boundary-00=_bSI1A5wCFhn82Ug--
+

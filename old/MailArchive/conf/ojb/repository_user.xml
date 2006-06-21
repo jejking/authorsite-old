@@ -1,0 +1,79 @@
+<!-- OJB mappings for the mailarchive database -->
+<!-- define EmailMessage -->
+<class-descriptor class="org.authorsite.mailarchive.model.impl.EmailMessageImpl" table="email_message">
+    <field-descriptor name="emailMessageID" column="email_messageID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" access="anonymous"/>
+    <field-descriptor name="sentDate" column="sent_date" jdbc-type="DATE"/>
+    <field-descriptor name="receivedDate" column="received_date" jdbc-type="DATE"/>
+    <field-descriptor name="subject" column="subject" jdbc-type="VARCHAR" length="1000"/>
+    <field-descriptor name="msgID" column="msg_id" jdbc-type="VARCHAR" length="500"/>
+    <field-descriptor name="inReplyTo" column="in_reply_to" jdbc-type="VARCHAR" length="500"/>
+    <field-descriptor name="msgReferences" column="msg_references" jdbc-type="VARCHAR" length="500"/>
+    <field-descriptor name="importance" column="importance" jdbc-type="VARCHAR" length="10"/>
+    <field-descriptor name="sensitivity" column="sensitivity" jdbc-type="VARCHAR" length="20"/>
+    <field-descriptor name="description" column="description" jdbc-type="VARCHAR" length="1000"/>
+    <field-descriptor name="disposition" jdbc-type="VARCHAR" length="1000"/>
+    <collection-descriptor name="messageEmailAddresses" element-class-ref="org.authorsite.mailarchive.model.impl.MessageEmailAddressImpl" auto-retrieve="true">
+        <inverse-foreignkey field-ref="emailMessage"/>
+    </collection-descriptor>
+    <collection-descriptor name="textContents" element-class-ref="org.authorsite.mailarchive.model.impl.TextContentImpl" auto-retrieve="true">
+        <inverse-foreignkey field-ref="emailMessage"/>
+    </collection-descriptor>
+    <collection-descriptor name="binaryContents" element-class-ref="org.authorsite.mailarchive.model.impl.BinaryContentImpl" auto-retrieve="true">
+        <inverse-foreignkey field-ref="emailMessage"/>
+    </collection-descriptor>
+</class-descriptor>
+<class-descriptor class="org.authorsite.mailarchive.model.impl.MessageEmailAddressImpl" table="email_message_email_address">
+    <field-descriptor name="role" column="role" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="emailMessage" class-ref="org.authorsite.mailarchive.model.impl.EmailMessageImpl">
+        <foreign-key field-ref="emailMessageID"/>
+    </reference-descriptor>
+    <reference-descriptor name="emailAddress" class-ref="org.authorsite.mailarchive.model.impl.EmailAddressImpl">
+        <foreign-key field-ref="emailAddressID"/>
+    </reference-descriptor>
+    <reference-descriptor name="person" class-ref="org.authorsite.mailarchive.model.impl.PersonImpl">
+        <foreignkey field-ref="personID"/> 
+    </reference-descriptor>
+</class-descriptor>
+<class-descriptor class="org.authorsite.mailarchive.model.impl.EmailAddressImpl" table="email_address">
+    <field-descriptor name="emailAddressID" column="email_addressID" primarykey="true" autoincrement="true" jdbc-type="INTEGER" access="anonymous"/>
+    <field-descriptor name="address" column="email_address" jdbc-type="VARCHAR" length="1000" nullable="false" indexed="true"/>
+    <field-descriptor name="personalName" column="personal_name" jdbc-type="VARCHAR" length="1000"/>
+    <field-descriptor name="isMailingList" column="is_mailing_list" jdbc-type="BIT"/>
+    <field-descriptor name="isProcess" column="is_process" jdbc-type="BIT"/>
+</class-descriptor>
+<class-descriptor class="org.authorsite.mailarchive.model.impl.PersonImpl" table="person">
+    <field-descriptor name="personID" column="personID" primarykey="true" autoincrement="true" jdbc-type="INTEGER" access="anonymous"/>
+    <field-descriptor name="prefix" column="prefix" jdbc-type="VARCHAR" length="50"/>
+    <field-descriptor name="givenName" column="given_name" jdbc-type="VARCHAR" length="1000"/>
+    <field-descriptor name="mainName" column="main_name" jdbc-type="VARCHAR" length="1000"/>
+    <field-descriptor name="otherNames" column="other_names" jdbc-type="VARCHAR" length="2000"/>
+    <field-descriptor name="suffix" column="suffix" jdbc-type="VARCHAR" length="50"/>
+    <field-descriptor name="genderCode" column="gender_code" jdbc-type="INTEGER"/>
+    <field-descriptor name="dateOfBirth" column="date_of_birth" jdbc-type="DATE"/>
+    <field-descriptor name="dateOfDeath" column="date_of_death" jdbc-type="DATE"/>
+    <collection-descriptor name="emailAddresses" element-class-ref="org.authorsite.mailarchive.model.impl.MessageMeailAddressImpl" auto-retrieve="true">
+        <inverse-foreignkey field-ref="personID"/>
+    </collection-descriptor>
+</class-descriptor>
+<class-descriptor class="org.authorsite.mailarchive.model.impl.TextContentImpl" table="text_content">
+    <field-descriptor name="textContentID" column="text_contentID" primarykey="true" autoincrement="true" jdbc-type="INTEGER" access="anonymous"/>
+    <field-descriptor name="content" column="text_content" nullable="false" jdbc-type="LONGVARCHAR"/>
+    <field-descriptor name="mimeType" column="mime_type" nullable="false" jdbc-type="VARCHAR" length="50"/>
+    <field-descriptor name="role" column="role" nullable="false" jdbc-type="CHAR" length="5"/>
+    <field-descriptor name="emailMessage" column="email_message_ID" jdbc-type="INTEGER" access="anonymous"/>
+    <!-- collection of languages -->
+    <collection-descriptor name="languages" element-class-ref="org.authorsite.mailarchive.model.impl.LanguageImpl" indirection-table="text_content_language">
+        <fk-pointing-to-this-class column="text_contentID"/>
+        <fk-pointing-to-element-class column="languageID"/>
+    </collection-descriptor>
+</class-descriptor>
+<class-descriptor class="org.authorsite.mailarchive.model.impl.BinaryContentImpl" table="binary_content">
+    <field-descriptor name="binaryContentID" column="binary_contentID" primarykey="true" autoincrement="true" jdbc-type="INTEGER" access="anonymous"/>
+    <field-descriptor name="content" column="binary_content" nullable="false" jdbc-type="LONGVARBINARY"/>
+    <field-descrioptor name="mimeType" column="mime_type" nullable="false" jdbc-type="VARCHAR" length="50"/>
+    <field-descriptor name="emailMessage" column="email_message_ID" jdbc-type="INTEGER" access="anonymous"/>
+</class-descriptor>
+<class-descriptor name="org.authorsite.mailarchive.model.impl.LanguageImpl" table="language">
+    <field-descriptor name="languageID" column="languageID" primarykey="true" autoincrement="true" jdbc-type="INTEGER" access="anonymous"/>
+    <field-descriptor name="isoCode" column="iso_code" nullable="false" indexed="true" jdbc-type="CHAR" length="2"/>
+</class-descriptor>

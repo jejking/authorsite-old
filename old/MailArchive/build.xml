@@ -1,0 +1,363 @@
+<!--
+ build.xml, created 22:45, 8th March 2004
+  
+ Copyright John King, 2004.
+ 
+ build.xml is part of authorsite.org's MailArchive program.
+ 
+MailArchive is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ 
+ MailArchive is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with MailArchive; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Version: $Revision: 1.22 $
+Last Updated: $Date: 2005/05/18 16:33:57 $
+
+ -->
+<project name="mailarchive" default="help" basedir=".">
+
+    <property file="build.properties" />
+
+    <!--
+    
+    STANDARD CLASSPATHS
+    
+    -->
+    
+    <!-- Build classpath -->
+    <path id="build-classpath">
+        <fileset dir="lib">
+            <include name="**/*.jar" />
+        </fileset>
+        <pathelement location="conf" />
+    </path>
+    
+    <!-- test classpath -->
+    <path id="test-classpath">
+        <fileset dir="build/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement location="build/src/conf" />
+        <path refid="build-classpath" />
+     </path>
+
+    <target name="help">
+        <echo>Run ant -projecthelp for all targets. You must have run ant -f lib-build.xml before trying anything out or overridden properties in build.properties.</echo>
+    </target>
+    
+    <target name="init" description="sets up required directories">
+        <mkdir dir="build" />
+        <mkdir dir="build/classes" />
+        <mkdir dir="build/lib" />
+        <mkdir dir="build/src" />
+        <mkdir dir="build/web" />
+        <mkdir dir="build/web/archive" />
+        <mkdir dir="build/web/exploded" />
+        <mkdir dir="build/web/exploded/WEB-INF"/>
+        <mkdir dir="build/web/exploded/WEB-INF/classes"/>
+        <mkdir dir="build/web/exploded/WEB-INF/lib"/>
+        <mkdir dir="build/web/exploded/WEB-INF/jspf"/>
+        <mkdir dir="build/web/exploded/WEB-INF/tlds"/>
+        <mkdir dir="build/src/sql" />
+        <mkdir dir="build/src/conf" />
+        <mkdir dir="doc"/>
+        <mkdir dir="doc/javadoc" />
+        <mkdir dir="doc/test"/>
+    </target>
+
+    <target name="clean" description="tidies up">
+        <delete dir="build" />
+        <delete dir="reports" />
+        <delete dir="doc" />
+    </target>
+
+    <target name="compile" description="compiles java source code" depends="init">
+        <javac destdir="build/classes" deprecation="on" debug="on" target="1.4">
+            <src path="src/java" />
+            <src path="test/java" />
+            <classpath>
+                <path refid="build-classpath" />
+            </classpath>
+            <exclude name="**/CVS/*" />
+        </javac>
+    </target>
+
+    <target name="jar" description="jars compiled source and test code" depends="compile">
+        <jar destfile="build/lib/mailarchive.jar">
+            <fileset dir="build/classes">
+                <exclude name="**/*Test.class" />
+                <exclude name="**/*Util.class"/>
+                <include name="**/*.class" />
+            </fileset>
+            <metainf dir="test/mbox">
+                <include name="javamail.providers" />
+            </metainf>
+        </jar>
+        <jar destfile="build/lib/mailarchive_test.jar">
+            <fileset dir="build/classes">
+                <include name="**/*Test.class" />
+            </fileset>
+            <fileset dir="build/classes">
+                <include name="**/*Util.class" />
+            </fileset>
+            <fileset dir="test/java">
+                <include name="org/authorsite/mailarchive/model/impl/*.jpg" />
+            </fileset>
+        </jar>
+        <!-- assembles the resource bundles for i18n -->
+        <jar destfile="build/lib/mailarchive_resources.jar">
+            <fileset dir="src/java">
+                <include name="**/*.properties"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <!--
+    
+    TESTING TARGETS
+    
+    -->    
+    
+    <target name="test-all" depends="jar" description="runs all test - unit tests and hibernate integration tests">
+        <antcall target="unit-test">
+            <param name="full-test-running" value="true"/>
+        </antcall>
+        <antcall target="hibernate-integration-test">
+            <param name="full-test-running" value="true"/>
+         </antcall>
+        <antcall target="test-report"/>
+    </target>
+    
+    <target name="test-report" description="generates HTML report on test results">
+        <junitreport todir="doc/test">
+            <fileset dir="doc/test">
+                <include name="TEST-*.xml" />
+            </fileset>
+            <report format="frames" todir="doc/test" />
+        </junitreport>
+    </target>
+    
+    <target name="clean-test-report" unless="clean-test-report">
+        <delete dir="doc/test"/>
+        <mkdir dir="doc/test"/>
+    </target>
+    
+    <target name="unit-test" description="runs all unit tests without any hibernate dependent code" depends="jar">
+        <copy file="test/mbox/testing1.mbox" todir="${java.io.tmpdir}" />
+        <copy todir="${java.io.tmpdir}/maildir">
+               <fileset dir="test/maildir"/>
+        </copy>
+        <junit printsummary="true" >
+            <formatter type="xml" />
+            <batchtest todir="doc/test">
+                <fileset dir="test/java">
+                    <include name="**/**Test.java" />
+                    <exclude name="**/Trivial*.java" />
+                    <exclude name="**/*PersistenceTest.java"/>
+                    <exclude name="**/storage/*Test.java"/>
+                </fileset>
+            </batchtest>
+            <classpath>
+                <path refid="test-classpath" />
+            </classpath>
+        </junit>
+        <delete file="${java.io.tmpdir}/testing1.mbox"/>
+        <delete dir="${java.io.tmpdir}/maildir"/>
+        <antcall target="test-report"/>
+     </target>
+    
+    <target name="hibernate-integration-test" depends="jar">
+        <antcall target="hibernate-loadschema">
+            <param name="hibernateProps" value="testing"/>
+        </antcall>
+
+        <copy file="test/mbox/testing1.mbox" todir="${java.io.tmpdir}" />
+        <copy file="conf/hibernate.testing.properties" tofile="conf/hibernate.properties"/>
+        <delete file="hibernate.log"/> <!-- stop this getting far too big by pruning it away each test run -->
+
+        <!-- run loaders which prep the db with data for use by some of the test cases -->
+        <java classname="org.authorsite.mailarchive.services.storage.DataLoadRunner">
+            <classpath>
+                <path refid="test-classpath"/>
+            </classpath>
+            <arg value="org.authorsite.mailarchive.services.storage.MessageLocatorDataLoader"/>
+            <arg value="org.authorsite.mailarchive.services.storage.MessageLocatorRoleDataLoader"/>
+            <arg value="org.authorsite.mailarchive.services.storage.MessagePersisterDataLoader"/>
+            <arg value="org.authorsite.mailarchive.services.storage.EmailAddressDataLoader"/>
+            <arg value="org.authorsite.mailarchive.services.storage.PersonDataLoader"/>
+        </java>
+
+
+        <junit printsummary="true" >
+            <formatter type="xml" />
+            <batchtest todir="doc/test">
+                <fileset dir="test/java">
+                    <include name="**/*PersistenceTest.java" />
+                    <include name="**/storage/*Test.java"/>
+                    <exclude name="**/Trivial*.java" />
+                </fileset>
+            </batchtest>
+            <classpath>
+                <path refid="test-classpath" />
+            </classpath>
+        </junit>
+        
+        <delete file="${java.io.tmpdir}/testing1.mbox" />
+        <delete file="conf/hibernate.properties"/>
+        <antcall target="test-report"/>
+    </target>
+    
+    <target name="javadoc" description="generates javadoc on all java source files">
+        <javadoc packagenames="org.authorsite.mailarchive.*" author="true" version="true" sourcepath="src/java" destdir="doc/javadoc"></javadoc>
+    </target>
+    
+    <!-- 
+    
+    WEB TARGETS
+    
+    -->
+    
+    <target name="explodedWebApp" description="assembles web archive in exploded form" depends="jar">
+        <!-- this can then be set as a Tomcat context path which could be quite useful in
+        development -->
+        
+        <copy file="conf/web/web.xml" todir="build/web/exploded/WEB-INF"/>
+        <copy file="conf/web/struts-config.xml" todir="build/web/exploded/WEB-INF"/>
+        <copy file="conf/web/authorsite.xml" tofile="build/web/exploded/WEB-INF/tlds/authorsite.tld"/>
+        <copy todir="build/web/exploded/WEB-INF/tlds">
+            <fileset dir="conf/web">
+                <include name="*.tld"/> <!-- i.e. the struts ones in our case -->
+            </fileset>
+        </copy>
+        
+        <copy todir="build/web/exploded/WEB-INF/lib">
+            <fileset dir="build/lib">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+        
+        <copy todir="build/web/exploded/WEB-INF/lib">
+            <fileset dir="lib">
+                <include name="*.jar"/>
+                <exclude name="servletapi-2.4.jar"/> <!-- not needed as included in servlet container! -->
+                <exclude name="jspapi-2.0.jar"/> <!-- ditto -->
+            </fileset>
+        </copy>
+        
+        <!-- normal .jspx files -->
+        <copy todir="build/web/exploded">
+            <fileset dir="src/web">
+                <exclude name="WEB-INF/*"/>
+                <exclude name="jspf/*"/>
+            </fileset>
+        </copy>
+        
+        <!-- jspf files to WEB-INF where they can't be called directly -->
+        <copy todir="build/web/exploded/WEB-INF/jspf">
+            <fileset dir="src/web/jspf">
+                <include name="**/*.jspf"/>
+            </fileset>
+        </copy>
+        
+        <!-- hibernate .hbm.xml files need to be copied -->
+        <copy todir="build/web/exploded/WEB-INF/classes">
+            <fileset dir="build/src/conf">
+                <include name="**/*.hbm.xml"/>
+            </fileset>
+        </copy>
+        
+        <!-- and the cache configuration -->
+        <copy file="conf/ehcache.xml" todir="build/web/exploded/WEB-INF/classes"/>
+        
+        <!-- and the spring application context -->
+        <copy file="conf/applicationContext.xml" todir="build/web/exploded/WEB-INF"/>
+        
+        <!-- log4j.properties -->
+        <copy file="conf/log4j.properties" todir="build/web/exploded/WEB-INF/classes"/>
+    </target>
+    
+    <!--
+    
+    HIBERNATE TARGETS
+    
+    -->
+    
+    <target name="hibernate-descriptors" description="Generates Hibernate class descriptor files. Set property regnerateDescriptors to run it." if="regenerateDescriptors">
+
+            <taskdef name="hibernatedoclet" classname="xdoclet.modules.hibernate.HibernateDocletTask">
+                <classpath>
+                    <fileset dir="${xdoclet.lib.dir}">
+                        <include name="*.jar"/>
+                    </fileset>
+                    <fileset dir="lib">
+                        <include name="*.jar"/>
+                    </fileset>
+                </classpath>
+                
+            </taskdef>
+
+            <hibernatedoclet destdir="build/src/conf" excludedtags="@version,@author,@todo" force="true" verbose="false">
+                <fileset dir="src/java/">
+                    <include name="**/model/**/*.java"/>
+                </fileset>
+                <hibernate version="2.0"/>
+            </hibernatedoclet>
+
+            <replace dir="build/src/conf">
+                <include name="**/*.hbm.xml"/>
+                <replacefilter token="readonly=" value="inverse="/>
+                <replacefilter token="role=" value="name="/>
+                <replacefilter token="hibernate-mapping.dtd" value="hibernate-mapping-2.0.dtd"/>
+            </replace>
+            
+            <script language="beanshell" src="hibernate-config-resource-mapping.bsh"/>
+            <copy file="src/xml/hibernate/hibernate.cfg.xml" todir="build/src/conf"/>
+
+        </target>
+
+        <target name="hibernate-schemaexport" depends="jar, hibernate-descriptors" description="generates SQL DDL. Requires mailarchive.jar" if="regenerateDDL">
+            <taskdef name="schemaexport" classname="net.sf.hibernate.tool.hbm2ddl.SchemaExportTask">
+                <classpath>
+                    <path path="build/src/conf"/>
+                    <path path="build/lib/mailarchive.jar"/>
+                    <path location="conf"/>
+                    <fileset dir="lib">
+                        <include name="**/*.jar" />
+                    </fileset>
+                </classpath>
+            </taskdef>
+
+            <schemaexport properties="conf/hibernate.${hibernateProps}.properties" quiet="yes" text="yes" drop="no" delimiter=";" output="build/src/sql/schema-export.sql">
+                <fileset dir="build/src/conf">
+                    <include name="**/*.hbm.xml"/>
+                </fileset>
+            </schemaexport>
+        </target>
+
+        <target name="hibernate-loadschema" depends="hibernate-schemaexport" description="runs SQL DDL and loads languages">
+            <property file="conf/hibernate.${hibernateProps}.properties/"/>
+            <sql driver="${hibernate.connection.driver_class}" url="${hibernate.connection.url}" userid="${hibernate.connection.username}" password="${hibernate.connection.password}" src="build/src/sql/schema-export.sql" onerror="continue">
+                <classpath>
+                    <path refid="build-classpath"/>
+                </classpath>
+            </sql>
+            <script language="beanshell" src="generate-language-sql.bsh"/>
+            <sql driver="${hibernate.connection.driver_class}" url="${hibernate.connection.url}" userid="${hibernate.connection.username}" password="${hibernate.connection.password}" src="build/src/sql/languages.sql" onerror="continue">
+                <classpath>
+                    <path refid="build-classpath"/>
+                </classpath>
+            </sql>
+        </target>
+    
+
+    
+</project>

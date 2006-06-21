@@ -1,0 +1,140 @@
+<project name="vocab" default="buildCore">
+	<description>Builds authorsite.org's vocab sub-project</description>
+	
+	<property file="build.properties"/>
+	
+	<path id="classpath">
+		<pathelement location="${servlet.jar}"/>
+		<pathelement location="${junit.jar}"/>
+		<pathelement location="${log4j.jar}"/>
+	</path>
+	
+	<target name="swingIcons" description="gets java look and feel graphics repository images. Images copyright Sun Microsystems 2000. See LICENSE file">
+		<mkdir dir="images"/>
+		<mkdir dir="icons"/>
+		<mkdir dir="images/icons/jlfgr"/>
+		<mkdir dir="images/tmp"/>
+		<get src="http://www.authorsite.org/swingicons/jlfgr-1_0.zip" dest="images/tmp/jlfgr-1_0.zip"/>
+		<unzip src="images/tmp/jlfgr-1_0.zip" dest="images/tmp"/>
+		<delete file="images/tmp/jlfgr-1_0.zip"/>
+		<unzip src="images/tmp/jlfgr-1_0.jar" dest="images/tmp"/>
+		<delete file="images/tmp/jlfgr-1_0.jar"/>
+		<move todir="images/icons/jlfgr">
+			<fileset dir="images/tmp/toolbarButtonGraphics/"/>
+		</move>
+		<delete dir="images/tmp"/>
+	</target>
+	
+	<target name="prepare" description="creates build directories">
+		<mkdir dir="build"/>
+		<mkdir dir="build/classes"/>
+		<mkdir dir="build/lib"/>
+		<mkdir dir="build/test"/>
+		<mkdir dir="build/test/classes"/>
+		<mkdir dir="doc"/>
+		<mkdir dir="doc/API"/>
+		<mkdir dir="doc/reports"/>
+		<mkdir dir="doc/reports/tests"/>
+		<mkdir dir="doc/reports/tests/xml"/>
+		<mkdir dir="doc/reports/tests/html"/>
+	</target>
+	
+	<target name="clean" description="removes build directories">
+		<delete>
+			<fileset dir="build/classes" />
+			<fileset dir="build/lib" />
+			<fileset dir="build/test" />
+			<fileset dir="doc/reports/tests"/>
+		</delete>
+	</target>
+	
+	<target name="buildCore" depends="prepare" description="builds core system">
+		<javac srcdir="src/java" destdir="build/classes" classpathref="classpath">
+			<include name="org/authorsite/vocab/core/**" />
+			<include name="org/authorsite/vocab/exceptions/**" />
+			<include name="org/authorsite/vocab/resources/**" />
+			<include name="org/authorsite/vocab/VocabConstants.java" />
+			<exclude name="org/authorsite/vocab/gui/**" />
+			<exclude name="org/authorsite/vocab/servlets/**" />
+			<exclude name="org/authorsite/vocab/sql/**"/>
+		</javac>
+	</target>
+	
+	<target name="buildCoreTests" depends="buildCore" description="builds core unit tests">
+		<javac srcdir="src/test/java" destdir="build/test/classes">
+			<include name="org/authorsite/vocab/core/**" />
+			<include name="org/authorsite/vocab/VocabTest.java"/>
+			<exclude name="org/authorsite/vocab/gui/**"/>
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement location="build/classes"/>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="runCoreTests" depends="buildCoreTests" description="runs core unit testst">
+		<junit printsummary="yes" haltonfailure="no">
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement location="build/classes"/>
+				<pathelement location="build/test/classes"/>
+			</classpath>
+			
+			<formatter type="xml"/>
+			
+			<batchtest fork="no" todir="doc/reports/tests/xml">
+				<fileset dir="build/test/classes">
+					<include name="**/*Test.class"/>
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="doc/reports/tests/xml">
+			<fileset dir="doc/reports/tests/xml">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="doc/reports/tests/html"/>
+		</junitreport>
+	</target>
+	
+	<target name="javadoc" description="generates API documentation">
+		<javadoc destdir="doc/API" author="true" version="true" windowtitle="Vocab Manager API">
+			<fileset dir="src/java" defaultexcludes="yes"/>
+		</javadoc>
+	</target>
+	
+	<target name="buildGUI" depends="buildCore" description="builds system with Swing GUI">
+		<javac srcdir="src/java" destdir="build/classes">
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement location="build/classes"/>
+			</classpath>
+			<include name="org/authorsite/vocab/gui/**"/>
+		</javac>
+	</target>
+	
+	<target name="testGUI" depends="buildGUI" description="runs Swing GUI unit tests">
+		<echo>Tests need writing</echo>
+	</target>
+	
+	<target name="jar" description="jars everything up">
+		 <jar destfile="build/lib/vocab.jar" >
+		 	<fileset dir="build/classes"/>
+		 	<fileset dir="src/java">
+		 		<include name="**/*.properties"/>
+		 	</fileset>
+		 </jar>
+	</target>
+	
+	<target name="runGUI" depends="jar" description="runs Swing GUI Runner">
+		<mkdir dir="build/lib/conf"/>
+		<copy file="conf/vocab.properties" tofile="build/lib/conf/vocab.properties"/>
+		<java fork="true" classname="org.authorsite.vocab.gui.VocabGUIRunner" >
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement location="build/lib/vocab.jar"/>
+				<pathelement location="conf"/>
+			</classpath>
+		</java>
+	</target>
+
+</project>

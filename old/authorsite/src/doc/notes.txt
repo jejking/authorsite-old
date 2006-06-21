@@ -1,0 +1,115 @@
+$Header: /cvsroot/authorsite/authorsite/src/doc/notes.txt,v 1.1 2002/09/03 17:02:45 jejking Exp $
+
+Architecture Notes for authorsite.org bibliography app
+
+EJB Design Patterns book (Marinescu, et al)
+
+1. Session Facade
+Clients only access a series of well-defined session bean facades.
+Client should only call one method on facade to get one unit of work done.
+There should be no direct access to the entity beans (except for purpose of testing in development).
+Transactions executed from facade layer.
+Do not bloat the facade beans - break them down by functional area.
+Facade should delegate to other entity and session beans that model the domain.
+Extrapolate common business logic into a services layer reused by domain model components.
+
+2. Message Facade
+(not really relevant to our app at the moment. Might be necessary if we need to queue up processor intensive work).
+
+3. EJB Command
+Lack of maintainability over time, etc
+The putative benefits are not really relevant if we use xdoclet, continuous integration, etc
+Plus we only have a small development team right now.
+- we won't use this pattern
+
+4. DTO Factory
+It is quite likely we'll need different sorts of DTOs to transfer details about mediaItems back to the client 
+according to where we are in the app (the full monty, author + title, etc).
+It is also utterly essential to use some sort of value object assembler as the mediaItem as seen by the client
+is actually composed of mediaItem + mediaDetails + languages + resolved containment relationships + resolved
+mediaProducer relationships at the very least. 
+DTO Factory therefore makes sense for the bibliography app to assemble DTOs of various degrees of detail from the
+components of the full media item.
+Our DTO Factory could be a plain java class instantiated and used inside a Session EJB.
+
+It would also be strongly advisable to provide methods on the facade that accept custom DTOs from the client (e.g. for
+a mediaPerson or mediaOrganisation).
+
+5. Generic Attribute Access
+Uses HashMaps - this is what we plan to do with the mediaDetails beans so we can code them generically.
+
+p. 34 - very simple for BMP
+p. 35 - could use reflection for CMP
+p. 36 - suggest using a superclass which implements this generic access. (mediaDetails as superclass? then use bookDetails
+	as subclass of that).
+Generally, because our mediaDetails classes will all be very, very similar we can probably overcome some of the 
+trade-offs listed for this pattern by code generation. This should allow us to use the HashMap DTO pattern as well to 
+bundle the attributes into.
+
+6. Business Interface
+Not relevant if we use XDoclet as interfaces are generated dynamically from one source.
+
+7. Data Transfer Object
+OBVIOUSLY YES!!!
+
+8. Domain Data Transfer Object
+I don't think so - we're going via the facade for starters and the client isn't really interested in any of our domain
+objects until we have assembled them into an aggregate DTO that has meaning on the client side.
+(ok, it does match what they say on p. 53 about "Displaying data that spans related entity beans").
+I think we'll make them immutable anyway - the aggregate DTOs sent to the client could be quite complex.
+
+9. Custom Data Transfer Objects
+Much more useful methinks. Especially as some of the mediaDetails objects could get really full of attributes not everyone
+is interested in (eg measurements of a book won't interest your average academic...).
+Immutable and tied to needs of client (especially for display purposes).
+
+10. Data Transfer HashMap
+To be used as part of our DTO scheme to encapsulate mediaDetails. Keys, types (for casting) will be held in the generic config file
+for the app.
+
+11. Data Transfer RowSet
+Might be useful for read only direct access to the database that bypasses the Entity EJBs.
+
+12. Version Number
+Accounts for "think time" between parts of a logical transaction that cannot be isolated using transactions on the DB as things
+would block for too long...
+Initially, I don't think we'll need to worry too much about this as we won't have lots of people accessing the same objects for
+write purposes at the same time. It could (and probably should) be added later once we have multiple admins and the like.
+
+13. JDBC for Reading
+Good CMP implementation should avoid the N+1 database call issue...
+I think it might be useful (using DAO pattern) when we're doing relatively read only simple queries. Because a lot of the
+relationships mean that we have lots of many to many relationships which aren't too well modelled in tabular form, it may well
+be not particularly useful for reading and assembling our mediaItem DTOs. But for, say, searching for a particular author or titles
+of works in a particular language, might be a far stronger option than going through the entity beans.
+We could use JDBC straight from a stateless session bean. I think we'll avoid accessing the database from the client at all costs.
+
+14. Data Access Command Beans
+Not relevant to CMP.
+
+15. Dual Persistent Entity Bean.
+I'm fairly committed to using CMP because of all the advantages over BMP, so not relevant.
+
+16. EJBHome Factory
+Very sensible. We'll use it.
+
+17. Business Delegate
+Might be useful for decoupling client and server coding teams. But as they're both me, not necessary to start with.
+
+Primary Key Generation Strategies
+We will use integers for primary keys in the database.
+We will have a primary key factory that delegates to database specific objects to get
+the next suitable primary key.
+I like the sequence block approach...
+the UUID produces keys which are very long and not easy to manipulate (and I couldn't quite get hte code to work going
+on the descriptions).
+The stored proc approach isn't really helpful as we cannot rely on installed databases actualy supporting stored procedures
+and it really would tie us in too much to the bigger databases.
+
+Other points...
+p. 200. Validation of fields in CMP entity EJBs. The setXXX methods are abstract. So, declare setXXXField in local interface
+(naming convention) and make that method to the validation before calling the setXXX field directly.
+p. 204. Don't use domain DTOs in ejbCreate()
+
+
+ 
