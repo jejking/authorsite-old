@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : testApplicationContext1.xml
+    Created on : 4. Januar 2006, 18:15
+    Author     : jking
+    Description:
+        Purpose of the document follows.
+-->
+
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+<beans>
+    <bean id="wikiEngine" class="com.ecyrd.jspwiki.WikiEngine">
+        <property name="frontPage">
+            <description>Default front page of the wiki</description>
+            <value>FrontPage</value>
+        </property>
+    </bean>
+</beans>
