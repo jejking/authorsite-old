@@ -42,7 +42,7 @@ CREATE TABLE humans (
 ) ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 -- add index on name, given names
-ALTER TABLE HUMANS ADD INDEX HUMAN_NAME_IDX (name(100), givenNames(100));
+ALTER TABLE humans ADD INDEX HUMAN_NAME_IDX (name(100), givenNames(100));
 
 CREATE TABLE works (
     id              INTEGER PRIMARY KEY AUTO_INCREMENT,
