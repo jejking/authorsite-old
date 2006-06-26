@@ -1,0 +1,211 @@
+Alphabetic List
+Listed with Format RIS OUT
+Listing Created 26 Jun 2006, at 21:32
+
+
+ID  - 1
+TY  - JOUR
+A1  - Adolph, Rudolf
+T1  - Bibliotheken und Archive der Dichter III: Ernst Jünger
+JO  - B��rsenblatt für den deutschen Buchhandel, Frankfurter Ausgabe
+Y1  - 1955
+VL  - 11
+IS  - 39
+SP  - 314-315
+EP  -
+KW  -
+N1  -
+N2  -
+ER  -
+
+ID  - 2
+TY  - JOUR
+A1  - Alessio, Manuela
+T1  - Le figure del destino: La trilogia jüngeriana sulla grande guerra
+JO  - Transgressioni
+Y1  - 1995
+VL  -
+IS  -
+SP  - 57-92
+EP  -
+KW  -
+N1  -
+N2  -
+ER  -
+
+ID  - 3
+TY  - JOUR
+A1  - d'Algange, Luc-Olivier
+T1  - Ernst JǬnger et le pressentiment magnamine
+JO  - Antaios
+Y1  - 1996
+VL  - 2
+IS  - 11
+SP  - 148-151
+EP  -
+KW  -
+N1  -
+N2  -
+ER  -
+
+ID  - 4
+TY  - JOUR
+A1  - Andersch, Alfred
+T1  - Strahlungen
+JO  - Frankfurter Hefte
+Y1  - 1950
+VL  - 5
+IS  -
+SP  - 209-211
+EP  -
+KW  -
+N1  -
+N2  -
+ER  -
+
+ID  - 5
+TY  - JOUR
+A1  - Andersch, Alfred
+T1  - �ber die L inie�
+JO  - Frankfurter Hefte
+Y1  - 1952
+VL  - 7
+IS  -
+SP  - 976-978
+EP  -
+KW  -
+N1  -
+N2  -
+ER  -
+
+ID  - 6
+TY  - THES
+A1  - Appelhans, Gerh�ard
+T1  - Klages, Jünger and Lukács: The Politicisaion of Lebensphilosophie, 1900-
+      1933
+Y1  - 1997
+PB  - University of Colorado
+KW  -
+N1  - Dissertation
+N2  -
+N3  -
+M1  - Ph.D.
+ER  -
+
+ID  - 7
+TY  - BOOK
+A1  - Arnold, Heinz Ludwig
+T1  - Kleine Rede auf Ernst Jünger zum 70. Geburtstag
+Y1  - 1965
+VL  -
+T2  -
+A2  -
+CY  - Aachen
+PB  - Georgi
+KW  -
+N1  -
+N2  -
+ER  -
+
+ID  - 8
+TY  - CHAP
+A1  - Arnold, Heinz Ludwig
+T1  - Wandlung und Wiederkehr
+Y1  - 1965
+VL  -
+IS  -
+SP  - 7-22
+T2  - Wandlung und Wiederkehr: Festschrift zum 70. Geburtstag Ernst Jüngers
+A2  - Arnold, Heinz Ludwig
+CY  - Aachen
+PB  - Verlag Text + Kritik
+KW  -
+N1  -
+N2  -
+ER  -
+
+ID  - 9
+TY  - CHAP
+A1  - Assheuer, Thomas
+T1  - Paläontologie der Gegenwart. Ernst Jüngers TagebǬcher Siebzig verweht
+      I-III (1980/1981/1993)
+Y1  - 1995
+VL  -
+IS  -
+SP  - 269-281
+T2  - Ernst Jünger im 20. Jahrhundert
+A2  - Müller, Hans-Harald; Segeberg, Harro
+CY  - MǬnchen
+PB  - Fink
+KW  -
+N1  -
+N2  -
+ER  -
+
+ID  - 11
+TY  - JOUR
+A1  - Baron, Ullrich
+T1  - "Qualitäten des Überganges": Der Rausch im Leben und Werk Ernst Jüngers
+JO  - Text + Kritik
+Y1  - 1990
+VL  - 105-106
+IS  -
+SP  - 89-97
+EP  -
+KW  -
+N1  -
+N2  -
+ER  -
+
+ID  - 10
+TY  - CHAP
+A1  - Baron, Ulrich
+T1  - Jüngers Erzählung 'Besuch auf Godenholm' (1952): Annäherung an Drogen und
+      Rausch (1970)
+Y1  - 1995
+VL  -
+IS  -
+SP  - 199-216
+T2  - Ernst Jünger im 20. Jahrhundert
+A2  - Müller, Hans-Harald; Segeberg, Harro
+CY  - München
+PB  - Fink
+KW  -
+N1  -
+N2  -
+ER  -
+
+ID  - 12
+TY  - CHAP
+A1  - Müller, Hans-Harald
+T1  - "Im Grunde erlebt jeder seinen eigenen Krieg": Zur Bedeutung des
+      Kriegserlebnisses im Frühwrk Ernst Jüngers."
+Y1  - 1995
+VL  -
+IS  -
+SP  - 13-37
+T2  - Ernst Jünger im 20. Jahrhundert
+A2  - Müller, Hans-Harald; Segeberg, Harro
+CY  - München
+PB  - Fink
+KW  -
+N1  -
+N2  -
+ER  -
+
+ID  - 13
+TY  - JOUR
+A1  - Müller, Hans-Harald
+A1  - Kindt, Tom
+T1  - Zweimal Cervantes: Die "Don-Quijote"-LektǬren von Ernst Jünger und Ernst
+      Weiss. Ein Beitrag zur literarischen Anthropologie der zwanziger Jahre
+JO  - Jahrbuch zur liiterarischen Anthropologie der Weimarer Republik
+Y1  - 1995
+VL  - 1
+IS  -
+SP  - 230-254
+EP  -
+KW  -
+N1  -
+N2  -
+ER  -
