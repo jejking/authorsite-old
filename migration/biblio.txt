@@ -3,7 +3,7 @@ ID  - 1
 TY  - JOUR
 A1  - Adolph, Rudolf
 T1  - Bibliotheken und Archive der Dichter III: Ernst Jünger
-JO  - B��rsenblatt für den deutschen Buchhandel, Frankfurter Ausgabe
+JO  - Börsenblatt für den deutschen Buchhandel, Frankfurter Ausgabe
 Y1  - 1955
 VL  - 11
 IS  - 39
@@ -62,7 +62,7 @@ ER  -
 ID  - 5
 TY  - JOUR
 A1  - Andersch, Alfred
-T1  - �ber die L inie�
+T1  - Über die Linie
 JO  - Frankfurter Hefte
 Y1  - 1952
 VL  - 7
@@ -76,8 +76,8 @@ ER  -
 
 ID  - 6
 TY  - THES
-A1  - Appelhans, Gerh�ard
-T1  - Klages, Jünger and Lukács: The Politicisaion of Lebensphilosophie, 1900-
+A1  - Appelhans, Gerhard
+T1  - Klages, Jünger and Lukács: The Politicization of Lebensphilosophie, 1900-
       1933
 Y1  - 1997
 PB  - University of Colorado
@@ -130,8 +130,9 @@ VL  -
 IS  -
 SP  - 269-281
 T2  - Ernst Jünger im 20. Jahrhundert
-A2  - Müller, Hans-Harald; Segeberg, Harro
-CY  - MǬnchen
+A2  - Müller, Hans-Harald
+A2  - Segeberg, Harro
+CY  - München
 PB  - Fink
 KW  -
 N1  -
@@ -163,7 +164,8 @@ VL  -
 IS  -
 SP  - 199-216
 T2  - Ernst Jünger im 20. Jahrhundert
-A2  - Müller, Hans-Harald; Segeberg, Harro
+A2  - Müller, Hans-Harald
+A2  - Segeberg, Harro
 CY  - München
 PB  - Fink
 KW  -
@@ -175,13 +177,14 @@ ID  - 12
 TY  - CHAP
 A1  - Müller, Hans-Harald
 T1  - "Im Grunde erlebt jeder seinen eigenen Krieg": Zur Bedeutung des
-      Kriegserlebnisses im Frühwrk Ernst Jüngers."
+      Kriegserlebnisses im Frühwrk Ernst Jüngers.
 Y1  - 1995
 VL  -
 IS  -
 SP  - 13-37
 T2  - Ernst Jünger im 20. Jahrhundert
-A2  - Müller, Hans-Harald; Segeberg, Harro
+A2  - Müller, Hans-Harald
+A2  - Segeberg, Harro
 CY  - München
 PB  - Fink
 KW  -
@@ -193,9 +196,9 @@ ID  - 13
 TY  - JOUR
 A1  - Müller, Hans-Harald
 A1  - Kindt, Tom
-T1  - Zweimal Cervantes: Die "Don-Quijote"-LektǬren von Ernst Jünger und Ernst
+T1  - Zweimal Cervantes: Die "Don-Quijote"-Lektüren von Ernst Jünger und Ernst
       Weiss. Ein Beitrag zur literarischen Anthropologie der zwanziger Jahre
-JO  - Jahrbuch zur liiterarischen Anthropologie der Weimarer Republik
+JO  - Jahrbuch zur literarischen Anthropologie der Weimarer Republik
 Y1  - 1995
 VL  - 1
 IS  -
