@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Parser {
 
-    private static final String tagStartPattern = "^[A-Z0-9]{2}  - ";
+    private static final String tagStartPattern = "^[A-Z0-9]{2}  -";
     private ArrayList<RISEntry> entries = new ArrayList<RISEntry>();
     
     private RISEntry currentEntry;
@@ -20,9 +20,9 @@ public class Parser {
         if ( line == null ) {
             return false;
         }
-        if ( line.length() >= 6 )
+        if ( line.length() >= 5 )
         {
-            String tagPart = line.substring(0, 6);
+            String tagPart = line.substring(0, 5);
             if ( tagPart.matches(tagStartPattern)) {
                 return true;
             }
@@ -37,27 +37,84 @@ public class Parser {
     }
     
     
-    public void readFile(String fileName) throws IOException {
+    public void readFile(String fileName) throws IOException, RISException {
         File f = new File(fileName);
         if ( f.exists() ) {
             BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(f), "UTF8"));
             String str;
+            int lineNumber = 0;
             while ((str = in.readLine()) != null) {
-                processLine(str);
+                lineNumber++;
+                processLine(str, lineNumber);
             }
             in.close();
         }
         else {
             System.err.println("No such file as " + fileName);
         }
-        
+        for ( RISEntry entry : this.entries ) {
+            System.out.println(entry);
+        }
     }
     
-    private void processLine(String str) {
+    private void processLine(String str, int lineNumber) throws RISException {
+        
         String trimmed = str.trim();
+        // if line is blank, just ignore
         if ( trimmed.length() == 0 ) {
             return;
         }
+        
+        if ( this.lineIsTagged( str ))
+        {
+            RISEntryLine line = null;
+            
+            try {
+                line = new RISEntryLine(str);
+            } catch (RISException e) {
+                throw new RISException("Exception at line " + lineNumber, e);
+            }
+            
+            // end of record
+            if ( line.getKey().equals("ER") )  {
+                if ( this.currentEntry != null ) {
+                    this.entries.add( currentEntry );
+                    this.currentEntry = null;
+                }
+                else {
+                    throw new RISException("encountered end of record marker at line " + lineNumber + ", without one having been started"); 
+                }
+                return;
+            }
+            
+            if ( line.getKey().equals("ID")) {
+                return; // of no relevance to us
+            }
+
+            // start of record
+            if ( line.getKey().equals("TY")) {
+
+                if ( this.currentEntry == null ) {
+                    this.currentEntry = new RISEntry();
+                    this.currentEntry.addEntryLine(line);
+                }
+                else {
+                    throw new RISException("encountered start of record marker at line " + lineNumber + ", without the previous one having been finished");
+                }
+                return;
+            }
+            
+            if ( this.currentEntry == null ) {
+                throw new RISException("at line " + lineNumber + " encountered RIS before a TY record start marker tag");
+            }
+            this.currentEntry.addEntryLine(line);
+        }
+        else {
+           // probably value content continued from previous line...
+           this.currentEntry.getMostRecentEntry().appendToValue(str);
+        }
+        
+        
         
     }
 

@@ -24,4 +24,9 @@ public class ParserTest extends TestCase {
         assertFalse(p.lineIsTagged(null));
     }
     
+    public void testProcess() throws Exception {
+        Parser p = new Parser();
+        p.readFile("biblio.txt"); // expect no exception
+    }
+    
 }
