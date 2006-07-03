@@ -27,7 +27,7 @@ public class Collective extends AbstractHuman {
     @Override
     public String toSql() {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO HUMANS ");
+        sb.append("INSERT INTO humans ");
         sb.append("(id, created_at, updated_at, type, name, nameQualification, place ) ");
         sb.append("VALUES ");
         sb.append("( ");

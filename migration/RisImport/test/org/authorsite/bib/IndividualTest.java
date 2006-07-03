@@ -12,7 +12,7 @@ public class IndividualTest extends TestCase {
         p.setNameQualification("the one writing this code");
         
         String sqlStmt = p.toSql();
-        assertEquals("INSERT INTO HUMANS (id, created_at, updated_at, type, name, givenNames, nameQualification ) VALUES ( 1, NOW(), NOW(), 'Individual', 'King', 'John', 'the one writing this code');", sqlStmt);
+        assertEquals("INSERT INTO humans (id, created_at, updated_at, type, name, givenNames, nameQualification ) VALUES ( 1, NOW(), NOW(), 'Individual', 'King', 'John', 'the one writing this code');", sqlStmt);
     }
     
     public void testToSqlApostrophes() throws Exception {
@@ -22,7 +22,7 @@ public class IndividualTest extends TestCase {
         p.setNameQualification("The third one o' them");
         
         String sqlStmt = p.toSql();
-        assertEquals("INSERT INTO HUMANS (id, created_at, updated_at, type, name, givenNames, nameQualification ) VALUES ( 2, NOW(), NOW(), 'Individual', 'O\\'Reilly', 'O\\'Gorman', 'The third one o\\' them');", sqlStmt);
+        assertEquals("INSERT INTO humans (id, created_at, updated_at, type, name, givenNames, nameQualification ) VALUES ( 2, NOW(), NOW(), 'Individual', 'O\\'Reilly', 'O\\'Gorman', 'The third one o\\' them');", sqlStmt);
     }
     
     public void testToSqlGivenNamesNull() throws Exception {
@@ -31,7 +31,7 @@ public class IndividualTest extends TestCase {
         p.setNameQualification("the one writing this code");
         
         String sqlStmt = p.toSql();
-        assertEquals("INSERT INTO HUMANS (id, created_at, updated_at, type, name, givenNames, nameQualification ) VALUES ( 3, NOW(), NOW(), 'Individual', 'King', NULL, 'the one writing this code');", sqlStmt);
+        assertEquals("INSERT INTO humans (id, created_at, updated_at, type, name, givenNames, nameQualification ) VALUES ( 3, NOW(), NOW(), 'Individual', 'King', NULL, 'the one writing this code');", sqlStmt);
     }
     
     public void testToSqlNameQualificationNull() throws Exception {
@@ -40,7 +40,7 @@ public class IndividualTest extends TestCase {
         p.setGivenNames("John");
         
         String sqlStmt = p.toSql();
-        assertEquals("INSERT INTO HUMANS (id, created_at, updated_at, type, name, givenNames, nameQualification ) VALUES ( 4, NOW(), NOW(), 'Individual', 'King', 'John', NULL);", sqlStmt);
+        assertEquals("INSERT INTO humans (id, created_at, updated_at, type, name, givenNames, nameQualification ) VALUES ( 4, NOW(), NOW(), 'Individual', 'King', 'John', NULL);", sqlStmt);
         
     }
     
@@ -49,13 +49,13 @@ public class IndividualTest extends TestCase {
         p.setName("King");
         
         String sqlStmt = p.toSql();
-        assertEquals("INSERT INTO HUMANS (id, created_at, updated_at, type, name, givenNames, nameQualification ) VALUES ( 5, NOW(), NOW(), 'Individual', 'King', NULL, NULL);", sqlStmt);
+        assertEquals("INSERT INTO humans (id, created_at, updated_at, type, name, givenNames, nameQualification ) VALUES ( 5, NOW(), NOW(), 'Individual', 'King', NULL, NULL);", sqlStmt);
     }
     
     public void testToSqlNoName() throws Exception {
         Individual p = new Individual(6);
         String sqlStmt = p.toSql();
-        assertEquals("INSERT INTO HUMANS (id, created_at, updated_at, type, name, givenNames, nameQualification ) VALUES ( 6, NOW(), NOW(), 'Individual', 'Unknown', NULL, NULL);", sqlStmt);
+        assertEquals("INSERT INTO humans (id, created_at, updated_at, type, name, givenNames, nameQualification ) VALUES ( 6, NOW(), NOW(), 'Individual', 'Unknown', NULL, NULL);", sqlStmt);
     }
     
     public void testEqualsAllSet() {

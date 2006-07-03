@@ -11,6 +11,9 @@ public class BibTestSuite {
         TestSuite suite = new TestSuite();
         suite.addTestSuite( CollectiveTest.class);
         suite.addTestSuite( IndividualTest.class );
+        suite.addTestSuite( JournalTest.class);
+        suite.addTestSuite( ArticleTest.class );
+        suite.addTestSuite( BookTest.class );
         return suite;
     }
     

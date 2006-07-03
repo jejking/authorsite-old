@@ -12,7 +12,7 @@ public class CollectiveTest extends TestCase {
         c.setNameQualification("The one in the tests");
         
         String stmt = c.toSql();
-        assertEquals("INSERT INTO HUMANS (id, created_at, updated_at, type, name, nameQualification, place ) VALUES ( 1, NOW(), NOW(), 'Collective', 'Test1', 'The one in the tests', 'Testville');", stmt);
+        assertEquals("INSERT INTO humans (id, created_at, updated_at, type, name, nameQualification, place ) VALUES ( 1, NOW(), NOW(), 'Collective', 'Test1', 'The one in the tests', 'Testville');", stmt);
     }
     
     public void testToSqlJustName() throws Exception {
@@ -20,13 +20,13 @@ public class CollectiveTest extends TestCase {
         c.setName("Test1");
         
         String stmt = c.toSql();
-        assertEquals("INSERT INTO HUMANS (id, created_at, updated_at, type, name, nameQualification, place ) VALUES ( 2, NOW(), NOW(), 'Collective', 'Test1', NULL, NULL);", stmt);
+        assertEquals("INSERT INTO humans (id, created_at, updated_at, type, name, nameQualification, place ) VALUES ( 2, NOW(), NOW(), 'Collective', 'Test1', NULL, NULL);", stmt);
     }
     
     public void testToSqlNameNotSet() throws Exception {
         Collective c = new Collective(3);
         String stmt = c.toSql();
-        assertEquals("INSERT INTO HUMANS (id, created_at, updated_at, type, name, nameQualification, place ) VALUES ( 3, NOW(), NOW(), 'Collective', 'Unknown', NULL, NULL);", stmt);
+        assertEquals("INSERT INTO humans (id, created_at, updated_at, type, name, nameQualification, place ) VALUES ( 3, NOW(), NOW(), 'Collective', 'Unknown', NULL, NULL);", stmt);
     }
     
     public void testToSqlNamePlace() throws Exception {
@@ -34,7 +34,7 @@ public class CollectiveTest extends TestCase {
         c.setName("Test1");
         c.setPlace("Testville");
         String stmt = c.toSql();
-        assertEquals("INSERT INTO HUMANS (id, created_at, updated_at, type, name, nameQualification, place ) VALUES ( 4, NOW(), NOW(), 'Collective', 'Test1', NULL, 'Testville');", stmt);
+        assertEquals("INSERT INTO humans (id, created_at, updated_at, type, name, nameQualification, place ) VALUES ( 4, NOW(), NOW(), 'Collective', 'Test1', NULL, 'Testville');", stmt);
     }
     
     public void testToSqlNameNameQualification() throws Exception {
@@ -43,7 +43,7 @@ public class CollectiveTest extends TestCase {
         c.setNameQualification("The one in the tests");
         
         String stmt = c.toSql();
-        assertEquals("INSERT INTO HUMANS (id, created_at, updated_at, type, name, nameQualification, place ) VALUES ( 5, NOW(), NOW(), 'Collective', 'Test1', 'The one in the tests', NULL);", stmt);
+        assertEquals("INSERT INTO humans (id, created_at, updated_at, type, name, nameQualification, place ) VALUES ( 5, NOW(), NOW(), 'Collective', 'Test1', 'The one in the tests', NULL);", stmt);
         
     }
     
