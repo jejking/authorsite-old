@@ -76,7 +76,8 @@ CREATE TABLE works (
     edition			VARCHAR(255),
     volume			VARCHAR(255),
     number			VARCHAR(255),
-    chapter			VARCHAR(255)
+    chapter			VARCHAR(255),
+    url             TEXT
 )
 ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
