@@ -49,7 +49,7 @@ CREATE TABLE works (
     created_at		DATETIME,
     updated_at		DATETIME,
     lock_version	INTEGER NOT NULL DEFAULT 0,
-    type 			ENUM(	'AbstractWork',
+    type 			ENUM(	'FrbrWork',
                             'Article',
                             'Book',
                             'Booklet',
