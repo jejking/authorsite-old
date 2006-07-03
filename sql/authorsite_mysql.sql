@@ -67,7 +67,7 @@ CREATE TABLE works (
                             'Techreport',
                             'Unpublished' ) NOT NULL,
     title			TEXT NOT NULL,
-    year			YEAR NOT NULL,
+    year			YEAR,
     month			INTEGER,
     day			    INTEGER,
     pages			VARCHAR(255),
@@ -130,11 +130,11 @@ CREATE TABLE workWorkRelationships
     lock_version	INTEGER NOT NULL DEFAULT 0,
     from_id			INTEGER NOT NULL REFERENCES works(id),
     to_id			INTEGER NOT NULL REFERENCES works(id),
-    relationship	ENUM (	'containment',
-                            'expression',
-                            'subject',
-                            'translation',
-                            'citation' ) NOT NULL
+    relationship	ENUM (	'Containment',
+                            'Expression',
+                            'Subject',
+                            'Translation',
+                            'Citation' ) NOT NULL
 )
 ENGINE = MyISAM CHARACTER SET UTF8 COLLATE utf8_general_ci;
 
