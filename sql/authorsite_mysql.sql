@@ -114,7 +114,7 @@ CREATE TABLE humanWorkRelationships
                                 'Publisher',
                                 'Organization',
                                 'Institution',
-                                'School',
+                                'AwardingBody',
                                 'Subject' ) NOT NULL
 )
 ENGINE = MyISAM CHARACTER SET UTF8 COLLATE utf8_general_ci;
