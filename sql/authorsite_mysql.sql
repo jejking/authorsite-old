@@ -59,12 +59,11 @@ CREATE TABLE works (
                             'Inproceedings',
                             'Journal',
                             'Manual',
-                            'MastersThesis',
                             'Misc',
                             'OnlineResource',
-                            'PhdThesis',
                             'Proceedings',
                             'Techreport',
+                            'Thesis',
                             'Unpublished' ) NOT NULL,
     title			TEXT NOT NULL,
     year			YEAR,
@@ -77,6 +76,7 @@ CREATE TABLE works (
     volume			VARCHAR(255),
     number			VARCHAR(255),
     chapter			VARCHAR(255),
+    degree          VARCHAR(255),
     url             TEXT
 )
 ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
