@@ -15,6 +15,7 @@ public class BibTestSuite {
         suite.addTestSuite( ArticleTest.class );
         suite.addTestSuite( BookTest.class );
         suite.addTestSuite( ChapterTest.class );
+        suite.addTestSuite( ThesisTest.class );
         return suite;
     }
     
