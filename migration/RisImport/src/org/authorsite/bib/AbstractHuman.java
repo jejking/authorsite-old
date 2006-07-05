@@ -10,8 +10,11 @@ public abstract class AbstractHuman extends AbstractBibEntry {
     public AbstractHuman(long id) {
         super(id);
     }
-
     
+    public AbstractHuman() {
+        super();
+    }
+
     public String getName() {
         if ( name != null ) {
             return name;

@@ -64,6 +64,9 @@ public class CollectiveTest extends TestCase {
         
         assertEquals(c1.hashCode(), c2.hashCode());
         
+        assertEquals(0, c1.compareTo(c2));
+        assertEquals(0, c2.compareTo(c1));
+        
         Collective c3 = new Collective(3);
         c3.setName("Test1");
         c3.setPlace("Testville");
@@ -72,6 +75,9 @@ public class CollectiveTest extends TestCase {
         assertFalse(c2.equals(c3));
         assertFalse(c3.equals(c2));
         assertFalse(c1.hashCode() == c3.hashCode() );
+        
+        assertTrue(c1.compareTo(c3) > 0);
+        assertTrue(c3.compareTo(c1) < 0);
     }
     
     public void testEqualsHashCodeNameOnly() {
@@ -87,12 +93,18 @@ public class CollectiveTest extends TestCase {
         
         assertEquals(c1.hashCode(), c2.hashCode());
         
+        assertEquals(0, c1.compareTo(c2));
+        assertEquals(0, c2.compareTo(c1));
+        
         Collective c3 = new Collective(3);
         c3.setName("Test2");
         
         assertFalse(c2.equals(c3));
         assertFalse(c3.equals(c2));
         assertFalse(c1.hashCode() == c3.hashCode() );
+        
+        assertTrue(c1.compareTo(c3) < 0);
+        assertTrue(c3.compareTo(c1) > 0);
     }
     
     public void testEqualsHashCodeNamePlace() {
@@ -109,6 +121,8 @@ public class CollectiveTest extends TestCase {
         assertEquals(c2, c1);
         
         assertEquals(c1.hashCode(), c2.hashCode());
+        assertEquals(0, c1.compareTo(c2));
+        assertEquals(0, c2.compareTo(c1));
         
         Collective c3 = new Collective(3);
         c3.setName("Test1");
@@ -117,6 +131,9 @@ public class CollectiveTest extends TestCase {
         assertFalse(c2.equals(c3));
         assertFalse(c3.equals(c2));
         assertFalse(c1.hashCode() == c3.hashCode() );
+        
+        assertTrue(c1.compareTo(c3) > 0);
+        assertTrue(c3.compareTo(c1) < 0);
     }
     
     public void testEqualsHashCodePlaceNameQual() {
@@ -134,6 +151,9 @@ public class CollectiveTest extends TestCase {
         
         assertEquals(c1.hashCode(), c2.hashCode());
         
+        assertEquals(0, c1.compareTo(c2));
+        assertEquals(0, c2.compareTo(c1));
+        
         Collective c3 = new Collective(3);
         c3.setPlace("Testville");
         c3.setNameQualification("A different one from the tests");
@@ -141,6 +161,9 @@ public class CollectiveTest extends TestCase {
         assertFalse(c2.equals(c3));
         assertFalse(c3.equals(c2));
         assertFalse(c1.hashCode() == c3.hashCode() );
+        
+        assertTrue(c1.compareTo(c3) > 0);
+        assertTrue(c3.compareTo(c1) < 0);
     }
     
 }

@@ -1,21 +1,29 @@
 package org.authorsite.bib;
 
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-public class Book extends AbstractWork {
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
-    private Set<AbstractHuman> authors;
-    private Set<AbstractHuman> editors;
+public class Book extends AbstractWork implements Comparable {
+
+    private SortedSet<AbstractHuman> authors = new TreeSet<AbstractHuman>();;
+    private SortedSet<AbstractHuman> editors = new TreeSet<AbstractHuman>();
     private AbstractHuman publisher;
     private String volume;
     
     public Book(long id) {
         super(id);
-        authors = new HashSet<AbstractHuman>();
-        editors = new HashSet<AbstractHuman>();
     }
     
+    public Book() {
+        super();
+    }
+
     public void addAuthor(AbstractHuman author) {
         this.authors.add(author);
     }
@@ -77,6 +85,78 @@ public class Book extends AbstractWork {
         }
             
         return sb.toString();
+    }
+
+    
+    
+    @Override
+    public boolean equals(Object obj) {
+        if ( obj == null ) {
+            return false;
+        }
+        if ( obj == this ) {
+            return true;
+        }
+        if ( obj instanceof Book ) {
+            Book rhs = (Book) obj;
+            if ( this.authors.size() == rhs.authors.size() && this.editors.size() == rhs.editors.size() ) {
+                return new EqualsBuilder().append(this.getTitle(), rhs.getTitle())
+                                          .append(this.getYear(), rhs.getYear())
+                                          .append(this.authors.toArray(), rhs.authors.toArray())
+                                          .append(this.editors.toArray(), rhs.editors.toArray())
+                                          .append(this.publisher, rhs.publisher)
+                                          .isEquals();
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this.getTitle())
+                                    .append(this.getYear())
+                                    .append(this.authors.toArray())
+                                    .append(this.editors.toArray())
+                                    .append(this.publisher)
+                                    .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (AbstractHuman author: this.authors) {
+            sb.append(author);
+            sb.append(" ");
+        }
+        sb.append(":");
+        sb.append(this.getTitle());
+        sb.append(" (");
+        sb.append(this.getYear());
+        sb.append(") ");
+        sb.append("Eds: ");
+        for ( AbstractHuman editor : this.editors ) {
+            sb.append(editor);
+            sb.append(" ");
+        }
+        sb.append(this.publisher);
+        return sb.toString();
+    }
+
+    public int compareTo(Object o) {
+        Book rhs = (Book) o;
+        return new CompareToBuilder().append(this.getTitle(), rhs.getTitle())
+                                     .append(this.getYear(), rhs.getYear())
+                                     .append(this.authors.toArray(), rhs.authors.toArray())
+                                     .append(this.editors.toArray(), rhs.editors.toArray())
+                                     .append(this.publisher, rhs.publisher)
+                                     .toComparison();
+                                     
+         
     }
 
 }

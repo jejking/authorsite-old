@@ -5,6 +5,10 @@ public abstract class AbstractBibEntry {
 
     private long id;
     
+    public AbstractBibEntry() {
+        super();
+    }
+    
     public AbstractBibEntry(long id) {
         this.id = id;
     }
@@ -13,7 +17,6 @@ public abstract class AbstractBibEntry {
         return id;
     }
 
-    
     public void setId(long id) {
         this.id = id;
     }

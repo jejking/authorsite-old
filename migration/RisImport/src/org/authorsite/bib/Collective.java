@@ -2,11 +2,14 @@ package org.authorsite.bib;
 
 import javax.naming.ldap.HasControls;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import sun.misc.Compare;
 
-public class Collective extends AbstractHuman {
+
+public class Collective extends AbstractHuman implements Comparable {
 
     private String place;
     
@@ -15,6 +18,11 @@ public class Collective extends AbstractHuman {
     }
 
     
+    public Collective() {
+        super();
+    }
+
+
     public String getPlace() {
         return place;
     }
@@ -97,6 +105,15 @@ public class Collective extends AbstractHuman {
             sb.append(")");
         }
         return sb.toString();
+    }
+
+
+    public int compareTo(Object o) {
+        Collective rhs = (Collective) o;
+        return new CompareToBuilder().append(this.getName(), rhs.getName())
+                                     .append(this.getPlace(), rhs.getPlace())
+                                     .append(this.getNameQualification(), rhs.getNameQualification())
+                                     .toComparison();
     }
     
     

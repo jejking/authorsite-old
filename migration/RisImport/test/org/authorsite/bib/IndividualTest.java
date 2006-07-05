@@ -187,4 +187,30 @@ public class IndividualTest extends TestCase {
         
         assertFalse(i2.hashCode() == i3.hashCode());
     }
+    
+    public void testCompareTo() {
+        Individual i1 = new Individual();
+        i1.setName("King");
+        i1.setGivenNames("John");
+        
+        Individual i2 = new Individual();
+        i2.setName("King");
+        i2.setGivenNames("John");
+        
+        assertEquals(0, i1.compareTo(i2));
+        
+        Individual i3 = new Individual();
+        i3.setName("King");
+        i3.setGivenNames("Adam");
+        
+        assertTrue(i1.compareTo(i3) > 0 );
+        assertTrue(i3.compareTo(i1) < 0);
+        
+        Individual i4 = new Individual();
+        i4.setName("Smith");
+        i4.setGivenNames("John");
+        
+        assertTrue(i1.compareTo(i4) < 0);
+        assertTrue(i4.compareTo(i1) > 0);
+    }
 }

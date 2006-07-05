@@ -59,6 +59,16 @@ public class RISEntry {
         
     }
     
+    public String getType() {
+        List<RISEntryLine> entryList = entries.get("TY");
+        if ( entryList == null ) {
+            return null;
+        }
+        else {
+            return entryList.get(0).getValue();
+        }
+    }
+    
     public RISEntryLine getMostRecentEntry() {
         return this.mostRecentEntry;
     }
@@ -84,6 +94,8 @@ public class RISEntry {
         sb.append("ER  -");
         return sb.toString();
     }
+
+
     
     
     

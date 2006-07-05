@@ -1,18 +1,23 @@
 package org.authorsite.bib;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 
-public class Individual extends AbstractHuman {
+public class Individual extends AbstractHuman implements Comparable {
 
     private String givenNames;
     
     public Individual(long id) {
         super(id);
     }
-
     
+    public Individual() {
+        super();
+    }
+
+
     public String getGivenNames() {
         return givenNames;
     }
@@ -94,6 +99,16 @@ public class Individual extends AbstractHuman {
             sb.append( this.getNameQualification() );
         }
         return sb.toString();
+    }
+
+
+    public int compareTo(Object o) {
+        Individual rhs = (Individual) o;
+        return new CompareToBuilder().append(this.getName(), rhs.getName())
+                                     .append(this.givenNames, rhs.givenNames)
+                                     .append(this.getNameQualification(), rhs.getNameQualification())
+                                     .toComparison();
+                                     
     }
     
     

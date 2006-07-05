@@ -1,7 +1,11 @@
 package org.authorsite.bib;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class Thesis extends AbstractWork {
+
+public class Thesis extends AbstractWork implements Comparable {
 
     private Individual author;
     private Collective awardingBody;
@@ -11,6 +15,9 @@ public class Thesis extends AbstractWork {
         super(id);
     }
     
+    public Thesis() {
+    }
+
     public Individual getAuthor() {
         return author;
     }
@@ -58,6 +65,52 @@ public class Thesis extends AbstractWork {
         }
             
         return sb.toString();
+    }
+    
+    
+
+    @Override
+    public boolean equals(Object obj) {
+        if ( obj == null ) {
+            return false;
+        }
+        if ( obj == this ) {
+            return true;
+        }
+        if ( obj instanceof Thesis ) {
+            Thesis rhs = (Thesis) obj;
+            return new EqualsBuilder().append(this.getTitle(), rhs.getTitle())
+                                      .append(this.author, rhs.author)
+                                      .append(this.getYear(), rhs.getYear())
+                                      .append(this.degree, rhs.degree)
+                                      .append(this.awardingBody, rhs.awardingBody)
+                                      .isEquals();
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this.getTitle()).append(
+                this.getAuthor()).append(this.getYear()).append(this.degree).append(
+                this.awardingBody).toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return (this.degree + " thesis by: " + this.getAuthor() + " awarded by " + this.awardingBody + " in " + this.getYear());
+    }
+
+    public int compareTo(Object o) {
+        Thesis rhs = (Thesis) o;
+        return new CompareToBuilder().append(this.getTitle(), rhs.getTitle())
+                                     .append(this.author, rhs.author)
+                                     .append(this.getYear(), rhs.getYear())
+                                     .append(this.degree, rhs.degree)
+                                     .append(this.awardingBody, rhs.awardingBody)
+                                     .toComparison();
     }
 
 }

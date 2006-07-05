@@ -13,6 +13,11 @@ public abstract class AbstractWork extends AbstractBibEntry {
     }
 
     
+    public AbstractWork() {
+        super();
+    }
+
+
     public String getTitle() {
         return title;
     }

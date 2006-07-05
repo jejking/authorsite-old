@@ -1,12 +1,17 @@
 package org.authorsite.bib;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class Journal extends AbstractWork {
+public class Journal extends AbstractWork implements Comparable {
 
     public Journal(long id) {
         super(id);
+    }
+
+    public Journal() {
+        super();
     }
 
     @Override
@@ -41,6 +46,11 @@ public class Journal extends AbstractWork {
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.getTitle()).toHashCode();
+    }
+
+    public int compareTo(Object o) {
+        Journal rhs = (Journal) o;
+        return new CompareToBuilder().append(this.getTitle(), rhs.getTitle()).toComparison();
     }
     
     
