@@ -53,7 +53,8 @@ public class Parser {
             System.err.println("No such file as " + fileName);
         }
         for ( RISEntry entry : this.entries ) {
-            System.out.println(entry);
+            RISEntryHandler handler = RISEntryHandlerFactory.getInstance().getHandler( entry );
+            handler.handleEntry( entry );
         }
     }
     

@@ -1,6 +1,8 @@
 package org.authorsite.bib.loader.ris;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.authorsite.bib.Book;
@@ -17,12 +19,12 @@ public class Bibliography {
     private static int humanIdCounter = 0;
     private static int workIdCounter = 0;
     
-    private Set<Individual> individuals = new HashSet<Individual>();
-    private Set<Collective> collectives = new HashSet<Collective>();
-    private Set<Journal> journals = new HashSet<Journal>();
-    private Set<Chapter> chapters = new HashSet<Chapter>();
-    private Set<Book> books = new HashSet<Book>();
-    private Set<Thesis> theses = new HashSet<Thesis>();
+    private Map<Individual, Individual> individuals = new HashMap<Individual, Individual>();
+    private Map<Collective, Collective> collectives = new HashMap<Collective, Collective>();
+    private Map<Journal, Journal> journals = new HashMap<Journal, Journal>();
+    private Map<Chapter, Chapter> chapters = new HashMap<Chapter, Chapter>();
+    private Map<Book, Book> books = new HashMap<Book, Book>();
+    private Map<Thesis, Thesis> theses = new HashMap<Thesis, Thesis>();
     
     private Bibliography() {
         super();
@@ -40,28 +42,49 @@ public class Bibliography {
         return Bibliography.workIdCounter++;
     }
     
-    public void handleIndividual(Individual i) {
-        
+    public Individual getAuthoritativeIndividual(Individual i) {
+        if ( this.individuals.containsKey(i) ) {
+            return this.individuals.get(i);
+        }
+        else {
+            i.setId(Bibliography.getNextHumanId());
+            this.individuals.put(i, i);
+            return i;
+        }
     }
     
-    public void handleCollective(Collective c) {
-        
+    public Collective handleCollective(Collective c) {
+        if ( this.collectives.containsKey(c)) {
+            return this.collectives.get(c);
+        }
+        else {
+            c.setId(Bibliography.getNextHumanId());
+            this.collectives.put(c, c);
+            return c;
+        }
     }
     
-    public void handleJournal(Journal j) {
-        
+    public Journal getAuthoritativeJournal(Journal j) {
+        return null;
     }
     
-    public void handleChapter(Chapter c) {
-        
+    public Chapter getAuthoritativeChapter(Chapter c) {
+        return null;
     }
     
-    public void handleBook(Book b) {
-        
+    public Book getAuthoritativeBook(Book b) {
+        return null;
     }
     
-    public void handleThesis(Thesis t) {
-        
+    public Thesis getAuthoritativeThesis(Thesis t) {
+        if ( this.theses.containsKey( t )) {
+            return t;
+        }
+        else {
+            t.setId(Bibliography.getNextWorkId());
+            this.theses.put(t, t);
+            return t;
+        }
     }
 }
 

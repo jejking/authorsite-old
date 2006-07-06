@@ -12,6 +12,8 @@ public class RISTestSuite {
         suite.addTestSuite(ParserTest.class);
         suite.addTestSuite(RISEntryLineTest.class);
         suite.addTestSuite(RISEntryTest.class);
+        suite.addTestSuite(HandlerHelperTest.class);
+        suite.addTestSuite(ThesisHandlerTest.class);
         return suite;
     }
 
