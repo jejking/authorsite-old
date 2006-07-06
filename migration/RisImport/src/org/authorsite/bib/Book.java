@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class Book extends AbstractWork implements Comparable {
 
-    private SortedSet<AbstractHuman> authors = new TreeSet<AbstractHuman>();;
+    private SortedSet<AbstractHuman> authors = new TreeSet<AbstractHuman>();
     private SortedSet<AbstractHuman> editors = new TreeSet<AbstractHuman>();
     private AbstractHuman publisher;
     private String volume;
