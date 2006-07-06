@@ -109,6 +109,9 @@ public class Collective extends AbstractHuman implements Comparable {
 
 
     public int compareTo(Object o) {
+        if ( o instanceof AbstractHuman && o instanceof Individual ) {
+            return -1;
+        }
         Collective rhs = (Collective) o;
         return new CompareToBuilder().append(this.getName(), rhs.getName())
                                      .append(this.getPlace(), rhs.getPlace())

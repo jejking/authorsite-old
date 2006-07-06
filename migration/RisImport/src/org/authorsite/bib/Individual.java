@@ -103,6 +103,9 @@ public class Individual extends AbstractHuman implements Comparable {
 
 
     public int compareTo(Object o) {
+        if ( o instanceof AbstractHuman && o instanceof Collective ) {
+            return 1;
+        }
         Individual rhs = (Individual) o;
         return new CompareToBuilder().append(this.getName(), rhs.getName())
                                      .append(this.givenNames, rhs.givenNames)

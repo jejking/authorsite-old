@@ -38,5 +38,7 @@ public abstract class AbstractHuman extends AbstractBibEntry {
     public void setNameQualification(String nameQualification) {
         this.nameQualification = nameQualification;
     }
+
+        
     
 }

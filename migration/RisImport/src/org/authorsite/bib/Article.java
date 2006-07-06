@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class Article extends AbstractWork implements Comparable {
 
-    private Set<AbstractHuman> authors = new HashSet<AbstractHuman>();;
+    private SortedSet<AbstractHuman> authors = new TreeSet<AbstractHuman>();;
     private Journal journal;
     private String volume;
     private String issue;
