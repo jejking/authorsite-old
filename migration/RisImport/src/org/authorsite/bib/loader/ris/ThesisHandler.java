@@ -35,7 +35,7 @@ public class ThesisHandler implements RISEntryHandler {
         Collective cBean = new Collective();
         cBean.setName(HandlerHelper.getFirstString(entry.getValues("PB")));
         
-        Collective awardingBody = Bibliography.getInstance().handleCollective( cBean );
+        Collective awardingBody = Bibliography.getInstance().getAuthoritativeCollective( cBean );
         
         // extract degree
         String degree = HandlerHelper.getFirstString(entry.getValues("M1"));

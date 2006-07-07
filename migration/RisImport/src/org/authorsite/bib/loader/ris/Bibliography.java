@@ -35,13 +35,45 @@ public class Bibliography {
     }
     
     public static int getNextHumanId() {
-        return Bibliography.humanIdCounter++;
+        return ++Bibliography.humanIdCounter;
     }
     
     public static int getNextWorkId() {
-        return Bibliography.workIdCounter++;
+        return ++Bibliography.workIdCounter;
     }
     
+    
+    
+    
+    public Map<Book, Book> getBooks() {
+        return books;
+    }
+
+    
+    public Map<Chapter, Chapter> getChapters() {
+        return chapters;
+    }
+
+    
+    public Map<Collective, Collective> getCollectives() {
+        return collectives;
+    }
+
+    
+    public Map<Individual, Individual> getIndividuals() {
+        return individuals;
+    }
+
+    
+    public Map<Journal, Journal> getJournals() {
+        return journals;
+    }
+
+    
+    public Map<Thesis, Thesis> getTheses() {
+        return theses;
+    }
+
     public Individual getAuthoritativeIndividual(Individual i) {
         if ( this.individuals.containsKey(i) ) {
             return this.individuals.get(i);
@@ -53,7 +85,7 @@ public class Bibliography {
         }
     }
     
-    public Collective handleCollective(Collective c) {
+    public Collective getAuthoritativeCollective(Collective c) {
         if ( this.collectives.containsKey(c)) {
             return this.collectives.get(c);
         }
@@ -78,13 +110,45 @@ public class Bibliography {
     
     public Thesis getAuthoritativeThesis(Thesis t) {
         if ( this.theses.containsKey( t )) {
-            return t;
+            return theses.get(t);
         }
         else {
             t.setId(Bibliography.getNextWorkId());
             this.theses.put(t, t);
             return t;
         }
+    }
+    
+    /*
+     * private Map<Individual, Individual> individuals = new HashMap<Individual, Individual>();
+    private Map<Collective, Collective> collectives = new HashMap<Collective, Collective>();
+    private Map<Journal, Journal> journals = new HashMap<Journal, Journal>();
+    private Map<Chapter, Chapter> chapters = new HashMap<Chapter, Chapter>();
+    private Map<Book, Book> books = new HashMap<Book, Book>();
+    private Map<Thesis, Thesis> theses = new HashMap<Thesis, Thesis>();
+     */
+    public void clearIndividuals() {
+        this.individuals.clear();
+    }
+    
+    public void clearCollectives() {
+        this.collectives.clear();
+    }
+    
+    public void clearJournals() {
+        this.journals.clear();
+    }
+    
+    public void clearChapters() {
+        this.chapters.clear();
+    }
+    
+    public void clearBooks() {
+        this.books.clear();
+    }
+    
+    public void clearTheses() {
+        this.theses.clear();
     }
 }
 
