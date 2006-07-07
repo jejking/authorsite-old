@@ -83,6 +83,10 @@ public class Article extends AbstractWork implements Comparable {
     public void addAuthor(AbstractHuman author) {
         this.authors.add(author);
     }
+    
+    public void addAuthors(Set<Individual> authors) {
+        this.authors.addAll(authors);
+    }
 
     @Override
     public String toSql() {
@@ -166,6 +170,8 @@ public class Article extends AbstractWork implements Comparable {
                                      .append(this.journal, rhs.journal)
                                      .toComparison();
     }
+
+   
 
 }
  

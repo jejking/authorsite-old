@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.authorsite.bib.Article;
 import org.authorsite.bib.Book;
 import org.authorsite.bib.Chapter;
 import org.authorsite.bib.Collective;
@@ -25,6 +26,7 @@ public class Bibliography {
     private Map<Chapter, Chapter> chapters = new HashMap<Chapter, Chapter>();
     private Map<Book, Book> books = new HashMap<Book, Book>();
     private Map<Thesis, Thesis> theses = new HashMap<Thesis, Thesis>();
+    private Map<Article, Article> articles = new HashMap<Article, Article>();
     
     private Bibliography() {
         super();
@@ -97,7 +99,14 @@ public class Bibliography {
     }
     
     public Journal getAuthoritativeJournal(Journal j) {
-        return null;
+        if ( this.journals.containsKey(j)) {
+            return this.journals.get(j);
+        }
+        else {
+            j.setId(Bibliography.getNextWorkId());
+            this.journals.put(j,j);
+            return j;
+        }
     }
     
     public Chapter getAuthoritativeChapter(Chapter c) {
@@ -119,14 +128,18 @@ public class Bibliography {
         }
     }
     
-    /*
-     * private Map<Individual, Individual> individuals = new HashMap<Individual, Individual>();
-    private Map<Collective, Collective> collectives = new HashMap<Collective, Collective>();
-    private Map<Journal, Journal> journals = new HashMap<Journal, Journal>();
-    private Map<Chapter, Chapter> chapters = new HashMap<Chapter, Chapter>();
-    private Map<Book, Book> books = new HashMap<Book, Book>();
-    private Map<Thesis, Thesis> theses = new HashMap<Thesis, Thesis>();
-     */
+    public Article getAuthoritativeArticle(Article a) {
+        if ( this.articles.containsKey(a)) {
+            return this.articles.get(a);
+        }
+        else {
+            a.setId(Bibliography.getNextWorkId());
+            this.articles.put(a, a);
+            return a;
+        }
+        
+    }
+    
     public void clearIndividuals() {
         this.individuals.clear();
     }
@@ -150,6 +163,11 @@ public class Bibliography {
     public void clearTheses() {
         this.theses.clear();
     }
+    
+    public void clearArticles() {
+        this.articles.clear();
+    }
+    
 }
 
 

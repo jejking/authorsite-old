@@ -78,7 +78,58 @@ public class BibliographyTest extends TestCase {
         assertSame(t1, at2);
         assertEquals(nextId + 1, at2.getId());
                 
+    }
+    
+    public void testGetAuthoritativeArticle() {
+        Individual i1 = new Individual();
+        i1.setName("King");
+        i1.setGivenNames("John");
         
+        Journal j = new Journal();
+        j.setTitle("Journal of Wibble Studies");
+        
+        Article a = new Article();
+        a.setTitle("Wombling and Wibbling");
+        a.setYear(2006);
+        a.addAuthor(i1);
+        a.setJournal(j);
+        a.setVolume("V");
+        
+        int nextId = Bibliography.getNextWorkId();
+        
+        Article aa = Bibliography.getInstance().getAuthoritativeArticle(a);
+        assertEquals(nextId + 1, aa.getId());
+        assertSame(a, aa);
+        
+        Article a2 = new Article();
+        a2.setTitle("Wombling and Wibbling");
+        a2.setYear(2006);
+        a2.addAuthor(i1);
+        a2.setJournal(j);
+        a2.setVolume("V");
+        
+        Article aa2 = Bibliography.getInstance().getAuthoritativeArticle(a2);
+        assertEquals(nextId + 1, aa2.getId());
+        assertSame(a, aa2);
         
     }
+    
+    public void testGetAuthoritativeJournal() {
+        Journal j = new Journal();
+        j.setTitle("Journal of Wibble Studies");
+        
+        int nextId = Bibliography.getNextWorkId();
+        
+        Journal aj = Bibliography.getInstance().getAuthoritativeJournal(j);
+        assertEquals(nextId + 1, aj.getId());
+        assertSame(j, aj);
+        
+        Journal j2 = new Journal();
+        j2.setTitle("Journal of Wibble Studies");
+        
+        Journal aj2 = Bibliography.getInstance().getAuthoritativeJournal(j2);
+        assertSame(j, aj2);
+        assertEquals(nextId + 1, aj2.getId());
+    }
+    
 }

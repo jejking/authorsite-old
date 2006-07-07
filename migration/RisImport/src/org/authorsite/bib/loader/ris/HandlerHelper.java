@@ -41,6 +41,23 @@ public class HandlerHelper {
         
         return individuals;
     }
+    
+    public static SortedSet<Individual> getAuthoritativeIndividuals(RISEntry entry) {
+        List<String> authorStrings = entry.getValues("A1");
+        SortedSet<Individual> authorBeanSet = new TreeSet<Individual>();
+        
+        for ( String authorString : authorStrings ) {
+            authorBeanSet.addAll(HandlerHelper.getIndividuals(authorString));
+        }
+        
+        SortedSet<Individual> authoritativeAuthors = new TreeSet<Individual>();
+        
+        for ( Individual individual : authorBeanSet ) {
+            authoritativeAuthors.add(Bibliography.getInstance().getAuthoritativeIndividual(individual));
+        }
+        
+        return authoritativeAuthors;
+    }
 
     public static int extractYear(List<String> values) {
         String yearString = values.get(0).trim();
