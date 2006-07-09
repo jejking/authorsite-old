@@ -1,6 +1,5 @@
 package org.authorsite.bib.loader.ris;
 
-import java.text.CollationElementIterator;
 import java.util.SortedSet;
 
 import org.authorsite.bib.Book;
