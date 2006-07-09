@@ -12,7 +12,7 @@ public class ArticleHandler implements RISEntryHandler {
     public void handleEntry(RISEntry entry) {
         
         // authors
-        SortedSet<Individual> authoritativeAuthors = HandlerHelper.getAuthoritativeIndividuals(entry);
+        SortedSet<Individual> authoritativeAuthors = HandlerHelper.getAuthoritativeIndividuals(entry, "A1");
         
         // year
         int year = HandlerHelper.extractYear(entry.getValues("Y1")); 
@@ -45,7 +45,7 @@ public class ArticleHandler implements RISEntryHandler {
         }
         if ( ep != null ) {
             pagesBuilder.append("-");
-            pagesBuilder.append("ep");
+            pagesBuilder.append(ep);
         }
         
         Article a = new Article();
@@ -58,7 +58,7 @@ public class ArticleHandler implements RISEntryHandler {
         a.setPages(pagesBuilder.toString());
         
         Bibliography.getInstance().getAuthoritativeArticle(a);
-
+        
     }
 
 }

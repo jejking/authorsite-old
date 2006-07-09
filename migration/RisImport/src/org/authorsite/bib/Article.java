@@ -1,6 +1,5 @@
 package org.authorsite.bib;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -11,7 +10,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class Article extends AbstractWork implements Comparable {
 
-    private SortedSet<AbstractHuman> authors = new TreeSet<AbstractHuman>();;
+    private SortedSet<AbstractHuman> authors = new TreeSet<AbstractHuman>();
     private Journal journal;
     private String volume;
     private String issue;
@@ -84,7 +83,7 @@ public class Article extends AbstractWork implements Comparable {
         this.authors.add(author);
     }
     
-    public void addAuthors(Set<Individual> authors) {
+    public void addAuthors(Set<? extends AbstractHuman> authors) {
         this.authors.addAll(authors);
     }
 
@@ -158,8 +157,24 @@ public class Article extends AbstractWork implements Comparable {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return super.toString();
+        StringBuilder sb = new StringBuilder();
+        for (AbstractHuman author : authors ) {
+            sb.append(author);
+            sb.append(", ");
+        }
+        sb.append("'");
+        sb.append(getTitle());
+        sb.append("'(");
+        sb.append(getYear());
+        sb.append("), in ");
+        sb.append(journal);
+        sb.append(", Volume:");
+        sb.append(volume == null ? "Unspecified" : volume);
+        sb.append(" Issue: ");
+        sb.append(issue == null ? "Unspecified" : issue);
+        sb.append(" pp: ");
+        sb.append(pages);
+        return sb.toString();
     }
 
     public int compareTo(Object o) {

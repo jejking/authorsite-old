@@ -1,9 +1,7 @@
 package org.authorsite.bib.loader.ris;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.authorsite.bib.Article;
 import org.authorsite.bib.Book;
@@ -44,9 +42,6 @@ public class Bibliography {
         return ++Bibliography.workIdCounter;
     }
     
-    
-    
-    
     public Map<Book, Book> getBooks() {
         return books;
     }
@@ -74,6 +69,10 @@ public class Bibliography {
     
     public Map<Thesis, Thesis> getTheses() {
         return theses;
+    }
+    
+    public Map<Article, Article> getArticles() {
+        return this.articles;
     }
 
     public Individual getAuthoritativeIndividual(Individual i) {
@@ -110,11 +109,25 @@ public class Bibliography {
     }
     
     public Chapter getAuthoritativeChapter(Chapter c) {
-        return null;
+        if (this.chapters.containsKey( c )) {
+            return this.chapters.get(c);
+        }
+        else {
+            c.setId(Bibliography.getNextWorkId());
+            this.chapters.put(c, c);
+            return c;
+        }
     }
     
     public Book getAuthoritativeBook(Book b) {
-        return null;
+        if ( this.books.containsKey( b )) {
+            return this.books.get(b);
+        }
+        else {
+            b.setId(Bibliography.getNextWorkId());
+            this.books.put(b, b);
+            return b;
+        }
     }
     
     public Thesis getAuthoritativeThesis(Thesis t) {
@@ -167,7 +180,7 @@ public class Bibliography {
     public void clearArticles() {
         this.articles.clear();
     }
+
+   
     
 }
-
-

@@ -41,9 +41,9 @@ public class HandlerHelper {
         
         return individuals;
     }
-    
-    public static SortedSet<Individual> getAuthoritativeIndividuals(RISEntry entry) {
-        List<String> authorStrings = entry.getValues("A1");
+   
+    public static SortedSet<Individual> getAuthoritativeIndividuals(RISEntry entry, String key) {
+        List<String> authorStrings = entry.getValues(key);
         SortedSet<Individual> authorBeanSet = new TreeSet<Individual>();
         
         for ( String authorString : authorStrings ) {
@@ -65,7 +65,12 @@ public class HandlerHelper {
     }
 
     public static String getFirstString(List<String> values) {
-        return values.get(0);
+        if (! values.isEmpty()) {
+            return values.get(0);
+        }
+        else {
+            return null;
+        }
     }
     
 }

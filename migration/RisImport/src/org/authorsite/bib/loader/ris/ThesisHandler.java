@@ -9,7 +9,7 @@ import org.authorsite.bib.Thesis;
 public class ThesisHandler implements RISEntryHandler {
 
     public void handleEntry(RISEntry entry) {
-        SortedSet<Individual> authoritativeAuthors = HandlerHelper.getAuthoritativeIndividuals(entry);
+        SortedSet<Individual> authoritativeAuthors = HandlerHelper.getAuthoritativeIndividuals(entry, "A1");
         
         // extract year
         int year = HandlerHelper.extractYear(entry.getValues("Y1"));

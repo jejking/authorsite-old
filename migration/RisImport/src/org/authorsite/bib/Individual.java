@@ -69,8 +69,10 @@ public class Individual extends AbstractHuman implements Comparable {
         }
         if ( obj instanceof Individual ) {
             Individual rhs = (Individual) obj;
-            return new EqualsBuilder().append( this.getName(), rhs.getName()).append( this.givenNames, rhs.givenNames)
-            .append( this.getNameQualification(), rhs.getNameQualification() ).isEquals();
+            return new EqualsBuilder().append( this.getName(), rhs.getName())
+                                     .append( this.givenNames, rhs.givenNames)
+                                     .append( this.getNameQualification(), rhs.getNameQualification() )
+                                     .isEquals();
         }
         else {
             return false;

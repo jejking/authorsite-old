@@ -1,5 +1,6 @@
 package org.authorsite.bib;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
@@ -28,8 +29,17 @@ public class Book extends AbstractWork implements Comparable {
         this.authors.add(author);
     }
     
+    public void addAuthors(Collection<? extends AbstractHuman> authors) {
+        this.authors.addAll(authors);
+    }
+
+    
     public void addEditor(AbstractHuman editor) {
         this.editors.add(editor);
+    }
+    
+    public void addEditors(Collection<? extends AbstractHuman> editors) {
+        this.editors.addAll(editors);
     }
     
     
@@ -158,5 +168,8 @@ public class Book extends AbstractWork implements Comparable {
                                      
          
     }
+
+    
+    
 
 }

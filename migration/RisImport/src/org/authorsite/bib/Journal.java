@@ -53,6 +53,8 @@ public class Journal extends AbstractWork implements Comparable {
         return new CompareToBuilder().append(this.getTitle(), rhs.getTitle()).toComparison();
     }
     
-    
+    public String toString() {
+        return this.getTitle();
+    }
 
 }
