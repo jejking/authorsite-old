@@ -1,8 +1,12 @@
 package org.authorsite.bib.loader.ris;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.authorsite.bib.AbstractBibEntry;
 import org.authorsite.bib.Article;
 import org.authorsite.bib.Book;
 import org.authorsite.bib.Chapter;
@@ -40,6 +44,23 @@ public class Bibliography {
     
     public static int getNextWorkId() {
         return ++Bibliography.workIdCounter;
+    }
+    
+    public void writeBibliographyToSql(Writer writer) throws IOException {
+        this.writeCollectionToSql(writer, this.individuals.values());
+        this.writeCollectionToSql(writer, this.collectives.values());
+        this.writeCollectionToSql(writer, this.journals.values());
+        this.writeCollectionToSql(writer, this.articles.values());
+        this.writeCollectionToSql(writer, this.books.values());
+        this.writeCollectionToSql(writer, this.chapters.values());
+        this.writeCollectionToSql(writer, this.theses.values());
+    }
+    
+    private void writeCollectionToSql(Writer writer, Collection<? extends AbstractBibEntry> entries) throws IOException {
+        for ( AbstractBibEntry entry : entries ) {
+            writer.write(entry.toSql());
+            writer.write("\n");
+        }
     }
     
     public Map<Book, Book> getBooks() {

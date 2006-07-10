@@ -24,6 +24,10 @@ public abstract class AbstractBibEntry {
     public abstract String toSql();
     
     public String escapeSingleApostrophes(String stringToEscape) {
+        if ( stringToEscape == null ) {
+            return null;
+        }
+        
         return stringToEscape.replace("'", "\\'");
     }
     

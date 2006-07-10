@@ -105,7 +105,7 @@ public class Article extends AbstractWork implements Comparable {
         sb.append(", ");
         sb.append(volume == null ? "NULL" : "'" + super.escapeSingleApostrophes(this.getVolume()) + "'");
         sb.append(", ");
-        sb.append(volume == null ? "NULL" : "'" + super.escapeSingleApostrophes(this.getIssue()) + "'");
+        sb.append(issue == null ? "NULL" : "'" + super.escapeSingleApostrophes(this.getIssue()) + "'");
         sb.append(");");
         if ( this.journal != null ) {
             sb.append("\n");
