@@ -54,7 +54,7 @@ CREATE TABLE works (
                             'Book',
                             'Booklet',
                             'Conference',
-                            'Inbook',
+                            'Chapter',
                             'Incollection',
                             'Inproceedings',
                             'Journal',
