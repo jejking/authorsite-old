@@ -25,7 +25,7 @@ public class ReadWriteTest extends TestCase {
         Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream("biblio.sql"), "UTF8"));
             
-        Bibliography.getInstance().writeBibliographyToSql(writer);
+        Bibliography.getInstance().writeBibliographyToSql(writer, true);
         writer.close();
     }
     

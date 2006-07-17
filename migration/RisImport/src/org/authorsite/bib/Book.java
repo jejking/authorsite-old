@@ -71,12 +71,14 @@ public class Book extends AbstractWork implements Comparable {
     public String toSql() {
         
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO works (id, created_at, updated_at, type, title, year, volume ) ");
+        sb.append("INSERT INTO works (id, created_at, updated_at, type, title, year, toYear, volume ) ");
         sb.append("VALUES ( ");
         sb.append(this.getId());
         sb.append(", NOW(), NOW(), 'Book', ");
         sb.append("'" + super.escapeSingleApostrophes(this.getTitle()) + "', ");
-        sb.append(this.getYear());
+        sb.append(this.getYears().getYear());
+        sb.append(", ");
+        sb.append( this.getYears().getToYear() == Integer.MIN_VALUE ? "NULL" : this.getYears().getToYear() );
         sb.append(", ");
         sb.append( volume == null ? "NULL" : super.escapeSingleApostrophes(this.getVolume()) );
         sb.append(");");
@@ -111,7 +113,7 @@ public class Book extends AbstractWork implements Comparable {
             Book rhs = (Book) obj;
             if ( this.authors.size() == rhs.authors.size() && this.editors.size() == rhs.editors.size() ) {
                 return new EqualsBuilder().append(this.getTitle(), rhs.getTitle())
-                                          .append(this.getYear(), rhs.getYear())
+                                          .append(this.getYears(), rhs.getYears())
                                           .append(this.authors.toArray(), rhs.authors.toArray())
                                           .append(this.editors.toArray(), rhs.editors.toArray())
                                           .append(this.publisher, rhs.publisher)
@@ -129,7 +131,7 @@ public class Book extends AbstractWork implements Comparable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.getTitle())
-                                    .append(this.getYear())
+                                    .append(this.getYears())
                                     .append(this.authors.toArray())
                                     .append(this.editors.toArray())
                                     .append(this.publisher)
@@ -146,7 +148,7 @@ public class Book extends AbstractWork implements Comparable {
         sb.append(":");
         sb.append(this.getTitle());
         sb.append(" (");
-        sb.append(this.getYear());
+        sb.append(this.getYears());
         sb.append(") ");
         sb.append("Eds: ");
         for ( AbstractHuman editor : this.editors ) {
@@ -160,7 +162,7 @@ public class Book extends AbstractWork implements Comparable {
     public int compareTo(Object o) {
         Book rhs = (Book) o;
         return new CompareToBuilder().append(this.getTitle(), rhs.getTitle())
-                                     .append(this.getYear(), rhs.getYear())
+                                     .append(this.getYears(), rhs.getYears())
                                      .append(this.authors.toArray(), rhs.authors.toArray())
                                      .append(this.editors.toArray(), rhs.editors.toArray())
                                      .append(this.publisher, rhs.publisher)

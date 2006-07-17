@@ -17,9 +17,9 @@ public class ArticleTest extends TestCase {
         
         Article a2 = new Article(2);
         a2.setTitle("An Exercise in Testing");
-        a2.setYear(2006);
-        a2.setMonth(7);
-        a2.setDay(3);
+        a2.setYears(new WorkDates(2006));
+        a2.getYears().setMonth(7);
+        a2.getYears().setDay(3);
         a2.setVolume("V");
         a2.setIssue("Special FooBar Issue");
         a2.setJournal(j1);
@@ -28,7 +28,7 @@ public class ArticleTest extends TestCase {
         
         String stmts = a2.toSql();
                 
-        String expectedSql = "INSERT INTO works (id, created_at, updated_at, type, title, year, month, day, pages, volume, number) VALUES ( 2, NOW(), NOW(), 'Article', 'An Exercise in Testing', 2006, 7, 3, NULL, 'V', 'Special FooBar Issue');" +
+        String expectedSql = "INSERT INTO works (id, created_at, updated_at, type, title, year, toYear, month, day, pages, volume, number) VALUES ( 2, NOW(), NOW(), 'Article', 'An Exercise in Testing', 2006, NULL, 7, 3, NULL, 'V', 'Special FooBar Issue');" +
                 "\n" +
                 "INSERT INTO workWorkRelationships ( created_at, updated_at, from_id, to_id, relationship ) VALUES ( NOW(), NOW(), 2, 1, 'Containment');" +
                 "\n" +
@@ -51,9 +51,9 @@ public class ArticleTest extends TestCase {
         
         Article a2 = new Article(2);
         a2.setTitle("An Exercise in Testing");
-        a2.setYear(2006);
-        a2.setMonth(7);
-        a2.setDay(3);
+        a2.setYears(new WorkDates(2006));
+        a2.getYears().setMonth(7);
+        a2.getYears().setDay(3);
         a2.setVolume("V");
         a2.setIssue("Special FooBar Issue");
         a2.setJournal(j1);
@@ -62,9 +62,9 @@ public class ArticleTest extends TestCase {
         
         Article a3 = new Article();
         a3.setTitle("An Exercise in Testing");
-        a3.setYear(2006);
-        a3.setMonth(7);
-        a3.setDay(3);
+        a3.setYears(new WorkDates(2006));
+        a3.getYears().setMonth(7);
+        a3.getYears().setDay(3);
         a3.setVolume("V");
         a3.setIssue("Special FooBar Issue");
         a3.setJournal(j1);
@@ -79,9 +79,9 @@ public class ArticleTest extends TestCase {
         
         Article a4 = new Article();
         a4.setTitle("Fu or Foo? That is the question");
-        a4.setYear(2006);
-        a4.setMonth(7);
-        a4.setDay(3);
+        a4.setYears(new WorkDates(2006));
+        a4.getYears().setMonth(7);
+        a4.getYears().setDay(3);
         a4.setVolume("V");
         a4.setIssue("Special FooBar Issue");
         a4.setJournal(j1);

@@ -6,11 +6,12 @@ import org.authorsite.bib.Book;
 import org.authorsite.bib.Chapter;
 import org.authorsite.bib.Collective;
 import org.authorsite.bib.Individual;
+import org.authorsite.bib.WorkDates;
 
 
 public class ChapterHandler implements RISEntryHandler {
 
-    public void handleEntry(RISEntry entry) {
+    public void handleEntry(RISEntry entry) throws RISException {
         // authors
         SortedSet<Individual> authoritativeAuthors = HandlerHelper.getAuthoritativeIndividuals(entry, "A1");
         
@@ -18,7 +19,7 @@ public class ChapterHandler implements RISEntryHandler {
         SortedSet<Individual> authoritativeEditors = HandlerHelper.getAuthoritativeIndividuals(entry, "E1");
         
         // year
-        int year = HandlerHelper.extractYear(entry.getValues("Y1"));
+        WorkDates year = HandlerHelper.extractYear(entry.getValues("Y1"));
         
         // title
         String chapterTitle = HandlerHelper.getFirstString(entry.getValues("T1"));
@@ -59,7 +60,7 @@ public class ChapterHandler implements RISEntryHandler {
         bookBean.addAuthors(bookAuthoritativeAuthors);
         bookBean.addEditors(bookAuthoritativeEditors);
         bookBean.setTitle(bookTitle);
-        bookBean.setYear(year);
+        bookBean.setYears(year);
         Collective publisherBean = new Collective();
         publisherBean.setName(publisherName);
         publisherBean.setPlace(publisherPlace);
@@ -72,7 +73,7 @@ public class ChapterHandler implements RISEntryHandler {
         chapterBean.addAuthors(authoritativeAuthors);
         chapterBean.addEditors(authoritativeEditors);
         chapterBean.setTitle(chapterTitle);
-        chapterBean.setYear(year);
+        chapterBean.setYears(year);
         chapterBean.setPages(pagesBuilder.toString());
         chapterBean.setBook(authoritativeBook);
         

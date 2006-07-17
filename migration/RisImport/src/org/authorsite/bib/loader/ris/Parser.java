@@ -58,61 +58,68 @@ public class Parser {
         }
     }
     
-    private void processLine(String str, int lineNumber) throws RISException {
+    private void processLine(String str, int lineNumber) {
         
-        String trimmed = str.trim();
-        // if line is blank, just ignore
-        if ( trimmed.length() == 0 ) {
-            return;
-        }
-        
-        if ( this.lineIsTagged( str ))
-        {
-            RISEntryLine line = null;
-            
-            try {
-                line = new RISEntryLine(str);
-            } catch (RISException e) {
-                throw new RISException("Exception at line " + lineNumber, e);
-            }
-            
-            // end of record
-            if ( line.getKey().equals("ER") )  {
-                if ( this.currentEntry != null ) {
-                    this.entries.add( currentEntry );
-                    this.currentEntry = null;
-                }
-                else {
-                    throw new RISException("encountered end of record marker at line " + lineNumber + ", without one having been started"); 
-                }
+        try {
+            String trimmed = str.trim();
+            // if line is blank, just ignore
+            if ( trimmed.length() == 0 ) {
                 return;
             }
             
-            if ( line.getKey().equals("ID")) {
-                return; // of no relevance to us
-            }
+            if ( this.lineIsTagged( str ))
+            {
+                RISEntryLine line = null;
+                
+                try {
+                    line = new RISEntryLine(str);
+                } catch (RISException e) {
+                    throw new RISException("Exception at line " + lineNumber, e);
+                }
+                
+                // end of record
+                if ( line.getKey().equals("ER") )  {
+                    if ( this.currentEntry != null ) {
+                        this.entries.add( currentEntry );
+                        this.currentEntry = null;
+                    }
+                    else {
+                        throw new RISException("encountered end of record marker at line " + lineNumber + ", without one having been started"); 
+                    }
+                    return;
+                }
+                
+                if ( line.getKey().equals("ID")) {
+                   System.out.println("Reading ID  " + line.getValue());
+                   return;
+                }
 
-            // start of record
-            if ( line.getKey().equals("TY")) {
+                // start of record
+                if ( line.getKey().equals("TY")) {
 
+                    if ( this.currentEntry == null ) {
+                        this.currentEntry = new RISEntry();
+                        this.currentEntry.addEntryLine(line);
+                    }
+                    else {
+                        throw new RISException("encountered start of record marker at line " + lineNumber + ", without the previous one having been finished");
+                    }
+                    return;
+                }
+                
                 if ( this.currentEntry == null ) {
-                    this.currentEntry = new RISEntry();
-                    this.currentEntry.addEntryLine(line);
+                    throw new RISException("at line " + lineNumber + " encountered RIS before a TY record start marker tag");
                 }
-                else {
-                    throw new RISException("encountered start of record marker at line " + lineNumber + ", without the previous one having been finished");
-                }
-                return;
+                this.currentEntry.addEntryLine(line);
             }
-            
-            if ( this.currentEntry == null ) {
-                throw new RISException("at line " + lineNumber + " encountered RIS before a TY record start marker tag");
+            else {
+               // probably value content continued from previous line...
+               this.currentEntry.getMostRecentEntry().appendToValue(str);
             }
-            this.currentEntry.addEntryLine(line);
         }
-        else {
-           // probably value content continued from previous line...
-           this.currentEntry.getMostRecentEntry().appendToValue(str);
+        catch (RISException e) {
+            System.err.println("RIS Exception on line " + lineNumber);
+            e.printStackTrace();
         }
         
         

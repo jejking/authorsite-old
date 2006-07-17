@@ -3,6 +3,7 @@ package org.authorsite.bib.loader.ris;
 import org.authorsite.bib.Collective;
 import org.authorsite.bib.Individual;
 import org.authorsite.bib.Thesis;
+import org.authorsite.bib.WorkDates;
 
 import junit.framework.TestCase;
 
@@ -47,7 +48,7 @@ public class ThesisHandlerTest extends TestCase {
         t.setAuthor(jk);
         t.setAwardingBody(ou);
         t.setDegree("D.Phil");
-        t.setYear(1999);
+        t.setYears(new WorkDates(1999));
         t.setTitle("Writing and Rewriting the First World War");
         
         ThesisHandler handler = new ThesisHandler();
@@ -108,21 +109,21 @@ public class ThesisHandlerTest extends TestCase {
         jkDphil.setAuthor(jk);
         jkDphil.setAwardingBody(ou);
         jkDphil.setDegree("D.Phil");
-        jkDphil.setYear(1999);
+        jkDphil.setYears(new WorkDates(1999));
         jkDphil.setTitle("Writing and Rewriting the First World War");
         
         Thesis rwDphil = new Thesis();
         rwDphil.setAuthor(rw);
         rwDphil.setAwardingBody(ou);
         rwDphil.setDegree("D.Phil");
-        rwDphil.setYear(1981);
+        rwDphil.setYears(new WorkDates(1981));
         rwDphil.setTitle("Ernst J\u00fcnger and the Nature of Political Commitment");
         
         Thesis jkMst = new Thesis();
         jkMst.setAuthor(jk);
         jkMst.setAwardingBody(ou);
         jkMst.setDegree("M.St.");
-        jkMst.setYear(1995);
+        jkMst.setYears(new WorkDates(1995));
         jkMst.setTitle("History and Time: A Critical Survey of the Secondary Literature on Ernst J\u00fcnger.");
         
         ThesisHandler handler = new ThesisHandler();

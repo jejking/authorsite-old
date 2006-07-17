@@ -7,6 +7,8 @@ import java.util.SortedSet;
 import junit.framework.TestCase;
 
 import org.authorsite.bib.Individual;
+import org.authorsite.bib.WorkDates;
+
 
 public class HandlerHelperTest extends TestCase {
 
@@ -54,10 +56,19 @@ public class HandlerHelperTest extends TestCase {
     }
     
     
-    public void testGetYear() {
+    public void testGetYear() throws Exception {
         List<String> strings = new ArrayList<String>();
         strings.add("1973");
-        assertEquals(1973, HandlerHelper.extractYear(strings));
+        assertEquals(1973, HandlerHelper.extractYear(strings).getYear());
+        
+        List<String> strings2 = new ArrayList<String>();
+        strings2.add("1973-75");
+        WorkDates years = new WorkDates(1973, 1975);
+        assertEquals(years, HandlerHelper.extractYear(strings2));
+        
+        List<String> strings3 = new ArrayList<String>();
+        strings3.add("1973-1975");
+        assertEquals(years, HandlerHelper.extractYear(strings3));
     }
     
 }

@@ -5,11 +5,12 @@ import java.util.SortedSet;
 import org.authorsite.bib.Book;
 import org.authorsite.bib.Collective;
 import org.authorsite.bib.Individual;
+import org.authorsite.bib.WorkDates;
 
 
 public class BookHandler implements RISEntryHandler {
 
-    public void handleEntry(RISEntry entry) {
+    public void handleEntry(RISEntry entry) throws RISException {
         
         // authors
         SortedSet<Individual> authoritativeAuthors = HandlerHelper.getAuthoritativeIndividuals(entry, "A1");
@@ -18,7 +19,7 @@ public class BookHandler implements RISEntryHandler {
         SortedSet<Individual> authoritativeEditors = HandlerHelper.getAuthoritativeIndividuals(entry, "E1");
         
         // year
-        int year = HandlerHelper.extractYear(entry.getValues("Y1"));
+        WorkDates year = HandlerHelper.extractYear(entry.getValues("Y1"));
         
         // title
         String title = HandlerHelper.getFirstString(entry.getValues("T1"));
@@ -38,7 +39,7 @@ public class BookHandler implements RISEntryHandler {
         
         Book b = new Book();
         b.setTitle(title);
-        b.setYear(year);
+        b.setYears(year);
         b.setPublisher(publisher);
         b.addAuthors(authoritativeAuthors);
         b.addEditors(authoritativeEditors);

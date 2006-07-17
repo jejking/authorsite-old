@@ -5,17 +5,18 @@ import java.util.SortedSet;
 import org.authorsite.bib.Article;
 import org.authorsite.bib.Individual;
 import org.authorsite.bib.Journal;
+import org.authorsite.bib.WorkDates;
 
 
 public class ArticleHandler implements RISEntryHandler {
 
-    public void handleEntry(RISEntry entry) {
+    public void handleEntry(RISEntry entry) throws RISException {
         
         // authors
         SortedSet<Individual> authoritativeAuthors = HandlerHelper.getAuthoritativeIndividuals(entry, "A1");
         
         // year
-        int year = HandlerHelper.extractYear(entry.getValues("Y1")); 
+        WorkDates years = HandlerHelper.extractYear(entry.getValues("Y1")); 
         
         // title
         String title = HandlerHelper.getFirstString(entry.getValues("T1"));
@@ -50,7 +51,7 @@ public class ArticleHandler implements RISEntryHandler {
         
         Article a = new Article();
         a.addAuthors(authoritativeAuthors);
-        a.setYear(year);
+        a.setYears(years);
         a.setTitle(title);
         a.setVolume(volume);
         a.setIssue(issue);

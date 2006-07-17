@@ -9,7 +9,7 @@ public class ChapterTest extends TestCase {
         Individual i1 = new Individual(1);
         
         Book b1 = new Book(1);
-        b1.setYear(2006);
+        b1.setYears(new WorkDates(2006));
         Chapter c1 = new Chapter(2);
         c1.setTitle("Test Chapter One");
         c1.setChapter("1");
@@ -18,7 +18,7 @@ public class ChapterTest extends TestCase {
         c1.setBook(b1);        
         
         
-        String expectedStmts = "INSERT INTO works (id, created_at, updated_at, type, title, year, pages, chapter ) VALUES ( 2, NOW(), NOW(), 'Chapter', 'Test Chapter One', 2006, '10-20', '1');" +
+        String expectedStmts = "INSERT INTO works (id, created_at, updated_at, type, title, year, toYear, pages, chapter ) VALUES ( 2, NOW(), NOW(), 'Chapter', 'Test Chapter One', 2006, NULL, '10-20', '1');" +
                                 "\n" +
                                 "INSERT INTO humanWorkRelationships ( created_at, updated_at, humans_id, works_id, relationship ) VALUES ( NOW(), NOW(), 1, 2, 'Author');" +
                                 "\n" +
@@ -41,7 +41,7 @@ public class ChapterTest extends TestCase {
         
         Book b = new Book();
         b.setTitle("Musings on Stuff");
-        b.setYear(2006);
+        b.setYears( new WorkDates(2006));
         b.setPublisher(c);
         b.addEditor(i1);
         
@@ -49,12 +49,12 @@ public class ChapterTest extends TestCase {
         ch1.setBook(b);
         ch1.addAuthor(i2);
         ch1.addAuthor(i1);
-        ch1.setYear(2006);
+        ch1.setYears(new WorkDates(2006));
         ch1.setTitle("Introduction to Stuff");
         
         Chapter ch2 = new Chapter();
         ch2.setBook(b);
-        ch2.setYear(2006);
+        ch2.setYears(new WorkDates(2006));
         ch2.addAuthor(i1);
         ch2.addAuthor(i2);
         ch2.setTitle("Introduction to Stuff");
@@ -68,7 +68,7 @@ public class ChapterTest extends TestCase {
         Chapter ch3 = new Chapter();
         ch3.setBook(b);
         ch3.addAuthor(i1);
-        ch3.setYear(2006);
+        ch3.setYears( new WorkDates(2006));
         ch3.setTitle("Introduction to Stuff");
         
         assertFalse(ch1.equals(ch3));

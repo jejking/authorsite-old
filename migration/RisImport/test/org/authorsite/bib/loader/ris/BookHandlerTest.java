@@ -3,6 +3,7 @@ package org.authorsite.bib.loader.ris;
 import org.authorsite.bib.Book;
 import org.authorsite.bib.Collective;
 import org.authorsite.bib.Individual;
+import org.authorsite.bib.WorkDates;
 
 import com.sun.org.apache.bcel.internal.generic.BIPUSH;
 
@@ -45,7 +46,7 @@ public class BookHandlerTest extends TestCase {
         b.addEditor(ww);
         b.setPublisher(fp);
         b.setTitle("Sheep and Wombles");
-        b.setYear(2005);
+        b.setYears(new WorkDates(2005));
         
         BookHandler handler = new BookHandler();
         handler.handleEntry(entry);
@@ -87,13 +88,13 @@ public class BookHandlerTest extends TestCase {
         book1.addAuthor(fb);
         book1.setPublisher(fp);
         book1.setTitle("Sheep");
-        book1.setYear(2004);
+        book1.setYears(new WorkDates(2004));
         
         Book book2 = new Book();
         book2.addAuthor(fb);
         book2.setPublisher(fp);
         book2.setTitle("Goats");
-        book2.setYear(2005);
+        book2.setYears(new WorkDates(2005));
         
         BookHandler handler = new BookHandler();
         handler.handleEntry(entry1);

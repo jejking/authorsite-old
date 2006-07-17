@@ -80,12 +80,25 @@ public class Chapter extends AbstractWork implements Comparable {
     @Override
     public String toSql() {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO works (id, created_at, updated_at, type, title, year, pages, chapter ) ");
+        sb.append("INSERT INTO works (id, created_at, updated_at, type, title, year, toYear, pages, chapter ) ");
         sb.append("VALUES ( ");
         sb.append(this.getId());
         sb.append(", NOW(), NOW(), 'Chapter', ");
         sb.append("'" + super.escapeSingleApostrophes(this.getTitle()) + "', ");
-        sb.append( this.getYear() == 0 && this.book != null ? this.book.getYear() : this.getYear() );  
+        sb.append( this.getYears().getYear() == 0 && this.book != null ? this.book.getYears().getYear() : this.getYears().getYear() );
+        
+        sb.append(", ");
+        if ( this.getYears().getToYear() == Integer.MIN_VALUE && this.book != null ) {
+            if (book.getYears().getToYear() == Integer.MIN_VALUE ) {
+                sb.append("NULL");
+            }
+            else {
+                sb.append(book.getYears().getToYear());
+            }
+        }
+        else {
+            sb.append("NULL");// ie we don't know and book is null so don't even try to look there.
+        }
         sb.append(", ");
         sb.append( pages == null ? "NULL" : "'" + super.escapeSingleApostrophes(this.getPages()) + "'");
         sb.append(", ");
@@ -120,7 +133,7 @@ public class Chapter extends AbstractWork implements Comparable {
             Chapter rhs = (Chapter) obj;
             if ( this.authors.size() == rhs.authors.size() && this.editors.size() == rhs.editors.size() ) {
                 return new EqualsBuilder().append(this.getTitle(), rhs.getTitle())
-                                          .append(this.getYear(), rhs.getYear())
+                                          .append(this.getYears(), rhs.getYears())
                                           .append(this.authors.toArray(), rhs.authors.toArray())
                                           .append(this.editors.toArray(), rhs.editors.toArray())
                                           .append(this.book, rhs.book)
@@ -138,7 +151,7 @@ public class Chapter extends AbstractWork implements Comparable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.getTitle())
-                                     .append(this.getYear())
+                                     .append(this.getYears())
                                      .append(this.authors.toArray())
                                      .append(this.editors.toArray())
                                      .append(this.book)
@@ -154,7 +167,7 @@ public class Chapter extends AbstractWork implements Comparable {
         }
         sb.append(this.getTitle());
         sb.append(" (");
-        sb.append(this.getYear());
+        sb.append(this.getYears());
         sb.append(") ");
         sb.append("Eds: ");
         for (AbstractHuman editor : editors ) {
@@ -169,7 +182,7 @@ public class Chapter extends AbstractWork implements Comparable {
     public int compareTo(Object o) {
         Chapter rhs = (Chapter) o;
         return new CompareToBuilder().append(this.getTitle(), rhs.getTitle())
-                                     .append(this.getYear(), rhs.getYear())
+                                     .append(this.getYears(), rhs.getYears())
                                      .append(this.authors.toArray(), rhs.authors.toArray())
                                      .append(this.editors.toArray(), rhs.editors.toArray())
                                      .append(this.book, rhs.book)

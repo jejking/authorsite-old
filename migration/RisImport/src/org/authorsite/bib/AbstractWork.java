@@ -6,7 +6,7 @@ import java.util.Set;
 public abstract class AbstractWork extends AbstractBibEntry {
 
     private String title;
-    private int year;
+    private WorkDates years = new WorkDates();
     
     public AbstractWork(long id) {
         super(id);
@@ -28,13 +28,13 @@ public abstract class AbstractWork extends AbstractBibEntry {
     }
 
     
-    public int getYear() {
-        return year;
+    public WorkDates getYears() {
+        return this.years;
     }
 
     
-    public void setYear(int year) {
-        this.year = year;
+    public void setYears(WorkDates years) {
+        this.years = years;
     }
     
     public String createSqlForMultipleHumanWorkRelationship(Set<AbstractHuman> humans, String rel) {

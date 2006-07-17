@@ -4,6 +4,7 @@ import org.authorsite.bib.Book;
 import org.authorsite.bib.Chapter;
 import org.authorsite.bib.Collective;
 import org.authorsite.bib.Individual;
+import org.authorsite.bib.WorkDates;
 
 import junit.framework.TestCase;
 
@@ -42,13 +43,13 @@ public class ChapterHandlerTest extends TestCase {
         b.addAuthor(jk);
         b.addAuthor(ww);
         b.setPublisher(fp);
-        b.setYear(2004);
+        b.setYears(new WorkDates(2004));
         b.setTitle("A Compendium of odd Creatures");
         
         Chapter c = new Chapter();
         c.addAuthor(fb);
         c.setTitle("Sheep, Wombles and Goats");
-        c.setYear(2004);
+        c.setYears(new WorkDates(2004));
         c.setPages("200-210");
         c.setBook(b);
         
@@ -110,20 +111,20 @@ public class ChapterHandlerTest extends TestCase {
         b.addAuthor(jk);
         b.addAuthor(ww);
         b.setPublisher(fp);
-        b.setYear(2004);
+        b.setYears(new WorkDates(2004));
         b.setTitle("A Compendium of odd Creatures");
         
         Chapter c = new Chapter();
         c.addAuthor(fb);
         c.setTitle("Sheep, Wombles and Goats");
-        c.setYear(2004);
+        c.setYears(new WorkDates(2004));
         c.setPages("200-210");
         c.setBook(b);
         
         Chapter c2 = new Chapter();
         c2.addAuthor(jk);
         c2.setTitle(("An Introduction to Oddness"));
-        c2.setYear(2004);
+        c2.setYears(new WorkDates(2004));
         c2.setPages("1-10");
         c2.setBook(b);
         
@@ -179,26 +180,26 @@ public class ChapterHandlerTest extends TestCase {
         Book b1 = new Book();
         b1.addAuthor(jk);
         b1.setPublisher(fp);
-        b1.setYear(2004);
+        b1.setYears(new WorkDates(2004));
         b1.setTitle("A Compendium of odd Creatures");
         
         Book b2 = new Book();
         b2.addAuthor(jk);
         b2.setPublisher(fp);
-        b2.setYear(2005);
+        b2.setYears(new WorkDates(2005));
         b2.setTitle("More Odd Creatures");
         
         Chapter c = new Chapter();
         c.addAuthor(fb);
         c.setTitle("Sheep, Wombles and Goats");
-        c.setYear(2004);
+        c.setYears(new WorkDates(2004));
         c.setPages("200-210");
         c.setBook(b1);
         
         Chapter c2 = new Chapter();
         c2.addAuthor(fb);
         c2.setTitle(("An Introduction to Oddness"));
-        c2.setYear(2005);
+        c2.setYears(new WorkDates(2005));
         c2.setPages("1-10");
         c2.setBook(b2);
         

@@ -17,10 +17,10 @@ public class ThesisTest extends TestCase {
         t.setTitle("Writing and Rewriting the First World War");
         t.setAuthor(i);
         t.setAwardingBody(ou);
-        t.setYear(1999);
+        t.setYears(new WorkDates(1999));
         t.setDegree("D. Phil");
         
-        String expectedStmts = "INSERT INTO works (id, created_at, updated_at, type, title, year, degree ) VALUES ( 1, NOW(), NOW(), 'Thesis', 'Writing and Rewriting the First World War', 1999, 'D. Phil');" + 
+        String expectedStmts = "INSERT INTO works (id, created_at, updated_at, type, title, year, toYear, degree ) VALUES ( 1, NOW(), NOW(), 'Thesis', 'Writing and Rewriting the First World War', 1999, NULL, 'D. Phil');" + 
             "\n" + 
             "INSERT INTO humanWorkRelationships ( created_at, updated_at, humans_id, works_id, relationship ) VALUES ( NOW(), NOW(), 1, 1, 'Author');" +
             "\n" +
@@ -42,14 +42,14 @@ public class ThesisTest extends TestCase {
         t1.setTitle("Writing and Rewriting the First World War");
         t1.setAuthor(i);
         t1.setAwardingBody(ou);
-        t1.setYear(1999);
+        t1.setYears(new WorkDates(1999));
         t1.setDegree("D. Phil");
         
         Thesis t2 = new Thesis();
         t2.setTitle("Writing and Rewriting the First World War");
         t2.setAuthor(i);
         t2.setAwardingBody(ou);
-        t2.setYear(1999);
+        t2.setYears(new WorkDates(1999));
         t2.setDegree("D. Phil");
         
         assertEquals(t1, t2);
@@ -63,7 +63,7 @@ public class ThesisTest extends TestCase {
         t3.setTitle("The one I really wanted to write");
         t3.setAuthor(i);
         t3.setAwardingBody(ou);
-        t3.setYear(1999);
+        t3.setYears(new WorkDates(1999));
         t3.setDegree("D. Phil");
         
         assertFalse(t1.equals(t3));

@@ -15,8 +15,6 @@ public class Article extends AbstractWork implements Comparable {
     private String volume;
     private String issue;
     private String pages;
-    private int month;
-    private int day;
     
     public Article(long id) {
         super(id);
@@ -29,14 +27,6 @@ public class Article extends AbstractWork implements Comparable {
     
     public Set<AbstractHuman> getAuthors() {
         return authors;
-    }
-
-    public int getDay() {
-        return day;
-    }
-
-    public void setDay(int day) {
-        this.day = day;
     }
 
     public String getIssue() {
@@ -53,14 +43,6 @@ public class Article extends AbstractWork implements Comparable {
 
     public void setJournal(Journal journal) {
         this.journal = journal;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
     }
 
     public String getPages() {
@@ -90,18 +72,20 @@ public class Article extends AbstractWork implements Comparable {
     @Override
     public String toSql() {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO works (id, created_at, updated_at, type, title, year, month, day, pages, volume, number) ");
+        sb.append("INSERT INTO works (id, created_at, updated_at, type, title, year, toYear, month, day, pages, volume, number) ");
         sb.append("VALUES ( ");
         sb.append(this.getId());
         sb.append(", NOW(), NOW(), 'Article', ");
-        sb.append("'" + this.getTitle() + "', ");
-        sb.append(this.getYear());
+        sb.append("'" + super.escapeSingleApostrophes(this.getTitle()) + "', ");
+        sb.append(this.getYears().getYear());
         sb.append(", ");
-        sb.append( month == 0 ? "NULL" : this.getMonth());
+        sb.append( this.getYears().getToYear() == Integer.MIN_VALUE ? "NULL" : this.getYears().getToYear() );
         sb.append(", ");
-        sb.append( day == 0 ? "NULL" : this.getDay() );
+        sb.append( this.getYears().getMonth() == Integer.MIN_VALUE ? "NULL" : this.getYears().getMonth());
         sb.append(", ");
-        sb.append(pages == null ? "NULL" : super.escapeSingleApostrophes(this.getPages()) );
+        sb.append( this.getYears().getDay() == Integer.MIN_VALUE ? "NULL" : this.getYears().getDay() );
+        sb.append(", ");
+        sb.append(pages == null || pages.length() == 0 ? "NULL" : "'" + super.escapeSingleApostrophes(this.getPages()) + "'");
         sb.append(", ");
         sb.append(volume == null ? "NULL" : "'" + super.escapeSingleApostrophes(this.getVolume()) + "'");
         sb.append(", ");
@@ -132,7 +116,7 @@ public class Article extends AbstractWork implements Comparable {
             Article rhs = (Article) obj;
             if ( this.authors.size() == rhs.authors.size() ) {
                 return new EqualsBuilder().append(this.getTitle(), rhs.getTitle())
-                                          .append(this.getYear(), rhs.getYear())
+                                          .append(this.getYears(), rhs.getYears())
                                           .append(this.authors.toArray(), rhs.authors.toArray())
                                           .append(this.journal, rhs.journal)
                                           .isEquals();
@@ -149,7 +133,7 @@ public class Article extends AbstractWork implements Comparable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.getTitle())
-                                    .append(this.getYear())
+                                    .append(this.getYears())
                                     .append(this.authors.toArray())
                                     .append(this.journal)
                                     .toHashCode();
@@ -165,7 +149,7 @@ public class Article extends AbstractWork implements Comparable {
         sb.append("'");
         sb.append(getTitle());
         sb.append("'(");
-        sb.append(getYear());
+        sb.append(getYears());
         sb.append("), in ");
         sb.append(journal);
         sb.append(", Volume:");
@@ -180,7 +164,7 @@ public class Article extends AbstractWork implements Comparable {
     public int compareTo(Object o) {
         Article rhs = (Article) o;
         return new CompareToBuilder().append(this.getTitle(), rhs.getTitle())
-                                     .append(this.getYear(), rhs.getYear())
+                                     .append(this.getYears(), rhs.getYears())
                                      .append(this.authors.toArray(), rhs.authors.toArray())
                                      .append(this.journal, rhs.journal)
                                      .toComparison();

@@ -56,7 +56,7 @@ public class BibliographyTest extends TestCase {
         
         Thesis t1 = new Thesis();
         t1.setTitle("Writing and Rewriting the First World War");
-        t1.setYear(1999);
+        t1.setYears(new WorkDates(1999));
         t1.setAuthor(i1);
         t1.setAwardingBody(ou);
         t1.setDegree("D.Phil");
@@ -69,7 +69,7 @@ public class BibliographyTest extends TestCase {
         
         Thesis t2 = new Thesis();
         t2.setTitle("Writing and Rewriting the First World War");
-        t2.setYear(1999);
+        t2.setYears(new WorkDates(1999));
         t2.setAuthor(i1);
         t2.setAwardingBody(ou);
         t2.setDegree("D.Phil");
@@ -90,7 +90,7 @@ public class BibliographyTest extends TestCase {
         
         Article a = new Article();
         a.setTitle("Wombling and Wibbling");
-        a.setYear(2006);
+        a.setYears(new WorkDates(2006));
         a.addAuthor(i1);
         a.setJournal(j);
         a.setVolume("V");
@@ -103,7 +103,7 @@ public class BibliographyTest extends TestCase {
         
         Article a2 = new Article();
         a2.setTitle("Wombling and Wibbling");
-        a2.setYear(2006);
+        a2.setYears( new WorkDates(2006));
         a2.addAuthor(i1);
         a2.setJournal(j);
         a2.setVolume("V");

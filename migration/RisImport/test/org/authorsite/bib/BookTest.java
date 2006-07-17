@@ -27,9 +27,9 @@ public class BookTest extends TestCase {
         b.addEditor(i3);
         b.setPublisher(c4);
         b.setTitle("Musings on Stuff");
-        b.setYear(2006);
+        b.setYears( new WorkDates(2006));
         
-        String expectedSql = "INSERT INTO works (id, created_at, updated_at, type, title, year, volume ) VALUES ( 1, NOW(), NOW(), 'Book', 'Musings on Stuff', 2006, NULL);" +
+        String expectedSql = "INSERT INTO works (id, created_at, updated_at, type, title, year, toYear, volume ) VALUES ( 1, NOW(), NOW(), 'Book', 'Musings on Stuff', 2006, NULL, NULL);" +
                             "\n" +
                             "INSERT INTO humanWorkRelationships ( created_at, updated_at, humans_id, works_id, relationship ) VALUES ( NOW(), NOW(), 2, 1, 'Author');" +
                             "\n" +
@@ -63,7 +63,7 @@ public class BookTest extends TestCase {
         b1.addEditor(i3);
         b1.setPublisher(c4);
         b1.setTitle("Musings on Stuff");
-        b1.setYear(2006);
+        b1.setYears( new WorkDates(2006));
         
         Book b2 = new Book(2);
         b2.addAuthor(i1);
@@ -71,7 +71,7 @@ public class BookTest extends TestCase {
         b2.addEditor(i3);
         b2.setPublisher(c4);
         b2.setTitle("Musings on Stuff");
-        b2.setYear(2006);
+        b2.setYears( new WorkDates(2006));
         
         assertEquals(b1, b2);
         assertEquals(b2, b1);
@@ -83,7 +83,7 @@ public class BookTest extends TestCase {
         b3.addAuthor(i3);
         b3.setPublisher(c4);
         b3.setTitle("Musings on Stuff");
-        b3.setYear(2006);
+        b3.setYears(new WorkDates(2006));
         
         assertFalse(b1.equals(b3));
         assertFalse(b3.equals(b1));

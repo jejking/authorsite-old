@@ -46,7 +46,15 @@ public class Bibliography {
         return ++Bibliography.workIdCounter;
     }
     
-    public void writeBibliographyToSql(Writer writer) throws IOException {
+    public void writeBibliographyToSql(Writer writer, boolean addDeletes) throws IOException {
+        
+        if ( addDeletes ) {
+            writer.write("DELETE FROM workWorkRelationships;\n");
+            writer.write("DELETE FROM humanWorkRelationships;\n");
+            writer.write("DELETE FROM works;\n");
+            writer.write("DELETE FROM humans;\n");
+        }
+        
         this.writeCollectionToSql(writer, this.individuals.values());
         this.writeCollectionToSql(writer, this.collectives.values());
         this.writeCollectionToSql(writer, this.journals.values());

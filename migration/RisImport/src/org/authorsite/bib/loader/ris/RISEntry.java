@@ -77,7 +77,7 @@ public class RISEntry {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
         List<RISEntryLine> ty = this.entries.get("TY");
-        sb.append(ty.get(0));
+        sb.append( ty == null ? "UNKNOWN" : ty.get(0));
         Set<String> keySet = this.entries.keySet();
         for ( String key : keySet ) {
             if (key.equals("TY")) {

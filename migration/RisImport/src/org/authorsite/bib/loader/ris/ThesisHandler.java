@@ -4,15 +4,16 @@ import java.util.SortedSet;
 import org.authorsite.bib.Collective;
 import org.authorsite.bib.Individual;
 import org.authorsite.bib.Thesis;
+import org.authorsite.bib.WorkDates;
 
 
 public class ThesisHandler implements RISEntryHandler {
 
-    public void handleEntry(RISEntry entry) {
+    public void handleEntry(RISEntry entry) throws RISException {
         SortedSet<Individual> authoritativeAuthors = HandlerHelper.getAuthoritativeIndividuals(entry, "A1");
         
         // extract year
-        int year = HandlerHelper.extractYear(entry.getValues("Y1"));
+        WorkDates year = HandlerHelper.extractYear(entry.getValues("Y1"));
         
         // extract title
         String title = HandlerHelper.getFirstString(entry.getValues("T1"));
@@ -32,7 +33,7 @@ public class ThesisHandler implements RISEntryHandler {
         t.setAuthor(authoritativeAuthors.first());
         t.setAwardingBody(awardingBody);
         t.setDegree(degree);
-        t.setYear(year);
+        t.setYears(year);
         
         Bibliography.getInstance().getAuthoritativeThesis( t );
 

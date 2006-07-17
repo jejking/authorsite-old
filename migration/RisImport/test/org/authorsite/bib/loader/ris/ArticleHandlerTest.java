@@ -8,6 +8,7 @@ import org.authorsite.bib.AbstractHuman;
 import org.authorsite.bib.Article;
 import org.authorsite.bib.Individual;
 import org.authorsite.bib.Journal;
+import org.authorsite.bib.WorkDates;
 
 import junit.framework.TestCase;
 
@@ -56,7 +57,7 @@ public class ArticleHandlerTest extends TestCase {
         
         Article a = new Article();
         a.setTitle("Foo and Baa: The Sheep Connection");
-        a.setYear(1999);
+        a.setYears(new WorkDates(1999));
         a.setJournal(j);
         a.setVolume("V");
         a.setIssue("2");
@@ -122,7 +123,7 @@ public class ArticleHandlerTest extends TestCase {
         
         Article a = new Article();
         a.setTitle("Foo and Baa: The Sheep Connection");
-        a.setYear(1999);
+        a.setYears(new WorkDates(1999));
         a.setJournal(j);
         a.setVolume("V");
         a.setIssue("2");
@@ -175,7 +176,7 @@ public class ArticleHandlerTest extends TestCase {
         
         Article a1 = new Article();
         a1.setTitle("Foo and Baa: The Sheep Connection");
-        a1.setYear(1999);
+        a1.setYears(new WorkDates(1999));
         a1.setJournal(j);
         a1.setVolume("V");
         a1.setIssue("2");
@@ -185,7 +186,7 @@ public class ArticleHandlerTest extends TestCase {
         
         Article a2 = new Article();
         a2.setTitle("Wibbling and Wobbling");
-        a2.setYear(2000);
+        a2.setYears(new WorkDates(2000));
         a2.setJournal(j);
         a2.setVolume("VII");
         a2.setIssue("3");
