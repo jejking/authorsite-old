@@ -21,6 +21,7 @@ public class ThesisHandler implements RISEntryHandler {
         // extract awarding body
         Collective cBean = new Collective();
         cBean.setName(HandlerHelper.getFirstString(entry.getValues("PB")));
+        cBean.setPlace(HandlerHelper.getFirstString(entry.getValues("CY")));
         
         Collective awardingBody = Bibliography.getInstance().getAuthoritativeCollective( cBean );
         
