@@ -1,11 +1,12 @@
 package org.authorsite.email;
 
-public class TextMessagePart extends MessagePart {
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
+public final class TextMessagePart extends MessagePart {
 
 	private String content;
 
-	
-	
 	public TextMessagePart() {
 		super();
 	}
@@ -26,6 +27,29 @@ public class TextMessagePart extends MessagePart {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().appendSuper(super.hashCode())
+									.append(this.mimeType)
+									.append(this.content)
+									.toHashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final TextMessagePart other = (TextMessagePart) obj;
+		return new EqualsBuilder().appendSuper(super.equals(obj))
+								  .append(this.mimeType, other.mimeType)
+								  .append(this.content, other.content)
+								  .isEquals();
 	}
 	
 	

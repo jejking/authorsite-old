@@ -1,6 +1,9 @@
 package org.authorsite.email;
 
-public class BinaryMessagePart extends MessagePart {
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
+public final class BinaryMessagePart extends MessagePart {
 
 	private byte[] content;
 
@@ -24,5 +27,31 @@ public class BinaryMessagePart extends MessagePart {
 	public void setContent(byte[] content) {
 		this.content = content;
 	}
+	
+	
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(super.hashCode())
+							        .append(this.mimeType)
+									.append(this.content)
+									.toHashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final BinaryMessagePart other = (BinaryMessagePart) obj;
+		return new EqualsBuilder().appendSuper(super.equals(obj))
+								  .append(this.mimeType, other.mimeType)
+								  .append(this.content, other.content)
+								  .isEquals();
+	}
+	
+	
 	
 }

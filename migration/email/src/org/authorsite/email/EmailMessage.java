@@ -1,13 +1,11 @@
 package org.authorsite.email;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 public class EmailMessage extends AbstractMailItem {
 
 	private EmailFolder parent;
-	private Set<EmailAddressing> addressings = new HashSet<EmailAddressing>();
+	private EmailAddressingContainer addressings = new EmailAddressingContainer();
 	private String subject;
 	private Date sentDate;
 	private Date receivedDate;
@@ -24,6 +22,10 @@ public class EmailMessage extends AbstractMailItem {
 	public void addEmailAddressing(EmailAddressing addressing) {
 		assert addressing != null;
 		addressings.add(addressing);
+	}
+	
+	public EmailAddressingContainer getAddressings() {
+		return addressings;
 	}
 
 	public String getContent() {
@@ -96,6 +98,101 @@ public class EmailMessage extends AbstractMailItem {
 
 	public void setSubject(String subject) {
 		this.subject = subject;
+	}
+
+	
+
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((addressings == null) ? 0 : addressings.hashCode());
+		result = PRIME * result + ((content == null) ? 0 : content.hashCode());
+		result = PRIME * result + ((inReplyTo == null) ? 0 : inReplyTo.hashCode());
+		result = PRIME * result + ((msgId == null) ? 0 : msgId.hashCode());
+		result = PRIME * result + ((msgReferences == null) ? 0 : msgReferences.hashCode());
+		result = PRIME * result + ((multipartContainer == null) ? 0 : multipartContainer.hashCode());
+		result = PRIME * result + ((parent == null) ? 0 : parent.hashCode());
+		result = PRIME * result + ((receivedDate == null) ? 0 : receivedDate.hashCode());
+		result = PRIME * result + ((sentDate == null) ? 0 : sentDate.hashCode());
+		result = PRIME * result + ((subject == null) ? 0 : subject.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final EmailMessage other = (EmailMessage) obj;
+		if (addressings == null) {
+			if (other.addressings != null)
+				return false;
+		} else if (!addressings.equals(other.addressings))
+			return false;
+		if (content == null) {
+			if (other.content != null)
+				return false;
+		} else if (!content.equals(other.content))
+			return false;
+		if (inReplyTo == null) {
+			if (other.inReplyTo != null)
+				return false;
+		} else if (!inReplyTo.equals(other.inReplyTo))
+			return false;
+		if (msgId == null) {
+			if (other.msgId != null)
+				return false;
+		} else if (!msgId.equals(other.msgId))
+			return false;
+		if (msgReferences == null) {
+			if (other.msgReferences != null)
+				return false;
+		} else if (!msgReferences.equals(other.msgReferences))
+			return false;
+		if (multipartContainer == null) {
+			if (other.multipartContainer != null)
+				return false;
+		} else if (!multipartContainer.equals(other.multipartContainer))
+			return false;
+		if (parent == null) {
+			if (other.parent != null)
+				return false;
+		} else if (!parent.equals(other.parent))
+			return false;
+		if (receivedDate == null) {
+			if (other.receivedDate != null)
+				return false;
+		} else if (!receivedDate.equals(other.receivedDate))
+			return false;
+		if (sentDate == null) {
+			if (other.sentDate != null)
+				return false;
+		} else if (!sentDate.equals(other.sentDate))
+			return false;
+		if (subject == null) {
+			if (other.subject != null)
+				return false;
+		} else if (!subject.equals(other.subject))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder buffer = new StringBuilder();
+		buffer.append(addressings);
+		buffer.append("Subject: " + subject);
+		buffer.append("\n");
+		buffer.append("MsgID: " + msgId);
+		buffer.append("\n");
+		buffer.append("Sent: " + sentDate);
+		buffer.append("\n");
+		buffer.append("Received: " + receivedDate);
+		return buffer.toString();
 	}
 	
 	
