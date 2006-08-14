@@ -2,6 +2,8 @@ package org.authorsite.email;
 
 import java.util.Date;
 
+import org.authorsite.email.db.EmailVisitor;
+
 public class EmailMessage extends AbstractMailItem {
 
 	private EmailFolder parent;
@@ -195,6 +197,10 @@ public class EmailMessage extends AbstractMailItem {
 		return buffer.toString();
 	}
 	
-	
+	@Override
+	public void acceptEmailVisitor(EmailVisitor visitor) {
+		visitor.visit(this);
+	}
+
 	
 }

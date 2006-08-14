@@ -1,5 +1,7 @@
 package org.authorsite.email;
 
+import org.authorsite.email.db.EmailVisitor;
+
 public abstract class AbstractMailItem {
 
 	private long id;
@@ -21,5 +23,5 @@ public abstract class AbstractMailItem {
 		this.id = id;
 	}
 	
-
+	public abstract void acceptEmailVisitor(EmailVisitor visitor);
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.authorsite.email.db.EmailVisitor;
 
 public class MessagePartContainer extends AbstractEmailPart {
 
@@ -38,7 +39,11 @@ public class MessagePartContainer extends AbstractEmailPart {
 		return new EqualsBuilder().append(this.children.toArray(), other.children.toArray()).isEquals();
 	}
 
-	
+	@Override
+	public void acceptEmailVisitor(EmailVisitor visitor) {
+		visitor.visit(this);
+	}
+
 	
 	
 }

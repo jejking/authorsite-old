@@ -3,6 +3,8 @@ package org.authorsite.email;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.authorsite.email.db.EmailVisitor;
+
 public final class EmailFolder extends AbstractMailItem {
 
 	public static final EmailFolder ROOT = new EmailFolder("/");
@@ -97,5 +99,9 @@ public final class EmailFolder extends AbstractMailItem {
 		return "Folder: name = " + name + ", Parent: " + parent + ", ID: " + super.getId();
 	}
 	
-	
+	@Override
+	public void acceptEmailVisitor(EmailVisitor visitor) {
+		visitor.visit(this);
+	}
+
 }
