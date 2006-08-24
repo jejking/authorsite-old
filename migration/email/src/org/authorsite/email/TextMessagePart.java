@@ -2,7 +2,6 @@ package org.authorsite.email;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.authorsite.email.db.EmailVisitor;
 
 public final class TextMessagePart extends MessagePart {
 
@@ -53,10 +52,5 @@ public final class TextMessagePart extends MessagePart {
 								  .isEquals();
 	}
 	
-	@Override
-	public void acceptEmailVisitor(EmailVisitor visitor) {
-		visitor.visit(this);
-	}
-
 	
 }
