@@ -52,5 +52,12 @@ public final class TextMessagePart extends MessagePart {
 								  .isEquals();
 	}
 	
-	
+	public String toString() {
+	    StringBuilder builder = new StringBuilder();
+        builder.append("TextMessagePart:\n");
+        builder.append("File Name: " + this.fileName + "\n");
+        builder.append("Mime Type: " + this.mimeType + "\n");
+        builder.append("Content:\n" + this.content + "\n");
+        return builder.toString();
+    }
 }

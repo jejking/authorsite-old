@@ -38,5 +38,11 @@ public class MessagePartContainer extends AbstractEmailPart {
 		return new EqualsBuilder().append(this.children.toArray(), other.children.toArray()).isEquals();
 	}
 
-	
+	public String toString() {
+	    StringBuilder buffer = new StringBuilder();
+        for (AbstractEmailPart part : children ) {
+            buffer.append(part);
+        }
+        return buffer.toString();
+    }
 }

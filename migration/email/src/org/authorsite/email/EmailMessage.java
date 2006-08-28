@@ -1,6 +1,7 @@
 package org.authorsite.email;
 
 import java.util.Date;
+import java.util.List;
 
 public class EmailMessage extends AbstractMailItem {
 
@@ -11,7 +12,7 @@ public class EmailMessage extends AbstractMailItem {
 	private Date receivedDate;
 	private String msgId;
 	private String inReplyTo;
-	private String msgReferences;
+	private List<String> msgReferences;
 	private String content;
 	private MessagePartContainer multipartContainer;
 	
@@ -52,11 +53,11 @@ public class EmailMessage extends AbstractMailItem {
 		this.msgId = msgId;
 	}
 
-	public String getMsgReferences() {
+	public List<String> getMsgReferences() {
 		return msgReferences;
 	}
 
-	public void setMsgReferences(String msgReferences) {
+	public void setMsgReferences(List<String> msgReferences) {
 		this.msgReferences = msgReferences;
 	}
 
@@ -192,7 +193,16 @@ public class EmailMessage extends AbstractMailItem {
 		buffer.append("Sent: " + sentDate);
 		buffer.append("\n");
 		buffer.append("Received: " + receivedDate);
-		return buffer.toString();
+        buffer.append("\n");
+        if ( content != null) {
+            buffer.append("Content:");
+            buffer.append("\n");
+            buffer.append(content);
+        }
+        if ( multipartContainer != null ) {
+            buffer.append(multipartContainer);
+        }
+        return buffer.toString();
 	}
 	
 
