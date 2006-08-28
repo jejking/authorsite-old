@@ -3,17 +3,21 @@ package org.authorsite.email;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
+import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMultipart;
 
 public final class JavamailAdapter {
 
 	public EmailFolder convertFolder(Folder javaMailFolder) throws MessagingException, IOException {
+        System.out.println("converting folder " + javaMailFolder.getFullName());
 		EmailFolder myFolder = new EmailFolder(javaMailFolder.getName());
 		Message[] javaMailMessages = javaMailFolder.getMessages();
 		for ( Message javaMailMessage : javaMailMessages ) {
@@ -29,6 +33,7 @@ public final class JavamailAdapter {
 	}
 	
 	public EmailMessage convertMessage(Message javaMailMessage) throws MessagingException, IOException {
+        
 		EmailMessage myMessage = new EmailMessage();
 		EmailAddressingContainer addressingContainer = new EmailAddressingContainer();
 		// from
@@ -39,19 +44,25 @@ public final class JavamailAdapter {
 			addressingContainer.add(fromAddressing);
 		}
 		// to, cc, bcc
-		InternetAddress[] recipientAddresses = (InternetAddress[]) javaMailMessage.getAllRecipients();
-		for ( InternetAddress recipientAddress : recipientAddresses ) {
-			EmailAddressing recipientAddressing = convertEmailAddress(recipientAddress);
-			if ( recipientAddress.getType().equals(Message.RecipientType.TO)) {
-				recipientAddressing.setType(EmailAddressingType.TO);
-			}
-			else if (recipientAddress.getType().equals(Message.RecipientType.CC)) {
-				recipientAddressing.setType(EmailAddressingType.CC);
-			}
-			else if (recipientAddress.getType().equals(Message.RecipientType.BCC)) {
-				recipientAddressing.setType(EmailAddressingType.BCC);
-			}
-			addressingContainer.add(recipientAddressing);
+		Address[] recipientAddresses =  javaMailMessage.getAllRecipients();
+		for ( Address recipientAddress : recipientAddresses ) {
+            if ( recipientAddress instanceof InternetAddress ) {
+                 InternetAddress realRecipientAddress = (InternetAddress) recipientAddress;
+                 EmailAddressing recipientAddressing = convertEmailAddress(realRecipientAddress);
+                if ( recipientAddress.getType().equals(Message.RecipientType.TO)) {
+                    recipientAddressing.setType(EmailAddressingType.TO);
+                }
+                else if (recipientAddress.getType().equals(Message.RecipientType.CC)) {
+                    recipientAddressing.setType(EmailAddressingType.CC);
+                }
+                else if (recipientAddress.getType().equals(Message.RecipientType.BCC)) {
+                    recipientAddressing.setType(EmailAddressingType.BCC);
+                }
+                addressingContainer.add(recipientAddressing);
+            }
+            else {
+                System.err.println("ODD ADDRESS" + recipientAddress);
+            }
 		}
 		// replyTo
 		InternetAddress[] replyToAddresses = (InternetAddress[]) javaMailMessage.getReplyTo();
@@ -75,28 +86,29 @@ public final class JavamailAdapter {
 		myMessage.setSubject(javaMailMessage.getSubject());
 		
 		myMessage.setSentDate(javaMailMessage.getSentDate());
-		myMessage.setReceivedDate(javaMailMessage.getReceivedDate());
+//		myMessage.setReceivedDate(javaMailMessage.getReceivedDate());
 		myMessage.setMsgId(handleHeader(javaMailMessage, "Message-Id"));
 		myMessage.setInReplyTo(handleHeader(javaMailMessage, "In-Reply-To"));
-		myMessage.setMsgReferences(handleHeader(javaMailMessage, "References"));
+		myMessage.setMsgReferences(handleReferencesHeader(javaMailMessage, "References"));
 		Object content = javaMailMessage.getContent();
+        System.out.println("--- content is of class " + content.getClass());
 		if (content != null ) {
 			if ( content instanceof String) {
 				myMessage.setContent((String) content);
 			}
-		}
-		else if ( content instanceof Multipart ) {
-			MessagePartContainer myMultipartContainer = convertMultipart((Multipart) content);
-			myMessage.setMultipartContainer(myMultipartContainer);
+            else if ( content instanceof MimeMultipart ) {
+                System.out.println("handling a multipart");
+                MessagePartContainer myMultipartContainer = convertMultipart((Multipart) content);
+                myMessage.setMultipartContainer(myMultipartContainer);
+            }
 		}
 		
 		
+		System.out.println(myMessage);
 		return myMessage;
 	}
 	
-	
-
-	public EmailAddressing convertEmailAddress(InternetAddress address) {
+    public EmailAddressing convertEmailAddress(InternetAddress address) {
 		EmailAddressing addressing = new EmailAddressing();
 		addressing.setEmailAddress(address.getAddress());
 		addressing.setPersonalName(address.getPersonal());
@@ -186,5 +198,10 @@ public final class JavamailAdapter {
             }
         }
         return propValue;
+    }
+    
+    private List<String> handleReferencesHeader(Message javaMailMessage, String string) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
