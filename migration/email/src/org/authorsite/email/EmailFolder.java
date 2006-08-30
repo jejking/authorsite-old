@@ -3,12 +3,46 @@ package org.authorsite.email;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class EmailFolder extends AbstractMailItem {
+public class EmailFolder extends AbstractMailItem {
 
-	public static final EmailFolder ROOT = new EmailFolder("/");
+	private static final class RootFolder extends EmailFolder {
+
+		@Override
+		public String getName() {
+			return ("/");
+		}
+
+		@Override
+		public EmailFolder getParent() {
+			return null;
+		}
+
+		@Override
+		public String getPath() {
+			return "/";
+		}
+
+		@Override
+		public void setName(String name) {
+			// do nothing
+		}
+
+		@Override
+		public void setParent(EmailFolder parent) {
+			// do nothing
+		}
+
+		@Override
+		public String toString() {
+			return "Root Folder";
+		}
+
+	}
+	
+	public static final EmailFolder ROOT = new RootFolder();
 	
 	static {
-		ROOT.setId(0);
+		ROOT.setId(1);
 	}
 	
 	private String name;
@@ -93,6 +127,19 @@ public final class EmailFolder extends AbstractMailItem {
 		return true;
 	}
 
+	public String getPath() {
+		StringBuilder buffer = new StringBuilder();
+		if ( parent == null) {
+			parent = EmailFolder.ROOT;
+		}
+		buffer.insert(0, this.parent.getPath());
+		if (parent != EmailFolder.ROOT) {
+			buffer.append("/");
+		}
+		buffer.append(this.name);
+		return buffer.toString();
+	}
+	
 	public String toString() {
 		return "Folder: name = " + name + ", Parent: " + parent + ", ID: " + super.getId();
 	}

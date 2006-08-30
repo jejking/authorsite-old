@@ -19,6 +19,8 @@ public enum EmailAddressingType {
 		return typeName;
 	}
 	
-	
+	public String toString() {
+		return this.typeName;
+	}
 	
 }

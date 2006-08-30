@@ -57,6 +57,12 @@ public final class TextMessagePart extends MessagePart {
         builder.append("TextMessagePart:\n");
         builder.append("File Name: " + this.fileName + "\n");
         builder.append("Mime Type: " + this.mimeType + "\n");
+        if ( this.description != null ) {
+        	builder.append("Description: " + this.description + "\n");
+        }
+        if ( this.disposition != null ) {
+        	builder.append("Disposition: " + this.disposition + "\n");
+        }
         builder.append("Content:\n" + this.content + "\n");
         return builder.toString();
     }

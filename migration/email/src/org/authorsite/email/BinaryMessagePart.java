@@ -57,7 +57,12 @@ public final class BinaryMessagePart extends MessagePart {
         builder.append("TextMessagePart:\n");
         builder.append("File Name: " + this.fileName + "\n");
         builder.append("Mime Type: " + this.mimeType + "\n");
-        builder.append("Content:\n" + this.content + "\n");
+        if ( this.description != null ) {
+        	builder.append("Description: " + this.description + "\n");
+        }
+        if ( this.disposition != null ) {
+        	builder.append("Disposition: " + this.disposition + "\n");
+        }
         return builder.toString();
     }
 	

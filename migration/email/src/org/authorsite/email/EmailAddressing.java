@@ -111,6 +111,19 @@ public final class EmailAddressing implements Comparable {
 									 .toComparison();
 	}
 	
+	public String toString() {
+		StringBuilder buffer = new StringBuilder();
+		buffer.append(this.type);
+		buffer.append(": ");
+		if ( this.personalName != null ) {
+			buffer.append(personalName);
+			buffer.append(" ");
+		}
+		if ( this.emailAddress != null ) {
+			buffer.append(this.emailAddress);
+		}
+		return buffer.toString();
+	}
 	
 	
 }
