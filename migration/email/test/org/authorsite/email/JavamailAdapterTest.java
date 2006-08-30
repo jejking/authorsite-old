@@ -1,6 +1,5 @@
 package org.authorsite.email;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import javax.mail.Folder;
@@ -25,7 +24,7 @@ public class JavamailAdapterTest extends TestCase {
         
         Session session = Session.getDefaultInstance(new Properties());
 
-        Store store = session.getStore(new URLName("mstor:email/mboxes/oldTest1"));
+        Store store = session.getStore(new URLName("mstor:mboxes/oldTest1"));
         store.connect();
 
         // read messages from Inbox..
