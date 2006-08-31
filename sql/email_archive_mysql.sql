@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS headers;
 DROP TABLE IF EXISTS addressings;
 
 CREATE TABLE folders (
-    id                  INTEGER INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id                  INTEGER PRIMARY KEY AUTO_INCREMENT,
     created_at		    DATETIME,
     updated_at		    DATETIME,
     lock_version	    INTEGER NOT NULL DEFAULT 0,
@@ -53,7 +53,7 @@ CREATE TABLE parts (
     textContent         TEXT,
     binaryContent       BLOB,
     mimeType            VARCHAR(255),
-    parent_id           INTEGER NOT NULL REFERENCES parts(id),
+    parent_id           INTEGER REFERENCES parts(id),
     multipartOrder      INTEGER,
     folder_id           INTEGER REFERENCES folders(id),
     folder_position     INTEGER
