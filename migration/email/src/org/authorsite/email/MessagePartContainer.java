@@ -45,4 +45,8 @@ public class MessagePartContainer extends AbstractEmailPart {
         }
         return buffer.toString();
     }
+
+    public List<AbstractEmailPart> getChildren() {
+        return children;
+    }
 }

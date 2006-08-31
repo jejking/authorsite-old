@@ -7,9 +7,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.authorsite.email.AbstractEmailPart;
+import org.authorsite.email.BinaryMessagePart;
 import org.authorsite.email.EmailAddressing;
 import org.authorsite.email.EmailFolder;
 import org.authorsite.email.EmailMessage;
+import org.authorsite.email.MessagePartContainer;
+import org.authorsite.email.TextMessagePart;
 
 public class MySqlPersisterUtil {
 
@@ -33,6 +37,25 @@ public class MySqlPersisterUtil {
 		"(created_at, updated_at, addressingType, address, personal, part_id) " +
 		"VALUES " +
 		"(NOW(), NOW(), ?, ?, ?, ?);";
+    
+    private static final String INSERT_MULTIPART =
+        "INERT INTO parts " +
+        "(created_at, updated_at, type, parent_id, multipartOrder) " +
+        "VALUES " +
+        "(NOW(), NOW(), 'MimeMultipart', ?, ?)";
+    
+    private static final String INSERT_TEXT_PART =
+        "INSERT INTO parts " +
+        "(created_at, updated_at, type, parent_id, textContent) " +
+        "VALUES " +
+        "(NOW(), NOW(), 'MimeBodyPart', ?, ?);";
+    
+    private static final String INSERT_BINARY_PART = 
+        "INSERT INTO parts " +
+        "(created_at, updated_at, type, parent_id, binaryContent) " +
+        "VALUES " +
+        "(NOW(), NOW(), 'MimeBodyPart', ?, ?);";
+    
 	
 	public void persistFolder(EmailFolder folder, Connection con) throws Exception {
 	
@@ -65,10 +88,79 @@ public class MySqlPersisterUtil {
 		for (EmailAddressing addressing: message.getEmailAddressingContainer().getAddressings()) {
 			persistMessageAddressing(addressing, message, con);
 		}
+        if ( message.getMultipartContainer() != null ) {
+            this.persistMultipartContainerAsChildOfMessage(message, message.getMultipartContainer(), con);
+        }
 	}
 	
+	protected long persistMultipartContainerAsChildOfMessage(EmailMessage message, MessagePartContainer multipartContainer, Connection con) throws SQLException {
+	    PreparedStatement insertMultipartContainerPs = con.prepareStatement(MySqlPersisterUtil.INSERT_MULTIPART);
+        insertMultipartContainerPs.setLong(1, message.getId());
+        insertMultipartContainerPs.setLong(2, 1);
+        insertMultipartContainerPs.executeUpdate();
+        insertMultipartContainerPs.close();
+        long id = this.getLatestId(con);
+        multipartContainer.setId(id);
+        
+        persistMultipartChildren(multipartContainer, con);
+        
+        return id;
+    }
 
-	protected long persistMessageAddressing(EmailAddressing addressing, EmailMessage message, Connection con) throws SQLException {
+    private void persistMultipartChildren(MessagePartContainer multipartContainer, Connection con) throws SQLException {
+        int i = 0;
+        for ( AbstractEmailPart part : multipartContainer.getChildren() ) {
+            i++;
+            if ( part instanceof TextMessagePart ) {
+                persistTextMessagePage(multipartContainer, (TextMessagePart) part, i, con);
+            }
+            if ( part instanceof BinaryMessagePart ) {
+                persistBinaryMessagePart(multipartContainer, (BinaryMessagePart) part, i, con);
+            }
+            if ( part instanceof MessagePartContainer ) {
+                persistMultipartContainerAsChildOfMultipart(multipartContainer, part, i, con);
+            }
+        }
+    }
+    
+    protected long persistMultipartContainerAsChildOfMultipart(MessagePartContainer multipartContainer, AbstractEmailPart part, int i, Connection con) throws SQLException {
+        PreparedStatement insertMultipartContainerPs = con.prepareStatement(MySqlPersisterUtil.INSERT_MULTIPART);
+        insertMultipartContainerPs.setLong(1, multipartContainer.getId());
+        insertMultipartContainerPs.setLong(2, 1);
+        insertMultipartContainerPs.executeUpdate();
+        insertMultipartContainerPs.close();
+        long id = this.getLatestId(con);
+        multipartContainer.setId(id);
+        
+        persistMultipartChildren(multipartContainer, con);
+        
+        return id;
+    }
+
+    protected long persistBinaryMessagePart(MessagePartContainer multipartContainer, BinaryMessagePart part, int i, Connection con) throws SQLException {
+        PreparedStatement insertBinaryPartPs = con.prepareStatement(MySqlPersisterUtil.INSERT_BINARY_PART);
+        insertBinaryPartPs.setLong(1, multipartContainer.getId());
+        insertBinaryPartPs.setBytes(2, part.getContent());
+        insertBinaryPartPs.executeUpdate();
+        insertBinaryPartPs.close();
+        
+        long id = this.getLatestId(con);
+        part.setId(id);
+        return id;
+    }
+
+    protected long persistTextMessagePage(MessagePartContainer multipartContainer, TextMessagePart part, int i, Connection con) throws SQLException {
+        PreparedStatement insertTextPartPs = con.prepareStatement(MySqlPersisterUtil.INSERT_TEXT_PART);
+        insertTextPartPs.setLong(1, multipartContainer.getId());
+        insertTextPartPs.setString(2, part.getContent());
+        insertTextPartPs.executeUpdate();
+        insertTextPartPs.close();
+        long id = this.getLatestId(con);
+        part.setId(id);
+        return id;
+    }
+
+    protected long persistMessageAddressing(EmailAddressing addressing, EmailMessage message, Connection con) throws SQLException {
 		PreparedStatement insertAddressingPs = con.prepareStatement(MySqlPersisterUtil.INSERT_ADDRESSING);
 		insertAddressingPs.setString(1, addressing.getType().toString());
 		insertAddressingPs.setString(2, addressing.getEmailAddress());
@@ -111,7 +203,7 @@ public class MySqlPersisterUtil {
 		insertMessageCorePs.setLong(8, message.getParent().getId());
 		insertMessageCorePs.setInt(9, pos);
 		
-		insertMessageCorePs.executeUpdate();
+    		insertMessageCorePs.executeUpdate();
 		
 	    long id = this.getLatestId(con);
 	    message.setId(id);
