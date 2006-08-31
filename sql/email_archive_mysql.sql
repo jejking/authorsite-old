@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS headers;
 DROP TABLE IF EXISTS addressings;
 
 CREATE TABLE folders (
-    id                  INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id                  INTEGER INTEGER PRIMARY KEY AUTO_INCREMENT,
     created_at		    DATETIME,
     updated_at		    DATETIME,
     lock_version	    INTEGER NOT NULL DEFAULT 0,
@@ -27,7 +27,13 @@ CREATE TABLE folders (
     path                TEXT NOT NULL
 ) ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-ALTER TABLE folders ADD UNIQUE INDEX PATH_IDX (name, parent_id);
+ALTER TABLE folders ADD UNIQUE INDEX PATH_IDX (path(255), parent_id);
+
+INSERT INTO folders
+    (created_at, updated_at, parent_id, name, path)
+VALUES
+    (NOW(), NOW(), 0, "/", "/");
+
 
 CREATE TABLE parts (
 
@@ -57,16 +63,6 @@ CREATE TABLE parts (
 ALTER TABLE parts ADD FULLTEXT INDEX  TEXT_CONTENT_IDX (textContent);
 ALTER TABLE parts ADD FULLTEXT INDEX SUBJECT_IDX (subject);
 
-CREATE TABLE headers (
-    id                  INTEGER PRIMARY KEY AUTO_INCREMENT,
-    created_at		    DATETIME,
-    updated_at		    DATETIME,
-    lock_version	    INTEGER NOT NULL DEFAULT 0,
-    name                VARCHAR(255) NOT NULL,
-    value               VARCHAR(255) NOT NULL,
-    part_id            INTEGER NOT NULL REFERENCES parts(id)
-
-) ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE addressings (
     id                  INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -80,9 +76,9 @@ CREATE TABLE addressings (
                                 'Reply-To',
                                 'Sender') NOT NULL,
     address             VARCHAR(255) NOT NULL,
-    personal            VARCHAR(255) NOT NULL,
-    part_id             INTEGER NOT NULL REFERENCES parts(id)             
-    
+    personal            VARCHAR(255),
+    part_id             INTEGER NOT NULL REFERENCES parts(id)
+
 ) ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
