@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.authorsite.email.EmailAddressing;
 import org.authorsite.email.EmailFolder;
 import org.authorsite.email.EmailMessage;
 
@@ -26,6 +27,12 @@ public class MySqlPersisterUtil {
 		"(created_at, updated_at, type, subject, sentDate, receivedDate, inReplyTo, msgReferences, msgId, textContent, folder_id, folder_position) " +
 		"VALUES " +
 		"(NOW(), NOW(), 'Message', ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	
+	private static final String INSERT_ADDRESSING = 
+		"INSERT INTO addressings " +
+		"(created_at, updated_at, addressingType, address, personal, part_id) " +
+		"VALUES " +
+		"(NOW(), NOW(), ?, ?, ?, ?);";
 	
 	public void persistFolder(EmailFolder folder, Connection con) throws Exception {
 	
@@ -55,6 +62,21 @@ public class MySqlPersisterUtil {
 	protected void persistMessage(EmailMessage message, int pos, Connection con) throws SQLException {
 		// persist message skeleton first
 		persistMessageCore(message, pos, con);
+		for (EmailAddressing addressing: message.getEmailAddressingContainer().getAddressings()) {
+			persistMessageAddressing(addressing, message, con);
+		}
+	}
+	
+
+	protected long persistMessageAddressing(EmailAddressing addressing, EmailMessage message, Connection con) throws SQLException {
+		PreparedStatement insertAddressingPs = con.prepareStatement(MySqlPersisterUtil.INSERT_ADDRESSING);
+		insertAddressingPs.setString(1, addressing.getType().toString());
+		insertAddressingPs.setString(2, addressing.getEmailAddress());
+		insertAddressingPs.setString(3, addressing.getPersonalName());
+		insertAddressingPs.setLong(4, message.getId());
+		insertAddressingPs.executeUpdate();
+		
+		return this.getLatestId(con);
 	}
 
 	protected void persistMessageCore(EmailMessage message, int pos, Connection con) throws SQLException {
@@ -90,14 +112,10 @@ public class MySqlPersisterUtil {
 		insertMessageCorePs.setInt(9, pos);
 		
 		insertMessageCorePs.executeUpdate();
-		PreparedStatement getIdPs = con.prepareStatement(MySqlPersisterUtil.SELECT_LAST_INSERT_ID);
-	    ResultSet rs = getIdPs.executeQuery();
-	    rs.next();
-	    long id = rs.getLong(1);
+		
+	    long id = this.getLatestId(con);
 	    message.setId(id);
-	    rs.close();
 	    
-	    getIdPs.close();
 	    insertMessageCorePs.close();
 	    
 	}
@@ -130,13 +148,11 @@ public class MySqlPersisterUtil {
 		insertFolderPs.setString(3, pathFolder.getPath());
 		insertFolderPs.executeUpdate();
 		
-	    PreparedStatement getIdPs = con.prepareStatement(MySqlPersisterUtil.SELECT_LAST_INSERT_ID);
-	    ResultSet rs = getIdPs.executeQuery();
-	    rs.next();
-	    long id = rs.getLong(1);
-	    rs.close();
+	    long id = getLatestId(con);
 		return id;
 	}
+
+	
 
 	protected List<EmailFolder> convertParentsToList(EmailFolder folder) {
 		ArrayList<EmailFolder> hierarchy = new ArrayList<EmailFolder>();
@@ -163,4 +179,13 @@ public class MySqlPersisterUtil {
 		}
 	}
 	
+	private long getLatestId(Connection con) throws SQLException {
+		PreparedStatement getIdPs = con.prepareStatement(MySqlPersisterUtil.SELECT_LAST_INSERT_ID);
+	    ResultSet rs = getIdPs.executeQuery();
+	    rs.next();
+	    long id = rs.getLong(1);
+	    rs.close();
+	    getIdPs.close();
+		return id;
+	}
 }

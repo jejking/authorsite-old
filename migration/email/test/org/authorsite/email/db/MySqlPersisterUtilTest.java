@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.authorsite.email.EmailAddressing;
+import org.authorsite.email.EmailAddressingType;
 import org.authorsite.email.EmailFolder;
 import org.authorsite.email.EmailMessage;
 
@@ -39,8 +42,13 @@ public class MySqlPersisterUtilTest extends TestCase {
 		List<String> msgReferences = new ArrayList<String>();
 		msgReferences.add("test0");
 		m.setMsgReferences(msgReferences);
+		
+		EmailAddressing from = new EmailAddressing("from@test.com", EmailAddressingType.FROM);
+		EmailAddressing to = new EmailAddressing("Mr To", "to@test.com", EmailAddressingType.TO);
+		m.addEmailAddressing(from);
+		m.addEmailAddressing(to);
 		return m;
-		// TODO addresses...
+		
 	}	
 	
 	@Override
@@ -73,6 +81,10 @@ public class MySqlPersisterUtilTest extends TestCase {
 		PreparedStatement delPartsPs = con.prepareStatement("DELETE FROM parts");
 		delPartsPs.executeUpdate();
 		delFoldersPs.close();
+		
+		PreparedStatement delAddressings = con.prepareStatement("DELETE FROM addressings");
+		delAddressings.executeUpdate();
+		delAddressings.close();
 		con.close();
 	}
 
@@ -127,28 +139,6 @@ public class MySqlPersisterUtilTest extends TestCase {
 		long id = m.getId();
 		assertTrue( id > 0 );
 		
-		/*
-		 * id                  INTEGER PRIMARY KEY AUTO_INCREMENT,
-    created_at		    DATETIME,
-    updated_at		    DATETIME,
-    lock_version	    INTEGER NOT NULL DEFAULT 0,
-    type                ENUM (  'Message',
-                                'MimeMultipart',
-                                'MimeBodyPart' ) NOT NULL,
-    subject             VARCHAR(255),
-    sentDate            DATETIME,
-    receivedDate        DATETIME,
-    inReplyTo           VARCHAR(255),
-    msgReferences       VARCHAR (255),
-    msgId               VARCHAR(255),
-    textContent         TEXT,
-    binaryContent       BLOB,
-    mimeType            VARCHAR(255),
-    parent_id           INTEGER NOT NULL REFERENCES parts(id),
-    multipartOrder      INTEGER,
-    folder_id           INTEGER REFERENCES folders(id),
-    folder_position     INTEGER
-		 */
 		PreparedStatement lookup = con.prepareStatement(
 				"SELECT type, subject, sentDate, " +
 				"receivedDate, inReplyTo, msgReferences, " +
@@ -162,7 +152,7 @@ public class MySqlPersisterUtilTest extends TestCase {
 		rs.next();
 		assertEquals("Message", rs.getString(1));
 		assertEquals("testing is the subject", rs.getString(2));
-		// dates are a bit iffy at this level..
+		// exact dates at the microsecond level are a bit iffy at this level..
 //		assertEquals(new java.sql.Date(1157020091283L), rs.getDate(3));
 //		assertEquals(new java.sql.Date(1157020091283L), rs.getDate(4));
 		assertEquals("test0", rs.getString(5));
@@ -175,5 +165,64 @@ public class MySqlPersisterUtilTest extends TestCase {
 		lookup.close();
 	}
 
+	public void testPersistMessageAddressing() throws Exception {
+		EmailMessage m = new EmailMessage();
+		m.setId(66);
+		
+		EmailAddressing to = new EmailAddressing("FirstName LastName", "firstname.lastname@test.com", EmailAddressingType.TO);
+		m.addEmailAddressing(to);
+		
+		MySqlPersisterUtil util = new MySqlPersisterUtil();
+		long id = util.persistMessageAddressing(to, m, con);
+		
+		PreparedStatement lookUp = con.prepareStatement("SELECT addressingType, address, personal, part_id FROM addressings WHERE id = ?");
+		lookUp.setLong(1, id);
+		
+		ResultSet rs = lookUp.executeQuery();
+		rs.next();
+		assertEquals("To", rs.getString(1));
+		assertEquals("firstname.lastname@test.com", rs.getString(2));
+		assertEquals("FirstName LastName", rs.getString(3));
+		assertEquals(66, rs.getLong(4));
+		rs.close();
+		lookUp.close();
+		
+		// try with addresses with null (e.g. personal name)
+		EmailAddressing from = new EmailAddressing("test@test.com", EmailAddressingType.FROM);
+		m.addEmailAddressing(from);
+		long id2 = util.persistMessageAddressing(from, m, con);
+		PreparedStatement lookUp2 = con.prepareStatement("SELECT addressingType, address, personal, part_id FROM addressings WHERE id = ?");
+		lookUp2.setLong(1, id2);
+		ResultSet rs2 = lookUp2.executeQuery();
+		
+		rs2.next();
+		assertEquals("From", rs2.getString(1));
+		assertEquals("test@test.com", rs2.getString(2));
+		assertNull(rs2.getString(3));
+		assertEquals(66, rs2.getLong(4));
+		
+		rs2.close();
+		lookUp2.close();
+		
+		
+	}
+	
+	public void testPersistMessageSimpleContent() throws Exception {
+		EmailFolder C = this.createABCFolders();
+		EmailMessage m = this.createTestPlainTextMessage();
+		m.setParent(C);
+		
+		MySqlPersisterUtil util = new MySqlPersisterUtil();
+		util.persistMessage(m, 1, con);
+		
+		PreparedStatement countAddresses = con.prepareStatement("select count(*) from addressings");
+		ResultSet rs = countAddresses.executeQuery();
+		rs.next();
+		assertEquals(2, rs.getInt(1));
+		rs.close();
+		countAddresses.close();
+	}
+	
+	
 
 }
