@@ -6,7 +6,7 @@ import java.util.List;
 public class EmailMessage extends AbstractMailItem {
 
 	private EmailFolder parent;
-	private EmailAddressingContainer addressings = new EmailAddressingContainer();
+	private EmailAddressingContainer emailAddressingContainer = new EmailAddressingContainer();
 	private String subject;
 	private Date sentDate;
 	private Date receivedDate;
@@ -22,11 +22,11 @@ public class EmailMessage extends AbstractMailItem {
 	
 	public void addEmailAddressing(EmailAddressing addressing) {
 		assert addressing != null;
-		addressings.add(addressing);
+		emailAddressingContainer.add(addressing);
 	}
 	
-	public EmailAddressingContainer getAddressings() {
-		return addressings;
+	public EmailAddressingContainer getEmailAddressingContainer() {
+		return emailAddressingContainer;
 	}
 
 	public String getContent() {
@@ -107,7 +107,7 @@ public class EmailMessage extends AbstractMailItem {
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result + ((addressings == null) ? 0 : addressings.hashCode());
+		result = PRIME * result + ((emailAddressingContainer == null) ? 0 : emailAddressingContainer.hashCode());
 		result = PRIME * result + ((content == null) ? 0 : content.hashCode());
 		result = PRIME * result + ((inReplyTo == null) ? 0 : inReplyTo.hashCode());
 		result = PRIME * result + ((msgId == null) ? 0 : msgId.hashCode());
@@ -129,10 +129,10 @@ public class EmailMessage extends AbstractMailItem {
 		if (getClass() != obj.getClass())
 			return false;
 		final EmailMessage other = (EmailMessage) obj;
-		if (addressings == null) {
-			if (other.addressings != null)
+		if (emailAddressingContainer == null) {
+			if (other.emailAddressingContainer != null)
 				return false;
-		} else if (!addressings.equals(other.addressings))
+		} else if (!emailAddressingContainer.equals(other.emailAddressingContainer))
 			return false;
 		if (content == null) {
 			if (other.content != null)
@@ -185,7 +185,7 @@ public class EmailMessage extends AbstractMailItem {
 	@Override
 	public String toString() {
 		StringBuilder buffer = new StringBuilder();
-		buffer.append(addressings);
+		buffer.append(emailAddressingContainer);
 		buffer.append("Subject: " + subject);
 		buffer.append("\n");
 		buffer.append("MsgID: " + msgId);
