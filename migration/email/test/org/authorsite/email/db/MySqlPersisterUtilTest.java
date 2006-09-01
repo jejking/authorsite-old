@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.authorsite.email.BinaryMessagePart;
 import org.authorsite.email.EmailAddressing;
 import org.authorsite.email.EmailAddressingType;
 import org.authorsite.email.EmailFolder;
 import org.authorsite.email.EmailMessage;
+import org.authorsite.email.MessagePartContainer;
+import org.authorsite.email.TextMessagePart;
 
 import junit.framework.TestCase;
 
@@ -221,6 +224,69 @@ public class MySqlPersisterUtilTest extends TestCase {
 		assertEquals(2, rs.getInt(1));
 		rs.close();
 		countAddresses.close();
+	}
+	
+	public void testPersistTextMessagePart() throws Exception {
+		TextMessagePart p = new TextMessagePart();
+		p.setContent("this is text");
+		p.setMimeType("text/plain");
+		p.setFileName("test.txt");
+		p.setDescription("some blurb");
+		p.setDisposition("attachment");
+		
+		MessagePartContainer container = new MessagePartContainer();
+		container.setId(66);
+		
+		MySqlPersisterUtil util = new MySqlPersisterUtil();
+		long partId = util.persistTextMessagePart(container, p, 1, con);
+		
+		PreparedStatement findTextPartPs = con.prepareStatement("SELECT type, parent_id, " +
+				"textContent, mimeType, fileName, description, disposition " +
+				"FROM parts where id = ?");
+		findTextPartPs.setLong(1, partId);
+		
+		ResultSet rs = findTextPartPs.executeQuery();
+		rs.next();
+		assertEquals("MimeBodyPart", rs.getString(1));
+		assertEquals(66, rs.getLong(2));
+		assertEquals("this is text", rs.getString(3));
+		assertEquals("text/plain", rs.getString(4));
+		assertEquals("test.txt", rs.getString(5));
+		assertEquals("some blurb", rs.getString(6));
+		assertEquals("attachment", rs.getString(7));
+		rs.close();
+	}
+	
+	public void testPersistBinaryMessagePart() throws Exception {
+		BinaryMessagePart part = new BinaryMessagePart();
+		part.setContent("this is some text".getBytes("UTF-8"));
+		part.setFileName("binary.bin");
+		part.setMimeType("application/octet-stream");
+		part.setDescription("some binary encoded text");
+		part.setDisposition("attachment");
+		
+		MessagePartContainer container = new MessagePartContainer();
+		container.setId(66);
+		
+		MySqlPersisterUtil util = new MySqlPersisterUtil();
+		long id = util.persistBinaryMessagePart(container, part, 1, con);
+		
+		PreparedStatement findBinaryPartPs = con.prepareStatement("SELECT type, parent_id, " +
+				"binaryContent, mimeType, fileName, description, disposition " +
+				"FROM parts where id = ?");
+		findBinaryPartPs.setLong(1, id);
+		
+		ResultSet rs = findBinaryPartPs.executeQuery();
+		rs.next();
+		assertEquals("MimeBodyPart", rs.getString(1));
+		assertEquals(66, rs.getLong(2));
+		byte[] bytes = rs.getBytes(3);
+		assertEquals("this is some text", new String(bytes, "UTF-8"));
+		assertEquals("application/octet-stream", rs.getString(4));
+		assertEquals("binary.bin", rs.getString(5));
+		assertEquals("some binary encoded text", rs.getString(6));
+		assertEquals("attachment", rs.getString(7));
+		rs.close();
 	}
 	
 	

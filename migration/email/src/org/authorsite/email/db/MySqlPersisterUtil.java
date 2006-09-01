@@ -46,15 +46,15 @@ public class MySqlPersisterUtil {
     
     private static final String INSERT_TEXT_PART =
         "INSERT INTO parts " +
-        "(created_at, updated_at, type, parent_id, textContent) " +
+        "(created_at, updated_at, type, parent_id, textContent, mimeType, fileName, description, disposition) " +
         "VALUES " +
-        "(NOW(), NOW(), 'MimeBodyPart', ?, ?);";
+        "(NOW(), NOW(), 'MimeBodyPart', ?, ?, ?, ?, ?, ?);";
     
     private static final String INSERT_BINARY_PART = 
         "INSERT INTO parts " +
-        "(created_at, updated_at, type, parent_id, binaryContent) " +
+        "(created_at, updated_at, type, parent_id, binaryContent, mimeType, fileName, description, disposition) " +
         "VALUES " +
-        "(NOW(), NOW(), 'MimeBodyPart', ?, ?);";
+        "(NOW(), NOW(), 'MimeBodyPart', ?, ?, ?, ?, ?, ?);";
     
 	
 	public void persistFolder(EmailFolder folder, Connection con) throws Exception {
@@ -112,7 +112,7 @@ public class MySqlPersisterUtil {
         for ( AbstractEmailPart part : multipartContainer.getChildren() ) {
             i++;
             if ( part instanceof TextMessagePart ) {
-                persistTextMessagePage(multipartContainer, (TextMessagePart) part, i, con);
+                persistTextMessagePart(multipartContainer, (TextMessagePart) part, i, con);
             }
             if ( part instanceof BinaryMessagePart ) {
                 persistBinaryMessagePart(multipartContainer, (BinaryMessagePart) part, i, con);
@@ -141,6 +141,10 @@ public class MySqlPersisterUtil {
         PreparedStatement insertBinaryPartPs = con.prepareStatement(MySqlPersisterUtil.INSERT_BINARY_PART);
         insertBinaryPartPs.setLong(1, multipartContainer.getId());
         insertBinaryPartPs.setBytes(2, part.getContent());
+        insertBinaryPartPs.setString(3, part.getMimeType());
+        insertBinaryPartPs.setString(4, part.getFileName());
+        insertBinaryPartPs.setString(5, part.getDescription());
+        insertBinaryPartPs.setString(6, part.getDisposition());
         insertBinaryPartPs.executeUpdate();
         insertBinaryPartPs.close();
         
@@ -149,10 +153,14 @@ public class MySqlPersisterUtil {
         return id;
     }
 
-    protected long persistTextMessagePage(MessagePartContainer multipartContainer, TextMessagePart part, int i, Connection con) throws SQLException {
+    protected long persistTextMessagePart(MessagePartContainer multipartContainer, TextMessagePart part, int i, Connection con) throws SQLException {
         PreparedStatement insertTextPartPs = con.prepareStatement(MySqlPersisterUtil.INSERT_TEXT_PART);
         insertTextPartPs.setLong(1, multipartContainer.getId());
         insertTextPartPs.setString(2, part.getContent());
+        insertTextPartPs.setString(3, part.getMimeType());
+        insertTextPartPs.setString(4, part.getFileName());
+        insertTextPartPs.setString(5, part.getDescription());
+        insertTextPartPs.setString(6, part.getDisposition());
         insertTextPartPs.executeUpdate();
         insertTextPartPs.close();
         long id = this.getLatestId(con);
