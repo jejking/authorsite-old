@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -289,6 +288,103 @@ public class MySqlPersisterUtilTest extends TestCase {
 		rs.close();
 	}
 	
+	public void testPersistMultipartContainerAsChildOfMessage() throws Exception {
+		// two parts, one text and one binary..
+		TextMessagePart textPart = new TextMessagePart();
+		textPart.setContent("this is text");
+		textPart.setMimeType("text/plain");
+		textPart.setFileName("test.txt");
+		textPart.setDescription("some blurb");
+		textPart.setDisposition("inline");
+		
+		BinaryMessagePart binaryPart = new BinaryMessagePart();
+		binaryPart.setContent("this is some text".getBytes("UTF-8"));
+		binaryPart.setFileName("binary.bin");
+		binaryPart.setMimeType("application/octet-stream");
+		binaryPart.setDescription("some binary encoded text");
+		binaryPart.setDisposition("attachment");
+		
+		MessagePartContainer container = new MessagePartContainer();
+		container.addChildPart(textPart);
+		container.addChildPart(binaryPart);
+		
+		EmailMessage m = this.createTestPlainTextMessage();
+		m.setContent(null);
+		m.setMultipartContainer(container);
+		m.setId(66);
+		
+		MySqlPersisterUtil util = new MySqlPersisterUtil();
+		util.persistMultipartContainerAsChildOfMessage(m, container, con);
+		
+		// expect to see 1 multipart, 2 body parts in the db
+		PreparedStatement countMultipartsPs = con.prepareStatement("SELECT count(*) FROM parts WHERE type = 'MimeMultipart';");
+		ResultSet countMultipartsRs = countMultipartsPs.executeQuery();
+		countMultipartsRs.next();
+		assertEquals(1, countMultipartsRs.getInt(1));
+		countMultipartsRs.close();
+		countMultipartsPs.close();
+		
+		PreparedStatement countBodyPartsPs = con.prepareStatement("SELECT count(*) FROM parts WHERE type = 'MimeBodyPart';");
+		ResultSet countBodyPartsRs = countBodyPartsPs.executeQuery();
+		countBodyPartsRs.next();
+		assertEquals(2, countBodyPartsRs.getInt(1));
+		countBodyPartsRs.close();
+		countBodyPartsPs.close();
+		
+	}
 	
+	public void testPersistMultipartContainerAsChildOfMultipart() throws Exception {
+		//	two parts, one text and one binary..
+		TextMessagePart textPart = new TextMessagePart();
+		textPart.setContent("this is text");
+		textPart.setMimeType("text/plain");
+		textPart.setFileName("test.txt");
+		textPart.setDescription("some blurb");
+		textPart.setDisposition("inline");
+		
+		BinaryMessagePart binaryPart = new BinaryMessagePart();
+		binaryPart.setContent("this is some text".getBytes("UTF-8"));
+		binaryPart.setFileName("binary.bin");
+		binaryPart.setMimeType("application/octet-stream");
+		binaryPart.setDescription("some binary encoded text");
+		binaryPart.setDisposition("attachment");
+		
+		MessagePartContainer childContainer = new MessagePartContainer();
+		childContainer.addChildPart(textPart);
+		childContainer.addChildPart(binaryPart);
+		
+		MessagePartContainer parentContainer = new MessagePartContainer();
+		TextMessagePart parentTextPart = new TextMessagePart();
+		parentTextPart.setContent("parent content");
+		textPart.setMimeType("text/plain");
+		textPart.setFileName("parent.txt");
+		
+		parentContainer.addChildPart(parentTextPart);
+		parentContainer.addChildPart(childContainer);
+		parentContainer.setId(166);
+		
+		MySqlPersisterUtil util = new MySqlPersisterUtil();
+		long childContainerId = util.persistMultipartContainerAsChildOfMultipart(parentContainer, childContainer, 1, con);
+		
+		PreparedStatement checkChildContainerPs = con.prepareStatement("SELECT count(*) " +
+				"FROM parts WHERE id = ? AND type = 'MimeMultipart' AND parent_id = 166;");
+		checkChildContainerPs.setLong(1, childContainerId);
+		ResultSet checkChildContainerRs = checkChildContainerPs.executeQuery();
+		checkChildContainerRs.next();
+		assertEquals(1, checkChildContainerRs.getInt(1));
+		checkChildContainerRs.close();
+		checkChildContainerPs.close();
+		
+		PreparedStatement checkChildContainerChildrenPs = con.prepareStatement("SELECT count(*) " +
+				"FROM parts WHERE type = 'MimeBodyPart' AND parent_id = ?;");
+		checkChildContainerChildrenPs.setLong(1, childContainerId);
+		ResultSet checkContainerChildrenRs = checkChildContainerChildrenPs.executeQuery();
+		checkContainerChildrenRs.next();
+		assertEquals(2, checkContainerChildrenRs.getInt(1));
+		checkContainerChildrenRs.close();
+		checkChildContainerChildrenPs.close();
+			
+		
+	}
 
 }

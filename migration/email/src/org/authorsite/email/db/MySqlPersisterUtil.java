@@ -39,7 +39,7 @@ public class MySqlPersisterUtil {
 		"(NOW(), NOW(), ?, ?, ?, ?);";
     
     private static final String INSERT_MULTIPART =
-        "INERT INTO parts " +
+        "INSERT INTO parts " +
         "(created_at, updated_at, type, parent_id, multipartOrder) " +
         "VALUES " +
         "(NOW(), NOW(), 'MimeMultipart', ?, ?)";
@@ -118,26 +118,28 @@ public class MySqlPersisterUtil {
                 persistBinaryMessagePart(multipartContainer, (BinaryMessagePart) part, i, con);
             }
             if ( part instanceof MessagePartContainer ) {
-                persistMultipartContainerAsChildOfMultipart(multipartContainer, part, i, con);
+                persistMultipartContainerAsChildOfMultipart(multipartContainer, (MessagePartContainer) part, i, con);
             }
         }
     }
     
-    protected long persistMultipartContainerAsChildOfMultipart(MessagePartContainer multipartContainer, AbstractEmailPart part, int i, Connection con) throws SQLException {
+    protected long persistMultipartContainerAsChildOfMultipart(MessagePartContainer multipartContainer, MessagePartContainer childContainer, int i, Connection con) throws SQLException {
         PreparedStatement insertMultipartContainerPs = con.prepareStatement(MySqlPersisterUtil.INSERT_MULTIPART);
         insertMultipartContainerPs.setLong(1, multipartContainer.getId());
         insertMultipartContainerPs.setLong(2, 1);
         insertMultipartContainerPs.executeUpdate();
         insertMultipartContainerPs.close();
         long id = this.getLatestId(con);
-        multipartContainer.setId(id);
+        childContainer.setId(id);
         
-        persistMultipartChildren(multipartContainer, con);
+        persistMultipartChildren(childContainer, con);
         
         return id;
     }
 
-    protected long persistBinaryMessagePart(MessagePartContainer multipartContainer, BinaryMessagePart part, int i, Connection con) throws SQLException {
+  
+
+	protected long persistBinaryMessagePart(MessagePartContainer multipartContainer, BinaryMessagePart part, int i, Connection con) throws SQLException {
         PreparedStatement insertBinaryPartPs = con.prepareStatement(MySqlPersisterUtil.INSERT_BINARY_PART);
         insertBinaryPartPs.setLong(1, multipartContainer.getId());
         insertBinaryPartPs.setBytes(2, part.getContent());
