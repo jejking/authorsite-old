@@ -11,6 +11,7 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMultipart;
 
@@ -37,15 +38,28 @@ public final class JavamailAdapter {
         
 		EmailMessage myMessage = new EmailMessage();
 		// from
-		InternetAddress[] fromAddresses = (InternetAddress[]) javaMailMessage.getFrom();
-		for ( InternetAddress fromAddress : fromAddresses ) {
-			EmailAddressing fromAddressing = convertEmailAddress(fromAddress);
-			fromAddressing.setType(EmailAddressingType.FROM);
-			myMessage.addEmailAddressing(fromAddressing);
-		}
+		InternetAddress[] fromAddresses = null;
+        try {
+            fromAddresses = (InternetAddress[]) javaMailMessage.getFrom();
+        } catch (AddressException e) {
+            fromAddresses = this.handleWhitespaceHeaders(javaMailMessage.getHeader("From"));
+        }
+        if ( fromAddresses != null ) {
+            for ( InternetAddress fromAddress : fromAddresses ) {
+                EmailAddressing fromAddressing = convertEmailAddress(fromAddress);
+                fromAddressing.setType(EmailAddressingType.FROM);
+                myMessage.addEmailAddressing(fromAddressing);
+            }    
+        }
+		
 
 		// to
-		Address[] toAddresses = javaMailMessage.getRecipients(Message.RecipientType.TO);
+		Address[] toAddresses = null;
+        try {
+            javaMailMessage.getRecipients(Message.RecipientType.TO);
+        } catch (AddressException e) {
+            toAddresses = this.handleWhitespaceHeaders(javaMailMessage.getHeader("to"));
+        }
 		if ( toAddresses != null ) {
 			for ( Address toAddress : toAddresses ) {
 				InternetAddress realRecipientAddress = (InternetAddress) toAddress;
@@ -57,7 +71,13 @@ public final class JavamailAdapter {
 		
 		
 		// cc
-		Address[] ccAddresses = javaMailMessage.getRecipients(Message.RecipientType.CC);
+		Address[] ccAddresses = null;
+        try {
+            javaMailMessage.getRecipients(Message.RecipientType.CC);
+        } catch (AddressException e) {
+            ccAddresses = this.handleWhitespaceHeaders(javaMailMessage.getHeader("Cc"));
+        }
+        
 		if ( ccAddresses != null ) {
 			for ( Address ccAddress : ccAddresses ) {
 				InternetAddress realRecipientAddress = (InternetAddress) ccAddress;
@@ -69,7 +89,13 @@ public final class JavamailAdapter {
 		
 		
 		// bc
-		Address[] bccAddresses = javaMailMessage.getRecipients(Message.RecipientType.BCC);
+		Address[] bccAddresses = null;
+        try {
+            javaMailMessage.getRecipients(Message.RecipientType.BCC);
+        } catch (AddressException e) {
+            bccAddresses = this.handleWhitespaceHeaders(javaMailMessage.getHeader("Bcc"));
+        }
+        
 		if ( bccAddresses != null ) {
 			for ( Address bccAddress : bccAddresses ) {
 				InternetAddress realRecipientAddress = (InternetAddress) bccAddress;
@@ -81,17 +107,27 @@ public final class JavamailAdapter {
 		
 		
 		// replyTo
-		InternetAddress[] replyToAddresses = (InternetAddress[]) javaMailMessage.getReplyTo();
-		for ( InternetAddress replyToAddress : replyToAddresses ) {
-			EmailAddressing replyToAddressing = convertEmailAddress(replyToAddress);
-			replyToAddressing.setType(EmailAddressingType.REPLY_TO);
-		}
+		InternetAddress[] replyToAddresses = null;
+        try {
+            replyToAddresses = (InternetAddress[]) javaMailMessage.getReplyTo();
+        } catch (AddressException e) {
+            replyToAddresses = this.handleWhitespaceHeaders(javaMailMessage.getHeader("Reply-To"));
+        }
+        
+        
+        if ( replyToAddresses != null ) {
+            for ( InternetAddress replyToAddress : replyToAddresses ) {
+                EmailAddressing replyToAddressing = convertEmailAddress(replyToAddress);
+                replyToAddressing.setType(EmailAddressingType.REPLY_TO);
+            }
+        }
+		
 		
 		// sender
 		String[] senderAddressStrings = javaMailMessage.getHeader("Sender");
         if (senderAddressStrings != null) {
-            InternetAddress[] senderAddresses = new InternetAddress[senderAddressStrings.length];
-            for (InternetAddress senderAddress : senderAddresses ) {
+            for (String senderAddressString : senderAddressStrings ) {
+                InternetAddress senderAddress = new InternetAddress(senderAddressString);
                 EmailAddressing senderAddressing = convertEmailAddress(senderAddress);
                 senderAddressing.setType(EmailAddressingType.SENDER);
                 myMessage.addEmailAddressing(senderAddressing);
@@ -109,25 +145,54 @@ public final class JavamailAdapter {
 		myMessage.setInReplyTo(handleHeader(javaMailMessage, "In-Reply-To"));
 		myMessage.setMsgReferences(handleReferencesHeader(javaMailMessage, "References"));
 		Object content = javaMailMessage.getContent();
-        System.out.println("--- content is of class " + content.getClass());
+        
 		if (content != null ) {
 			if ( content instanceof String) {
 				myMessage.setContent((String) content);
 			}
             else if ( content instanceof MimeMultipart ) {
-                System.out.println("handling a multipart");
                 MessagePartContainer myMultipartContainer = convertMultipart((Multipart) content);
                 myMessage.setMultipartContainer(myMultipartContainer);
             }
 		}
 		
-		System.out.println(myMessage);
 		return myMessage;
 	}
 	
+    private InternetAddress[] handleWhitespaceHeaders(String[] headers) throws AddressException {
+        if ( headers == null ) {
+            return null;
+        }
+        InternetAddress[] addresses = new InternetAddress[headers.length];
+        int i = 0;
+        for ( String header : headers ) {
+            // split on white space
+            String[] headerComponents = header.split(" ");
+            StringBuilder theAddressBit = new StringBuilder(headerComponents[headerComponents.length - 1]);
+            theAddressBit.insert(0, "<");
+            theAddressBit.append(">");
+            headerComponents[headerComponents.length -1] = theAddressBit.toString();
+            StringBuilder fixedAddressStringBuilder = new StringBuilder();
+            for ( String headerComponent : headerComponents ) {
+                fixedAddressStringBuilder.append(headerComponent);
+                fixedAddressStringBuilder.append(" ");
+            }
+            String fixedString = fixedAddressStringBuilder.toString().trim();
+            addresses[i] = new InternetAddress(fixedString);
+        }
+
+        return addresses;
+    }
+
     public EmailAddressing convertEmailAddress(InternetAddress address) {
+        assert address != null;
 		EmailAddressing addressing = new EmailAddressing();
-		addressing.setEmailAddress(address.getAddress());
+		try {
+            addressing.setEmailAddress(address.getAddress());
+        }
+        catch (IllegalArgumentException iae) {
+            iae.printStackTrace();
+        }
 		addressing.setPersonalName(address.getPersonal());
 		return addressing;
 	}

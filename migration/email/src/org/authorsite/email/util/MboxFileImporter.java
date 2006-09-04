@@ -38,7 +38,7 @@ public class MboxFileImporter {
 		URLName mboxUrl = new URLName("mstor:" + file.getCanonicalPath());
 		EmailFolder folder = getFolderFromMbox(mboxUrl);
 
-		setupFolderParents(folder, fileName);
+		setupFolderParents(folder, file.getName());
 		Connection con = getConnection(url, username, password);
 		try {
 			MySqlPersisterUtil util = new MySqlPersisterUtil();
