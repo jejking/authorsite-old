@@ -32,4 +32,10 @@ public class MboxFileImporterTest extends TestCase {
 		
 	}
 	
+	public void testFileImport() throws Exception {
+		MboxFileImporter i = new MboxFileImporter();
+		i.processFile("mboxes/oldTest1", "jdbc:mysql://localhost:3306/authorsite?characterEncoding=utf8", "test", "test");
+		
+	}
+	
 }
