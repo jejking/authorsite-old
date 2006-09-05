@@ -56,9 +56,9 @@ public final class JavamailAdapter {
 		// to
 		Address[] toAddresses = null;
         try {
-            javaMailMessage.getRecipients(Message.RecipientType.TO);
+            toAddresses = javaMailMessage.getRecipients(Message.RecipientType.TO);
         } catch (AddressException e) {
-            toAddresses = this.handleWhitespaceHeaders(javaMailMessage.getHeader("to"));
+            toAddresses = this.handleWhitespaceHeaders(javaMailMessage.getHeader("To"));
         }
 		if ( toAddresses != null ) {
 			for ( Address toAddress : toAddresses ) {
