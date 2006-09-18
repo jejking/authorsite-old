@@ -1,0 +1,42 @@
+  [4;36;1mSQL (0.000446)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mIndividual Columns (0.003859)[0m   [0mSHOW FIELDS FROM humans[0m
+  [4;36;1mIndividual Load (0.262164)[0m   [0;1mSELECT * FROM humans WHERE (humans.`name` = 'King' ) AND ( (humans.`type` = 'Individual' ) ) LIMIT 1[0m
+  [4;35;1mIndividual Load (0.003782)[0m   [0mSELECT * FROM humans WHERE (humans.id = 642) AND ( (humans.`type` = 'Individual' ) ) LIMIT 1[0m
+  [4;36;1mIndividual Load (0.003451)[0m   [0;1mSELECT * FROM humans WHERE (humans.`name` = 'King' ) AND ( (humans.`type` = 'Individual' ) ) LIMIT 1[0m
+  [4;35;1mIndividual Load (0.003471)[0m   [0mSELECT * FROM humans WHERE (humans.`name` = 'Jünger' ) AND ( (humans.`type` = 'Individual' ) ) LIMIT 1[0m
+  [4;36;1mCollective Columns (0.007955)[0m   [0;1mSHOW FIELDS FROM humans[0m
+  [4;35;1mCollective Load (0.078912)[0m   [0mSELECT * FROM humans WHERE (humans.`name` = 'University of Oxford' ) AND ( (humans.`type` = 'Collective' ) ) LIMIT 1[0m
+  [4;36;1mSQL (0.003235)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.123529)[0m   [0mINSERT INTO humans (`name`, `place`, `updated_at`, `lock_version`, `type`, `username`, `name_qualification`, `address`, `password`, `created_at`, `given_names`) VALUES('TestName', NULL, '2006-09-18 21:44:47', 0, 'Individual', NULL, NULL, NULL, NULL, '2006-09-18 21:44:47', 'Test Given Name')[0m
+  [4;36;1mSQL (0.065816)[0m   [0;1mCOMMIT[0m
+  [4;35;1mSQL (0.003800)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.003235)[0m   [0;1mINSERT INTO humans (`name`, `place`, `updated_at`, `lock_version`, `type`, `username`, `name_qualification`, `address`, `password`, `created_at`, `given_names`) VALUES('Test Collective One', NULL, '2006-09-18 21:52:58', 0, 'Collective', NULL, NULL, NULL, NULL, '2006-09-18 21:52:58', NULL)[0m
+  [4;35;1mSQL (0.003781)[0m   [0mCOMMIT[0m
+  [4;36;1mCollective Load (0.003728)[0m   [0;1mSELECT * FROM humans WHERE (humans.id = 1300) AND ( (humans.`type` = 'Collective' ) ) LIMIT 1[0m
+  [4;35;1mSQL (0.003021)[0m   [0mBEGIN[0m
+  [4;36;1mCollective Update with optimistic locking (0.129208)[0m   [0;1m UPDATE humans
+ SET `created_at` = '2006-09-18 21:52:58', `address` = NULL, `username` = NULL, `place` = NULL, `name_qualification` = NULL, `type` = 'Collective', `lock_version` = 1, `given_names` = NULL, `password` = NULL, `updated_at` = '2006-09-18 21:53:57', `name` = 'Changed Test Collective'
+ WHERE id = 1300 
+ AND lock_version = 0
+[0m
+  [4;35;1mSQL (0.007770)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.000323)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mIndividual Columns (0.004657)[0m   [0mSHOW FIELDS FROM humans[0m
+  [4;36;1mSQL (0.000325)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mIndividual Columns (0.003657)[0m   [0mSHOW FIELDS FROM humans[0m
+  [4;36;1mIndividual Load (0.028462)[0m   [0;1mSELECT * FROM humans WHERE (humans.id = 642) AND ( (humans.`type` = 'Individual' ) ) LIMIT 1[0m
+  [4;36;1mSQL (0.047932)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mIndividual Columns (0.114857)[0m   [0mSHOW FIELDS FROM humans[0m
+  [4;36;1mIndividual Load (0.018353)[0m   [0;1mSELECT * FROM humans WHERE (humans.id = 642) AND ( (humans.`type` = 'Individual' ) ) LIMIT 1[0m
+  [4;35;1mHumanWorkRelationship Load (0.088160)[0m   [0mSELECT * FROM human_work_relationships WHERE (human_work_relationships.human_id = 642) [0m
+  [4;36;1mWork Load (0.087555)[0m   [0;1mSELECT works.* FROM works INNER JOIN human_work_relationships ON works.id = human_work_relationships.work_id WHERE (human_work_relationships.human_id = 642) [0m
+  [4;36;1mSQL (0.000274)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mIndividual Columns (0.002807)[0m   [0mSHOW FIELDS FROM humans[0m
+  [4;36;1mIndividual Load (0.001438)[0m   [0;1mSELECT * FROM humans WHERE (humans.id = 642) AND ( (humans.`type` = 'Individual' ) ) LIMIT 1[0m
+  [4;35;1mWork Load (0.004840)[0m   [0mSELECT works.* FROM works INNER JOIN human_work_relationships ON works.id = human_work_relationships.work_id WHERE (human_work_relationships.human_id = 642) [0m
+  [4;36;1mThesis Columns (0.005743)[0m   [0;1mSHOW FIELDS FROM works[0m
+  [4;35;1mThesis Load (0.006121)[0m   [0mSELECT * FROM works WHERE (works.id = 1064) AND ( (works.`type` = 'Thesis' ) ) LIMIT 1[0m
+  [4;36;1mSQL (0.000311)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mThesis Columns (0.003975)[0m   [0mSHOW FIELDS FROM works[0m
+  [4;36;1mThesis Load (0.001883)[0m   [0;1mSELECT * FROM works WHERE (works.id = 1064) AND ( (works.`type` = 'Thesis' ) ) LIMIT 1[0m
+  [4;35;1mHuman Load (0.029660)[0m   [0mSELECT humans.* FROM humans INNER JOIN human_work_relationships ON humans.id = human_work_relationships.human_id WHERE (human_work_relationships.work_id = 1064) [0m

@@ -1,0 +1,2 @@
+class Incollection < Work
+end

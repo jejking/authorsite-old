@@ -1,0 +1,2 @@
+class Techreport < Work
+end

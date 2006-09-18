@@ -1,0 +1,2 @@
+class FrbrWork < Work
+end

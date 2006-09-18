@@ -13,8 +13,9 @@
 development:
   adapter: mysql
   database: authorsite_development
-  username: root
-  password:
+  encoding: utf8
+  username: test
+  password: test
   host: localhost
 
 # Warning: The database defined as 'test' will be erased and
@@ -23,6 +24,7 @@ development:
 test:
   adapter: mysql
   database: authorsite_test
+  encoding: utf8
   username: root
   password:
   host: localhost
@@ -30,6 +32,7 @@ test:
 production:
   adapter: mysql
   database: authorsite_production
+  encoding: utf8
   username: root
   password: 
   host: localhost

@@ -1,0 +1,2 @@
+class Booklet < Work
+end

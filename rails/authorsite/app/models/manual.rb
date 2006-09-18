@@ -1,0 +1,2 @@
+class Manual < Work
+end

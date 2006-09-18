@@ -1,0 +1,2 @@
+class Inproceedings < Work
+end

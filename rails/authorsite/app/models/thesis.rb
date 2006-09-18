@@ -1,0 +1,2 @@
+class Thesis < Work
+end

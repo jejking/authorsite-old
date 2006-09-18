@@ -1,0 +1,2 @@
+class OnlineResource < Work
+end
