@@ -17,9 +17,9 @@ import org.authorsite.email.TextMessagePart;
 
 public class MySqlPersisterUtil {
 
-	private static final String SELECT_FOLDER_ID = "SELECT id FROM folders WHERE path = ?";
+	private static final String SELECT_FOLDER_ID = "SELECT id FROM mail_folders WHERE path = ?";
 	
-	private static final String INSERT_FOLDER = "INSERT INTO folders " +
+	private static final String INSERT_FOLDER = "INSERT INTO mail_folders " +
 			"(created_at, updated_at, parent_id, name, path) " +
 			"VALUES " +
 			"(NOW(), NOW(), ?, ?, ?);";
@@ -28,31 +28,31 @@ public class MySqlPersisterUtil {
 	
 	private static final String INSERT_MESSAGE_CORE = 
 		"INSERT INTO parts " +
-		"(created_at, updated_at, type, subject, sentDate, receivedDate, inReplyTo, msgReferences, msgId, textContent, folder_id, folder_position) " +
+		"(created_at, updated_at, type, subject, sent_date, received_date, in_reply_to, msg_references, msg_id, text_content, mail_folder_id, mail_folder_position) " +
 		"VALUES " +
 		"(NOW(), NOW(), 'Message', ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	
 	private static final String INSERT_ADDRESSING = 
 		"INSERT INTO addressings " +
-		"(created_at, updated_at, addressingType, address, personal, part_id) " +
+		"(created_at, updated_at, addressing_type, address, personal, part_id) " +
 		"VALUES " +
 		"(NOW(), NOW(), ?, ?, ?, ?);";
     
     private static final String INSERT_MULTIPART =
         "INSERT INTO parts " +
-        "(created_at, updated_at, type, parent_id, multipartOrder) " +
+        "(created_at, updated_at, type, parent_id, multipart_position) " +
         "VALUES " +
         "(NOW(), NOW(), 'MimeMultipart', ?, ?)";
     
     private static final String INSERT_TEXT_PART =
         "INSERT INTO parts " +
-        "(created_at, updated_at, type, parent_id, textContent, mimeType, fileName, description, disposition) " +
+        "(created_at, updated_at, type, parent_id, text_content, mime_type, file_name, description, disposition) " +
         "VALUES " +
         "(NOW(), NOW(), 'MimeBodyPart', ?, ?, ?, ?, ?, ?);";
     
     private static final String INSERT_BINARY_PART = 
         "INSERT INTO parts " +
-        "(created_at, updated_at, type, parent_id, binaryContent, mimeType, fileName, description, disposition) " +
+        "(created_at, updated_at, type, parent_id, binary_content, mime_type, file_name, description, disposition) " +
         "VALUES " +
         "(NOW(), NOW(), 'MimeBodyPart', ?, ?, ?, ?, ?, ?);";
     
