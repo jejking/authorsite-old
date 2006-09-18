@@ -53,7 +53,7 @@ public abstract class AbstractWork extends AbstractBibEntry {
 
     public String createSqlForSingleHumanWorkRelationship(AbstractHuman human, String rel) {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO humanWorkRelationships ( created_at, updated_at, humans_id, works_id, relationship ) ");
+        sb.append("INSERT INTO human_work_relationships ( created_at, updated_at, human_id, work_id, relationship ) ");
         sb.append("VALUES ( NOW(), NOW(), ");
         sb.append(human.getId());
         sb.append(", ");
@@ -65,7 +65,7 @@ public abstract class AbstractWork extends AbstractBibEntry {
     
     public String createSqlForWorkWorkRelationship(AbstractWork toWork, String rel) {
         StringBuffer sb = new StringBuffer();
-        sb.append("INSERT INTO workWorkRelationships ( created_at, updated_at, from_id, to_id, relationship ) "); 
+        sb.append("INSERT INTO work_work_relationships ( created_at, updated_at, from_id, to_id, relationship ) "); 
         sb.append("VALUES ( NOW(), NOW(), ");
         sb.append(this.getId());
         sb.append(", ");

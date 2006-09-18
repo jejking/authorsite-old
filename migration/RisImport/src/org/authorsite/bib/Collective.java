@@ -36,7 +36,7 @@ public class Collective extends AbstractHuman implements Comparable {
     public String toSql() {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO humans ");
-        sb.append("(id, created_at, updated_at, type, name, nameQualification, place ) ");
+        sb.append("(id, created_at, updated_at, type, name, name_qualification, place ) ");
         sb.append("VALUES ");
         sb.append("( ");
         sb.append(this.getId());

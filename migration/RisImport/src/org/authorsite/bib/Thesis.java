@@ -45,7 +45,7 @@ public class Thesis extends AbstractWork implements Comparable {
     @Override
     public String toSql() {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO works (id, created_at, updated_at, type, title, year, toYear, degree ) ");
+        sb.append("INSERT INTO works (id, created_at, updated_at, type, title, year, to_year, degree ) ");
         sb.append("VALUES ( ");
         sb.append(this.getId());
         sb.append(", NOW(), NOW(), 'Thesis', ");

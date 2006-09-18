@@ -72,7 +72,7 @@ public class Article extends AbstractWork implements Comparable {
     @Override
     public String toSql() {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO works (id, created_at, updated_at, type, title, year, toYear, month, day, pages, volume, number) ");
+        sb.append("INSERT INTO works (id, created_at, updated_at, type, title, year, to_year, month, day, pages, volume, number) ");
         sb.append("VALUES ( ");
         sb.append(this.getId());
         sb.append(", NOW(), NOW(), 'Article', ");

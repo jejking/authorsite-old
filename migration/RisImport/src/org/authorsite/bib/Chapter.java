@@ -80,7 +80,7 @@ public class Chapter extends AbstractWork implements Comparable {
     @Override
     public String toSql() {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO works (id, created_at, updated_at, type, title, year, toYear, pages, chapter ) ");
+        sb.append("INSERT INTO works (id, created_at, updated_at, type, title, year, to_year, pages, chapter ) ");
         sb.append("VALUES ( ");
         sb.append(this.getId());
         sb.append(", NOW(), NOW(), 'Chapter', ");

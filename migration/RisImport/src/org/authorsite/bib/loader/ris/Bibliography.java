@@ -49,8 +49,8 @@ public class Bibliography {
     public void writeBibliographyToSql(Writer writer, boolean addDeletes) throws IOException {
         
         if ( addDeletes ) {
-            writer.write("DELETE FROM workWorkRelationships;\n");
-            writer.write("DELETE FROM humanWorkRelationships;\n");
+            writer.write("DELETE FROM work_work_relationships;\n");
+            writer.write("DELETE FROM human_work_relationships;\n");
             writer.write("DELETE FROM works;\n");
             writer.write("DELETE FROM humans;\n");
         }

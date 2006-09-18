@@ -31,7 +31,7 @@ public class Individual extends AbstractHuman implements Comparable {
         
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO humans ");
-        sb.append("(id, created_at, updated_at, type, name, givenNames, nameQualification ) ");
+        sb.append("(id, created_at, updated_at, type, name, given_names, name_qualification ) ");
         sb.append("VALUES ");
         sb.append("( ");
         sb.append(this.getId());
