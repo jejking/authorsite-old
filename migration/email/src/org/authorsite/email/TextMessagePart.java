@@ -1,5 +1,7 @@
 package org.authorsite.email;
 
+import java.io.UnsupportedEncodingException;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -27,6 +29,21 @@ public final class TextMessagePart extends MessagePart {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	public int size() {
+		if (content != null) {
+			try {
+				return content.getBytes("UTF-8").length;
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return -1;
+			}
+		}
+		else {
+			return 0;
+		}
 	}
 
 	@Override
