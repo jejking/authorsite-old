@@ -28,6 +28,15 @@ public final class BinaryMessagePart extends MessagePart {
 		this.content = content;
 	}
 	
+	public int getSize() {
+		if ( this.content != null ) {
+			return content.length;
+		}
+		else {
+			return 0;
+		}
+	}
+	
 	
 	@Override
 	public int hashCode() {
