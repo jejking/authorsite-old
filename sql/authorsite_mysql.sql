@@ -76,7 +76,8 @@ CREATE TABLE works (
     number          VARCHAR(255),
     chapter         VARCHAR(255),
     degree          VARCHAR(255),
-    url             TEXT
+    url             TEXT,
+    published       BOOLEAN NOT NULL DEFAULT 0
 )
 ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
