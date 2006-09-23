@@ -5,9 +5,8 @@ class Work < ActiveRecord::Base
     
     validates_presence_of :title
     
-    before_save :check_for_publication
     
-    def humansInRelationship(name)
+    def humans_in_relationship(name)
       list = Array.new
       self.human_work_relationships.each do |hwr|
         if hwr.relationship == name
