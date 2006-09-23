@@ -1,0 +1,58 @@
+<%= error_messages_for 'work' %>
+
+<!--[form:work]-->
+<p><label for="work_created_at">Created at</label><br/>
+<%= datetime_select 'work', 'created_at'  %></p>
+
+<p><label for="work_updated_at">Updated at</label><br/>
+<%= datetime_select 'work', 'updated_at'  %></p>
+
+<p><label for="work_lock_version">Lock version</label><br/>
+<%= text_field 'work', 'lock_version'  %></p>
+
+<p><label for="work_title">Title</label><br/>
+<%= text_area 'work', 'title'  %></p>
+
+<p><label for="work_year">Year</label><br/>
+</p>
+
+<p><label for="work_to_year">To year</label><br/>
+</p>
+
+<p><label for="work_month">Month</label><br/>
+<%= text_field 'work', 'month'  %></p>
+
+<p><label for="work_day">Day</label><br/>
+<%= text_field 'work', 'day'  %></p>
+
+<p><label for="work_pages">Pages</label><br/>
+<%= text_field 'work', 'pages'  %></p>
+
+<p><label for="work_how_published">How published</label><br/>
+<%= text_field 'work', 'how_published'  %></p>
+
+<p><label for="work_note">Note</label><br/>
+<%= text_area 'work', 'note'  %></p>
+
+<p><label for="work_edition">Edition</label><br/>
+<%= text_field 'work', 'edition'  %></p>
+
+<p><label for="work_volume">Volume</label><br/>
+<%= text_field 'work', 'volume'  %></p>
+
+<p><label for="work_number">Number</label><br/>
+<%= text_field 'work', 'number'  %></p>
+
+<p><label for="work_chapter">Chapter</label><br/>
+<%= text_field 'work', 'chapter'  %></p>
+
+<p><label for="work_degree">Degree</label><br/>
+<%= text_field 'work', 'degree'  %></p>
+
+<p><label for="work_url">Url</label><br/>
+<%= text_area 'work', 'url'  %></p>
+
+<p><label for="work_published">Published</label><br/>
+<select id="work_published" name="work[published]"><option value="false" selected>False</option><option value="true">True</option></select></p>
+<!--[eoform:work]-->
+
