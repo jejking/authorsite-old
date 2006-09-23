@@ -1,0 +1,43 @@
+<project name="RisImport" default="help" basedir=".">
+
+    <target name="help">
+        <echo>Make sure you get the libs my calling the getLibs target before attempting to compile.</echo>
+    </target>
+
+	<target name="init" description="sets up required directories">
+        <mkdir dir="lib" />
+        <mkdir dir="build" />
+        <mkdir dir="build/classes" />
+        <mkdir dir="build/lib" />
+        <mkdir dir="doc"/>
+        <mkdir dir="doc/javadoc" />
+    </target>
+    
+    <target name="getLibs" description="gets libraries">
+        <get src="http://www.ibiblio.org/maven/commons-lang/jars/commons-lang-2.1.jar" dest="lib/commons-lang-2.1.jar"/>
+        <get src="http://www.ibiblio.org/maven/junit/jars/junit-3.8.jar" dest="lib/junit-3.8.jar"/>
+    </target>
+    
+    <target name="compile" description="compiles java source code" depends="init">
+        <javac destdir="build/classes" deprecation="on" debug="on" target="1.5">
+            <src path="src" />
+            <src path="test" />
+            <classpath>
+                <fileset dir="lib">
+                    <include name="**/*.jar" />
+                </fileset>
+            </classpath>
+            <exclude name="**/.svn/*" />
+        </javac>
+    </target>
+
+    <target name="jar" description="jars compiled source and test code" depends="compile">
+        <jar destfile="build/lib/risImport.jar">
+            <fileset dir="build/classes">
+               <include name="**/*.class" />
+            </fileset>
+        </jar>
+    </target>
+
+
+</project>
