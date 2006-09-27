@@ -6,15 +6,15 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="1052.3622"
    height="744.09448"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.44.1"
+   inkscape:version="0.43"
    version="1.0"
-   sodipodi:docbase="C:\john_projects\authorsite\uml\design"
+   sodipodi:docbase="/home/jejking/svnWork/authorsite/design"
    sodipodi:docname="index.svg">
   <defs
      id="defs4" />
@@ -227,7 +227,7 @@
    id="tspan4676">opyright (C) 2006. Impressum</tspan></tspan><tspan
          sodipodi:role="line"
          x="492.85156"
-         y="702.44211"
+         y="702.6228"
          style="font-size:8px;text-align:center;text-anchor:middle"
          id="tspan4674">Page created 27-09-2006 by John King. Last updated 27-09-2006 by Admin</tspan></text>
     <rect
@@ -283,7 +283,7 @@
            x="253.10631"
            y="157.95357" /></flowRegion><flowPara
          id="flowPara4718">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse sem elit, porttitor ac, congue ac, consectetuer sed, nulla. Pellentesque lacinia. Sed sagittis sem quis odio. Aenean enim mauris, vulputate non, viverra a, scelerisque ac, velit. Vestibulum feugiat. Mauris augue nisi, tristique ac, vulputate eu, rutrum ut, lectus. Sed nisi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam eget turpis sit amet lorem posuere luctus. Sed iaculis leo. Phasellus sapien quam, cursus eget, aliquam rhoncus, lacinia faucibus, nulla.</flowPara><flowPara
-         id="flowPara4720"></flowPara><flowPara
+         id="flowPara4720" /><flowPara
          id="flowPara4722">Nullam nisl. Integer commodo odio a magna. Cras sapien est, interdum in, posuere sed, consectetuer a, risus. Aliquam lacinia commodo tellus. Fusce quis purus at arcu condimentum rhoncus. Fusce libero diam, egestas ut, ultrices vitae, sagittis vel, sapien. Donec aliquam justo non lectus. Aenean pulvinar, tortor a bibendum pellentesque, dui lectus placerat risus, nec fermentum massa ante a mi. Sed congue velit eget orci. Duis dolor est, feugiat nec, aliquam at, imperdiet in, magna. Sed ante sem, fringilla sed, sodales et, placerat nec, orci. Sed neque pede, varius ac, porttitor in, accumsan vel, lorem. Curabitur facilisis, turpis sit amet commodo euismod, dui justo rhoncus mi, id volutpat augue purus vitae dui. Sed lacus. Donec nibh lacus, dignissim vitae, eleifend et, pulvinar eu, eros. Nunc tempus metus non odio. </flowPara></flowRoot>    <text
        xml:space="preserve"
        style="font-size:16px;font-style:normal;font-weight:normal;text-align:justify;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Verdana"
@@ -386,7 +386,7 @@
          id="flowPara4802">Jünger as a small child</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot4804"
-       transform="translate(-2,-8)"><flowRegion
+       transform="translate(0,-30)"><flowRegion
          id="flowRegion4806"><rect
            id="rect4808"
            width="113.23177"
