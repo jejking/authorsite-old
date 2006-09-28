@@ -6,15 +6,15 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="1052.3622"
    height="744.09448"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.43"
+   inkscape:version="0.44.1"
    version="1.0"
-   sodipodi:docbase="/home/jejking/svnWork/authorsite/design"
+   sodipodi:docbase="C:\john_projects\authorsite\design"
    sodipodi:docname="index.svg">
   <defs
      id="defs4" />
@@ -227,7 +227,7 @@
    id="tspan4676">opyright (C) 2006. Impressum</tspan></tspan><tspan
          sodipodi:role="line"
          x="492.85156"
-         y="702.6228"
+         y="702.44211"
          style="font-size:8px;text-align:center;text-anchor:middle"
          id="tspan4674">Page created 27-09-2006 by John King. Last updated 27-09-2006 by Admin</tspan></text>
     <rect
@@ -386,7 +386,7 @@
          id="flowPara4802">Jünger as a small child</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot4804"
-       transform="translate(0,-30)"><flowRegion
+       transform="translate(-1.441406,-13.46949)"><flowRegion
          id="flowRegion4806"><rect
            id="rect4808"
            width="113.23177"
