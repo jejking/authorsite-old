@@ -1,27 +1,54 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" >
     <head>
+        <%= stylesheet_link_tag 'authorsite' %>
+         <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
         <title> 
             <%= @title %> 
         </title>
     </head>
     <body>
-        <div class="page">
+        <div id="page_frame">
             <div id="header">
-                <div id="branding">
-                    <!-- TO DO -->
+                <div id="logo">
+                    <img src="/images/authorsite_logo.png" alt="authorsite.org logo"/>
                 </div>
                 <div id="search">
-                    <!-- TO DO -->
+                    <%= start_form_tag( :controller => "search", :action => "simple_search") %>
+                        <table>
+                            <tr>
+                                <td>
+                                    <%= text_field("search_term", nil, :size => 40, :maxlength => 100) %>
+                                </td>
+                                <td>
+                                    <%= submit_tag("SEARCH") %>
+                                </td>
+                             </tr>
+                             <tr>
+                                <td colspan="2">
+                                    <%= link_to("Advanced Search", :controller => "search", :action => "advanced_search") %>
+                                </td>
+                            </tr>
+                        </table>
+                    <%= end_form_tag %>
                 </div>
             </div>
-            <div id="navigationTabs">
-                <!-- TO DO -->
+            <div id="navigation_tree">
+                <!-- hard coded content to start with -->
+                <ul>
+                    <li>bibliography</li>
+                    <li>communitiy</li>
+                    <li>biography</li> <!-- dummy top level content -->
+                    <li>about</li>
+                </ul>
             </div>
             <div id="content">
                 <%= @content_for_layout %>
             </div>
             <div id="footer">
-                <!-- TO DO -->
+                <p class="copyright">Copyright (C), John King, 2006. Impressum.</p>
+                <p class="page_dates">Page created 01-10-2006 by John King. Page last updated 01-10-2006 by John King</p>
             </div>
         </div>
     </body>
