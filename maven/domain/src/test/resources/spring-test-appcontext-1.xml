@@ -2,18 +2,25 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:aop="http://www.springframework.org/schema/aop"
   xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
     http://www.springframework.org/schema/tx 
-    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd" default-autowire="byName">
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd" default-autowire="byName">
 
         
   <bean
      class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
  
-  <bean id="CollectiveDAO" class="org.authorsite.domain.dao.CollectiveDaoJPA" />
-  <bean id="IndividualDAO" class="org.authorsite.domain.dao.IndividualDaoJPA" />
+  <bean id="collectiveDAO" class="org.authorsite.dao.CollectiveDaoJPA" />
+  <bean id="individualDAO" class="org.authorsite.dao.IndividualDaoJPA" />
+  
+  <bean id="lifecycleTrackingAspect" class="org.authorsite.domain.aspects.LifecycleTrackingAspect" />
 
+  <aop:aspectj-autoproxy/>
+  
   <tx:annotation-driven />
 
   <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

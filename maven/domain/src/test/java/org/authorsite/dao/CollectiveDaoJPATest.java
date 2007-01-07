@@ -1,4 +1,4 @@
-package org.authorsite.domain.dao;
+package org.authorsite.dao;
 
 import java.util.List;
 import org.apache.log4j.BasicConfigurator;
@@ -13,14 +13,17 @@ import org.springframework.test.jpa.AbstractJpaTests;
  * @author jejking
  */
 public class CollectiveDaoJPATest extends AbstractJpaTests {
+
+    static {
+        BasicConfigurator.configure();
+        Logger.getLogger("org.springframework").setLevel(Level.INFO);
+        Logger.getLogger("org.hibernate").setLevel(Level.ERROR);
+        Logger.getLogger("org.authorsite").setLevel(Level.DEBUG);
+    }
+    
     
     /** Creates a new instance of CollectiveDaoJPATest */
     public CollectiveDaoJPATest() {
-        BasicConfigurator.configure();
-        Logger.getRootLogger().setLevel(Level.WARN);
-        Logger.getLogger("org.springframework").setLevel(Level.ERROR);
-        Logger.getLogger("org.hibernate").setLevel(Level.ERROR);
-        Logger.getLogger("org.authorsite").setLevel(Level.DEBUG);
     }
     
   private CollectiveDao collectiveDao;
@@ -30,7 +33,7 @@ public class CollectiveDaoJPATest extends AbstractJpaTests {
   }
 
   protected String[] getConfigLocations() {
-    return new String[] {"classpath:/spring-text-appcontext-1.xml"};
+    return new String[] {"classpath:/spring-test-appcontext-1.xml"};
   }
 
   protected void onSetUpInTransaction() throws Exception {
@@ -73,6 +76,8 @@ public class CollectiveDaoJPATest extends AbstractJpaTests {
       Collective c = new Collective("Foo Inc", "Barsville");
       this.collectiveDao.save(c);
       assertTrue(c.getId() > 0 );
+      assertNotNull(c.getCreatedAt());
+      assertNotNull(c.getUpdatedAt());
       
       // and load
       Collective loaded = this.collectiveDao.findById(c.getId());
@@ -87,15 +92,14 @@ public class CollectiveDaoJPATest extends AbstractJpaTests {
       Collective c = new Collective("Foo Inc", "Barsville");
       this.collectiveDao.save(c);
       long id = c.getId();
-      System.out.println(c.getVersion());
-      
+
       c.setName("Foo Ltd");
       Collective updated = this.collectiveDao.update(c);
       
       Collective loaded = this.collectiveDao.findById(id);
       assertEquals("Foo Ltd", loaded.getName());
       assertEquals(updated, loaded);
-      System.out.println(loaded.getVersion());
+      assertNotNull(loaded.getUpdatedAt());
      
   }
   

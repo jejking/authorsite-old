@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package org.authorsite.domain.dao;
+package org.authorsite.dao;
 
 import java.util.List;
 import org.authorsite.domain.Individual;

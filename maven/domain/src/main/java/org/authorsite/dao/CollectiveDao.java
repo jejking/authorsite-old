@@ -1,4 +1,4 @@
-package org.authorsite.domain.dao;
+package org.authorsite.dao;
 
 import java.util.List;
 import org.authorsite.domain.*;
