@@ -1,12 +1,3 @@
-/*
- * IndividualDaoJPA.java
- *
- * Created on 04 January 2007, 22:02
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package org.authorsite.dao;
 
 import java.util.HashMap;
