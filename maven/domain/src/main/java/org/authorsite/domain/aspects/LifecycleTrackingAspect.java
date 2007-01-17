@@ -24,7 +24,7 @@ public class LifecycleTrackingAspect {
      *
      * @param entry any abstract entity may not be <code>null</code>
      */
-    @Before("execution (public * org.authorsite.dao..*Dao.save*(..)) && args(entry)")
+    @Before(value="execution (public * org.authorsite.dao..*Dao.save*(..)) && args(entry)", argNames="entry")
     public void addMetaDataOnSave(AbstractEntry entry) {
         if (entry == null) {
             throw new NullPointerException("entry parameter is null!");
@@ -40,7 +40,7 @@ public class LifecycleTrackingAspect {
      * 
      * @param entry any abstrat entry, may not be <code>null</code>
      */
-    @Before("execution (public * org.authorsite.dao..*Dao.update*(..)) && args(entry)")
+    @Before(value="execution (public * org.authorsite.dao..*Dao.update*(..)) && args(entry)", argNames="entry")
     public void updateMetadataOnUpdate(AbstractEntry entry) {
         if (entry == null) {
             throw new NullPointerException("entry parameter is null");
