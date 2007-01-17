@@ -14,6 +14,8 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.authorsite.domain.Individual;
+import org.authorsite.security.SystemUser;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.jpa.AbstractJpaTests;
 
 /**
@@ -50,10 +52,13 @@ public class IndividualDaoJPATest extends AbstractJpaTests {
         System.out.println("On setup in transaction");
 
 
+        jdbcTemplate.execute("insert into SystemUser (id, createdAt, createdBy, updatedAt, " +
+                "updatedBy, version, userName, password, enabled) " +
+                "values (1, null, null, null, null, 0, 'hanswurst', 'secret', 1)"  );
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
-                " values (1, null, null, null, null, 0, null, 'Wurst', 'Hans', 'Individual')");
+                "updatedBy, version, nameQualification, name, givenNames, DTYPE, systemUser_id)" +
+                " values (1, null, null, null, null, 0, null, 'Wurst', 'Hans', 'Individual', 1)");
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy, updatedAt, " +
                 "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
@@ -128,8 +133,10 @@ public class IndividualDaoJPATest extends AbstractJpaTests {
   
   public void testDeleteIndividual() throws Exception {
       Individual hansWurst = this.individualDao.findById(1);
-      this.individualDao.delete(hansWurst);
-      
+      SystemUser user = hansWurst.getSystemUser();
+      System.out.println(user.getClass());
+        this.individualDao.delete(hansWurst);
+
       Individual missing = this.individualDao.findById(1);
       assertNull(missing);
   }
@@ -160,6 +167,18 @@ public class IndividualDaoJPATest extends AbstractJpaTests {
       List<Individual> saups = this.individualDao.findIndividualsByNameAndGivenNamesWildcard("Sau%", "P%");
       assertEquals(2, saups.size());
   }
+  
+  public void testUserLoad() throws Exception {
+      Individual hansWurst = this.individualDao.findById(1);
+      assertTrue(hansWurst.isSystemUser());
+      
+      SystemUser user = hansWurst.getSystemUser();
+      assertEquals("hanswurst", user.getUserName());
+      
+      Individual saucemaker = this.individualDao.findById(5);
+      assertFalse(saucemaker.isSystemUser());
+  }
+          
   
   
 }

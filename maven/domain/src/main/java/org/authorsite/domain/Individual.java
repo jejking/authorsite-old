@@ -1,11 +1,17 @@
 package org.authorsite.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Transient;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.authorsite.security.SystemUser;
 
 
 /**
@@ -34,6 +40,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class Individual extends AbstractHuman implements Comparable {
 
     private String givenNames;
+    
+    // the individual may be a user, in which this value is not null
+    private SystemUser systemUser;
     
     
     /**
@@ -66,7 +75,37 @@ public class Individual extends AbstractHuman implements Comparable {
     public void setGivenNames(String givenNames) {
         this.givenNames = givenNames;
     }
-
+    
+    /**
+     * Gets the user.
+     *
+     *
+     * @return user object if individual is a user who can login to the system,
+     *      else <code>null</code>
+     */
+    @OneToOne(cascade=CascadeType.ALL)
+    public SystemUser getSystemUser() {
+        return this.systemUser;
+    }
+    
+    /**
+     * Sets the system user property.
+     *
+     * @param systemUser the user entity 
+     */
+    protected void setSystemUser(SystemUser systemUser) {
+        this.systemUser = systemUser;
+    }
+    
+    @Transient
+    public boolean isSystemUser() {
+        if ( this.systemUser == null ) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
   
     @Override
     public boolean equals(Object obj) {
