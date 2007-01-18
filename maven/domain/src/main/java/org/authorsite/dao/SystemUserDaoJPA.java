@@ -1,6 +1,7 @@
 package org.authorsite.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.authorsite.security.SystemUser;
 import org.springframework.dao.DataAccessException;
@@ -44,11 +45,14 @@ public class SystemUserDaoJPA extends JpaDaoSupport implements SystemUserDao {
     public SystemUser findUserByUsername(String username) {
         Map params = new HashMap();
         params.put("userName", username);
-        return (SystemUser) this.getJpaTemplate().findByNamedQueryAndNamedParams("SystemUserByUserName", params).iterator().next();
+        List<SystemUser> results = this.getJpaTemplate().findByNamedQueryAndNamedParams("SystemUserByUserName", params);
+        if ( results.isEmpty() ) {
+            return null;
+        }
+        else {
+            return results.iterator().next();
+        }
     }
 
-    
-    
-    
     
 }
