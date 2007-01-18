@@ -69,6 +69,7 @@
                         <exclude>**/Abstract*</exclude>
                     </excludes>
                     <forkMode>once</forkMode>
+                    <trimStackTrace>false</trimStackTrace>>
                 </configuration>
             </plugin>
         </plugins>
