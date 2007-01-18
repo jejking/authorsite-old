@@ -196,4 +196,12 @@ public class SystemUserDaoJPATest extends AbstractJPATest {
         }
     }
      **/
+    
+    public void testFindUserByUserName() throws Exception {
+        SystemUser hw = systemUserDao.findUserByUsername("hanswurst");
+        assertNotNull(hw);
+        
+        SystemUser fictional = systemUserDao.findUserByUsername("fictional");
+        assertNull(fictional);
+    }
 }
