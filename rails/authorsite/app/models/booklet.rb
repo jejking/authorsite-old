@@ -1,2 +1,0 @@
-class Booklet < Work
-end

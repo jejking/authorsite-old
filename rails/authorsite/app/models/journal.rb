@@ -1,2 +1,0 @@
-class Journal < Work
-end

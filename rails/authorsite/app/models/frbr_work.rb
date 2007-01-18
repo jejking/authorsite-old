@@ -1,2 +1,0 @@
-class FrbrWork < Work
-end

@@ -1,2 +1,0 @@
-class Proceedings < Work
-end

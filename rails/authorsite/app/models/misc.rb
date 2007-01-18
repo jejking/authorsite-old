@@ -1,2 +1,0 @@
-class Misc < Work
-end

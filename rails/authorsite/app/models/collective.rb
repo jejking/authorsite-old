@@ -1,2 +1,0 @@
-class Collective < Human
-end

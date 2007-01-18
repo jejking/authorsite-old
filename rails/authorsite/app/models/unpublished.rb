@@ -1,2 +1,0 @@
-class Unpublished < Work
-end
