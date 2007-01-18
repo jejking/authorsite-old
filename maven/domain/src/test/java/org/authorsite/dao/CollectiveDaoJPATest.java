@@ -12,16 +12,8 @@ import org.springframework.test.jpa.AbstractJpaTests;
  *
  * @author jejking
  */
-public class CollectiveDaoJPATest extends AbstractJpaTests {
+public class CollectiveDaoJPATest extends AbstractJPATest  {
 
-    static {
-        BasicConfigurator.configure();
-        Logger.getLogger("org.springframework").setLevel(Level.INFO);
-        Logger.getLogger("org.hibernate").setLevel(Level.ERROR);
-        Logger.getLogger("org.authorsite").setLevel(Level.DEBUG);
-    }
-    
-    
     /** Creates a new instance of CollectiveDaoJPATest */
     public CollectiveDaoJPATest() {
     }

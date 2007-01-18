@@ -14,8 +14,9 @@
   <bean
      class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
  
-  <bean id="collectiveDAO" class="org.authorsite.dao.CollectiveDaoJPA" />
-  <bean id="individualDAO" class="org.authorsite.dao.IndividualDaoJPA" />
+  <bean id="collectiveDao" class="org.authorsite.dao.CollectiveDaoJPA" />
+  <bean id="individualDao" class="org.authorsite.dao.IndividualDaoJPA" />
+  <bean id="systemUserDao" class="org.authorsite.dao.SystemUserDaoJPA" />
   
   <bean id="lifecycleTrackingAspect" class="org.authorsite.domain.aspects.LifecycleTrackingAspect" />
 

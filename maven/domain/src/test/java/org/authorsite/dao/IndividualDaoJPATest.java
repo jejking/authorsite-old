@@ -22,17 +22,9 @@ import org.springframework.test.jpa.AbstractJpaTests;
  *
  * @author jejking
  */
-public class IndividualDaoJPATest extends AbstractJpaTests {
+public class IndividualDaoJPATest extends AbstractJPATest {
 
     private IndividualDao individualDao;
-    
-    static {
-        BasicConfigurator.configure();
-        Logger.getRootLogger().setLevel(Level.WARN);
-        Logger.getLogger("org.springframework").setLevel(Level.ERROR);
-        Logger.getLogger("org.hibernate").setLevel(Level.ERROR);
-        Logger.getLogger("org.authorsite").setLevel(Level.DEBUG);
-    }
     
     /**
      * Creates a new instance of IndividualDaoJPATest
@@ -49,16 +41,14 @@ public class IndividualDaoJPATest extends AbstractJpaTests {
     }
 
     protected void onSetUpInTransaction() throws Exception {
-        System.out.println("On setup in transaction");
 
-
-        jdbcTemplate.execute("insert into SystemUser (id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, userName, password, enabled) " +
-                "values (1, null, null, null, null, 0, 'hanswurst', 'secret', 1)"  );
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, nameQualification, name, givenNames, DTYPE, systemUser_id)" +
-                " values (1, null, null, null, null, 0, null, 'Wurst', 'Hans', 'Individual', 1)");
+                "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
+                " values (1, null, null, null, null, 0, null, 'Wurst', 'Hans', 'Individual')");
+        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy, updatedAt, " +
+                "updatedBy, version, userName, password, enabled) " +
+                "values (1, 1, null, null, null, null, 0, 'hanswurst', 'secret', 1)"  );
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy, updatedAt, " +
                 "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +

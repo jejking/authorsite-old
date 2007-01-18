@@ -16,6 +16,7 @@ public class SystemUserDaoJPA extends JpaDaoSupport implements SystemUserDao {
      * Creates a new instance of SystemUserDaoJPA
      */
     public SystemUserDaoJPA() {
+        super();
     }
     
     public SystemUser findById(long id) throws DataAccessException {
@@ -23,7 +24,7 @@ public class SystemUserDaoJPA extends JpaDaoSupport implements SystemUserDao {
     }
 
     public int countUsers() {
-        Number n = (Number) this.getJpaTemplate().findByNamedQuery("UserCount").iterator().next();
+        Number n = (Number) this.getJpaTemplate().findByNamedQuery("SystemUserCount").iterator().next();
         return n.intValue();
     }
 
@@ -37,12 +38,13 @@ public class SystemUserDaoJPA extends JpaDaoSupport implements SystemUserDao {
 
     public void delete(SystemUser user) {
         this.getJpaTemplate().remove(user);
+        this.getJpaTemplate().flush();
     }
 
     public SystemUser findUserByUsername(String username) {
         Map params = new HashMap();
         params.put("userName", username);
-        return (SystemUser) this.getJpaTemplate().findByNamedQueryAndNamedParams("UserByUserName", params).iterator().next();
+        return (SystemUser) this.getJpaTemplate().findByNamedQueryAndNamedParams("SystemUserByUserName", params).iterator().next();
     }
 
     

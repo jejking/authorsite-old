@@ -46,6 +46,11 @@ public class SystemUser extends AbstractEntry {
         this.setEnabled(true);
     }
     
+    public SystemUser(Individual individual, String userName, String password) {
+        this(userName, password);
+        this.individual = individual;
+    }
+    
     
     @Column(unique=true, nullable=false)
     public String getUserName() {
@@ -84,12 +89,12 @@ public class SystemUser extends AbstractEntry {
         this.authorities = authorities;
     }*/
     
-    @OneToOne(mappedBy="systemUser")
+    @OneToOne(optional=false)
     public Individual getIndividual() {
         return this.individual;
     }
     
-    protected void setIndividual(Individual individual) {
+    public void setIndividual(Individual individual) {
         this.individual = individual;
     }
    

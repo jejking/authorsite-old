@@ -80,10 +80,10 @@ public class Individual extends AbstractHuman implements Comparable {
      * Gets the user.
      *
      *
-     * @return user object if individual is a user who can login to the system,
+     * @return user object if individual is a user who can login onto the system,
      *      else <code>null</code>
      */
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(mappedBy="individual")
     public SystemUser getSystemUser() {
         return this.systemUser;
     }
