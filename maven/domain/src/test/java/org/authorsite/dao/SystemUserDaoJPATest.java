@@ -9,7 +9,9 @@
 
 package org.authorsite.dao;
 
+import java.util.Set;
 import org.authorsite.domain.Individual;
+import org.authorsite.security.Authority;
 import org.authorsite.security.SystemUser;
 import org.springframework.dao.DataAccessException;
 
@@ -58,6 +60,17 @@ public class SystemUserDaoJPATest extends AbstractJPATest {
                 "(id, createdAt, createdBy, updatedAt, " +
                 "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
                 " values (3, null, null, null, null, 0, null, 'Wurst', 'Johannes', 'Individual')");
+        
+        jdbcTemplate.execute("insert into Human " +
+                "(id, createdAt, createdBy, updatedAt, " +
+                "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
+                " values (4, null, null, null, null, 0, null, 'Super', 'User', 'Individual')");
+        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy, updatedAt, " +
+                "updatedBy, version, userName, password, enabled) " +
+                "values (4, 4, null, null, null, null, 0, 'admin', 'secret', 1)"  );
+        jdbcTemplate.execute("insert into SystemUser_Authorities(SystemUser_id, element) " +
+                "values ( 4, 0 )");
+        
     }
 
     public SystemUserDao getSystemUserDao() {
@@ -83,7 +96,7 @@ public class SystemUserDaoJPATest extends AbstractJPATest {
     
     public void testCountUsers() throws Exception {
         int count = systemUserDao.countUsers();
-        assertEquals(2, count);
+        assertEquals(3, count);
     }
     
     public void testDelete() throws Exception {
@@ -203,5 +216,27 @@ public class SystemUserDaoJPATest extends AbstractJPATest {
         
         SystemUser fictional = systemUserDao.findUserByUsername("fictional");
         assertNull(fictional);
+    }
+    
+    public void testCreateSystemUserWithAuthorities() throws Exception {
+        Individual johannesWurst = individualDao.findById(3);
+        SystemUser jwUser = new SystemUser();
+        jwUser.setIndividual(johannesWurst);
+        jwUser.setUserName("johanneswurst");
+        jwUser.setPassword("salami");
+        
+        jwUser.getAuthorities().add(Authority.ADMIN);
+        systemUserDao.save(jwUser);
+    }
+    
+    public void testLoadSystemUserWithAuthorities() throws Exception {
+        SystemUser admin = systemUserDao.findById(4);
+        Set<Authority> adminPerms = admin.getAuthorities();
+        assertNotNull(adminPerms);
+        /*System.out.println(adminPerms.size());
+        for (Authority auth : adminPerms ) {
+            System.out.println(auth);
+        }*/
+        assertTrue(adminPerms.contains(Authority.ADMIN));
     }
 }

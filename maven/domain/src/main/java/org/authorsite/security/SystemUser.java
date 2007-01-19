@@ -1,9 +1,11 @@
 package org.authorsite.security;
 
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
@@ -78,16 +80,22 @@ public class SystemUser extends AbstractEntry {
     public void setEnabled(boolean isEnabled) {
         this.isEnabled = isEnabled;
     }
-
-    /*
-    @CollectionOfElements
+ 
+    @CollectionOfElements(fetch=FetchType.EAGER)
+    @JoinTable(name="SystemUser_Authorities", joinColumns=@JoinColumn(name="SystemUser_id"))
     public Set<Authority> getAuthorities() {
-        return authorities;
+        if ( authorities == null )
+        {
+            return new HashSet();
+        }
+        else {
+            return authorities;
+        }
     }
 
     protected void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
-    }*/
+    }
     
     @OneToOne(optional=false)
     public Individual getIndividual() {
