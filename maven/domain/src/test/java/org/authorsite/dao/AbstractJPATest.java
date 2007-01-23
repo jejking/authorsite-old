@@ -17,6 +17,7 @@ public abstract class AbstractJPATest extends AbstractJpaTests {
         Logger.getLogger("org.springframework").setLevel(Level.ERROR);
         Logger.getLogger("org.hibernate").setLevel(Level.ERROR);
         Logger.getLogger("org.authorsite").setLevel(Level.DEBUG);
+        Logger.getLogger("org.acegisecurity").setLevel(Level.DEBUG);
     }
     
     

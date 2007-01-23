@@ -1,74 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:tx="http://www.springframework.org/schema/tx"
-  xmlns:aop="http://www.springframework.org/schema/aop"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-    http://www.springframework.org/schema/tx 
-    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-    http://www.springframework.org/schema/aop 
-    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd" default-autowire="byName">
-
-  <import resource="classpath:/spring-test-appcontext-1.xml"/>
-  
-  <bean id="authenticationMechanism" class="org.authorsite.security.TestAuthenticationMechanism"/>
-  
-  <!-- define authentication manager -->
-  <bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
-      <property name="providers">
-         <list>
-            <ref local="daoAuthenticationProvider"/>
-         </list>
-      </property>
-   </bean>
-  
-      
-  <!-- define dao auth provider -->
-  <bean id="passwordEncoder" class="org.acegisecurity.providers.encoding.ShaPasswordEncoder">
-      <constructor-arg type="int" value="256"/>
-  </bean>
-
-   <bean id="daoAuthenticationProvider" class="org.acegisecurity.providers.dao.DaoAuthenticationProvider">
-      <property name="userDetailsService">
-          <ref local="authorsiteUserDetailsService"/>
-      </property>
-      <property name="userCache">
-          <ref local="userCache"/>
-      </property>
-      <property name="passwordEncoder">
-          <ref local="passwordEncoder"/>
-      </property>
-      <property name="saltSource">
-          <ref local="saltSource"/>
-      </property>
-   </bean>
-  
-  <!-- configure User details service? - its ref to systemUserDao should be autowired... -->
-  <bean id="authorsiteUserDetailsService" class="org.authorsite.security.AuthorsiteUserDetailsService" />
-  
-   <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-2.0.xsd" default-autowire="byName">
     
-   <bean id="userCacheBackend" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-      <property name="cacheManager">
-         <ref local="cacheManager"/>
-      </property>
-      <property name="cacheName">
-         <value>userCache</value>
-      </property>
+    <import resource="classpath:/spring-test-appcontext-1.xml"/>
+    
+    <bean id="authenticationMechanism" class="org.authorsite.security.TestAuthenticationMechanism"/>
+    
+    <!-- define authentication manager -->
+    <bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
+        <property name="providers">
+            <list>
+                <ref local="daoAuthenticationProvider"/>
+            </list>
+        </property>
+    </bean>
+    
+    
+    <!-- define dao auth provider -->
+    <bean id="passwordEncoder" class="org.acegisecurity.providers.encoding.ShaPasswordEncoder">
+        <constructor-arg type="int" value="256"/>
+    </bean>
+    
+    <bean id="daoAuthenticationProvider" class="org.acegisecurity.providers.dao.DaoAuthenticationProvider">
+        <property name="userDetailsService">
+            <ref local="authorsiteUserDetailsService"/>
+        </property>
+        <property name="userCache">
+            <ref local="userCache"/>
+        </property>
+        <property name="passwordEncoder">
+            <ref local="passwordEncoder"/>
+        </property>
+        <property name="saltSource">
+            <ref local="saltSource"/>
+        </property>
+    </bean>
+    
+    <!-- configure User details service? - its ref to systemUserDao should be autowired... -->
+    <bean id="authorsiteUserDetailsService" class="org.authorsite.security.AuthorsiteUserDetailsService" />
+    
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+    
+    <bean id="userCacheBackend" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <property name="cacheManager">
+            <ref local="cacheManager"/>
+        </property>
+        <property name="cacheName">
+            <value>userCache</value>
+        </property>
+    </bean>
+    
+    <bean id="userCache" class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache">
+        <property name="cache">
+            <ref local="userCacheBackend"/>
+        </property>
+    </bean>
+    
+    <bean id="saltSource" class="org.acegisecurity.providers.dao.salt.ReflectionSaltSource">
+        <property name="userPropertyToUse">
+            <value>getUsername</value>
+        </property>
+    </bean>
+    
+    <bean id="roleVoter" class="org.acegisecurity.vote.RoleVoter"/>
+    <bean id="businessAccessDecisionManager" class="org.acegisecurity.vote.AffirmativeBased">
+        <property name="allowIfAllAbstainDecisions">
+            <value>false</value>
+        </property>
+        <property name="decisionVoters">
+            <list>
+                <ref local="roleVoter"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="methodSecurityInterceptorAspect" class="org.authorsite.domain.aspects.MethodSecurityInterceptorAspect">
+        <property name="objectDefinitionSource">
+            <ref local="objectDefinitionSource"/>
+        </property>
+        <property name="authenticationManager">
+            <ref bean="authenticationManager"/>
+        </property>
+        <property name="accessDecisionManager">
+            <ref bean="businessAccessDecisionManager"/>
+        </property>
+    </bean>
+    
+    
+    <bean id="attributes" class="org.acegisecurity.annotation.SecurityAnnotationAttributes"/>
+    <bean id="objectDefinitionSource" class="org.acegisecurity.intercept.method.MethodDefinitionAttributes">
+        <property name="attributes">
+            <ref local="attributes"/>
+        </property>
+    </bean>
+    <!--
+   <bean id="securityInterceptor" class="org.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor">
+        <property name="objectDefinitionSource">
+            <ref local="objectDefinitionSource"/>
+        </property>
    </bean>
-   
-   <bean id="userCache" class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache">
-      <property name="cache">
-          <ref local="userCacheBackend"/>
-      </property>
-   </bean>
-   
-   <bean id="saltSource" class="org.acegisecurity.providers.dao.salt.ReflectionSaltSource">
-      <property name="userPropertyToUse">
-          <value>getUsername</value>
-      </property>
-   </bean>
-  
+    -->
 </beans>
 

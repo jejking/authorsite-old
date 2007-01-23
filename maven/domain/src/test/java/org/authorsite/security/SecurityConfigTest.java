@@ -23,6 +23,10 @@ public class SecurityConfigTest extends AbstractJPATest {
     private TestAuthenticationMechanism authenticationMechanism;
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder(256);
     
+    
+    static {
+        
+    }
     /** Creates a new instance of SecurityConfigTest */
     public SecurityConfigTest() {
         super();
@@ -88,7 +92,7 @@ public class SecurityConfigTest extends AbstractJPATest {
     }
     
    protected String[] getConfigLocations() {
-        return new String[] {"classpath:/spring-test-secured-appcontext-1.xml"};
+        return new String[] {"classpath:/spring-test-appcontext-1.xml"};
     }
     
     public void testSuccessfulLogin() throws Exception {
@@ -158,7 +162,7 @@ public class SecurityConfigTest extends AbstractJPATest {
         TestSecuredClass secured = new TestSecuredClass();
         UsernameCollector collector = new UsernameCollector();
         secured.editorOnly(collector); // should fail hanswurst is ADMIN, not EDITOR
-        
+        fail("expected exception");
         
     }
     

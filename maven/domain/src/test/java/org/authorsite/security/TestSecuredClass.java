@@ -17,7 +17,7 @@ import org.acegisecurity.userdetails.UserDetails;
  *
  * @author jejking
  */
-public class TestSecuredClass {
+public class TestSecuredClass implements TestSecuredInterface {
     
     
     /** Creates a new instance of TestSecuredClass */
