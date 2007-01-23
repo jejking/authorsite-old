@@ -9,10 +9,14 @@
 
 package org.authorsite.security;
 
+import org.acegisecurity.AccessDeniedException;
 import org.acegisecurity.BadCredentialsException;
 import org.acegisecurity.DisabledException;
 import org.acegisecurity.providers.encoding.ShaPasswordEncoder;
 import org.authorsite.dao.AbstractJPATest;
+import org.authorsite.security.test.TestSecured;
+import org.authorsite.security.test.TestSecuredImpl;
+import org.authorsite.security.test.UsernameCollector;
 
 /**
  *
@@ -22,7 +26,7 @@ public class SecurityConfigTest extends AbstractJPATest {
     
     private TestAuthenticationMechanism authenticationMechanism;
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder(256);
-    
+    private TestSecured testSecured;
     
     static {
         
@@ -91,15 +95,23 @@ public class SecurityConfigTest extends AbstractJPATest {
         this.authenticationMechanism = authenticationMechanism;
     }
     
+    public TestSecured getTestSecured() {
+        return this.testSecured;
+    }
+    
+    public void setTestSecured(TestSecured testSecured) {
+        this.testSecured = testSecured;
+    }
+    
+    
    protected String[] getConfigLocations() {
         return new String[] {"classpath:/spring-test-appcontext-1.xml"};
     }
     
     public void testSuccessfulLogin() throws Exception {
         authenticationMechanism.logUserIn("hanswurst", "secret");
-        TestSecuredClass secured = new TestSecuredClass();
         UsernameCollector collector = new UsernameCollector();
-        secured.noAccessControl(collector);
+        this.testSecured.noAccessControl(collector);
         assertEquals("hanswurst", collector.getUsername());
     }
     
@@ -135,58 +147,72 @@ public class SecurityConfigTest extends AbstractJPATest {
     
     public void testEditorCanAccessUnsecuredMethod() throws Exception {
         authenticationMechanism.logUserIn("johanwurst", "foobar");
-        TestSecuredClass secured = new TestSecuredClass();
         UsernameCollector collector = new UsernameCollector();
-        secured.noAccessControl(collector);
+        this.testSecured.noAccessControl(collector);
         assertEquals("johanwurst", collector.getUsername());
     }
     
     public void testEditorCanAccessEditorOnlyMethod() throws Exception {
         authenticationMechanism.logUserIn("johanwurst", "foobar");
-        TestSecuredClass secured = new TestSecuredClass();
         UsernameCollector collector = new UsernameCollector();
-        secured.editorOnly(collector);
+        this.testSecured.editorOnly(collector);
         assertEquals("johanwurst", collector.getUsername());
     }
     
     public void testEditorCanAccessEditorOrAdminMethod() throws Exception {
         authenticationMechanism.logUserIn("johanwurst", "foobar");
-        TestSecuredClass secured = new TestSecuredClass();
         UsernameCollector collector = new UsernameCollector();
-        secured.editorOrAdmin(collector);
+        this.testSecured.editorOrAdmin(collector);
         assertEquals("johanwurst", collector.getUsername());
     }
     
     public void testAdminCannotAccessEdtiorOnlyMethod() throws Exception {
         authenticationMechanism.logUserIn("hanswurst", "secret");
-        TestSecuredClass secured = new TestSecuredClass();
         UsernameCollector collector = new UsernameCollector();
-        secured.editorOnly(collector); // should fail hanswurst is ADMIN, not EDITOR
-        fail("expected exception");
+        try {
+            this.testSecured.editorOnly(collector); // should fail hanswurst is ADMIN, not EDITOR
+            fail("expected exception");
+        }
+        catch (AccessDeniedException ade) {
+            assertTrue(true);
+        }
         
     }
     
     public void testLoginRequiredToAccessEditorOnlyMethod() throws Exception {
-        fail("not implemented");
+        UsernameCollector collector = new UsernameCollector();
+        try {
+            this.testSecured.editorOnly(collector);
+            fail("expected exception");
+        }
+        catch (AccessDeniedException ade) {
+            assertTrue(true);
+        }
     }
     
     public void testEditorCannotAccessAdminOnlyMethod() throws Exception {
-        fail("not implemented");
+        authenticationMechanism.logUserIn("johanwurst", "foobar");
+        UsernameCollector collector = new UsernameCollector();
+        try {
+            this.testSecured.adminOnly(collector);
+            fail("expected exception");
+        }
+        catch (AccessDeniedException ade) {
+            assertTrue(true);
+        }
     }
     
     public void testAdminCanAccessAdminOnlyMethod() throws Exception  {
         authenticationMechanism.logUserIn("hanswurst", "secret");
-        TestSecuredClass secured = new TestSecuredClass();
         UsernameCollector collector = new UsernameCollector();
-        secured.adminOnly(collector);
+        this.testSecured.adminOnly(collector);
         assertEquals("hanswurst", collector.getUsername());
     }
     
     public void testAdminCanAccessEditorOrAdminMethod() throws Exception {
         authenticationMechanism.logUserIn("hanswurst", "secret");
-        TestSecuredClass secured = new TestSecuredClass();
         UsernameCollector collector = new UsernameCollector();
-        secured.editorOrAdmin(collector);
+        this.testSecured.editorOrAdmin(collector);
         assertEquals("hanswurst", collector.getUsername());
     }
 }

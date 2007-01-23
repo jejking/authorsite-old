@@ -16,7 +16,7 @@ public class AuthorsiteGrantedAuthority implements GrantedAuthority {
     }
 
     public String getAuthority() {
-        return this.authority.getRoleName();
+        return "ROLE_" + this.authority.getRoleName().toUpperCase();
     }
     
 }

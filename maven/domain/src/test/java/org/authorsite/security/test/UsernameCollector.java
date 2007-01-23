@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package org.authorsite.security;
+package org.authorsite.security.test;
 
 /**
  *

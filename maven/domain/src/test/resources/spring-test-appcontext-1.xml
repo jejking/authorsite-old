@@ -138,6 +138,7 @@
             <ref local="attributes"/>
         </property>
     </bean>
+    <bean id="testSecured" class="org.authorsite.security.test.TestSecuredImpl"/>
     <!--
    <bean id="securityInterceptor" class="org.acegisecurity.intercept.method.aopalliance.MethodSecurityInterceptor">
         <property name="objectDefinitionSource">

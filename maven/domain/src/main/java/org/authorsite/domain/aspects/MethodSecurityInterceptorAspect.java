@@ -37,11 +37,10 @@ public class MethodSecurityInterceptorAspect extends AbstractSecurityInterceptor
     }
     
 
-    @Around("execution (public * org.authorsite.security.*.*(..))")
+    @Around("execution (public * org.authorsite.security.test..Test*.*(..))")
     public Object invokeSecuredMethod(ProceedingJoinPoint pjp) throws Throwable {
-        System.out.println("i am the security aspect starting to execute");
-        System.out.println("Join Point: " + pjp.toLongString());
         Object result = null;
+        
         InterceptorStatusToken token = super.beforeInvocation(pjp);
         try {
             result = pjp.proceed();
@@ -53,13 +52,8 @@ public class MethodSecurityInterceptorAspect extends AbstractSecurityInterceptor
         finally {
             result = super.afterInvocation(token, result);
         }
-        System.out.println("i am the security aspect about to return");
         return result;
     }
-    /*
-    @Before(value="execution (public * org.authorsite.security.*.*(..))")
-    public void sayHello() {
-        System.out.println("i am the security aspect");
-    }*/
+
 }
 
