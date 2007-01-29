@@ -1,4 +1,4 @@
-package org.authorsite.domain.aspects;
+package org.authorsite.security;
 
 import org.acegisecurity.intercept.AbstractSecurityInterceptor;
 import org.acegisecurity.intercept.InterceptorStatusToken;
@@ -36,8 +36,7 @@ public class MethodSecurityInterceptorAspect extends AbstractSecurityInterceptor
         return ProceedingJoinPoint.class;
     }
     
-
-    @Around("execution (public * org.authorsite.security.test..Test*.*(..))")
+    @Around("@annotation(org.acegisecurity.annotation.Secured)")
     public Object invokeSecuredMethod(ProceedingJoinPoint pjp) throws Throwable {
         Object result = null;
         

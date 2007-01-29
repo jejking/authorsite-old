@@ -1,5 +1,5 @@
 /*
- * SecurityConfigTest.java
+ * MethodAccessSecurityTest.java
  *
  * Created on 21 January 2007, 20:49
  *
@@ -22,7 +22,7 @@ import org.authorsite.security.test.UsernameCollector;
  *
  * @author jejking
  */
-public class SecurityConfigTest extends AbstractJPATest {
+public class MethodAccessSecurityTest extends AbstractJPATest {
     
     private TestAuthenticationMechanism authenticationMechanism;
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder(256);
@@ -31,8 +31,10 @@ public class SecurityConfigTest extends AbstractJPATest {
     static {
         
     }
-    /** Creates a new instance of SecurityConfigTest */
-    public SecurityConfigTest() {
+    /**
+     * Creates a new instance of MethodAccessSecurityTest
+     */
+    public MethodAccessSecurityTest() {
         super();
     }
     
@@ -105,7 +107,7 @@ public class SecurityConfigTest extends AbstractJPATest {
     
     
    protected String[] getConfigLocations() {
-        return new String[] {"classpath:/spring-test-appcontext-1.xml"};
+        return new String[] {"classpath:/spring-test-secured-appcontext-1.xml"};
     }
     
     public void testSuccessfulLogin() throws Exception {
