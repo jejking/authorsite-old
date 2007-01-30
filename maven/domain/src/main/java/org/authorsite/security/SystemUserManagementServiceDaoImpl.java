@@ -7,6 +7,7 @@ import org.acegisecurity.providers.encoding.PasswordEncoder;
 import org.authorsite.dao.IndividualDao;
 import org.authorsite.dao.SystemUserDao;
 import org.authorsite.domain.Individual;
+import org.authorsite.domain.service.IndividualAclManager;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ public class SystemUserManagementServiceDaoImpl implements SystemUserManagementS
     private SystemUserDao systemUserDao;
     private PasswordEncoder passwordEncoder;
     private SystemUserAclManager systemUserAclManager;
+    private IndividualAclManager individualAclManager;
     
     /** Creates a new instance of SystemUserManagementServiceDaoImpl */
     public SystemUserManagementServiceDaoImpl() {
@@ -42,10 +44,11 @@ public class SystemUserManagementServiceDaoImpl implements SystemUserManagementS
         HashSet<Authority> authorities = new HashSet<Authority>();
         authorities.add(Authority.COMMUNITY);
         user.setAuthorities(authorities);
-        getSystemUserDao().save(user);
+        this.systemUserDao.save(user);
         
-        systemUserAclManager.addSystemUserChangePasswordPermission(user);
-        
+        this.systemUserAclManager.addSystemUserChangePasswordPermission(user);
+        this.individualAclManager.createIndividualAcl(i);
+        this.individualAclManager.grantSystemUserAdminOnIndividual(i, user);
     }
 
     @Secured( {
@@ -53,7 +56,12 @@ public class SystemUserManagementServiceDaoImpl implements SystemUserManagementS
         })
     public void createSystemUserFromIndividual(String username, String password, Individual individual)  throws DataAccessException {
         SystemUser user = new SystemUser(individual, username, passwordEncoder.encodePassword(password, username));
-        getSystemUserDao().save(user);
+        
+        this.systemUserDao.save(user);
+        this.systemUserAclManager.addSystemUserChangePasswordPermission(user);
+        
+        this.individualAclManager.removeEditorRoleFromIndividualAcl(individual);
+        this.individualAclManager.grantSystemUserAdminOnIndividual(individual, user);
     }
 
     @Secured( {
@@ -76,8 +84,14 @@ public class SystemUserManagementServiceDaoImpl implements SystemUserManagementS
             "ROLE_ADMINISTRATOR"
         })
     public void deleteSystemUser(SystemUser user) throws DataAccessException {
-        systemUserDao.delete(user);
-        systemUserAclManager.removeSystemUserChangePasswordPermission(user);
+        
+	// user loses permissions on his/her individual, generic Editor perms restored
+        this.individualAclManager.removeSystemUserAdminOnIndividual(user.getIndividual(), user);
+        this.individualAclManager.addEditorRoleToIndividualAcl(user.getIndividual());
+        
+        // do the actual deletion
+        this.systemUserAclManager.removeSystemUserChangePasswordPermission(user);
+        this.systemUserDao.delete(user);
     }
 
     @Secured( {
@@ -144,6 +158,22 @@ public class SystemUserManagementServiceDaoImpl implements SystemUserManagementS
 
     public void setSystemUserAclManager(SystemUserAclManager systemUserAclManager) {
         this.systemUserAclManager = systemUserAclManager;
+    }
+
+
+    /**
+     * @return the individualAclManager
+     */
+    public IndividualAclManager getIndividualAclManager() {
+        return this.individualAclManager;
+    }
+
+
+    /**
+     * @param individualAclManager the individualAclManager to set
+     */
+    public void setIndividualAclManager(IndividualAclManager individualAclManager) {
+        this.individualAclManager = individualAclManager;
     }
  
     

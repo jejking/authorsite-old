@@ -43,7 +43,8 @@
     <bean id="systemUserManagementService" class="org.authorsite.security.SystemUserManagementServiceDaoImpl"/>
     
     <bean id="systemUserAclManager" class="org.authorsite.security.SystemUserAclManagerImpl"/>
-    
+    <bean id="individualAclManager" class="org.authorsite.domain.service.IndividualAclManagerImpl" />
+        
     <!-- define authentication manager -->
     <bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
         <property name="providers">
