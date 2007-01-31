@@ -11,8 +11,11 @@ package org.authorsite.security;
 
 import org.acegisecurity.AccessDeniedException;
 import org.acegisecurity.providers.encoding.ShaPasswordEncoder;
+import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.authorsite.dao.AbstractJPATest;
 import org.authorsite.dao.SystemUserDao;
+import org.authorsite.domain.Individual;
+import org.authorsite.domain.service.IndividualManagementService;
 import org.authorsite.security.test.TestSecured;
 import org.authorsite.security.test.UsernameCollector;
 
@@ -33,6 +36,7 @@ public class SystemUserManagementServiceTest extends AbstractJPATest {
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder(256);
     private SystemUserDao systemUserDao;
     private SystemUserManagementService systemUserManagementService;
+    private IndividualManagementService individualManagementService;
     
     static {
         
@@ -100,6 +104,12 @@ public class SystemUserManagementServiceTest extends AbstractJPATest {
         jdbcTemplate.execute("insert into SystemUser_Authorities(SystemUser_id, element) " +
                 "values ( 4, 0 )");
         
+        jdbcTemplate.execute("insert into Human " +
+                "(id, createdAt, createdBy, updatedAt, " +
+                "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
+                " values (5, null, null, null, null, 0, null, 'TestIndividual1', 'ABC', 'Individual')");
+        
+        
     }
     
     protected void onTearDownInTransaction() throws Exception {
@@ -150,6 +160,14 @@ public class SystemUserManagementServiceTest extends AbstractJPATest {
 
     public void setSystemUserManagementService(SystemUserManagementService systemUserManagementService) {
         this.systemUserManagementService = systemUserManagementService;
+    }
+    
+    public IndividualManagementService getIndividualManagementService() {
+        return this.individualManagementService;
+    }
+    
+    public void setIndividualManagementService(IndividualManagementService individualManagementService) {
+        this.individualManagementService = individualManagementService;
     }
     
     
@@ -206,5 +224,101 @@ public class SystemUserManagementServiceTest extends AbstractJPATest {
         this.authenticationMechanism.logUserIn("test1", "aNewPassword");
         
     }
+    
+    public void testCreateNewUserOnlyThatUserCanEditTheIndividual() throws Exception {
+        this.authenticationMechanism.logUserIn("hanswurst", "secret");
+        
+        this.systemUserManagementService.createNewSystemUser("test1", "password1", "TestName", "Test Given Name", "the Tester");
+        this.systemUserManagementService.createNewSystemUser("test2", "password2", "TestName2", "Test Given Name2", "the Tester2");
+        
+        SystemUser test1 = this.systemUserDao.findUserByUsername("test1");
+        SystemUser test2 = this.systemUserDao.findUserByUsername("test2");
+        this.systemUserManagementService.grantAuthority(test2, Authority.EDITOR);
+        
+        this.authenticationMechanism.logUserIn("test1", "password1");
+        Individual i1 = test1.getIndividual();
+        i1.setGivenNames("New Test Given Names");
+        this.individualManagementService.update(i1);
+        
+        this.authenticationMechanism.logUserIn("test2", "password2");
+        try {
+            i1.setName("Sausage");
+            this.individualManagementService.update(i1);
+            fail("expected access denied exception");
+        }
+        catch (AccessDeniedException ade) {
+            assertTrue(true);
+        }
+        
+    }
+    
+    public void testCreateNewUserAdministratorCanEditTheIndivdiual() throws Exception {
+        this.authenticationMechanism.logUserIn("hanswurst", "secret");
+        
+        this.systemUserManagementService.createNewSystemUser("test1", "password1", "TestName", "Test Given Name", "the Tester");
+        SystemUser test1 = this.systemUserDao.findUserByUsername("test1");
+        Individual i1 = test1.getIndividual();
+        i1.setName("Giacomo");
+        this.individualManagementService.update(i1);
+    }
+    
+    public void testCreateNewUserFromIndividualOnlyThatUserCanThenEditTheIndividual() throws Exception  {
+        this.authenticationMechanism.logUserIn("hanswurst", "secret");
+        Individual testIndividual1 = new Individual("testIndividual", "Testus T.");
+        this.individualManagementService.save(testIndividual1);
+        
+        this.systemUserManagementService.createNewSystemUser("test1", "password1", "TestName", "Test Given Name", "the Tester");
+        this.systemUserManagementService.createNewSystemUser("test2", "password2", "TestName2", "Test Given Name2", "the Tester2");
+        
+        SystemUser test1 = this.systemUserDao.findUserByUsername("test1");
+        SystemUser test2 = this.systemUserDao.findUserByUsername("test2");
+        this.systemUserManagementService.grantAuthority(test2, Authority.EDITOR);
+        
+        // johannwurst is an editor and should thus be able to change testIndividual
+        this.authenticationMechanism.logUserIn("johanwurst", "foobar");
+        testIndividual1.setGivenNames("Changed by test2");
+        this.individualManagementService.update(testIndividual1);
+        
+        this.authenticationMechanism.logUserIn("hanswurst", "secret");
+        this.systemUserManagementService.createSystemUserFromIndividual("test3", "password3", testIndividual1);
+        
+        // can the new user edit his individual
+        this.authenticationMechanism.logUserIn("test3", "password3");
+        testIndividual1.setGivenNames("Changed by test3");
+        this.individualManagementService.update(testIndividual1);
+        
+        // login as johannwurst should no longer be able to edit the individual
+        this.authenticationMechanism.logUserIn("johanwurst", "foobar");
+        testIndividual1.setGivenNames("Changed by test2");
+        try {
+            this.individualManagementService.update(testIndividual1);
+            fail("expected access denied exception");
+        }
+        catch (AccessDeniedException ade) {
+            assertTrue(true);
+        }
+        
+        // hanswurst should still be able to edit the individual
+        this.authenticationMechanism.logUserIn("hanswurst", "secret");
+        testIndividual1.setGivenNames("Changed by hanswurst");
+        this.individualManagementService.update(testIndividual1);
+    }
+    
+    public void testRemoveUserThenAnyEditorCanEditThatIndividual() throws Exception {
+        this.authenticationMechanism.logUserIn("hanswurst", "secret");
+        
+        this.systemUserManagementService.createNewSystemUser("test1", "password1", "TestName", "Test Given Name", "the Tester");
+        SystemUser test1 = this.systemUserDao.findUserByUsername("test1");
+        Individual i1 = test1.getIndividual();
+        
+        this.systemUserManagementService.deleteSystemUser(test1);
+        
+        this.authenticationMechanism.logUserIn("johanwurst", "foobar");
+        i1.setGivenNames("Changed by johanwurst");
+        this.individualManagementService.update(i1);
+        
+    }
+    
+     
     
 }

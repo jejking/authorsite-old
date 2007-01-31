@@ -56,6 +56,9 @@ public class SystemUserManagementServiceDaoImpl implements SystemUserManagementS
         })
     public void createSystemUserFromIndividual(String username, String password, Individual individual)  throws DataAccessException {
         SystemUser user = new SystemUser(individual, username, passwordEncoder.encodePassword(password, username));
+        HashSet<Authority> authorities = new HashSet<Authority>();
+        authorities.add(Authority.COMMUNITY);
+        user.setAuthorities(authorities);
         
         this.systemUserDao.save(user);
         this.systemUserAclManager.addSystemUserChangePasswordPermission(user);

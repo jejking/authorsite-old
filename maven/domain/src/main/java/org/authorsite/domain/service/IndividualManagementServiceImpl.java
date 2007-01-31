@@ -98,7 +98,6 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
     public void save(Individual i) throws DataAccessException {
 	this.individualDao.save(i);
 	this.individualAclManager.createIndividualAcl(i);
-	this.individualAclManager.addEditorRoleToIndividualAcl(i);
     }
 
     /* (non-Javadoc)

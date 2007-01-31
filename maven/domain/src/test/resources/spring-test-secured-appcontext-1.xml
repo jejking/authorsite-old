@@ -44,6 +44,7 @@
     
     <bean id="systemUserAclManager" class="org.authorsite.security.SystemUserAclManagerImpl"/>
     <bean id="individualAclManager" class="org.authorsite.domain.service.IndividualAclManagerImpl" />
+    <bean id="individualManagementService" class="org.authorsite.domain.service.IndividualManagementServiceImpl"/>
         
     <!-- define authentication manager -->
     <bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
@@ -121,7 +122,25 @@
       </property>
    </bean>
 
-    
+   <bean id="aclIndividualAdminVoter" class="org.acegisecurity.vote.AclEntryVoter">
+      <constructor-arg>
+      	<ref bean="mutableAclService"/>
+      </constructor-arg>
+      <constructor-arg>
+      	<value>ACL_INDIVIDUAL_ADMIN</value>
+      </constructor-arg>
+      <constructor-arg>
+      	<list>
+          <ref local="org.acegisecurity.acls.domain.BasePermission.WRITE"/>
+          <ref local="org.acegisecurity.acls.domain.BasePermission.ADMINISTRATION"/>
+      	</list>
+      </constructor-arg>
+      <property name="processDomainObjectClass">
+          <value>org.authorsite.domain.Individual</value>
+      </property>
+   </bean> 
+   
+   
     
     <bean id="businessAccessDecisionManager" class="org.acegisecurity.vote.AffirmativeBased">
         <property name="allowIfAllAbstainDecisions">
@@ -131,6 +150,7 @@
             <list>
                 <ref local="roleVoter"/>
                 <ref local="aclUserChangePasswordVoter"/>
+                <ref local="aclIndividualAdminVoter"/>
             </list>
         </property>
     </bean>

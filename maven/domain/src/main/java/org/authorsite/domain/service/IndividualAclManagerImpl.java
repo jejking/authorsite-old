@@ -36,7 +36,8 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
     public void addEditorRoleToIndividualAcl(Individual i) {
 	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, i.getId());
 	AclImpl acl = getAcl(oid);
-	acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), false);
+	acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), true);
+        acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
 	this.mutableAclService.updateAcl(acl);
     }
 
@@ -44,7 +45,8 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
     public void createIndividualAcl(Individual i) {
 	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, i.getId());
 	MutableAcl acl = this.mutableAclService.createAcl(oid);
-	acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), false);
+	acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), true);
+        acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
 	this.mutableAclService.updateAcl(acl);
     }
 
@@ -56,7 +58,7 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
     public void grantSystemUserAdminOnIndividual(Individual i, SystemUser user) {
 	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, i.getId());
 	AclImpl acl = getAcl(oid);
-	acl.insertAce(null, BasePermission.ADMINISTRATION, new PrincipalSid(user.getUserName()), true);
+	acl.insertAce(null, BasePermission.WRITE, new PrincipalSid(user.getUserName()), true);
 	this.mutableAclService.updateAcl(acl);
     }
 
