@@ -1,3 +1,21 @@
+/**
+ * This file is part of the authorsite application.
+ *
+ * The authorsite application is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The authorsite application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the authorsite application; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * 
+ */
 package org.authorsite.domain.email;
 
 import java.util.regex.Matcher;
@@ -13,7 +31,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
  * @author jejking
  * 
  */
-public class EmailAddressing implements Comparable {
+public class EmailAddressing implements Comparable<EmailAddressing> {
 
     /**
      * Regular expression defining rules for a valid email address string.
@@ -65,7 +83,7 @@ public class EmailAddressing implements Comparable {
      * @return email address string
      */
     public String getEmailAddress() {
-	return emailAddress;
+	return this.emailAddress;
     }
 
     /**
@@ -95,7 +113,7 @@ public class EmailAddressing implements Comparable {
      * @return personal name
      */
     public String getPersonalName() {
-	return personalName;
+	return this.personalName;
     }
 
     /**
@@ -113,7 +131,7 @@ public class EmailAddressing implements Comparable {
      * @return type.
      */
     public EmailAddressingType getType() {
-	return type;
+	return this.type;
     }
 
     /**
@@ -134,10 +152,10 @@ public class EmailAddressing implements Comparable {
 	final int PRIME = 31;
 	int result = 1;
 	result = PRIME * result
-		+ ((emailAddress == null) ? 0 : emailAddress.hashCode());
+		+ ((this.emailAddress == null) ? 0 : this.emailAddress.hashCode());
 	result = PRIME * result
-		+ ((personalName == null) ? 0 : personalName.hashCode());
-	result = PRIME * result + ((type == null) ? 0 : type.hashCode());
+		+ ((this.personalName == null) ? 0 : this.personalName.hashCode());
+	result = PRIME * result + ((this.type == null) ? 0 : this.type.hashCode());
 	return result;
     }
 
@@ -150,29 +168,28 @@ public class EmailAddressing implements Comparable {
 	if (getClass() != obj.getClass())
 	    return false;
 	final EmailAddressing other = (EmailAddressing) obj;
-	if (emailAddress == null) {
+	if (this.emailAddress == null) {
 	    if (other.emailAddress != null)
 		return false;
-	} else if (!emailAddress.equals(other.emailAddress))
+	} else if (!this.emailAddress.equals(other.emailAddress))
 	    return false;
-	if (personalName == null) {
+	if (this.personalName == null) {
 	    if (other.personalName != null)
 		return false;
-	} else if (!personalName.equals(other.personalName))
+	} else if (!this.personalName.equals(other.personalName))
 	    return false;
-	if (type == null) {
+	if (this.type == null) {
 	    if (other.type != null)
 		return false;
-	} else if (!type.equals(other.type))
+	} else if (!this.type.equals(other.type))
 	    return false;
 	return true;
     }
 
-    public int compareTo(Object o) {
-	EmailAddressing rhs = (EmailAddressing) o;
-	return new CompareToBuilder().append(this.type, rhs.type).append(
-		this.emailAddress, rhs.emailAddress).append(this.personalName,
-		rhs.personalName).toComparison();
+    public int compareTo(EmailAddressing emailAddressing) {
+	return new CompareToBuilder().append(this.type, emailAddressing.type).append(
+		this.emailAddress, emailAddressing.emailAddress).append(this.personalName,
+		emailAddressing.personalName).toComparison();
     }
 
     @Override
@@ -181,7 +198,7 @@ public class EmailAddressing implements Comparable {
 	buffer.append(this.type);
 	buffer.append(": ");
 	if (this.personalName != null) {
-	    buffer.append(personalName);
+	    buffer.append(this.personalName);
 	    buffer.append(" ");
 	}
 	if (this.emailAddress != null) {
