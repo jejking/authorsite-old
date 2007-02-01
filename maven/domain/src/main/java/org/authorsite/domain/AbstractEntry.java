@@ -1,3 +1,21 @@
+/**
+ * This file is part of the authorsite application.
+ *
+ * The authorsite application is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The authorsite application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the authorsite application; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * 
+ */
 package org.authorsite.domain;
 
 import java.io.Serializable;
@@ -48,7 +66,7 @@ public abstract class AbstractEntry implements Serializable {
     public long getId() {
 	return this.id;
     }
-    
+
     /**
      *Gets version.
      *
@@ -56,9 +74,9 @@ public abstract class AbstractEntry implements Serializable {
      */
     @Version
     public int getVersion() {
-        return this.version;
+	return this.version;
     }
-    
+
     /**
      * Sets the version for optimistic locking! Do not 
      * call this method explicitly!
@@ -66,7 +84,7 @@ public abstract class AbstractEntry implements Serializable {
      * @param i the version
      */
     protected void setVersion(int i) {
-        this.version = i;
+	this.version = i;
     }
 
     /**
@@ -83,28 +101,28 @@ public abstract class AbstractEntry implements Serializable {
      */
     @Temporal(value = TemporalType.TIMESTAMP)
     public Date getCreatedAt() {
-        return this.createdAt;
+	return this.createdAt;
     }
 
     /**
      * @param createdAt the createdAt to set
      */
     public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+	this.createdAt = createdAt;
     }
 
     /**
      * @return the createdBy
      */
     public Individual getCreatedBy() {
-        return this.createdBy;
+	return this.createdBy;
     }
 
     /**
      * @param createdBy the createdBy to set
      */
     public void setCreatedBy(Individual createdBy) {
-        this.createdBy = createdBy;
+	this.createdBy = createdBy;
     }
 
     /**
@@ -112,30 +130,28 @@ public abstract class AbstractEntry implements Serializable {
      */
     @Temporal(value = TemporalType.TIMESTAMP)
     public Date getUpdatedAt() {
-        return this.updatedAt;
+	return this.updatedAt;
     }
 
     /**
      * @param updatedAt the updatedAt to set
      */
     public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+	this.updatedAt = updatedAt;
     }
 
     /**
      * @return the updatedBy
      */
     public Individual getUpdatedBy() {
-        return this.updatedBy;
+	return this.updatedBy;
     }
 
     /**
      * @param updatedBy the updatedBy to set
      */
     public void setUpdatedBy(Individual updatedBy) {
-        this.updatedBy = updatedBy;
+	this.updatedBy = updatedBy;
     }
-    
-    
 
 }
