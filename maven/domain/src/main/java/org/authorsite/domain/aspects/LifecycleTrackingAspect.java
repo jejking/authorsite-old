@@ -1,10 +1,16 @@
 package org.authorsite.domain.aspects;
 
 import java.util.Date;
+import org.acegisecurity.Authentication;
+import org.acegisecurity.context.SecurityContextHolder;
+import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.authorsite.domain.AbstractEntry;
+import org.authorsite.domain.Individual;
+import org.authorsite.security.AuthorsiteUserDetails;
+import org.authorsite.security.SystemUser;
 
 /**
  *
@@ -12,6 +18,8 @@ import org.authorsite.domain.AbstractEntry;
  */
 @Aspect
 public class LifecycleTrackingAspect {
+    
+    private static final Logger LOGGER = Logger.getLogger(LifecycleTrackingAspect.class);
     
     /** Creates a new instance of LifecycleTrackingAspect */
     public LifecycleTrackingAspect() {
@@ -32,7 +40,19 @@ public class LifecycleTrackingAspect {
         Date now = new Date();
         entry.setCreatedAt(now);
         entry.setUpdatedAt(now);
-        System.out.println("set created and updated dates to: " + now);
+        LOGGER.debug("set created and updated dates to: " + now);
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (auth != null) {
+            AuthorsiteUserDetails userDetails = (AuthorsiteUserDetails) auth.getPrincipal();
+            SystemUser user = userDetails.getSystemUser();
+            Individual individual = user.getIndividual();
+            entry.setCreatedBy(individual);
+            entry.setUpdatedBy(individual);
+            LOGGER.debug("Set created and updated by to: " + individual);
+        }
+        
     }
     
     
@@ -47,15 +67,16 @@ public class LifecycleTrackingAspect {
         }
         Date now = new Date();
         entry.setUpdatedAt(now);
-        System.out.println("updated date is: " + now);
+        LOGGER.debug("updated date is: " + now);
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            AuthorsiteUserDetails userDetails = (AuthorsiteUserDetails) auth.getPrincipal();
+            SystemUser user = userDetails.getSystemUser();
+            Individual individual = user.getIndividual();
+            entry.setUpdatedBy(individual);
+            LOGGER.debug("Set updated by to: " + individual);
+        }
     }
-    
-    /*
-    @Before("execution (public * org.authorsite.dao..*Dao.save*(..))")
-    public void printHello() {
-        System.out.println("hello, I am the saving aspect...");
-    }
-     **/
-    
     
 }
