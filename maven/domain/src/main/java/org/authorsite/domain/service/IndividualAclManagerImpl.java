@@ -1,9 +1,25 @@
+/**
+ * This file is part of the authorsite application.
+ *
+ * The authorsite application is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The authorsite application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the authorsite application; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * 
+ */
+
 package org.authorsite.domain.service;
 
-import java.security.acl.AclEntry;
-
 import org.acegisecurity.acls.AccessControlEntry;
-import org.acegisecurity.acls.Acl;
 import org.acegisecurity.acls.MutableAcl;
 import org.acegisecurity.acls.MutableAclService;
 import org.acegisecurity.acls.domain.AclImpl;
@@ -15,85 +31,83 @@ import org.acegisecurity.acls.sid.PrincipalSid;
 import org.authorsite.domain.Individual;
 import org.authorsite.security.SystemUser;
 
+/**
+ * Implementation based on Acegi Security.
+ * 
+ * @author jking
+ */
 public class IndividualAclManagerImpl implements IndividualAclManager {
 
     private MutableAclService mutableAclService;
-    
+
     /**
      * @return the mutableAclService
      */
     public MutableAclService getMutableAclService() {
-        return this.mutableAclService;
+	return this.mutableAclService;
     }
 
     /**
      * @param mutableAclService the mutableAclService to set
      */
     public void setMutableAclService(MutableAclService mutableAclService) {
-        this.mutableAclService = mutableAclService;
+	this.mutableAclService = mutableAclService;
     }
 
     public void addEditorRoleToIndividualAcl(Individual i) {
-	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, i.getId());
+	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
 	AclImpl acl = getAcl(oid);
 	acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), true);
-        acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
+	acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
 	this.mutableAclService.updateAcl(acl);
     }
 
-
     public void createIndividualAcl(Individual i) {
-	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, i.getId());
+	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
 	MutableAcl acl = this.mutableAclService.createAcl(oid);
 	acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), true);
-        acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
+	acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
 	this.mutableAclService.updateAcl(acl);
     }
 
     public void deleteIndividualAcl(Individual i) {
-	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, i.getId());
+	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
 	this.mutableAclService.deleteAcl(oid, true);
     }
 
     public void grantSystemUserAdminOnIndividual(Individual i, SystemUser user) {
-	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, i.getId());
+	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
 	AclImpl acl = getAcl(oid);
 	acl.insertAce(null, BasePermission.WRITE, new PrincipalSid(user.getUserName()), true);
 	this.mutableAclService.updateAcl(acl);
     }
 
     public void removeEditorRoleFromIndividualAcl(Individual i) {
-	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, i.getId());
+	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
 	AclImpl acl = getAcl(oid);
 	for (AccessControlEntry entry : acl.getEntries()) {
-	    if (entry.getSid().equals(new GrantedAuthoritySid("ROLE_EDITOR")))
-	    {
+	    if (entry.getSid().equals(new GrantedAuthoritySid("ROLE_EDITOR"))) {
 		acl.deleteAce(entry.getId());
 	    }
 	}
 	this.mutableAclService.updateAcl(acl);
     }
-    
 
     public void removeSystemUserAdminOnIndividual(Individual i, SystemUser user) {
-	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, i.getId());
+	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
 	AclImpl acl = getAcl(oid);
 	for (AccessControlEntry entry : acl.getEntries()) {
-	    if (entry.getSid().equals(new PrincipalSid(user.getUserName())))
-	    {
+	    if (entry.getSid().equals(new PrincipalSid(user.getUserName()))) {
 		acl.deleteAce(entry.getId());
 	    }
 	}
 	this.mutableAclService.updateAcl(acl);
     }
-    
-    
+
     private AclImpl getAcl(ObjectIdentity oid) {
 	// TODO the cast is a nasty hack
 	AclImpl acl = (AclImpl) this.mutableAclService.readAclById(oid);
 	return acl;
     }
-
-
 
 }
