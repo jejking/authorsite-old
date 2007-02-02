@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author jejking
  */
 @Transactional
-public class SystemUserManagementServiceDaoImpl implements SystemUserManagementService {
+public class SystemUserManagementServiceImpl implements SystemUserManagementService {
 
     private IndividualDao individualDao;
 
@@ -50,7 +50,7 @@ public class SystemUserManagementServiceDaoImpl implements SystemUserManagementS
     /**
          * Default constructor.
          */
-    public SystemUserManagementServiceDaoImpl() {
+    public SystemUserManagementServiceImpl() {
 	super();
     }
 

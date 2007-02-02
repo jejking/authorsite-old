@@ -40,11 +40,12 @@
     
     <bean id="authenticationMechanism" class="org.authorsite.security.TestAuthenticationMechanism"/>
     
-    <bean id="systemUserManagementService" class="org.authorsite.security.SystemUserManagementServiceDaoImpl"/>
+    <bean id="systemUserManagementService" class="org.authorsite.security.SystemUserManagementServiceImpl"/>
     
     <bean id="systemUserAclManager" class="org.authorsite.security.SystemUserAclManagerImpl"/>
     <bean id="individualAclManager" class="org.authorsite.domain.service.IndividualAclManagerImpl" />
     <bean id="individualManagementService" class="org.authorsite.domain.service.IndividualManagementServiceImpl"/>
+    <bean id="collectiveManagementService" class="org.authorsite.domain.service.CollectiveManagementServiceImpl"/>    
         
     <!-- define authentication manager -->
     <bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">

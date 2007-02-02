@@ -93,7 +93,7 @@ public interface CollectiveDao {
 	    throws DataAccessException;
 
     /**
-     * Finds all collectives associated with the given place name 
+     * Finds all collectives associated with the given place name.
      * 
      * @param placeName
      * @return list of collectives associated with the place, may be empty if none found.
