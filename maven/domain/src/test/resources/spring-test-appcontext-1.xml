@@ -17,7 +17,9 @@
   
   <bean
      class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
- 
+     
+  <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
   <bean id="collectiveDao" class="org.authorsite.dao.CollectiveDaoJPA" />
   <bean id="individualDao" class="org.authorsite.dao.IndividualDaoJPA" />
   <bean id="systemUserDao" class="org.authorsite.dao.SystemUserDaoJPA" />

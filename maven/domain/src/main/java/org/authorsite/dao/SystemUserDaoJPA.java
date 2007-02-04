@@ -22,10 +22,15 @@ package org.authorsite.dao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.authorsite.security.SystemUser;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -33,7 +38,10 @@ import org.springframework.transaction.annotation.Transactional;
  * @author jejking
  */
 @Transactional()
-public class SystemUserDaoJPA extends JpaDaoSupport implements SystemUserDao {
+@Repository
+public class SystemUserDaoJPA implements SystemUserDao {
+
+    private EntityManager entityManager;
 
     /**
      * Creates a new instance of SystemUserDaoJPA
@@ -41,43 +49,54 @@ public class SystemUserDaoJPA extends JpaDaoSupport implements SystemUserDao {
     public SystemUserDaoJPA() {
 	super();
     }
+    
+        
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Transactional(readOnly = true)
     public SystemUser findById(long id) throws DataAccessException {
-	return this.getJpaTemplate().find(SystemUser.class, new Long(id));
+	//return this.getJpaTemplate().find(SystemUser.class, new Long(id));
+        return this.entityManager.find(SystemUser.class, new Long(id));
     }
 
+    @Transactional(readOnly = true)
     public int countUsers() {
-	Number n = (Number) this.getJpaTemplate().findByNamedQuery(
-		"SystemUserCount").iterator().next();
+        Number n = (Number) this.entityManager.createNamedQuery("SystemUserCount").getSingleResult();
 	return n.intValue();
     }
 
     public void save(SystemUser user) {
-	this.getJpaTemplate().persist(user);
+	//this.getJpaTemplate().persist(user);
+        this.entityManager.persist(user);
     }
 
     public SystemUser update(SystemUser user) {
-	return this.getJpaTemplate().merge(user);
+	//return this.getJpaTemplate().merge(user);
+        return this.entityManager.merge(user);
     }
 
     public void delete(SystemUser user) {
-	this.getJpaTemplate().remove(user);
-	this.getJpaTemplate().flush();
+	//this.getJpaTemplate().remove(user);
+        this.entityManager.remove(user);
+	//this.getJpaTemplate().flush();
+        this.entityManager.flush();
     }
 
     @Transactional(readOnly = true)
     @SuppressWarnings(value = { "unchecked" })
     public SystemUser findUserByUsername(String username) {
-	Map<String, String> params = new HashMap<String, String>();
-	params.put("userName", username);
-	List<SystemUser> results = this.getJpaTemplate()
-		.findByNamedQueryAndNamedParams("SystemUserByUserName", params);
-	if (results.isEmpty()) {
-	    return null;
-	} else {
-	    return results.iterator().next();
-	}
+        Query q = this.entityManager.createNamedQuery("SystemUserByUserName");
+        q.setParameter("userName", username);
+        List resultList = q.getResultList();
+        if ( resultList.isEmpty()) {
+            return null;
+        }
+        else {
+            return (SystemUser) resultList.iterator().next();
+        }
     }
 
 }

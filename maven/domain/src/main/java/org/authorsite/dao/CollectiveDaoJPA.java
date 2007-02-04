@@ -22,10 +22,14 @@ package org.authorsite.dao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.authorsite.domain.Collective;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -34,34 +38,43 @@ import org.springframework.transaction.annotation.Transactional;
  * @author jejking
  */
 @Transactional()
-public class CollectiveDaoJPA extends JpaDaoSupport implements CollectiveDao {
+@Repository
+public class CollectiveDaoJPA implements CollectiveDao {
 
-    /** Creates a new instance of CollectiveDaoJPA */
+    private EntityManager entityManager;
+    
+    /** 
+     * Creates a new instance of CollectiveDaoJPA.
+     */
     public CollectiveDaoJPA() {
 	super();
+    }
+    
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Transactional(readOnly = true)
     public Collective findById(long id) throws DataAccessException {
-	return this.getJpaTemplate().find(Collective.class, new Long(id));
+        return this.entityManager.find( Collective.class, new Long(id));
     }
 
     public void save(final Collective c) throws DataAccessException {
-	this.getJpaTemplate().persist(c);
+        this.entityManager.persist(c);
     }
 
     public Collective update(Collective c) throws DataAccessException {
-	return this.getJpaTemplate().merge(c);
+        return this.entityManager.merge(c);
     }
 
     public void delete(Collective c) throws DataAccessException {
-	this.getJpaTemplate().remove(c);
+        this.entityManager.remove(c);
     }
 
     @Transactional(readOnly = true)
     public int countCollectives() throws DataAccessException {
-	Number n = (Number) this.getJpaTemplate().findByNamedQuery(
-		"CollectiveCount").iterator().next();
+        Number n = (Number) this.entityManager.createNamedQuery("CollectiveCount").getSingleResult();
 	return n.intValue();
     }
 
@@ -69,40 +82,37 @@ public class CollectiveDaoJPA extends JpaDaoSupport implements CollectiveDao {
     @Transactional(readOnly = true)
     public List<Collective> findCollectivesByName(String name)
 	    throws DataAccessException {
-	Map<String, String> params = new HashMap<String, String>();
-	params.put("collectiveName", name);
-	return this.getJpaTemplate().findByNamedQueryAndNamedParams(
-		"CollectivesByName", params);
+        Query q = this.entityManager.createNamedQuery("CollectivesByName");
+        q.setParameter("collectiveName", name);
+        return q.getResultList();
+        
     }
 
     @SuppressWarnings(value = { "unchecked" })
     @Transactional(readOnly = true)
     public List<Collective> findCollectivesByNameWildcard(String name)
 	    throws DataAccessException {
-	Map<String, String> params = new HashMap<String, String>();
-	params.put("collectiveName", name);
-	return this.getJpaTemplate().findByNamedQueryAndNamedParams(
-		"CollectivesByNameWildcard", params);
+        Query q = this.entityManager.createNamedQuery("CollectivesByNameWildcard");
+        q.setParameter("collectiveName", name);
+        return q.getResultList();
     }
 
     @SuppressWarnings(value = { "unchecked" })
     @Transactional(readOnly = true)
     public List<Collective> findCollectivesByPlace(String placeName)
 	    throws DataAccessException {
-	Map<String, String> params = new HashMap<String, String>();
-	params.put("placeName", placeName);
-	return this.getJpaTemplate().findByNamedQueryAndNamedParams(
-		"CollectivesByPlace", params);
+        Query q = this.entityManager.createNamedQuery("CollectivesByPlace");
+        q.setParameter("placeName", placeName);
+        return q.getResultList();
     }
 
     @SuppressWarnings(value = { "unchecked" })
     @Transactional(readOnly = true)
     public List<Collective> findCollectivesByPlaceWildcard(String placeName)
 	    throws DataAccessException {
-	Map<String, String> params = new HashMap<String, String>();
-	params.put("placeName", placeName);
-	return this.getJpaTemplate().findByNamedQueryAndNamedParams(
-		"CollectivesByPlaceWildcard", params);
+        Query q = this.entityManager.createNamedQuery("CollectivesByPlaceWildcard");
+        q.setParameter("placeName", placeName);
+        return q.getResultList();
     }
 
 }
