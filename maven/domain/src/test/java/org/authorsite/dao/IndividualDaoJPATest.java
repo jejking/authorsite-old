@@ -9,6 +9,7 @@
 
 package org.authorsite.dao;
 
+import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -169,6 +170,21 @@ public class IndividualDaoJPATest extends AbstractJPATest {
       assertFalse(saucemaker.isSystemUser());
   }
           
+  public void testFindAllIndividuals() throws Exception {
+      List<Individual> all = this.individualDao.findAllIndividuals();
+      assertEquals(7, all.size());
+  }
   
+  public void testFindAllIndividualsPage() throws Exception {
+      List<Individual> page2 = this.individualDao.findAllIndividuals(2, 3);
+      assertEquals(3, page2.size());
+      Iterator<Individual> page2It = page2.iterator();
+      assertEquals(4, page2It.next().getId());
+      assertEquals(5, page2It.next().getId());
+      assertEquals(6, page2It.next().getId());
+      
+      List<Individual> page3 = this.individualDao.findAllIndividuals(3, 3);
+      assertEquals(1, page3.size());
+  }
   
 }

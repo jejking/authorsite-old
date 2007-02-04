@@ -49,7 +49,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 	@NamedQuery(name = "CollectivesByName", query = "select c from Collective c where c.name = :collectiveName"),
 	@NamedQuery(name = "CollectivesByNameWildcard", query = "select c from Collective c where c.name like :collectiveName"),
 	@NamedQuery(name = "CollectivesByPlace", query = "select c from Collective c where c.place = :placeName"),
-	@NamedQuery(name = "CollectivesByPlaceWildcard", query = "select c from Collective c where c.place like :placeName") })
+	@NamedQuery(name = "CollectivesByPlaceWildcard", query = "select c from Collective c where c.place like :placeName"),
+        @NamedQuery(name = "AllCollectives", query = "select c from Collective c order by c.id asc")  } )
 public class Collective extends AbstractHuman implements
 	Comparable<AbstractHuman> {
 

@@ -58,7 +58,6 @@ public class SystemUserDaoJPA implements SystemUserDao {
 
     @Transactional(readOnly = true)
     public SystemUser findById(long id) throws DataAccessException {
-	//return this.getJpaTemplate().find(SystemUser.class, new Long(id));
         return this.entityManager.find(SystemUser.class, new Long(id));
     }
 
@@ -69,19 +68,15 @@ public class SystemUserDaoJPA implements SystemUserDao {
     }
 
     public void save(SystemUser user) {
-	//this.getJpaTemplate().persist(user);
         this.entityManager.persist(user);
     }
 
     public SystemUser update(SystemUser user) {
-	//return this.getJpaTemplate().merge(user);
         return this.entityManager.merge(user);
     }
 
     public void delete(SystemUser user) {
-	//this.getJpaTemplate().remove(user);
         this.entityManager.remove(user);
-	//this.getJpaTemplate().flush();
         this.entityManager.flush();
     }
 
@@ -97,6 +92,23 @@ public class SystemUserDaoJPA implements SystemUserDao {
         else {
             return (SystemUser) resultList.iterator().next();
         }
+    }
+
+    @Transactional(readOnly = true)
+    @SuppressWarnings(value = { "unchecked" })
+    public List<SystemUser> findAllSystemUsers() throws DataAccessException {
+        Query q = this.entityManager.createNamedQuery("AllSystemUsers");
+        return q.getResultList();
+    }
+
+    @Transactional(readOnly = true)
+    @SuppressWarnings(value = { "unchecked" })
+    public List<SystemUser> findAllSystemUsers(int pageNumber, int pageSize) throws Exception {
+        Query q = this.entityManager.createNamedQuery("AllSystemUsers");
+        int startingRow = (pageNumber - 1) * pageSize;
+        q.setFirstResult(startingRow);
+        q.setMaxResults(pageSize);
+        return q.getResultList();
     }
 
 }

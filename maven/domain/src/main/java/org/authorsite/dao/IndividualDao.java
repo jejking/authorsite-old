@@ -109,10 +109,25 @@ public interface IndividualDao {
      * 
      * @param name
      * @param givenNames
-     * @return list of individuals whose name and givein names match the wildcard parameters, may be empty if none found.
+     * @return list of individuals whose name and given names match the wildcard parameters, may be empty if none found.
      * @throws DataAccessException
      */
     public List<Individual> findIndividualsByNameAndGivenNamesWildcard(
 	    String name, String givenNames) throws DataAccessException;
+    
+    /**
+     * Returns all individuals known to the system.
+     *
+     * @return list of all individuals in the system
+     */
+    public List<Individual> findAllIndividuals() throws DataAccessException;
+    
+    /**
+     * Returns "page" of list of all individuals known to the system.
+     *
+     * @return page of list of all individuals known to the system.
+     */
+    public List<Individual> findAllIndividuals(int pageNumber, int pageSize)
+            throws DataAccessException;
 
 }

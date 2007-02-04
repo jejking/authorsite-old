@@ -50,7 +50,8 @@ import org.authorsite.security.SystemUser;
 	@NamedQuery(name = "IndividualsByName", query = "select i from Individual i where i.name = :individualName"),
 	@NamedQuery(name = "IndividualsByNameWildcard", query = "select i from Individual i where i.name like :individualName"),
 	@NamedQuery(name = "IndividualsByNameAndGivenNames", query = "select i from Individual i where i.name = :individualName and i.givenNames = :givenNames"),
-	@NamedQuery(name = "IndividualsByNameAndGivenNamesWildcard", query = "select i from Individual i where i.name like :individualName and i.givenNames like :givenNames") })
+	@NamedQuery(name = "IndividualsByNameAndGivenNamesWildcard", query = "select i from Individual i where i.name like :individualName and i.givenNames like :givenNames"),
+        @NamedQuery(name = "AllIndividuals", query = "select i from Individual i order by id asc") })
 public class Individual extends AbstractHuman implements
 	Comparable<AbstractHuman> {
 

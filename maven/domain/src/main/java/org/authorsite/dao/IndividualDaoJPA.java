@@ -56,31 +56,23 @@ public class IndividualDaoJPA implements IndividualDao {
 
     @Transactional(readOnly = true)
     public Individual findById(long id) throws DataAccessException {
-	// return this.getJpaTemplate().find(Individual.class, new Long(id));
         return this.entityManager.find(Individual.class, new Long(id));
     }
 
     public void save(Individual i) throws DataAccessException {
-	//this.getJpaTemplate().persist(i);
         this.entityManager.persist(i);
     }
 
     public Individual update(Individual i) throws DataAccessException {
-	//return this.getJpaTemplate().merge(i);
         return this.entityManager.merge(i);
     }
 
     public void delete(Individual i) throws DataAccessException {
-	//this.getJpaTemplate().remove(i);
         this.entityManager.remove(i);
     }
 
     @Transactional(readOnly = true)
     public int countIndividuals() throws DataAccessException {
-	/*Number n = (Number) this.getJpaTemplate().findByNamedQuery(
-		"IndividualCount").iterator().next();
-	return n.intValue();
-         **/
         Query q = this.entityManager.createNamedQuery("IndividualCount");
         Number n = (Number) q.getSingleResult();
         return n.intValue();
@@ -90,10 +82,6 @@ public class IndividualDaoJPA implements IndividualDao {
     @Transactional(readOnly = true)
     public List<Individual> findIndividualsByName(String name)
 	    throws DataAccessException {
-	/*Map<String, String> params = new HashMap<String, String>();
-	params.put("individualName", name);
-	return this.getJpaTemplate().findByNamedQueryAndNamedParams(
-		"IndividualsByName", params);*/
         Query q = this.entityManager.createNamedQuery("IndividualsByName");
         q.setParameter("individualName", name);
         return q.getResultList();
@@ -103,11 +91,7 @@ public class IndividualDaoJPA implements IndividualDao {
     @Transactional(readOnly = true)
     public List<Individual> findIndividualsByNameWildcard(String name)
 	    throws DataAccessException {
-	/*Map<String, String> params = new HashMap<String, String>();
-	params.put("individualName", name);
-	return this.getJpaTemplate().findByNamedQueryAndNamedParams(
-		"IndividualsByNameWildcard", params);*/
-        Query q = this.entityManager.createNamedQuery("IndividualsByNameWildcard");
+	Query q = this.entityManager.createNamedQuery("IndividualsByNameWildcard");
         q.setParameter("individualName", name);
         return q.getResultList();
     }
@@ -116,11 +100,6 @@ public class IndividualDaoJPA implements IndividualDao {
     @Transactional(readOnly = true)
     public List<Individual> findIndividualsByNameAndGivenNames(String name,
 	    String givenNames) throws DataAccessException {
-	/*Map<String, String> params = new HashMap<String, String>();
-	params.put("individualName", name);
-	params.put("givenNames", givenNames);
-	return this.getJpaTemplate().findByNamedQueryAndNamedParams(
-		"IndividualsByNameAndGivenNames", params);*/
         Query q = this.entityManager.createNamedQuery("IndividualsByNameAndGivenNames");
         q.setParameter("individualName", name);
         q.setParameter("givenNames", givenNames);
@@ -132,15 +111,28 @@ public class IndividualDaoJPA implements IndividualDao {
     public List<Individual> findIndividualsByNameAndGivenNamesWildcard(
 	    String name, String givenNames) throws DataAccessException {
 	Map<String, String> params = new HashMap<String, String>();
-	/*params.put("individualName", name);
-	params.put("givenNames", givenNames);
-	return this.getJpaTemplate().findByNamedQueryAndNamedParams(
-		"IndividualsByNameAndGivenNamesWildcard", params);*/
         Query q = this.entityManager.createNamedQuery("IndividualsByNameAndGivenNamesWildcard");
         q.setParameter("individualName", name);
         q.setParameter("givenNames", givenNames);
         return q.getResultList();
                 
+    }
+
+    @SuppressWarnings(value = { "unchecked" })
+    @Transactional(readOnly = true)
+    public List<Individual> findAllIndividuals() throws DataAccessException {
+        Query q = this.entityManager.createNamedQuery("AllIndividuals");
+        return q.getResultList();
+    }
+
+    @SuppressWarnings(value = { "unchecked" })
+    @Transactional(readOnly = true)
+    public List<Individual> findAllIndividuals(int pageNumber, int pageSize) throws DataAccessException {
+        Query q = this.entityManager.createNamedQuery("AllIndividuals");
+        int startingRow = (pageNumber - 1) * pageSize;
+        q.setFirstResult(startingRow);
+        q.setMaxResults(pageSize);
+        return q.getResultList();
     }
 
 }

@@ -111,5 +111,23 @@ public interface CollectiveDao {
      */
     public List<Collective> findCollectivesByPlaceWildcard(String placeName)
 	    throws DataAccessException;
+    
+    
+    /**
+     * Returns all known collectives in the system.
+     *
+     * @return list of all collective instances
+     */ 
+    public List<Collective> findAllCollectives() throws DataAccessException;
 
+    /**
+     * Returns "page" out of the list of all known collectives in the system
+     * 
+     * @param pageNumber
+     * @param pageSize
+     * @return list of collectives
+     * @throws DataAccessException
+     */
+    public List<Collective> findAllCollectives(int pageNumber, int pageSize) throws DataAccessException;
+    
 }

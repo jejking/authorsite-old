@@ -55,7 +55,8 @@ import org.hibernate.annotations.CollectionOfElements;
 @Entity
 @NamedQueries( {
 	@NamedQuery(name = "SystemUserCount", query = "select count(su) from SystemUser su"),
-	@NamedQuery(name = "SystemUserByUserName", query = "select su from SystemUser su where su.userName = :userName") })
+	@NamedQuery(name = "SystemUserByUserName", query = "select su from SystemUser su where su.userName = :userName"),
+        @NamedQuery(name = "AllSystemUsers", query = "select su from SystemUser su order by id asc") })
 public class SystemUser extends AbstractEntry {
 
     /**

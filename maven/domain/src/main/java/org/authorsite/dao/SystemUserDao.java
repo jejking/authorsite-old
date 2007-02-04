@@ -19,6 +19,7 @@
 
 package org.authorsite.dao;
 
+import java.util.List;
 import org.authorsite.security.SystemUser;
 import org.springframework.dao.DataAccessException;
 
@@ -82,5 +83,22 @@ public interface SystemUserDao {
      */
     public SystemUser findUserByUsername(String username)
 	    throws DataAccessException;
+    
+    
+    /**
+     * Returns all known system users in the system.
+     *
+     * @return list of all known system users
+     * @throws DataAccessException
+     */
+    public List<SystemUser> findAllSystemUsers() throws DataAccessException;
+    
+    /**
+     * Returns "page" of list of all known users in the system.
+     *
+     * @return page of list of all known system users
+     * @throws DataAccessException
+     */
+    public List<SystemUser> findAllSystemUsers(int pageNumber, int pageSize) throws Exception;
 
 }

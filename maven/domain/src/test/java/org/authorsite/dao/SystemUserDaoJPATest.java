@@ -9,6 +9,7 @@
 
 package org.authorsite.dao;
 
+import java.util.List;
 import java.util.Set;
 import org.authorsite.domain.Individual;
 import org.authorsite.security.Authority;
@@ -49,6 +50,8 @@ public class SystemUserDaoJPATest extends AbstractJPATest {
         jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy, updatedAt, " +
                 "updatedBy, version, userName, password, enabled) " +
                 "values (1, 1, null, null, null, null, 0, 'hanswurst', 'secret', 1)"  );
+        
+        
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy, updatedAt, " +
                 "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
@@ -56,6 +59,7 @@ public class SystemUserDaoJPATest extends AbstractJPATest {
         jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy, updatedAt, " +
                 "updatedBy, version, userName, password, enabled) " +
                 "values (2, 2, null, null, null, null, 0, 'johnnysausage', 'secret', 1)"  );
+        
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy, updatedAt, " +
                 "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
@@ -233,10 +237,18 @@ public class SystemUserDaoJPATest extends AbstractJPATest {
         SystemUser admin = systemUserDao.findById(4);
         Set<Authority> adminPerms = admin.getAuthorities();
         assertNotNull(adminPerms);
-        /*System.out.println(adminPerms.size());
-        for (Authority auth : adminPerms ) {
-            System.out.println(auth);
-        }*/
         assertTrue(adminPerms.contains(Authority.ADMIN));
+    }
+    
+    public void testFindAll() throws Exception {
+        List<SystemUser> all = this.systemUserDao.findAllSystemUsers();
+        assertEquals(3, all.size());
+    }
+    
+    public void testFindAllPage() throws Exception {
+        List<SystemUser> page1 = this.systemUserDao.findAllSystemUsers(1, 10);
+        assertEquals(3, page1.size());
+        List<SystemUser> page3 = this.systemUserDao.findAllSystemUsers(3, 10);
+        assertTrue(page3.isEmpty());
     }
 }

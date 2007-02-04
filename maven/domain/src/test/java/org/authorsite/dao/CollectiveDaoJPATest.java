@@ -1,5 +1,6 @@
 package org.authorsite.dao;
 
+import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -128,5 +129,27 @@ public class CollectiveDaoJPATest extends AbstractJPATest  {
       assertEquals(4, hamburgers.size());
   }
   
+  public void testFindAllCollectives() throws Exception {
+      List<Collective> all = this.collectiveDao.findAllCollectives();
+      assertEquals(6, all.size());
+  }
     
+  public void testPageAllCollectives() throws Exception {
+      List<Collective> page1 = this.collectiveDao.findAllCollectives(1, 2);
+      assertEquals(2, page1.size());
+      Iterator<Collective> page1It = page1.iterator();
+      assertEquals(1, page1It.next().getId());
+      assertEquals(2, page1It.next().getId());
+      List<Collective> page2 = this.collectiveDao.findAllCollectives(2,2);
+      assertEquals(2, page2.size());
+      Iterator<Collective> page2It = page2.iterator();
+      assertEquals(3, page2It.next().getId());
+      assertEquals(4, page2It.next().getId());
+      List<Collective> page3 = this.collectiveDao.findAllCollectives(3,2);
+      assertEquals(2, page3.size());
+      Iterator<Collective> page3It = page3.iterator();
+      assertEquals(5, page3It.next().getId());
+      assertEquals(6, page3It.next().getId());
+  }
+  
 }

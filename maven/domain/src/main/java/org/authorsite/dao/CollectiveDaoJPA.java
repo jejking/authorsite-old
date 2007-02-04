@@ -115,4 +115,21 @@ public class CollectiveDaoJPA implements CollectiveDao {
         return q.getResultList();
     }
 
+    @SuppressWarnings(value = { "unchecked" })
+    @Transactional(readOnly = true)
+    public List<Collective> findAllCollectives() throws DataAccessException {
+        Query q = this.entityManager.createNamedQuery("AllCollectives");
+        return q.getResultList();
+    }
+    
+    @SuppressWarnings(value = { "unchecked" })
+    @Transactional(readOnly = true)
+    public List<Collective> findAllCollectives(int pageNumber, int pageSize) throws DataAccessException {
+        Query q = this.entityManager.createNamedQuery("AllCollectives");
+        int startingRow = (pageNumber - 1) * pageSize;
+        q.setFirstResult(startingRow);
+        q.setMaxResults(pageSize);
+        return q.getResultList();
+    }
+
 }
