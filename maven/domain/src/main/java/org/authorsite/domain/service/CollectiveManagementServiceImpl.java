@@ -126,6 +126,16 @@ public class CollectiveManagementServiceImpl implements CollectiveManagementServ
         return this.collectiveDao.findCollectivesByPlaceWildcard(placeName);
     }
 
+    @Transactional(readOnly = true)
+    public List<Collective> findAllCollectives() throws DataAccessException {
+        return this.collectiveDao.findAllCollectives();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Collective> findAllCollectives(int pageNumber, int pageSize) throws DataAccessException {
+        return this.collectiveDao.findAllCollectives(pageNumber, pageSize);
+    }
+    
     /*
      * (non-Javadoc)
      * 
@@ -146,4 +156,5 @@ public class CollectiveManagementServiceImpl implements CollectiveManagementServ
         return this.collectiveDao.update(c);
     }
 
+    
 }

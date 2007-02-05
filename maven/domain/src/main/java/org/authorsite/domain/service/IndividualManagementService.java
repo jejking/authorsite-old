@@ -21,6 +21,7 @@ package org.authorsite.domain.service;
 import java.util.List;
 
 import org.acegisecurity.annotation.Secured;
+import org.authorsite.dao.IndividualDao;
 import org.authorsite.domain.Individual;
 import org.springframework.dao.DataAccessException;
 
@@ -110,6 +111,27 @@ public interface IndividualManagementService {
      */
     public List<Individual> findIndividualsByNameWildcard(String name) throws DataAccessException;
 
+    /**
+     * Finds all individuals known to the system.
+     * 
+     * @return list of all known individuals
+     * @throws DataAccessException
+     * @see IndividualDao#findAllIndividuals()
+     */
+    public List<Individual> findAllIndividuals() throws DataAccessException;
+    
+    /**
+     * Returns "page" of individuals known to the system.
+     * 
+     * @param pageNumber
+     * @param pageSize
+     * @return "page" list
+     * @throws DataAccessException
+     * @see IndividualDao#findAllIndividuals(int,int)
+     */
+    public List<Individual> findAllIndividuals(int pageNumber, int pageSize) throws DataAccessException;
+    
+    
     /**
      * Saves <em>new</em> instance to the database. Sets the ACL to allow
      * any User with privilege <code>ROLE_EDITOR</code> to administer the

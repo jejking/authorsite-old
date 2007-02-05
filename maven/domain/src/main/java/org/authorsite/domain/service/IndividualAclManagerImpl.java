@@ -44,70 +44,71 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
      * @return the mutableAclService
      */
     public MutableAclService getMutableAclService() {
-	return this.mutableAclService;
+        return this.mutableAclService;
     }
 
     /**
-     * @param mutableAclService the mutableAclService to set
+     * @param mutableAclService
+     *            the mutableAclService to set
      */
     public void setMutableAclService(MutableAclService mutableAclService) {
-	this.mutableAclService = mutableAclService;
+        this.mutableAclService = mutableAclService;
     }
 
     public void addEditorRoleToIndividualAcl(Individual i) {
-	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
-	AclImpl acl = getAcl(oid);
-	acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), true);
-	acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
-	this.mutableAclService.updateAcl(acl);
+        ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
+        AclImpl acl = getAcl(oid);
+        acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), true);
+        acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
+        this.mutableAclService.updateAcl(acl);
     }
 
     public void createIndividualAcl(Individual i) {
-	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
-	MutableAcl acl = this.mutableAclService.createAcl(oid);
-	acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), true);
-	acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
-	this.mutableAclService.updateAcl(acl);
+        ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
+        MutableAcl acl = this.mutableAclService.createAcl(oid);
+        acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), true);
+        acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
+        this.mutableAclService.updateAcl(acl);
     }
 
     public void deleteIndividualAcl(Individual i) {
-	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
-	this.mutableAclService.deleteAcl(oid, true);
+        ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
+        this.mutableAclService.deleteAcl(oid, true);
     }
 
     public void grantSystemUserAdminOnIndividual(Individual i, SystemUser user) {
-	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
-	AclImpl acl = getAcl(oid);
-	acl.insertAce(null, BasePermission.WRITE, new PrincipalSid(user.getUserName()), true);
-	this.mutableAclService.updateAcl(acl);
+        ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
+        AclImpl acl = getAcl(oid);
+        acl.insertAce(null, BasePermission.WRITE, new PrincipalSid(user.getUserName()), true);
+        this.mutableAclService.updateAcl(acl);
     }
 
     public void removeEditorRoleFromIndividualAcl(Individual i) {
-	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
-	AclImpl acl = getAcl(oid);
-	for (AccessControlEntry entry : acl.getEntries()) {
-	    if (entry.getSid().equals(new GrantedAuthoritySid("ROLE_EDITOR"))) {
-		acl.deleteAce(entry.getId());
-	    }
-	}
-	this.mutableAclService.updateAcl(acl);
+        ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
+        AclImpl acl = getAcl(oid);
+        for (AccessControlEntry entry : acl.getEntries()) {
+            if (entry.getSid().equals(new GrantedAuthoritySid("ROLE_EDITOR"))) {
+                acl.deleteAce(entry.getId());
+            }
+        }
+        this.mutableAclService.updateAcl(acl);
     }
 
     public void removeSystemUserAdminOnIndividual(Individual i, SystemUser user) {
-	ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
-	AclImpl acl = getAcl(oid);
-	for (AccessControlEntry entry : acl.getEntries()) {
-	    if (entry.getSid().equals(new PrincipalSid(user.getUserName()))) {
-		acl.deleteAce(entry.getId());
-	    }
-	}
-	this.mutableAclService.updateAcl(acl);
+        ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
+        AclImpl acl = getAcl(oid);
+        for (AccessControlEntry entry : acl.getEntries()) {
+            if (entry.getSid().equals(new PrincipalSid(user.getUserName()))) {
+                acl.deleteAce(entry.getId());
+            }
+        }
+        this.mutableAclService.updateAcl(acl);
     }
 
     private AclImpl getAcl(ObjectIdentity oid) {
-	// TODO the cast is a nasty hack
-	AclImpl acl = (AclImpl) this.mutableAclService.readAclById(oid);
-	return acl;
+        // TODO the cast is a nasty hack
+        AclImpl acl = (AclImpl) this.mutableAclService.readAclById(oid);
+        return acl;
     }
 
 }

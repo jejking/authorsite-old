@@ -95,10 +95,12 @@ public interface SystemUserDao {
     
     /**
      * Returns "page" of list of all known users in the system.
-     *
+     * 
+     * @param pageNumber 
+     * @param pageSize 
      * @return page of list of all known system users
      * @throws DataAccessException
      */
-    public List<SystemUser> findAllSystemUsers(int pageNumber, int pageSize) throws Exception;
+    public List<SystemUser> findAllSystemUsers(int pageNumber, int pageSize) throws DataAccessException;
 
 }

@@ -99,7 +99,26 @@ public interface CollectiveManagementService {
      * @throws DataAccessException
      * @see CollectiveDao#findCollectivesByPlaceWildcard(String)
      */
-     public List<Collective> findCollectivesByPlaceWildcard(String placeName) throws DataAccessException;
+    public List<Collective> findCollectivesByPlaceWildcard(String placeName) throws DataAccessException;
+
+    /**
+     * Returns list of all collectives known to the system.
+     *  
+     * @return list of all the collectives in the system
+     * @throws DataAccessException
+     * @see CollectiveDao#findAllCollectives()
+     */
+    public List<Collective> findAllCollectives() throws DataAccessException;
+
+    /**
+     * Returns "page" of the list of all collectives known to the system.
+     * 
+     * @param pageNumber
+     * @param pageSize
+     * @return "page" list
+     * @throws DataAccessException
+     */
+    public List<Collective> findAllCollectives(int pageNumber, int pageSize) throws DataAccessException;
 
     /**
      * Saves <em>new</em> instance to the database.

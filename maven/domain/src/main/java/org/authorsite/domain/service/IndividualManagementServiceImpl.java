@@ -46,7 +46,7 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      * @return individual dao.
      */
     public IndividualDao getIndividualDao() {
-	return this.individualDao;
+        return this.individualDao;
     }
 
     /**
@@ -59,14 +59,14 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      * @param individualDao
      */
     public void setIndividualDao(IndividualDao individualDao) {
-	this.individualDao = individualDao;
+        this.individualDao = individualDao;
     }
 
     /**
      * @return the individualAclManager
      */
     public IndividualAclManager getIndividualAclManager() {
-	return this.individualAclManager;
+        return this.individualAclManager;
     }
 
     /**
@@ -79,7 +79,7 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      * @param individualAclManager
      */
     public void setIndividualAclManager(IndividualAclManager individualAclManager) {
-	this.individualAclManager = individualAclManager;
+        this.individualAclManager = individualAclManager;
     }
 
     /*
@@ -89,7 +89,7 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      */
     @Transactional(readOnly = true)
     public int countIndividuals() throws DataAccessException {
-	return this.individualDao.countIndividuals();
+        return this.individualDao.countIndividuals();
     }
 
     /*
@@ -99,8 +99,8 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      */
     @Secured( { "ROLE_ADMINISTRATOR", "ACL_INDIVIDUAL_ADMIN" })
     public void delete(Individual i) throws DataAccessException {
-	this.individualDao.delete(i);
-	this.individualAclManager.deleteIndividualAcl(i);
+        this.individualDao.delete(i);
+        this.individualAclManager.deleteIndividualAcl(i);
     }
 
     /*
@@ -110,7 +110,7 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      */
     @Transactional(readOnly = true)
     public Individual findById(long id) throws DataAccessException {
-	return this.individualDao.findById(id);
+        return this.individualDao.findById(id);
     }
 
     /*
@@ -120,7 +120,7 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      */
     @Transactional(readOnly = true)
     public List<Individual> findIndividualsByName(String name) throws DataAccessException {
-	return this.individualDao.findIndividualsByName(name);
+        return this.individualDao.findIndividualsByName(name);
     }
 
     /*
@@ -131,8 +131,8 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      */
     @Transactional(readOnly = true)
     public List<Individual> findIndividualsByNameAndGivenNames(String name, String givenNames)
-	    throws DataAccessException {
-	return this.individualDao.findIndividualsByNameAndGivenNames(name, givenNames);
+            throws DataAccessException {
+        return this.individualDao.findIndividualsByNameAndGivenNames(name, givenNames);
     }
 
     /*
@@ -143,8 +143,8 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      */
     @Transactional(readOnly = true)
     public List<Individual> findIndividualsByNameAndGivenNamesWildcard(String name, String givenNames)
-	    throws DataAccessException {
-	return this.individualDao.findIndividualsByNameAndGivenNamesWildcard(name, givenNames);
+            throws DataAccessException {
+        return this.individualDao.findIndividualsByNameAndGivenNamesWildcard(name, givenNames);
     }
 
     /*
@@ -154,7 +154,7 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      */
     @Transactional(readOnly = true)
     public List<Individual> findIndividualsByNameWildcard(String name) throws DataAccessException {
-	return this.individualDao.findIndividualsByNameWildcard(name);
+        return this.individualDao.findIndividualsByNameWildcard(name);
     }
 
     /*
@@ -164,8 +164,8 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      */
     @Secured( { "ROLE_EDITOR", "ROLE_ADMINISTRATOR" })
     public void save(Individual i) throws DataAccessException {
-	this.individualDao.save(i);
-	this.individualAclManager.createIndividualAcl(i);
+        this.individualDao.save(i);
+        this.individualAclManager.createIndividualAcl(i);
     }
 
     /*
@@ -175,7 +175,19 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      */
     @Secured( { "ROLE_ADMINISTRATOR", "ACL_INDIVIDUAL_ADMIN" })
     public Individual update(Individual i) throws DataAccessException {
-	return this.individualDao.update(i);
+        return this.individualDao.update(i);
     }
 
+    @Transactional(readOnly = true)
+    public List<Individual> findAllIndividuals() throws DataAccessException {
+        return this.individualDao.findAllIndividuals();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Individual> findAllIndividuals(int pageNumber, int pageSize) throws DataAccessException {
+        return this.individualDao.findAllIndividuals(pageNumber, pageSize);
+    }
+
+    
+    
 }

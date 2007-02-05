@@ -18,6 +18,8 @@
  */
 package org.authorsite.security;
 
+import java.util.List;
+
 import org.acegisecurity.annotation.Secured;
 import org.authorsite.domain.Individual;
 import org.springframework.dao.DataAccessException;
@@ -29,6 +31,26 @@ import org.springframework.dao.DataAccessException;
  */
 public interface SystemUserManagementService {
 
+    /**
+     * Returns lists of all system users.
+     * 
+     * @return list of all system users
+     * @throws DataAccessException
+     */
+    @Secured( { "ROLE_ADMINISTRATOR" })
+    public List<SystemUser> findAllSystemUsers() throws DataAccessException;
+    
+    /**
+     * Returns "page" of all system users.
+     * 
+     * @param pageNumber
+     * @param pageSize
+     * @return page of list of all system users
+     * @throws DataAccessException
+     */
+    @Secured( { "ROLE_ADMINISTRATOR" })
+    public List<SystemUser> findAllSystemUsers(int pageNumber, int pageSize) throws DataAccessException;
+    
     /**
      * Creates brand new System User and the associated Individual
      * in the database.

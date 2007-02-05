@@ -19,17 +19,14 @@
 
 package org.authorsite.dao;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.authorsite.security.SystemUser;
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,10 +44,17 @@ public class SystemUserDaoJPA implements SystemUserDao {
      * Creates a new instance of SystemUserDaoJPA
      */
     public SystemUserDaoJPA() {
-	super();
+        super();
     }
     
         
+    /**
+     * Sets the entity manager reference.
+     * 
+     * <p>IoC use only.</p>
+     * 
+     * @param entityManager
+     */
     @PersistenceContext
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -103,7 +107,7 @@ public class SystemUserDaoJPA implements SystemUserDao {
 
     @Transactional(readOnly = true)
     @SuppressWarnings(value = { "unchecked" })
-    public List<SystemUser> findAllSystemUsers(int pageNumber, int pageSize) throws Exception {
+    public List<SystemUser> findAllSystemUsers(int pageNumber, int pageSize) throws DataAccessException {
         Query q = this.entityManager.createNamedQuery("AllSystemUsers");
         int startingRow = (pageNumber - 1) * pageSize;
         q.setFirstResult(startingRow);
