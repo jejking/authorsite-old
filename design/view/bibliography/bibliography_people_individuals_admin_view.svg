@@ -6,6 +6,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="1052.3622"
@@ -15,7 +16,7 @@
    inkscape:version="0.45"
    version="1.0"
    sodipodi:docbase="C:\john_projects\design\view\bibliography"
-   sodipodi:docname="bibliography_people_individuals.svg"
+   sodipodi:docname="bibliography_people_individuals_admin_view.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    sodipodi:modified="true">
   <defs
@@ -168,19 +169,19 @@
        y="94.094482" />
     <text
        xml:space="preserve"
-       style="font-size:13px;font-style:normal;font-weight:normal;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Verdana"
+       style="font-size:13px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Verdana"
        x="50.05127"
-       y="123.97144"
+       y="171.97144"
        id="text4636"><tspan
          sodipodi:role="line"
          id="tspan4638"
          x="50.05127"
-         y="123.97144"
-         style="font-size:12">bibliography</tspan></text>
+         y="171.97144"
+         style="font-size:12px">bibliography</tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot4640"
-       transform="translate(0,64)"><flowRegion
+       transform="translate(0,112)"><flowRegion
          id="flowRegion4642"><rect
            id="rect4644"
            width="79.928307"
@@ -190,7 +191,7 @@
          id="flowPara4646">community</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot4648"
-       transform="translate(-4,64)"><flowRegion
+       transform="translate(-4,112)"><flowRegion
          id="flowRegion4650"><rect
            id="rect4652"
            width="94.201218"
@@ -199,13 +200,13 @@
            y="175.08105" /></flowRegion><flowPara
          id="flowPara4656">biography</flowPara></flowRoot>    <text
        xml:space="preserve"
-       style="font-size:13px;font-style:normal;font-weight:normal;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Verdana"
+       style="font-size:13px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Verdana"
        x="51.101074"
-       y="275.97144"
+       y="323.97144"
        id="text4660"><tspan
          sodipodi:role="line"
          x="51.101074"
-         y="275.97144"
+         y="323.97144"
          id="tspan4664"
          style="font-size:12px">about</tspan></text>
     <rect
@@ -257,7 +258,7 @@
     <flowRoot
        xml:space="preserve"
        id="flowRoot1814"
-       transform="translate(9.155322,-6.642024)"><flowRegion
+       transform="translate(9.155322,41.357976)"><flowRegion
          id="flowRegion1816"><rect
            id="rect1818"
            width="57.344604"
@@ -267,7 +268,7 @@
          id="flowPara1822">works</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot1826"
-       transform="translate(5.155322,-10.64202)"><flowRegion
+       transform="translate(5.155322,37.35798)"><flowRegion
          id="flowRegion1828"><rect
            id="rect1830"
            width="62.800812"
@@ -317,7 +318,8 @@
          y="623.25049">  </tspan></text>
     <flowRoot
        xml:space="preserve"
-       id="flowRoot2632"><flowRegion
+       id="flowRoot2632"
+       transform="translate(0,48)"><flowRegion
          id="flowRegion2634"><rect
            id="rect2636"
            width="68.509979"
@@ -521,5 +523,169 @@
            x="263.57312"
            y="611.83215" /></flowRegion><flowPara
          id="flowPara1888">&lt;previous    1 2 3 4 5   next&gt;</flowPara><flowPara
-         id="flowPara1890" /></flowRoot>  </g>
+         id="flowPara1890" /></flowRoot>    <image
+       y="138.91322"
+       x="420"
+       id="image2472"
+       height="21.181263"
+       width="18.326681"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_kuser.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_kuser.png" />
+    <image
+       y="312.55884"
+       x="442.48553"
+       id="image2475"
+       height="21.181263"
+       width="18.326681"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_kuser.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_kuser.png" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2477"
+       transform="translate(-2.0371094,-31.576916)"><flowRegion
+         id="flowRegion2479"><rect
+           id="rect2481"
+           width="79.928307"
+           height="20.933605"
+           x="51.382484"
+           y="143.68065" /></flowRegion><flowPara
+         id="flowPara2483">admin</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2485"
+       transform="translate(14.527573,-5.2325864)"><flowRegion
+         id="flowRegion2487"><rect
+           id="rect2489"
+           width="108.61752"
+           height="20.413834"
+           x="51.382484"
+           y="143.68065" /></flowRegion><flowPara
+         id="flowPara2491">System users</flowPara></flowRoot>    <image
+       y="166.71933"
+       x="450"
+       id="image2548"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="190.37555"
+       x="391.62363"
+       id="image2559"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="213.96985"
+       x="453.27902"
+       id="image2561"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="244.41873"
+       x="394.2843"
+       id="image2563"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="266.30386"
+       x="443.76373"
+       id="image2565"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="291.04358"
+       x="387.62363"
+       id="image2567"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="365.26273"
+       x="439.95764"
+       id="image2569"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="342.42606"
+       x="384.76904"
+       id="image2571"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="391.90549"
+       x="385.72055"
+       id="image2573"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="414.74216"
+       x="441.86069"
+       id="image2575"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="440.43338"
+       x="385.72055"
+       id="image2577"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="465.1731"
+       x="439.0061"
+       id="image2579"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="495.62198"
+       x="388.57513"
+       id="image2581"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <image
+       y="517.50714"
+       x="442.81223"
+       id="image2583"
+       height="17.375154"
+       width="16.423626"
+       sodipodi:absref="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png"
+       xlink:href="C:\downloads\crystal\crystal\64x64\apps\yast_user_add.png" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.29913461px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 470.14957,322.70458 L 487.94,313.21774 L 487.94,294.24405 L 630.26347,294.24405 L 630.26347,370.1388 L 487.94,370.1388 L 487.94,332.19143 L 470.14957,322.70458 z "
+       id="path2587" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3558"><flowRegion
+         id="flowRegion3560"><rect
+           id="rect3562"
+           width="130.91489"
+           height="60.55722"
+           x="489.08511"
+           y="303.53726" /></flowRegion><flowPara
+         id="flowPara3564">Username: fgjuenger</flowPara><flowPara
+         id="flowPara3566">Enabled: yes</flowPara><flowPara
+         id="flowPara3570">Roles: EDITOR, COMMUNITY</flowPara><flowPara
+         id="flowPara3568" /></flowRoot>  </g>
 </svg>
