@@ -527,12 +527,12 @@
          style="font-size:8px;text-align:center;text-anchor:middle"
          id="tspan4674">Page created 27-09-2006 by John King. Last updated 27-09-2006 by Admin</tspan></text>
     <rect
-       style="fill:#cccccc;fill-opacity:1"
+       style="fill:#ccc;fill-opacity:1"
        id="rect4678"
        width="611.15027"
        height="570.07172"
        x="230"
-       y="95.022766" />
+       y="94.022766" />
     <rect
        style="fill:#ccc;fill-opacity:1"
        id="rect4692"
@@ -580,7 +580,7 @@
          id="flowPara1812">/bibliography/people/individuals/all/$[pageNumber]</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot1541"
-       transform="translate(0,44)"><flowRegion
+       transform="translate(0,-8)"><flowRegion
          id="flowRegion1543"><rect
            id="rect1545"
            width="445.6998"
@@ -620,7 +620,7 @@
            y="175.08105" /></flowRegion><flowPara
          id="flowPara2638">search</flowPara></flowRoot>    <g
        id="g2700"
-       transform="translate(-9.705078,49.1926)">
+       transform="translate(-9.705078,-2.8074)">
       <flowRoot
          id="flowRoot2670"
          xml:space="preserve"><flowRegion
@@ -643,7 +643,7 @@
            id="flowPara2690" /></flowRoot>    </g>
     <g
        id="g2711"
-       transform="translate(-8.58695,99.1071)">
+       transform="translate(-8.58695,47.1071)">
       <flowRoot
          id="flowRoot2713"
          xml:space="preserve"><flowRegion
@@ -666,7 +666,7 @@
            id="flowPara2729" /></flowRoot>    </g>
     <g
        id="g2731"
-       transform="translate(-7.44153,150.9743)">
+       transform="translate(-7.44153,98.9743)">
       <flowRoot
          id="flowRoot2733"
          xml:space="preserve"><flowRegion
@@ -689,7 +689,7 @@
            id="flowPara2749" /></flowRoot>    </g>
     <g
        id="g2751"
-       transform="translate(-9.34458,199.0175)">
+       transform="translate(-9.34458,147.0175)">
       <flowRoot
          id="flowRoot2753"
          xml:space="preserve"><flowRegion
@@ -712,7 +712,7 @@
            id="flowPara2769" /></flowRoot>    </g>
     <g
        id="g2771"
-       transform="translate(-9.16862,250.8668)">
+       transform="translate(-9.16862,198.8668)">
       <flowRoot
          id="flowRoot2773"
          xml:space="preserve"><flowRegion
@@ -735,7 +735,7 @@
            id="flowPara2789" /></flowRoot>    </g>
     <g
        id="g2791"
-       transform="translate(-7.16862,299.9584)">
+       transform="translate(-7.16862,247.9584)">
       <flowRoot
          id="flowRoot2793"
          xml:space="preserve"><flowRegion
@@ -758,7 +758,7 @@
            id="flowPara2809" /></flowRoot>    </g>
     <g
        id="g2811"
-       transform="translate(-8.79876,349.0859)">
+       transform="translate(-8.79876,297.0859)">
       <flowRoot
          id="flowRoot2813"
          xml:space="preserve"><flowRegion
@@ -781,7 +781,7 @@
            id="flowPara2829" /></flowRoot>    </g>
     <g
        id="g2831"
-       transform="translate(-7.63542,400.9352)">
+       transform="translate(-7.63542,348.9352)">
       <flowRoot
          id="flowRoot2833"
          xml:space="preserve"><flowRegion
@@ -837,12 +837,11 @@
            y="143.68065" /></flowRegion><flowPara
          id="flowPara2491">System users</flowPara></flowRoot>    <path
        style="fill:white;fill-opacity:1;fill-rule:evenodd;stroke:black;stroke-width:1.29913461px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 470.14957,374.70458 L 487.94,365.21774 L 487.94,346.24405 L 630.26347,346.24405 L 630.26347,422.1388 L 487.94,422.1388 L 487.94,384.19143 L 470.14957,374.70458 z "
+       d="M 470.14957,322.70458 L 487.94,313.21774 L 487.94,294.24405 L 630.26347,294.24405 L 630.26347,370.1388 L 487.94,370.1388 L 487.94,332.19143 L 470.14957,322.70458 z "
        id="path2587" />
     <flowRoot
        xml:space="preserve"
-       id="flowRoot3558"
-       transform="translate(0,52)"><flowRegion
+       id="flowRoot3558"><flowRegion
          id="flowRegion3560"><rect
            id="rect3562"
            width="130.91489"
@@ -854,7 +853,7 @@
          id="flowPara3570">Roles: EDITOR, COMMUNITY</flowPara><flowPara
          id="flowPara3568" /></flowRoot>    <g
        id="g2535"
-       transform="matrix(0.414567,0,0,0.417426,440.7777,364.9055)">
+       transform="matrix(0.414567,0,0,0.417426,440.7777,312.9055)">
       <g
          style="display:inline"
          inkscape:label="cipek"
@@ -1015,46 +1014,25 @@
       </g>
     </g>
     <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:black;stroke-opacity:1"
-       id="rect2562"
-       width="612.10181"
-       height="530.07172"
-       x="230"
-       y="134.09448" />
-    <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:black;stroke-opacity:1"
-       id="rect3449"
-       width="111.59837"
-       height="39.119358"
-       x="230"
-       y="94.094482" />
-    <rect
-       style="opacity:1;fill:#b3b3b3;fill-opacity:1;stroke:black;stroke-opacity:1"
+       style="fill:#b3b3b3;fill-opacity:1;stroke:none;stroke-opacity:1"
        id="rect3455"
        width="140"
        height="40"
-       x="342"
-       y="94.094482"
+       x="702.5"
+       y="95.594482"
        ry="15"
        rx="0" />
     <flowRoot
        xml:space="preserve"
-       id="flowRoot3457"><flowRegion
+       id="flowRoot3457"
+       transform="translate(360.5,1.5)"
+       style="stroke:none"><flowRegion
          id="flowRegion3459"><rect
            id="rect3461"
            width="117.98941"
            height="18.079021"
            x="352.06516"
-           y="107.5226" /></flowRegion><flowPara
-         id="flowPara3463">Create</flowPara></flowRoot>    <flowRoot
-       xml:space="preserve"
-       id="flowRoot3465"
-       transform="translate(0,-2)"><flowRegion
-         id="flowRegion3467"><rect
-           id="rect3469"
-           width="97.055801"
-           height="17.127495"
-           x="237.88187"
-           y="110.37718" /></flowRegion><flowPara
-         id="flowPara3471">Browse</flowPara></flowRoot>  </g>
+           y="107.5226"
+           style="stroke:none" /></flowRegion><flowPara
+         id="flowPara3463">Create</flowPara></flowRoot>  </g>
 </svg>
