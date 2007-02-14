@@ -780,7 +780,8 @@
       </g>
       <flowRoot
          xml:space="preserve"
-         id="flowRoot8677"><flowRegion
+         id="flowRoot8677"
+         transform="translate(0,-24)"><flowRegion
            id="flowRegion8679"><rect
              id="rect8681"
              width="245.15195"
@@ -788,6 +789,24 @@
              x="434.84805"
              y="318.76169" /></flowRegion><flowPara
            id="flowPara8683">Sorry not possible. This individual is still</flowPara><flowPara
-           id="flowPara8685">associated with one or more works in the system. These must be deleted first or the association removed.</flowPara></flowRoot>    </g>
+           id="flowPara8685">associated with one or more works in the system. These must be deleted first or the associations removed.</flowPara></flowRoot>      <rect
+         style="opacity:1;fill:#999;fill-opacity:1;stroke:none;stroke-opacity:1"
+         id="rect8687"
+         width="110.8448"
+         height="35.995934"
+         x="540"
+         y="394.09448"
+         transform="translate(-18.64479,-19.31231)" />
+      <flowRoot
+         xml:space="preserve"
+         id="flowRoot8689"
+         transform="translate(2,-14)"><flowRegion
+           id="flowRegion8691"><rect
+             id="rect8693"
+             width="77.073723"
+             height="25.691242"
+             x="558.54663"
+             y="399.64154" /></flowRegion><flowPara
+           id="flowPara8695">OK</flowPara></flowRoot>    </g>
   </g>
 </svg>
