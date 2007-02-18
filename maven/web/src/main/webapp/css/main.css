@@ -1,0 +1,50 @@
+body {
+   font-family: verdana, arial, sans-serif;
+   font-size: medium;
+   background-color: white;
+  }
+
+#header {
+    background-color: blue;
+}
+
+#logo {
+    font-size: x-large;
+}
+
+#centre {
+    float: left;
+    width: 80%;
+    background-color: red;
+}
+
+#nav {
+    float: left;
+    width: 20%;
+    background-color: green;
+}
+
+#nav div {
+    padding: 10px;
+}
+
+#main {
+    float: right;
+    width: 80%;
+    background-color: yellow;
+}
+
+#extra {
+    float: right;
+    width: 20%;
+    background-color: purple;
+}
+
+#footer {
+    clear: both;
+    background-color: grey;
+}
+
+h1 {
+   color: red;
+}
