@@ -2,6 +2,8 @@ body {
    font-family: verdana, arial, sans-serif;
    font-size: medium;
    background-color: white;
+   padding-left: 5%;
+   padding-right: 5%;
   }
 
 #header {
@@ -9,42 +11,71 @@ body {
 }
 
 #logo {
+    float:  left;
+    width: 343px;
     font-size: x-large;
 }
 
+#loggedInUser {
+    padding-left: 2em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    float:left;
+    width: 40%;
+    
+}
+
+#search {
+    float: right;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    background-color: pink;
+    font-size: smaller;
+}
+
 #centre {
-    float: left;
-    width: 80%;
-    background-color: red;
+    clear: both;
 }
 
 #nav {
     float: left;
     width: 20%;
     background-color: green;
+    padding-bottom: 1em;
 }
 
 #nav div {
-    padding: 10px;
+    /*padding: 10px;*/
 }
 
 #main {
-    float: right;
-    width: 80%;
+    float: left;
+    width: 60%;
     background-color: yellow;
+    padding-bottom: 1em;
 }
 
 #extra {
-    float: right;
+    float: left;
     width: 20%;
     background-color: purple;
+    padding-bottom: 1em;
 }
 
 #footer {
     clear: both;
     background-color: grey;
+    text-align: center;
+    font-size: x-small;
 }
 
 h1 {
    color: red;
+}
+
+span.username {
+    font-family: courier, monospace;
+    font-weight: bolder;
 }
