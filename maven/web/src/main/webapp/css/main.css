@@ -1,6 +1,6 @@
 body {
    font-family: verdana, arial, sans-serif;
-   font-size: medium;
+   font-size: small;
    background-color: #ece8df;
    padding-left: 3%;
    padding-right: 3%;
@@ -30,7 +30,7 @@ body {
     border-style: solid;
     border-color: #685a30;
     border-width: thin;
-    
+
 }
 
 #search-text {
@@ -69,7 +69,7 @@ body {
     /*padding: 10px;*/
     border-style: solid;
     border-color: #685a30;
-    border-width: thin; 
+    border-width: thin;
     background-color: #d9d1c1;
     width:80%;
     padding-top: 1em;
@@ -148,6 +148,5 @@ div.extra_box_content ul {
 
 
 p {
-    font-size: smaller;
     margin: 1em;
 }
