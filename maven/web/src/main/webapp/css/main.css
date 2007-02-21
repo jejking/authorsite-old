@@ -1,13 +1,16 @@
 body {
-   font-family: verdana, arial, sans-serif;
+   font-family: Tahoma, Verdana, Arial, sans-serif;
    font-size: small;
    background-color: #ece8df;
-   padding-left: 3%;
-   padding-right: 3%;
+   margin: 0;
+   padding: 0;
   }
 
 #header {
     /*background-color; */
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
 }
 
 #logo {
@@ -51,7 +54,7 @@ body {
     padding-top: 0.5em;
     padding-left: 1em;
     padding-right: 1em;
-    padding-bottom: 1em;
+    padding-bottom: 0.5em;
 }
 
 #centre {
@@ -63,6 +66,7 @@ body {
     float: left;
     width: 20%;
     padding-bottom: 1em;
+    
 }
 
 #nav div {
@@ -72,6 +76,7 @@ body {
     border-width: thin;
     background-color: #d9d1c1;
     width:80%;
+    margin-left: 10px;
     padding-top: 1em;
     padding-bottom: 1em;
 }
@@ -119,6 +124,7 @@ span.username {
 
 div.extra_box {
     padding-bottom: 1em;
+    margin-right: 10px;
 }
 
 div.extra_box_heading  {
