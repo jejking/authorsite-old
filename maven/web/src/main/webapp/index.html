@@ -8,96 +8,97 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         <link rel="stylesheet" type="text/css" href="css/main.css">
     </head>
     <body>
-        <div id="header">
-            <div id="logo">
-                <img src="img/books.jpg" alt="authorsite.org"/>
-            </div>
-            <div id="loggedInUser">Logged in as user <span class="username">hanswurst</span>. <span class="logout"><a href="http:///logout">logout</a></span></div>
-            <div id="search">
-                <div id="search-text">Search</div>
-                <form id="header-search" action="/search" method="post">
-                    <div id="search-box">
-                        <input type="text" id="header-search-term" value="" size="25" />
-                        <input type="submit" value="go" id="header-search-button" />
-                    </div>
-                </form>
-            </div>
-        </div>
+        <div id="container">
 
-        <div id="centre">
-            <div id="nav">
-                <div>
-                    <ul>
-                        <li>Administration</li>
-                        <li>
+            <div id="header">
+                <div id="title">
+                    <h1>authorsite.org</h1>
+                </div>
+                <div id="search">
+                    <div id="search-text">Search</div>
+                    <form id="header-search" action="/search" method="post">
+                        <div id="search-box">
+                            <input type="text" id="header-search-term" value="" size="25" />
+                            <input type="submit" value="go" id="header-search-button" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="centre">
+                <div id="nav">
+                    <div>
+                        <ul>
+                            <li>Administration</li>
+                            <li>
+                                <ul>
+                                    <li>System Users</li>
+                                </ul>
+                            </li>
+                            <li>People</li>
+                            <li>Bibliography</li>
+                            <li>Mail Archive</li>
+                            <li>About</li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="main">
+                    <div>
+                        <h1>A Website About Ernst Jünger</h1>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi malesuada, ligula venenatis interdum placerat,
+                            ligula pede varius diam, nec tincidunt ligula ligula eget felis. Nunc eget mauris. Sed vitae magna. Nam rutrum auctor erat.
+                            Suspendisse et est ac enim placerat accumsan. Morbi vestibulum orci ut sapien. Proin neque tellus, gravida vestibulum,
+                            ultrices ac, condimentum quis, velit. Etiam et pede. Cras fermentum.
+                            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                            Mauris sodales porta dui. Vivamus egestas velit vel metus gravida hendrerit. Curabitur sodales felis ut felis.
+                            Nulla nonummy, enim ut tristique interdum, odio elit dapibus sem, sed dictum leo orci sed quam. In pulvinar lacinia neque.
+                            Donec ut elit. Quisque purus.
+                        </p>
+                        <p>
+                            Ut dapibus condimentum libero. Nulla aliquam. Cras venenatis augue porta nisl. Ut ac mi nec nibh euismod tempus.
+                            Sed et ante. Quisque pellentesque pretium mauris. In congue nisi quis velit. Sed mollis.
+                            Pellentesque velit nulla, sagittis a, elementum et, sagittis quis, felis. Fusce nec lorem quis turpis rutrum bibendum.
+                            Nunc magna eros, pulvinar nec, dictum et, lobortis eu, felis. Praesent sit amet ligula. Praesent a ligula vitae pede imperdiet viverra.
+                            In iaculis viverra mauris. In iaculis nibh eget nisi. Sed tincidunt nisi in lacus. Ut nonummy. Aenean ut orci vitae magna rhoncus pellentesque.
+                        </p>
+                    </div>
+                </div>
+                <div id="extra">
+                    <div class="extra_box">
+                        <div class="extra_box_heading">
+                            <h4>Latest Postings</h4>
+                        </div>
+                        <div class="extra_box_content">
                             <ul>
-                                <li>System Users</li>
+                                <li>John King - whatever next</li>
+                                <li>Hans Wurst - another sausage</li>
                             </ul>
-                        </li>
-                        <li>People</li>
-                        <li>Bibliography</li>
-                        <li>Mail Archive</li>
-                        <li>About</li>
-                    </ul>
-                </div>
-            </div>
-            <div id="main">
-                <div>
-                    <h1>A Website About Ernst Jünger</h1>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi malesuada, ligula venenatis interdum placerat,
-                        ligula pede varius diam, nec tincidunt ligula ligula eget felis. Nunc eget mauris. Sed vitae magna. Nam rutrum auctor erat.
-                        Suspendisse et est ac enim placerat accumsan. Morbi vestibulum orci ut sapien. Proin neque tellus, gravida vestibulum,
-                        ultrices ac, condimentum quis, velit. Etiam et pede. Cras fermentum.
-                        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                        Mauris sodales porta dui. Vivamus egestas velit vel metus gravida hendrerit. Curabitur sodales felis ut felis.
-                        Nulla nonummy, enim ut tristique interdum, odio elit dapibus sem, sed dictum leo orci sed quam. In pulvinar lacinia neque.
-                        Donec ut elit. Quisque purus.
-                    </p>
-                    <p>
-                        Ut dapibus condimentum libero. Nulla aliquam. Cras venenatis augue porta nisl. Ut ac mi nec nibh euismod tempus.
-                        Sed et ante. Quisque pellentesque pretium mauris. In congue nisi quis velit. Sed mollis.
-                        Pellentesque velit nulla, sagittis a, elementum et, sagittis quis, felis. Fusce nec lorem quis turpis rutrum bibendum.
-                        Nunc magna eros, pulvinar nec, dictum et, lobortis eu, felis. Praesent sit amet ligula. Praesent a ligula vitae pede imperdiet viverra.
-                        In iaculis viverra mauris. In iaculis nibh eget nisi. Sed tincidunt nisi in lacus. Ut nonummy. Aenean ut orci vitae magna rhoncus pellentesque.
-                    </p>
-                </div>
-            </div>
-            <div id="extra">
-                <div class="extra_box">
-                    <div class="extra_box_heading">
-                        <h4>Latest Postings</h4>
+                        </div>
                     </div>
-                    <div class="extra_box_content">
-                        <ul>
-                            <li>John King - whatever next</li>
-                            <li>Hans Wurst - another sausage</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="extra_box">
-                    <div class="extra_box_heading">
-                        <h4>Latest Mails</h4>
-                    </div>
-                    <div class="extra_box_content">
-                        <ul>
-                            <li><span class="date">29-2-2007 23:55:05</span> News it is</li>
-                            <li><span class="date">29-2-2007 23:55:00</span> No news?</li>
-                            <li><span class="date">29-2-2007 23:45:34</span> Anyone out there?</li>
-                        </ul>
+                    <div class="extra_box">
+                        <div class="extra_box_heading">
+                            <h4>Latest Mails</h4>
+                        </div>
+                        <div class="extra_box_content">
+                            <ul>
+                                <li><span class="date">29-2-2007 23:55:05</span> News it is</li>
+                                <li><span class="date">29-2-2007 23:55:00</span> No news?</li>
+                                <li><span class="date">29-2-2007 23:45:34</span> Anyone out there?</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="footer">
-            <div id="rights">
-                Copyright (C) 2007. John King
-            </div>
-            <div id="lifecycle">
-                Created 19th February 2007 by John King, Updated 20th February 2007 by Hans Wurst.
-            </div>
-            <div id="imprint">
-                <a href="http://imprint.html">Imprint</a>
+            <div id="footer">
+                <div id="rights">
+                    Copyright (C) 2007. John King
+                </div>
+                <div id="lifecycle">
+                    Created 19th February 2007 by John King, Updated 20th February 2007 by Hans Wurst.
+                </div>
+                <div id="imprint">
+                    <a href="http://imprint.html">Imprint</a>
+                </div>
             </div>
         </div>
     </body>

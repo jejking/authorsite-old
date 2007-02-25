@@ -6,41 +6,48 @@ body {
    padding: 0;
   }
 
+#container {
+    margin: 5px;
+    border-left-style: solid;
+    border-left-color: #685a30;
+    border-left-width: thin;
+    border-right-width: thin;
+    border-right-style: solid;
+    border-right-color: #685a30;
+}
+  
+
 #header {
-    /*background-color; */
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
+    background-image: url(../img/booksBorder.jpg);
+    color: white;
+    text-shadow: #3a2e0a 3px 3px 3px;
+    font-style: italic;
+    font-family: serif;
+    height: 90px;
 }
 
-#logo {
-    float:  left;
-    width: 343px;
-    font-size: x-large;
-}
-
-#loggedInUser {
-    padding-left: 2em;
-    padding-top: 2em;
-    padding-bottom: 2em;
-    float:left;
-    width: 40%;
+#title  {
+    float: left;
+    background-color: #685a30;
+    background-image: url(../img/handsAndBooks.jpg);
+    background-repeat: no-repeat;
+    height: 90px;
+    padding-left: 20px;
 }
 
 #search {
     float: right;
+    width: 20%;
+    background-color: blue;
     background-color: #d9d1c1;
     border-style: solid;
     border-color: #685a30;
     border-width: thin;
-
 }
 
 #search-text {
     font-size: smaller;
     background-color: #685a30;
-    padding-left: 1em;
-    padding-right: 1em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
     color: white;
@@ -52,8 +59,6 @@ body {
 
 #search-box {
     padding-top: 0.5em;
-    padding-left: 1em;
-    padding-right: 1em;
     padding-bottom: 0.5em;
 }
 
@@ -66,7 +71,7 @@ body {
     float: left;
     width: 20%;
     padding-bottom: 1em;
-    
+    background-color: #ece8df;    
 }
 
 #nav div {
@@ -89,6 +94,7 @@ body {
     float: left;
     width: 60%;
     padding-bottom: 1em;
+    background-color: #ece8df;
 }
 
 #main div {
