@@ -37,12 +37,14 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                     <div id="content-nav-heading">
                         <h3>Content</h3>
                     </div>
-                    <ul
-                        <li>People</li>
-                        <li>Bibliography</li>
-                        <li>Mail Archive</li>
-                        <li>About</li>
-                    </ul>
+                    <div id="content-nav-listing">
+                        <ul>
+                            <li><a href="/people/index">People</a></li>
+                            <li><a href="/works/index">Bibliography</a></li>
+                            <li><a href="/mail/index">Mail Archive</a></li>
+                            <li><a href="/content/about/index">About</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div id="main">
@@ -69,17 +71,17 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
             </div>
             <div id="extra">
                 <div class="extra_box">
-                    <div class="extra_box_heading">
+                    <div id="latest-postings" class="extra_box_heading">
                         <h4>Latest Postings</h4>
                     </div>
                     <div class="extra_box_content">
                         <ul>
-                            <li>John King - whatever next</li>
-                            <li>Hans Wurst - another sausage</li>
+                            <li><a href="/people/individuals/123">John King</a> - <a href="/content/blurb/1" class="work-title">whatever next</a></li>
+                            <li><a href="/people/individuals/456">Hans Wurst</a> - <a href="/content/foobar/2" class="work-title">another sausage</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="extra_box">
+                <div id="latest-mail" class="extra_box">
                     <div class="extra_box_heading">
                         <h4>Latest Mails</h4>
                     </div>
@@ -95,10 +97,10 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         </div>
         <div id="footer">
             <div id="rights">
-                Copyright (C) 2007. John King
+                Copyright (C) 2007. <a href="/people/individuals/123">John King</a>
             </div>
             <div id="lifecycle">
-                Created 19th February 2007 by John King, Updated 20th February 2007 by Hans Wurst.
+                Created 19th February 2007 by <a href="/people/individuals/123">John King</a>, Updated 20th February 2007 by <a href="/people/individuals/456">Hans Wurst</a>.
             </div>
             <div id="imprint">
                 <a href="http://imprint.html">Imprint</a>
