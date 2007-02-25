@@ -2,27 +2,15 @@ body {
    font-family: Tahoma, Verdana, Arial, sans-serif;
    font-size: small;
    background-color: #ece8df;
-   margin: 0;
+   margin: 10px;
    padding: 0;
+   border-color: #685a30;
+   border-width: thin;
+   border-style: solid;
   }
-
-#container {
-    margin: 5px;
-    border-left-style: solid;
-    border-left-color: #685a30;
-    border-left-width: thin;
-    border-right-width: thin;
-    border-right-style: solid;
-    border-right-color: #685a30;
-}
-  
 
 #header {
     background-image: url(../img/booksBorder.jpg);
-    color: white;
-    text-shadow: #3a2e0a 3px 3px 3px;
-    font-style: italic;
-    font-family: serif;
     height: 90px;
 }
 
@@ -32,24 +20,26 @@ body {
     background-image: url(../img/handsAndBooks.jpg);
     background-repeat: no-repeat;
     height: 90px;
-    padding-left: 20px;
+    padding-left: 30px;
+}
+
+#title h1 {
+    color: white;
+    text-shadow: #3a2e0a 3px 3px 3px;
+    font-style: italic;
+    font-family: serif;
+    letter-spacing: 0.5em;
 }
 
 #search {
+    margin-top: 0.2em;
     float: right;
-    width: 20%;
-    background-color: blue;
-    background-color: #d9d1c1;
-    border-style: solid;
-    border-color: #685a30;
-    border-width: thin;
+    margin-right: 20px;
 }
 
 #search-text {
     font-size: smaller;
-    background-color: #685a30;
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
+    padding: 0.2em;
     color: white;
     text-shadow: #3a2e0a 3px 3px 3px;
     font-style: italic;
@@ -58,8 +48,8 @@ body {
 }
 
 #search-box {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    background-color: #d9d1c1;
+    padding: 0.5em;
 }
 
 #centre {
@@ -70,25 +60,52 @@ body {
 #nav {
     float: left;
     width: 20%;
-    padding-bottom: 1em;
-    background-color: #ece8df;    
+    padding-bottom: 3em;
 }
 
-#nav div {
-    /*padding: 10px;*/
+#admin-nav {
+    width: 80%;
+    margin-bottom: 1em;
+    margin-left: 10px;
+    background-color: white;
+    
+    border-style: solid;
+    border-color: red;
+    border-width: 2px;
+    
+    padding-bottom: 10px;
+}
+
+#admin-nav ul {
+    list-style-type: none;
+}
+
+#admin-nav li {
+    margin-left: -1em;
+}
+
+#admin-nav-heading {
+    padding-top: 0px;
+    padding-left: 10px;
+}
+
+#admin-nav-heading h3 {
+    padding-left: 25px;
+    min-height: 25px;
+    background-image: url(../img/tango/preferences-system.png);
+    background-repeat: no-repeat;
+}
+
+
+#content-nav {
+    margin-left: 10px;
     border-style: solid;
     border-color: #685a30;
     border-width: thin;
     background-color: #d9d1c1;
-    width:80%;
-    margin-left: 10px;
-    padding-top: 1em;
-    padding-bottom: 1em;
+    width: 80%;
 }
 
-#nav ul {
-    list-style-type: none;
-}
 
 #main {
     float: left;
@@ -116,6 +133,7 @@ body {
 
 #footer {
     padding-top: 2em;
+    padding-bottom: 3em;
     clear: both;
     text-align: center;
     font-size: x-small;
