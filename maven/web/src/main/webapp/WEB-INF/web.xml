@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-        version="2.5"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
   <display-name>Authorsite Web Application</display-name>
   
+    <error-page>
+        <error-code>404</error-code>
+        <location>/jsp/errors/404.jsp</location>
+    </error-page>
+
+    
+    
+    <security-constraint>
+        <display-name>NoDirectJspInvocation</display-name>
+        <web-resource-collection>
+            <web-resource-name>Jsps</web-resource-name>
+            <description/>
+            <url-pattern>/jsp/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <!-- no role is allowed to invoke a jsp directly -->
+        <auth-constraint/>
+    </security-constraint>
+        
+    
 </web-app>

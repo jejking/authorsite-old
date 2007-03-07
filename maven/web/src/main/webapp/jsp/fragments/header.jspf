@@ -1,0 +1,25 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+    <head>
+        <title>authorsite.org demo</title>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+    </head>
+    <body>
+    <div id="header">
+            <div id="title">
+                <h1>authorsite.org</h1>
+            </div>
+            <div id="search">
+                <div id="search-text">Search</div>
+                <form id="header-search" action="/search" method="post">
+                    <div id="search-box">
+                        <input type="text" id="header-search-term" value="" size="25" />
+                        <input type="image" name="submit" id="header-search-button" src="img/tango/system-search.png"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="centre">

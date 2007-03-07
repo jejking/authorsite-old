@@ -1,0 +1,14 @@
+ </div>
+        <div id="footer">
+            <div id="rights">
+                Copyright (C) 2007. <a href="/people/individuals/123">John King</a>
+            </div>
+            <div id="lifecycle">
+                Created 19th February 2007 by <a href="/people/individuals/123">John King</a>, Updated 20th February 2007 by <a href="/people/individuals/456">Hans Wurst</a>.
+            </div>
+            <div id="imprint">
+                <a href="http://imprint.html">Imprint</a>
+            </div>
+        </div>
+    </body>
+</html>

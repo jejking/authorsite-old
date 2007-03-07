@@ -1,0 +1,24 @@
+<div id="nav">
+    <div id="admin-nav">
+        <div id="admin-nav-heading">
+            <h3>Administration</h3>
+        </div>
+        <ul>
+            <li><img alt="system users" src="img/tango/system-users.png" /> <a href="/admin/system_users">System Users</a></li>
+            <li><img alt="logout" src="img/tango/system-log-out.png" /> <a href="/logout">Logout <span class="username">hanswurst</span></a></li>
+        </ul>
+    </div>
+    <div id="content-nav">
+        <div id="content-nav-heading">
+            <h3>Content</h3>
+        </div>
+        <div id="content-nav-listing">
+            <ul>
+                <li><a href="/people/index">People</a></li>
+                <li><a href="/works/index">Bibliography</a></li>
+                <li><a href="/mail/index">Mail Archive</a></li>
+                <li><a href="/content/about/index">About</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

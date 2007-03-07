@@ -1,0 +1,60 @@
+<div id="extra">
+    <div class="extra_box">
+        <div id="latest-postings" class="extra_box_heading">
+            <h4>Latest Postings</h4>
+        </div>
+        <div class="extra_box_content">
+            <table>
+                <tr>
+                    <td>
+                        <a href="/people/individuals/123">John King</a>
+                    </td>
+                    <td>
+                        <a href="/content/blurb/1" class="work-title">whatever next</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="/people/individuals/456">Hans Wurst</a>
+                    </td>
+                    <td>
+                        <a href="/content/foobar/2" class="work-title">another sausage</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="latest-mail" class="extra_box">
+        <div class="extra_box_heading">
+            <h4>Latest Mails</h4>
+        </div>
+        <div class="extra_box_content">
+            <table>
+                <tr>
+                    <td class="date">
+                        29-2-2007 23:55:05
+                    </td>
+                    <td>
+                        <a href="/mail/1">News it is</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="date">
+                        29-2-2007 23:55:00
+                    </td>
+                    <td>
+                        <a href="/mail/2">No news?</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="date">
+                        29-2-2007 23:45:34
+                    </td>
+                    <td>
+                        <a href="/mail/3">Anyone out there?</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
