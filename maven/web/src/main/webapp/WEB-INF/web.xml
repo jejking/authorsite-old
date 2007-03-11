@@ -3,6 +3,18 @@
 
   <display-name>Authorsite Web Application</display-name>
   
+    <context-param>
+        <param-name>siteName</param-name>
+        <param-value>authorsite.org</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>ErrorServlet</servlet-name>
+        <servlet-class>org.authorsite.web.error.ErrorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ErrorServlet</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
     <error-page>
         <error-code>404</error-code>
         <location>/jsp/errors/404.jsp</location>

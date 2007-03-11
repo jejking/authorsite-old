@@ -1,4 +1,11 @@
-<div id="nav">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:bundle basename="org.authorsite.web.resources.standard">
+    <div id="nav">
+        <%--
+    TODO - this needs to check using the acegi taglib if we are logged
+    in as a user in role ADMIN.
+    
+    If yes, display this div...
     <div id="admin-nav">
         <div id="admin-nav-heading">
             <h3>Administration</h3>
@@ -8,17 +15,38 @@
             <li><img alt="logout" src="img/tango/system-log-out.png" /> <a href="/logout">Logout <span class="username">hanswurst</span></a></li>
         </ul>
     </div>
-    <div id="content-nav">
-        <div id="content-nav-heading">
-            <h3>Content</h3>
-        </div>
-        <div id="content-nav-listing">
-            <ul>
-                <li><a href="/people/index">People</a></li>
-                <li><a href="/works/index">Bibliography</a></li>
-                <li><a href="/mail/index">Mail Archive</a></li>
-                <li><a href="/content/about/index">About</a></li>
-            </ul>
+    --%>
+
+        <div id="content-nav">
+            <div id="content-nav-heading">
+                <h3>
+                    <fmt:message key="content-heading"/>
+                </h3>
+            </div>
+            <div id="content-nav-listing">
+                <ul>
+                    <li>
+                        <a href="/people/index">
+                            <fmt:message key="people-link"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/works/index">
+                            <fmt:message key="works-link"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mail/index">
+                            <fmt:message key="mail-link"/>
+                        </a>
+                    </li>
+                    <%--
+                        we should add here an element which grabs the 
+                        top level content "folders" when we 
+                        have implemented them
+                    --%>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
+</fmt:bundle>

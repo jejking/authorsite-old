@@ -1,14 +1,59 @@
- </div>
-        <div id="footer">
-            <div id="rights">
-                Copyright (C) 2007. <a href="/people/individuals/123">John King</a>
-            </div>
-            <div id="lifecycle">
-                Created 19th February 2007 by <a href="/people/individuals/123">John King</a>, Updated 20th February 2007 by <a href="/people/individuals/456">Hans Wurst</a>.
-            </div>
-            <div id="imprint">
-                <a href="http://imprint.html">Imprint</a>
-            </div>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
+</div>
+<fmt:bundle basename="org.authorsite.web.resources.standard">
+    <div id="footer">
+        <div id="rights">
+            <%-- handle copyright stuff. If not specified, assume public domain --%>
+            <c:choose>
+                <c:when test="${requestScope.contentCopyright}" >
+                    <fmt:message key="copyright"/> &#170;
+                    
+                    <%-- copyright date. If not specified, assume now. --%>
+                    <c:if test="${empty requestScope.copyrightDate}">
+                        <jsp:useBean id="copyrightDate" scope="request" class="java.util.Date"/>
+                    </c:if>
+                    <fmt:formatDate dateStyle="yyyy" value="${requestScope.copyrightDate}"/>.
+                    
+                    <%-- usage terms. If not specified, assume all rights reserved --%>
+                    <c:choose>
+                        <c:when test="${!empty requestScope.usageTerms}">
+                            <fmt:message key="${requestScope.usageTerms}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <fmt:message key="all-rights-reserved"/>
+                        </c:otherwise>
+                    </c:choose>
+                    
+                    <%-- copyright holder --%>
+                    <c:choose>
+                        <c:when test="${!empty requestScope.copyrightHolders}">
+                            <c:forEach items="${requestScope.copyrightHolders}">
+                                <%-- build link to copyright holder using authorsite taglib --%>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            ${initParam.siteName}
+                        </c:otherwise>
+                    </c:choose>
+                    
+                </c:when>
+                <c:otherwise>
+                    <fmt:message key="public-domain"/>
+                </c:otherwise>
+            </c:choose>
+            
+            Copyright (C) 2007. <a href="/people/individuals/123">John King</a>
         </div>
+        <div id="lifecycle">
+            Created 19th February 2007 by <a href="/people/individuals/123">John King</a>, Updated 20th February 2007 by <a href="/people/individuals/456">Hans Wurst</a>.
+        </div>
+        <div id="imprint">
+            <a href="http://imprint.html">Imprint</a>
+        </div>
+    </div>
     </body>
-</html>
+    </html>
+</fmt:bundle>
