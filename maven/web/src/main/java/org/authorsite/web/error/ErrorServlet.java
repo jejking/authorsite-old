@@ -69,7 +69,7 @@ public class ErrorServlet extends HttpServlet {
         throws ServletException, IOException {
        
         // from request object, extract error details
-        String errorCode = (String) request.getAttribute("javax.servlet.error.status_code");
+        String errorCode = ((Integer) request.getAttribute("javax.servlet.error.status_code")).toString();
         String exceptionType = (String) request.getAttribute("javax.servlet.error.exception_type");
         String message = (String) request.getAttribute("javax.servlet.error.message");
         Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");

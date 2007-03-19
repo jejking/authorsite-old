@@ -19,7 +19,9 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
             </div>
             <div id="search">
                 <div id="search-text">
-                    <fmt:message bundle="org.authorsite.web.resources.standard" key="search"/>
+                    <fmt:bundle basename="org.authorsite.web.resources.standard">
+                        <fmt:message key="search"/>
+                    </fmt:bundle>
                 </div>
                 <form id="header-search" action="/search" method="post">
                     <div id="search-box">

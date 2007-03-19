@@ -1,4 +1,4 @@
-<%@ page errorPage="finalError.html" %>
+<%@ page errorPage="finalError.jsp" %>
 
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
@@ -10,18 +10,20 @@
 
 <c:set var="extraCss" scope="page" value="error.css"/>
 
+
 <%@ include file="/jsp/fragments/header.jspf" %>
 <%@ include file="/jsp/fragments/nav.jspf" %>    
 
 <div id="main" class="error">
-    <fmt:bundle basename="org.authorsite.web.resources.errors">
+    
         <div>
-            <h1>${requestScope['javax.servlet.error.status_code']} - <fmt:message key="${requestScope['javax.servlet.error.status_code']}"/>"</h1>
-            <p>
-                <fmt:message key="${requestScope['javax.servlet.error.status_code']}-text"/>
-            </p>
+            <fmt:bundle  basename="org.authorsite.web.resources.errors">
+                <h1><fmt:message key="${requestScope['javax.servlet.error.status_code']}"/></h1>
+                <p>
+                    <fmt:message key="${requestScope['javax.servlet.error.status_code']}-text"/>
+                </p>
+            </fmt:bundle>
         </div>
-    </fmt:bundle>
 </div>
 
 
