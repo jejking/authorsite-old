@@ -45,10 +45,21 @@
                 </c:otherwise>
             </c:choose>
         </div>
-        <div id="lifecycle">
-            Created 19th February 2007 by <a href="/people/individuals/123">John King</a>,
-            Updated 20th February 2007 by <a href="/people/individuals/456">Hans Wurst</a>.
-        </div>
+        <c:if test="${requestScope.entry}">
+            <div id="lifecycle">
+                <fmt:message key="created-at">
+                    <fmt:param value="${requestScope.entry.createdAt}"/>
+                </fmt:message>
+                <%-- created by --%>
+                <fmt:message key="entry-version">
+                    <fmt:param value="${requestScope.entry.version}"/>
+                </fmt:message>
+                <%-- updated by --%>
+                <fmt:message key="updated-at">
+                    <fmt:param value="${requestScope.entry.updatedAt}"/>
+                </fmt:message>
+            </div>
+        </c:if>
         <div id="imprint">
             <a href="/content/legal/imprint">
                 <fmt:message key="imprint"/>
