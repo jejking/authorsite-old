@@ -6,7 +6,7 @@
   version="2.1">  
   <tlib-version>1.0</tlib-version>
   <short-name>as</short-name>
-  <uri>/WEB-INF/authorsite</uri>
+  <uri>http://www.authorsite.org/tags/authorsite</uri>
   <!-- A validator verifies that the tags are used correctly at JSP
          translation time. Validator entries look like this: 
       <validator>

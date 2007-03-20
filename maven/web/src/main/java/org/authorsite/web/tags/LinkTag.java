@@ -11,8 +11,10 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import org.authorsite.domain.AbstractEntry;
 import org.authorsite.domain.Collective;
 import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.AbstractWork;
 import org.authorsite.domain.bib.Article;
 import org.authorsite.domain.bib.Book;
 import org.authorsite.domain.bib.Chapter;
@@ -32,141 +34,103 @@ public class LinkTag extends BodyTagSupport {
     /**
      * Initialization of entry property.
      */
-    private org.authorsite.domain.AbstractEntry entry;
+    private AbstractEntry entry;
     
     /** Creates new instance of tag handler */
     public LinkTag() {
         super();
     }
     
-    ////////////////////////////////////////////////////////////////
-    ///                                                          ///
-    ///   User methods.                                          ///
-    ///                                                          ///
-    ///   Modify these methods to customize your tag handler.    ///
-    ///                                                          ///
-    ////////////////////////////////////////////////////////////////
-    
     /**
-     * Method called from doStartTag().
-     * Fill in this method to perform other operations from doStartTag().
-     *
+     * Setter for the entry attribute.
      */
-    private void otherDoStartTagOperations() {
+    public void setEntry(AbstractEntry value) {
+        this.entry = value;
+    }
+    
+
+    public String getUrlForObject(AbstractEntry entry) {
         
-        Class clazz = entry.getClass();
         String baseUrl = null;
-        if ( Collective.class.isAssignableFrom( clazz )) {
+        if (entry instanceof Collective) {
             baseUrl = "/people/collectives";
         }
-        else if ( Individual.class.isAssignableFrom(clazz)) {
+        else if (entry instanceof Individual) {
             baseUrl = "/people/individuals";
         }
-        else if ( Article.class.isAssignableFrom(clazz)) {
+        else if (entry instanceof Article) {
             baseUrl = "/works/articles";
         }
-        else if (Book.class.isAssignableFrom(clazz)) {
+        else if (entry instanceof Book) {
             baseUrl = "/works/books";
         }
-        else if (Chapter.class.isAssignableFrom(clazz)) {
+        else if (entry instanceof Chapter) {
             baseUrl = "/works/chapters";
         }
-        else if (Journal.class.isAssignableFrom(clazz)) {
+        else if (entry instanceof Journal) {
             baseUrl = "/works/journals";
         }
-        else if (Thesis.class.isAssignableFrom(clazz)) {
+        else if (entry instanceof Thesis) {
             baseUrl = "/works/theses";
         }
-        else if (EmailFolder.class.isAssignableFrom(clazz)) {
+        else if (entry instanceof EmailFolder) {
             baseUrl = "/mail/folders";
         }
-        else if (EmailMessage.class.isAssignableFrom(clazz)) {
+        else if (entry instanceof EmailMessage) {
             baseUrl = "/mail/messages";
         }
         
-        //   try {
-        //       JspWriter out = pageContext.getOut();
-        //       out.println("something");
-        //   } catch (IOException ex) {
-        //       // do something
-        //   }
-        //
-        //
+        long id = entry.getId();
+        
+        return baseUrl + "/" + id;
+
     }
     
-    /**
-     * Method called from doEndTag()
-     * Fill in this method to perform other operations from doEndTag().
-     *
-     */
-    private void otherDoEndTagOperations() {
-        //
-        // TODO: code that performs other operations in doEndTag
-        //       should be placed here.
-        //       It will be called after initializing variables,
-        //       finding the parent, setting IDREFs, etc, and
-        //       before calling shouldEvaluateRestOfPageAfterEndTag().
-        //
+    public String getLinkTextForObject(AbstractEntry entry) {
+        
+        String text = null;
+        if (entry instanceof Collective) {
+            Collective c = (Collective) entry;
+            text = c.getName();
+            if ( c.getPlace() != null )  {
+                text = text + ", " + c.getPlace();
+            }
+        }
+        else if (entry instanceof Individual) {
+            Individual i = (Individual) entry;
+            text = i.getName();
+            if (i.getGivenNames() != null) {
+                text = text + ", " + i.getGivenNames();
+            }
+        }
+        else if (entry instanceof AbstractWork) {
+            AbstractWork work = (AbstractWork) entry;
+            text = work.getTitle();
+        } 
+        else if (entry instanceof EmailFolder) {
+            EmailFolder folder = (EmailFolder) entry;
+            text = folder.getPath();
+        }
+        else if (entry instanceof EmailMessage) {
+            EmailMessage message = (EmailMessage) entry;
+            text = message.getMsgId();
+        }
+        
+        return text;
     }
-    
-    /**
-     * Fill in this method to process the body content of the tag.
-     * You only need to do this if the tag's BodyContent property
-     * is set to "JSP" or "tagdependent."
-     * If the tag's bodyContent is set to "empty," then this method
-     * will not be called.
-     */
-    private void writeTagBodyContent(JspWriter out, BodyContent bodyContent) throws IOException {
-        //
-        // TODO: insert code to write html before writing the body content.
-        // e.g.:
-        //
-        // out.println("<strong>" + attribute_1 + "</strong>");
-        // out.println("   <blockquote>");
-        
-        //
-        // write the body content (after processing by the JSP engine) on the output Writer
-        //
-        bodyContent.writeOut(out);
-        
-        //
-        // Or else get the body content as a string and process it, e.g.:
-        //     String bodyStr = bodyContent.getString();
-        //     String result = yourProcessingMethod(bodyStr);
-        //     out.println(result);
-        //
-        
-        // TODO: insert code to write html after writing the body content.
-        // e.g.:
-        //
-        // out.println("   </blockquote>");
-        
-        
-        // clear the body content for the next time through.
-        bodyContent.clearBody();
-    }
-    
-    ////////////////////////////////////////////////////////////////
-    ///                                                          ///
-    ///   Tag Handler interface methods.                         ///
-    ///                                                          ///
-    ///   Do not modify these methods; instead, modify the       ///
-    ///   methods that they call.                                ///
-    ///                                                          ///
-    ////////////////////////////////////////////////////////////////
-    
-    /**
-     * This method is called when the JSP engine encounters the start tag,
-     * after the attributes are processed.
-     * Scripting variables (if any) have their values set here.
-     * @return EVAL_BODY_BUFFERED if the JSP engine should evaluate the tag body, otherwise return SKIP_BODY.
-     * This method is automatically generated. Do not modify this method.
-     * Instead, modify the methods that this method calls.
-     */
     
     public int doStartTag() throws JspException, JspException {
-        
-        otherDoStartTagOperations();
+        try {
+            JspWriter out = pageContext.getOut();
+            String url = this.getUrlForObject(entry);
+            String linkText = this.getLinkTextForObject(entry);
+           /*
+            * <a href="/people/individuals/123">John King</a>
+            */
+            out.print("<a href=\"" + url + "\">" + linkText + "</a>");
+        } catch (IOException ex) {
+            this.handleBodyContentException(ex);
+        }
         
         if (theBodyShouldBeEvaluated()) {
             return EVAL_BODY_BUFFERED;
@@ -182,8 +146,7 @@ public class LinkTag extends BodyTagSupport {
      * Instead, modify the methods that this method calls.
      */
     public int doEndTag() throws JspException, JspException {
-        otherDoEndTagOperations();
-        
+      
         if (shouldEvaluateRestOfPageAfterEndTag()) {
             return EVAL_PAGE;
         } else {
@@ -204,8 +167,7 @@ public class LinkTag extends BodyTagSupport {
             //
             BodyContent bodyContent = getBodyContent();
             JspWriter out = bodyContent.getEnclosingWriter();
-            
-            writeTagBodyContent(out, bodyContent);
+
         } catch (Exception ex) {
             handleBodyContentException(ex);
         }
@@ -222,7 +184,7 @@ public class LinkTag extends BodyTagSupport {
      */
     private void handleBodyContentException(Exception ex) throws JspException {
         // Since the doAfterBody method is guarded, place exception handing code here.
-        throw new JspException("error in NewTag: " + ex);
+        throw new JspException("error in LinkTag: " + ex);
     }
     
     /**
@@ -231,12 +193,6 @@ public class LinkTag extends BodyTagSupport {
      * Called from doEndTag().
      */
     private boolean shouldEvaluateRestOfPageAfterEndTag()  {
-        //
-        // TODO: code that determines whether the rest of the page
-        //       should be evaluated after the tag is processed
-        //       should be placed here.
-        //       Called from the doEndTag() method.
-        //
         return true;
     }
     
@@ -247,13 +203,6 @@ public class LinkTag extends BodyTagSupport {
      * Called from doAfterBody().
      */
     private boolean theBodyShouldBeEvaluatedAgain() {
-        //
-        // TODO: code that determines whether the tag body should be
-        //       evaluated again after processing the tag
-        //       should be placed here.
-        //       You can use this method to create iterating tags.
-        //       Called from the doAfterBody() method.
-        //
         return false;
     }
 
@@ -262,19 +211,7 @@ public class LinkTag extends BodyTagSupport {
      * Called from doStartTag().
      */
     private boolean theBodyShouldBeEvaluated() {
-        //
-        // TODO: code that determines whether the body should be
-        //       evaluated should be placed here.
-        //       Called from the doStartTag() method.
-        //
         return false;
     }
 
-    /**
-     * Setter for the entry attribute.
-     */
-    public void setEntry(org.authorsite.domain.AbstractEntry value) {
-        this.entry = value;
-    }
-    
 }

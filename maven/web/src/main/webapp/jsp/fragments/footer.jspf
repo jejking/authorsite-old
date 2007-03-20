@@ -1,6 +1,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+<%@ taglib uri="http://www.authorsite.org/tags/authorsite" prefix="as" %>
 
 </div>
 <fmt:bundle basename="org.authorsite.web.resources.standard">
@@ -50,7 +50,8 @@
                 <fmt:message key="created-at">
                     <fmt:param value="${requestScope.entry.createdAt}"/>
                 </fmt:message>
-                <%-- created by --%>
+                
+                <as:LinkTag entry="${requestScope.entry.createdBy}"/>
                 <fmt:message key="entry-version">
                     <fmt:param value="${requestScope.entry.version}"/>
                 </fmt:message>
@@ -58,6 +59,8 @@
                 <fmt:message key="updated-at">
                     <fmt:param value="${requestScope.entry.updatedAt}"/>
                 </fmt:message>
+                
+                <as:LinkTag entry="${requestScope.entry.updatedBy}"/>
             </div>
         </c:if>
         <div id="imprint">
