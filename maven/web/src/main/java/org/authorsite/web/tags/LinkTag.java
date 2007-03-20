@@ -11,6 +11,15 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import org.authorsite.domain.Collective;
+import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.Article;
+import org.authorsite.domain.bib.Book;
+import org.authorsite.domain.bib.Chapter;
+import org.authorsite.domain.bib.Journal;
+import org.authorsite.domain.bib.Thesis;
+import org.authorsite.domain.email.EmailFolder;
+import org.authorsite.domain.email.EmailMessage;
 
 /**
  * Generated tag handler class.
@@ -44,15 +53,37 @@ public class LinkTag extends BodyTagSupport {
      *
      */
     private void otherDoStartTagOperations() {
-        //
-        // TODO: code that performs other operations in doStartTag
-        //       should be placed here.
-        //       It will be called after initializing variables,
-        //       finding the parent, setting IDREFs, etc, and
-        //       before calling theBodyShouldBeEvaluated().
-        //
-        //       For example, to print something out to the JSP, use the following:
-        //
+        
+        Class clazz = entry.getClass();
+        String baseUrl = null;
+        if ( Collective.class.isAssignableFrom( clazz )) {
+            baseUrl = "/people/collectives";
+        }
+        else if ( Individual.class.isAssignableFrom(clazz)) {
+            baseUrl = "/people/individuals";
+        }
+        else if ( Article.class.isAssignableFrom(clazz)) {
+            baseUrl = "/works/articles";
+        }
+        else if (Book.class.isAssignableFrom(clazz)) {
+            baseUrl = "/works/books";
+        }
+        else if (Chapter.class.isAssignableFrom(clazz)) {
+            baseUrl = "/works/chapters";
+        }
+        else if (Journal.class.isAssignableFrom(clazz)) {
+            baseUrl = "/works/journals";
+        }
+        else if (Thesis.class.isAssignableFrom(clazz)) {
+            baseUrl = "/works/theses";
+        }
+        else if (EmailFolder.class.isAssignableFrom(clazz)) {
+            baseUrl = "/mail/folders";
+        }
+        else if (EmailMessage.class.isAssignableFrom(clazz)) {
+            baseUrl = "/mail/messages";
+        }
+        
         //   try {
         //       JspWriter out = pageContext.getOut();
         //       out.println("something");
@@ -134,6 +165,7 @@ public class LinkTag extends BodyTagSupport {
      */
     
     public int doStartTag() throws JspException, JspException {
+        
         otherDoStartTagOperations();
         
         if (theBodyShouldBeEvaluated()) {
