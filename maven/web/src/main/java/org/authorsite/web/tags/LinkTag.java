@@ -22,6 +22,7 @@ import org.authorsite.domain.bib.Journal;
 import org.authorsite.domain.bib.Thesis;
 import org.authorsite.domain.email.EmailFolder;
 import org.authorsite.domain.email.EmailMessage;
+import org.authorsite.security.SystemUser;
 
 /**
  * Generated tag handler class.
@@ -52,6 +53,7 @@ public class LinkTag extends BodyTagSupport {
     public String getUrlForObject(AbstractEntry entry) {
         
         String baseUrl = null;
+        String url;
         if (entry instanceof Collective) {
             baseUrl = "/people/collectives";
         }
@@ -79,10 +81,19 @@ public class LinkTag extends BodyTagSupport {
         else if (entry instanceof EmailMessage) {
             baseUrl = "/mail/messages";
         }
+        else if (entry instanceof SystemUser) {
+            baseUrl = "/admin/users";
+        }
         
-        long id = entry.getId();
+        if (entry instanceof EmailFolder) {
+            EmailFolder folder = (EmailFolder) entry;
+            url = baseUrl + folder.getPath();
+        }
+        else {
+            url = baseUrl + "/" + entry.getId();
+        }
         
-        return baseUrl + "/" + id;
+        return url;
 
     }
     
@@ -114,6 +125,10 @@ public class LinkTag extends BodyTagSupport {
         else if (entry instanceof EmailMessage) {
             EmailMessage message = (EmailMessage) entry;
             text = message.getMsgId();
+        }
+        else if (entry instanceof SystemUser) {
+            SystemUser user = (SystemUser) entry;
+            text = user.getUserName();
         }
         
         return text;

@@ -51,7 +51,7 @@
                     <fmt:param value="${requestScope.entry.createdAt}"/>
                 </fmt:message>
                 
-                <as:LinkTag entry="${requestScope.entry.createdBy}"/>
+                : <as:LinkTag entry="${requestScope.entry.createdBy}"/>.
                 <fmt:message key="entry-version">
                     <fmt:param value="${requestScope.entry.version}"/>
                 </fmt:message>
@@ -60,7 +60,7 @@
                     <fmt:param value="${requestScope.entry.updatedAt}"/>
                 </fmt:message>
                 
-                <as:LinkTag entry="${requestScope.entry.updatedBy}"/>
+                : <as:LinkTag entry="${requestScope.entry.updatedBy}"/>.
             </div>
         </c:if>
         <div id="imprint">
