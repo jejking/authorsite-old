@@ -135,6 +135,21 @@
         <!-- no role is allowed to invoke a jsp directly -->
         <auth-constraint/>
     </security-constraint>
-    
+    <security-constraint>
+        <display-name>No direct error servlet invocation</display-name>
+        <web-resource-collection>
+            <web-resource-name>Error Servlet</web-resource-name>
+            <description/>
+            <url-pattern>/error</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint/>
+    </security-constraint>
     
 </web-app>
