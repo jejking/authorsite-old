@@ -1,0 +1,16 @@
+/* 
+    Document   : error
+    Created on : 16. März 2007, 17:04
+    Author     : jking
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+div:error {
+    color: red;
+}

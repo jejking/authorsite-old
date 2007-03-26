@@ -7,6 +7,14 @@
         <param-name>siteName</param-name>
         <param-value>authorsite.org</param-value>
     </context-param>
+    
+    <!-- defines where the main spring application context is defined -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </context-param>
+    
+    
     <servlet>
         <servlet-name>ErrorServlet</servlet-name>
         <servlet-class>org.authorsite.web.error.ErrorServlet</servlet-class>
@@ -116,7 +124,45 @@
         <location>/error</location>
     </error-page>
     
+    <!-- loads up the main spring application context -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
     
+    
+    <!-- spring MVC -->
+    
+    <servlet>
+        <servlet-name>spring-dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>spring-dispatcher</servlet-name>
+        <url-pattern>/index</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>spring-dispatcher</servlet-name>
+        <url-pattern>/admin/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>spring-dispatcher</servlet-name>
+        <url-pattern>/edit/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>spring-dispatcher</servlet-name>
+        <url-pattern>/people/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>spring-dispatcher</servlet-name>
+        <url-pattern>/works/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>spring-dispatcher</servlet-name>
+        <url-pattern>/mail/*</url-pattern>
+    </servlet-mapping>
+    
+    <!-- end spring MVC -->
     
     <security-constraint>
         <display-name>NoDirectJspInvocation</display-name>
