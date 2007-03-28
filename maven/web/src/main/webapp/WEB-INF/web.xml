@@ -125,6 +125,28 @@
     </error-page>
     
     <!-- loads up the main spring application context -->
+    <filter>
+        <filter-name>IdExtractionFilter</filter-name>
+        <filter-class>org.authorsite.web.filters.IdExtractionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>IdExtractionFilter</filter-name>
+        <url-pattern>/people/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>IdExtractionFilter</filter-name>
+        <url-pattern>/admin/users/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>IdExtractionFilter</filter-name>
+        <url-pattern>/works/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>IdExtractionFilter</filter-name>
+        <url-pattern>/mail/messages/*</url-pattern>
+    </filter-mapping>
+    
+    
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>

@@ -3,6 +3,21 @@
 <beans xmlns="http://www.springframework.org/schema/beans" 
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-       
-       
+    
+    <bean id="homeIndexController" class="org.authorsite.mvc.controllers.HomeIndexController">
+        <property name="cacheSeconds" value="600"/>
+        <property name="supportedMethods" value="GET"/>
+    </bean>
+    
+    <bean id="viewByIdPropertiesResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+        <property name="mappings">
+            /people/individuals=loadIndividual
+            /people/collectives=loadCollective
+            /admin/users=loadSystemUser
+        </property>
+    </bean>
+    
+    <bean id="viewByIdController" class="org.authorsite.mvc.controllers.ViewByIdController">
+        <property name="methodNameResolver" ref="viewByIdPropertiesResolver"/>
+    </bean>
 </beans>
