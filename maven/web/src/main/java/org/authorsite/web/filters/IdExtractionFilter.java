@@ -20,6 +20,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -28,6 +29,8 @@ import javax.servlet.ServletResponse;
  */
 
 public class IdExtractionFilter implements Filter {
+    
+    private static final Logger LOGGER = Logger.getLogger(IdExtractionFilter.class);
     
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
@@ -65,7 +68,7 @@ public class IdExtractionFilter implements Filter {
             }
         } 
         request.setAttribute("id", idLong);
-        
+        LOGGER.debug("Set request id attribute to: "+ idLong);
     }
     
 }

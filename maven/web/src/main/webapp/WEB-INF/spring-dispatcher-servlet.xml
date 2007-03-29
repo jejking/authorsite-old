@@ -4,20 +4,36 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     
-    <bean id="homeIndexController" class="org.authorsite.mvc.controllers.HomeIndexController">
+    <bean id="homeIndexController" class="org.authorsite.web.mvc.controllers.HomeIndexController">
         <property name="cacheSeconds" value="600"/>
         <property name="supportedMethods" value="GET"/>
     </bean>
     
-    <bean id="viewByIdPropertiesResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+   <bean id="individualsIndexController" class="org.authorsite.web.mvc.controllers.IndividualsIndexController">
+       <property name="cacheSeconds" value="600"/>
+       <property name="supportedMethods" value="GET"/>
+   </bean>
+   
+   <bean id="individualsViewController" class="org.authorsite.web.mvc.controllers.IndividualsViewController">
+       <property name="cacheSeconds" value="600"/>
+       <property name="supportedMethods" value="GET"/>
+   </bean>
+    
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    
+        
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
-            /people/individuals=loadIndividual
-            /people/collectives=loadCollective
-            /admin/users=loadSystemUser
+            <value>
+                /index=homeIndexController
+                /people/indidividuals/index=individualsIndexController
+                /people/individuals/*=individualsViewController
+            </value>
         </property>
     </bean>
     
-    <bean id="viewByIdController" class="org.authorsite.mvc.controllers.ViewByIdController">
-        <property name="methodNameResolver" ref="viewByIdPropertiesResolver"/>
-    </bean>
 </beans>
