@@ -124,7 +124,22 @@
         <location>/error</location>
     </error-page>
     
-    <!-- loads up the main spring application context -->
+    <!-- applied acegi security to URLs -->
+    <filter>
+        <filter-name>Acegi Filter Chain Proxy</filter-name>
+        <filter-class>org.acegisecurity.util.FilterToBeanProxy</filter-class>
+        <init-param>
+            <param-name>targetClass</param-name>
+            <param-value>org.acegisecurity.util.FilterChainProxy</param-value>
+        </init-param>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Acegi Filter Chain Proxy</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    
     <filter>
         <filter-name>IdExtractionFilter</filter-name>
         <filter-class>org.authorsite.web.filters.IdExtractionFilter</filter-class>
@@ -146,11 +161,19 @@
         <url-pattern>/mail/messages/*</url-pattern>
     </filter-mapping>
     
-    
+    <!-- loads up the main spring application context -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     
+    <!--
+        The HttpSessionEventPublisher will publish
+        HttpSessionCreatedEvent and HttpSessionDestroyedEvent
+        to the WebApplicationContext
+    -->  
+    <listener>
+        <listener-class>org.acegisecurity.ui.session.HttpSessionEventPublisher</listener-class>
+    </listener>
     
     <!-- spring MVC -->
     
@@ -220,4 +243,7 @@
         <auth-constraint/>
     </security-constraint>
     
+    <welcome-file-list>
+        <welcome-file>/index</welcome-file>
+    </welcome-file-list>    
 </web-app>
