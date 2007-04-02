@@ -1,36 +1,55 @@
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
-<%--
-The taglib directive below imports the JSTL library. If you uncomment it,
-you must also add the JSTL library to the project. The Add Library... action
-on Libraries node in Projects view can be used to add the JSTL 1.1 library.
---%>
-<%--
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
---%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<%@ include file="/jsp/fragments/header.jspf" %>
+<%@ include file="/jsp/fragments/nav.jspf" %>    
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
+<div id="main">
+    <fmt:bundle basename="org.authorsite.web.resources.auth">
+        <h1><fmt:message key="login-header"/></h1>
+        <form action="${j_acegi_security_check}" method="POST">
+            <div id="login-form">
+                
+                <table>
+                    <tr>
+                        <td>
+                            <fmt:message key="username"/>
+                        </td>
+                        <td>
+                            <input type="text" name="j_username" size="50">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="password"/>
+                        </td>
+                        <td>
+                            <input type="password" name="j_password" size="50"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <tr>
+                            <td width="2">
+                                <fmt:message key="submit-login-form" var="submitLogin"/>
+                                <input type="submit" value="${submitLogin}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="2">
+                                <fmt:message key="reset-login-form" var="resetLogin"/>
+                                <input type="reset" value="${reset-login-form}"/>
+                            </td>
+                        </tr>
+                    </tr>
+                </table>
+                
+            </div>
+        </form>
+    </fmt:bundle>
+</div>
 
-    <h1>JSP Page</h1>
-    
-    <%--
-    This example uses JSTL, uncomment the taglib directive above.
-    To test, display the page like this: index.jsp?sayHello=true&name=Murphy
-    --%>
-    <%--
-    <c:if test="${param.sayHello}">
-        <!-- Let's welcome the user ${param.name} -->
-        Hello ${param.name}!
-    </c:if>
-    --%>
-    
-    </body>
-</html>
+
+<%@ include file="/jsp/fragments/extra.jspf" %>    
+<%@ include file="/jsp/fragments/footer.jspf" %>
