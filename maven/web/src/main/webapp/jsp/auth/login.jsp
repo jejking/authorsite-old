@@ -8,7 +8,10 @@
 
 <div id="main">
     <fmt:bundle basename="org.authorsite.web.resources.auth">
-        <h1><fmt:message key="login-header"/></h1>
+        <h1>
+            <fmt:message key="login-header"/>
+        </h1>
+        <c:url value="/j_acegi_security_check" var="j_acegi_security_check" />
         <form action="${j_acegi_security_check}" method="POST">
             <div id="login-form">
                 
@@ -39,7 +42,7 @@
                         <tr>
                             <td width="2">
                                 <fmt:message key="reset-login-form" var="resetLogin"/>
-                                <input type="reset" value="${reset-login-form}"/>
+                                <input type="reset" value="${resetLogin}"/>
                             </td>
                         </tr>
                     </tr>

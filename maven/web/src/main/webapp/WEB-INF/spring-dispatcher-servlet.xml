@@ -18,6 +18,11 @@
        <property name="cacheSeconds" value="600"/>
        <property name="supportedMethods" value="GET"/>
    </bean>
+   
+   <bean id="loginController" class="org.authorsite.web.mvc.controllers.LoginController">
+       <property name="cacheSeconds" value="600"/>
+       <property name="supportedMethods" value="GET"/>
+   </bean>
     
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -25,11 +30,13 @@
         <property name="suffix" value=".jsp"/>
     </bean>
     
-        
+    
+    
     <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <value>
                 /index=homeIndexController
+                /login=loginController
                 /people/indidividuals/index=individualsIndexController
                 /people/individuals/*=individualsViewController
             </value>

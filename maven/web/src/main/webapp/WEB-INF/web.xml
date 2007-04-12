@@ -206,6 +206,10 @@
         <servlet-name>spring-dispatcher</servlet-name>
         <url-pattern>/mail/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>spring-dispatcher</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
     
     <!-- end spring MVC -->
     
