@@ -33,28 +33,28 @@ public class CollectiveDaoJPATest extends AbstractJPATest  {
     System.out.println("On setup in transaction");
     
     jdbcTemplate.execute("insert into Human " +
-            "(id, createdAt, createdBy, updatedAt, " +
-            "updatedBy, version, nameQualification, name, place, DTYPE)" +
+            "(id, createdAt, createdBy_id, updatedAt, " +
+            "updatedBy_id, version, nameQualification, name, place, DTYPE)" +
             " values (1, null, null, null, null, 0, null, 'Sausage', 'Wurstland', 'Collective')");
     jdbcTemplate.execute("insert into Human " +
-            "(id, createdAt, createdBy, updatedAt, " +
-            "updatedBy, version, nameQualification, name, place, DTYPE)" +
+            "(id, createdAt, createdBy_id, updatedAt, " +
+            "updatedBy_id, version, nameQualification, name, place, DTYPE)" +
             " values (2, null, null, null, null, 0, null, 'Mortadella', 'Torino', 'Collective')");
     jdbcTemplate.execute("insert into Human " +
-            "(id, createdAt, createdBy, updatedAt, " +
-            "updatedBy, version, nameQualification, name, place, DTYPE)" +
+            "(id, createdAt, createdBy_id, updatedAt, " +
+            "updatedBy_id, version, nameQualification, name, place, DTYPE)" +
             " values (3, null, null, null, null, 0, null, 'Salami', 'Hamburg', 'Collective')");
     jdbcTemplate.execute("insert into Human " +
-            "(id, createdAt, createdBy, updatedAt, " +
-            "updatedBy, version, nameQualification, name, place, DTYPE)" +
+            "(id, createdAt, createdBy_id, updatedAt, " +
+            "updatedBy_id, version, nameQualification, name, place, DTYPE)" +
             " values (4, null, null, null, null, 0, null, 'Sausage', 'Hamburg', 'Collective')");
     jdbcTemplate.execute("insert into Human " +
-            "(id, createdAt, createdBy, updatedAt, " +
-            "updatedBy, version, nameQualification, name, place, DTYPE)" +
+            "(id, createdAt, createdBy_id, updatedAt, " +
+            "updatedBy_id, version, nameQualification, name, place, DTYPE)" +
             " values (5, null, null, null, null, 0, null, 'Sauces Are Us', 'Hampstead', 'Collective')");
     jdbcTemplate.execute("insert into Human " +
-            "(id, createdAt, createdBy, updatedAt, " +
-            "updatedBy, version, nameQualification, name, place, DTYPE)" +
+            "(id, createdAt, createdBy_id, updatedAt, " +
+            "updatedBy_id, version, nameQualification, name, place, DTYPE)" +
             " values (6, null, null, null, null, 0, null, 'Franzbrötchen', 'Hamburg', 'Collective')");
   }
 

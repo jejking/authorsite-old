@@ -45,32 +45,32 @@ public class MethodAccessSecurityTest extends AbstractJPATest {
         String johanWurstPassword = passwordEncoder.encodePassword("foobar", "johanwurst");
         
         jdbcTemplate.execute("insert into Human " +
-                "(id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
+                "(id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
                 " values (1, null, null, null, null, 0, null, 'Wurst', 'Hans', 'Individual')");
-        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, userName, password, enabled) " +
+        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, userName, password, enabled) " +
                 "values (1, 1, null, null, null, null, 0, 'hanswurst', '" + hansWurstPassword + "', 1)"  );
         jdbcTemplate.execute("insert into SystemUser_Authorities(SystemUser_id, element) " +
                 "values ( 1, 0 )");
         
         jdbcTemplate.execute("insert into Human " +
-                "(id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
+                "(id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
                 " values (2, null, null, null, null, 0, null, 'Sausage', 'Johnny', 'Individual')");
-        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, userName, password, enabled) " +
+        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, userName, password, enabled) " +
                 "values (2, 2, null, null, null, null, 0, 'johnnysausage', '" + johnnySausagePassword + "', 0)"  ); // not enabled...
         jdbcTemplate.execute("insert into SystemUser_Authorities(SystemUser_id, element) " +
                 "values ( 2, 0 )");
         
         
         jdbcTemplate.execute("insert into Human " +
-                "(id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
+                "(id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
                 " values (3, null, null, null, null, 0, null, 'Wurst', 'Johannes', 'Individual')");
-        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, userName, password, enabled) " +
+        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, userName, password, enabled) " +
                 "values (3, 3, null, null, null, null, 0, 'johanwurst', '" + johanWurstPassword + "', 1)"  );
         // johanwurst is an Editor
         jdbcTemplate.execute("insert into SystemUser_Authorities(SystemUser_id, element) " +
@@ -78,11 +78,11 @@ public class MethodAccessSecurityTest extends AbstractJPATest {
         
         
         jdbcTemplate.execute("insert into Human " +
-                "(id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
+                "(id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
                 " values (4, null, null, null, null, 0, null, 'Super', 'User', 'Individual')");
-        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, userName, password, enabled) " +
+        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, userName, password, enabled) " +
                 "values (4, 4, null, null, null, null, 0, 'admin', 'secret', 1)"  );
         jdbcTemplate.execute("insert into SystemUser_Authorities(SystemUser_id, element) " +
                 "values ( 4, 0 )");

@@ -44,33 +44,33 @@ public class SystemUserDaoJPATest extends AbstractJPATest {
     protected void onSetUpInTransaction() throws Exception {
 
         jdbcTemplate.execute("insert into Human " +
-                "(id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
+                "(id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
                 " values (1, null, null, null, null, 0, null, 'Wurst', 'Hans', 'Individual')");
-        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, userName, password, enabled) " +
+        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, userName, password, enabled) " +
                 "values (1, 1, null, null, null, null, 0, 'hanswurst', 'secret', 1)"  );
         
         
         jdbcTemplate.execute("insert into Human " +
-                "(id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
+                "(id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
                 " values (2, null, null, null, null, 0, null, 'Sausage', 'Johnny', 'Individual')");
-        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, userName, password, enabled) " +
+        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, userName, password, enabled) " +
                 "values (2, 2, null, null, null, null, 0, 'johnnysausage', 'secret', 1)"  );
         
         jdbcTemplate.execute("insert into Human " +
-                "(id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
+                "(id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
                 " values (3, null, null, null, null, 0, null, 'Wurst', 'Johannes', 'Individual')");
         
         jdbcTemplate.execute("insert into Human " +
-                "(id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, nameQualification, name, givenNames, DTYPE)" +
+                "(id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
                 " values (4, null, null, null, null, 0, null, 'Super', 'User', 'Individual')");
-        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy, updatedAt, " +
-                "updatedBy, version, userName, password, enabled) " +
+        jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, userName, password, enabled) " +
                 "values (4, 4, null, null, null, null, 0, 'admin', 'secret', 1)"  );
         jdbcTemplate.execute("insert into SystemUser_Authorities(SystemUser_id, element) " +
                 "values ( 4, 0 )");
