@@ -36,7 +36,7 @@
         <property name="mappings">
             <value>
                 /index=homeIndexController
-                /login=loginController
+                /auth/login=loginController
                 /people/indidividuals/index=individualsIndexController
                 /people/individuals/*=individualsViewController
             </value>

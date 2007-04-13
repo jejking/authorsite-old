@@ -19,7 +19,7 @@ on Libraries node in Projects view can be used to add the JSTL 1.1 library.
     </head>
     <body>
 
-    <h1>JSP Page</h1>
+    <h1>Login Failed</h1>
     
     <%--
     This example uses JSTL, uncomment the taglib directive above.

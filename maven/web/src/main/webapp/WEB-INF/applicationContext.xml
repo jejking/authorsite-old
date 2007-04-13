@@ -31,16 +31,16 @@
             <bean
                 class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="showSql" value="true" />
-                <property name="databasePlatform" value="org.hibernate.dialect.HSQLDialect" />
+                <property name="databasePlatform" value="org.hibernate.dialect.DerbyDialect" />
             </bean>
         </property>
     </bean>
     
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
-        <property name="url" value="jdbc:hsqldb:hsql://localhost:9001/authorsite"/>
-        <property name="username" value="sa"/>
-        <property name="password" value=""/>
+        <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"/>
+        <property name="url" value="jdbc:derby://localhost:1527/authorsite"/>
+        <property name="username" value="authorsite"/>
+        <property name="password" value="authorsite"/>
         <property name="poolPreparedStatements" value="true"/>
     </bean>
     
@@ -336,10 +336,10 @@
           <ref bean="authenticationManager"/>
       </property>
       <property name="authenticationFailureUrl">
-          <value>/jsp/auth/authFailed.jsp?login_error=1</value>
+          <value>/auth/loginFailed</value>
       </property>
       <property name="defaultTargetUrl">
-          <value>/</value>
+          <value>/index</value>
       </property>
       <property name="filterProcessesUrl">
           <value>/j_acegi_security_check</value>
@@ -348,7 +348,7 @@
 
    <bean id="authenticationProcessingFilterEntryPoint" class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilterEntryPoint">
       <property name="loginFormUrl">
-          <value>/jsp/auth/login.jsp</value>
+          <value>/auth/login</value>
       </property>
       <property name="forceHttps">
           <value>false</value>
