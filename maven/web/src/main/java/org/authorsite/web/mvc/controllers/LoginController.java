@@ -1,7 +1,7 @@
 /*
  * LoginController.java
  *
- * Created on 30. März 2007, 10:30
+ * Created on 30. March 2007, 10:30
  *
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.

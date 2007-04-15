@@ -32,15 +32,24 @@
     
     
     
-    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="mappings">
-            <value>
-                /index=homeIndexController
-                /auth/login=loginController
-                /people/indidividuals/index=individualsIndexController
-                /people/individuals/*=individualsViewController
-            </value>
+    <bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="urlMap">
+            <map>
+                <entry key="/index">
+                    <ref bean="homeIndexController"/>
+                </entry>
+                <entry key="/auth/login">
+                    <ref bean="loginController"/>
+                </entry>
+                <entry key="/people/indidividuals/index">
+                    <ref bean="individualsIndexController"/>
+                </entry>
+                <entry key="/people/individuals/*">
+                    <ref bean="individualsViewController"/>
+                </entry>
+            </map>
         </property>
+        <property name="alwaysUseFullPath" value="true"/>
     </bean>
     
 </beans>

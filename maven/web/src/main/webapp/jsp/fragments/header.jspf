@@ -7,11 +7,11 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 <html>
     <head>
         <title>${requestScope.pageTitle}</title>
-        <c:url value="css/main.css" var="main-css" />
-        <link rel="stylesheet" type="text/css" href="${main-css}"/>
+        <c:url value="/css/main.css" var="mainCss" scope="page" />
+        <link rel="stylesheet" type="text/css" href="${pageScope.mainCss}"/>
         <c:if test="${!empty pageScope.extraCss}">
-            <c:url value="css/${pageScope.extraCss}" var="extra-css"/>
-            <link rel="stylesheet" type="text/css" href="${extra-css}"/>
+            <c:url value="/css/${pageScope.extraCss}" var="extraCss" scope="page"/>
+            <link rel="stylesheet" type="text/css" href="${pageScope.extraCss}"/>
         </c:if>
     </head>
     <body>
@@ -28,8 +28,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                 <form id="header-search" action="/search" method="post">
                     <div id="search-box">
                         <input type="text" id="header-search-term" value="" size="25" />
-                        <c:url value="img/tango/system-search.png" var="search-image"/>
-                        <input type="image" name="submit" id="header-search-button" src="${search-image}"/>
+                        <c:url value="/img/tango/system-search.png" var="searchImage" scope="page"/>
+                        <input type="image" name="submit" id="header-search-button" src="${pageScope.searchImage}"/>
                     </div>
                 </form>
             </div>
