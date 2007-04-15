@@ -310,12 +310,15 @@
    <bean id="httpSessionContextIntegrationFilter" class="org.acegisecurity.context.HttpSessionContextIntegrationFilter"/>
   
    <bean id="logoutFilter" class="org.acegisecurity.ui.logout.LogoutFilter">
-      <constructor-arg value="/jsp/auth/loggedOut.jsp"/>
+      <constructor-arg value="/index"/>
       <constructor-arg>
          <list>
               <bean class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler"/>
          </list>
-      </constructor-arg><!-- URL redirected to after logout -->
+      </constructor-arg>
+      <property name="filterProcessesUrl">
+        <value>/auth/logout</value>
+      </property>
    </bean>
    
    <bean id="securityContextHolderAwareRequestFilter" class="org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter"/>
@@ -327,7 +330,7 @@
       </property>
       <property name="accessDeniedHandler">
       	<bean class="org.acegisecurity.ui.AccessDeniedHandlerImpl">
-      		<property name="errorPage" value="/jsp/auth/authFailed.jsp"/>
+      		<property name="errorPage" value="/auth/loginFailed"/>
       	</bean>
       </property>
    </bean>
