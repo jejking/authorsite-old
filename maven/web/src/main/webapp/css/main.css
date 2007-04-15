@@ -63,6 +63,40 @@ body {
     padding-bottom: 3em;
 }
 
+#current-user-nav {
+    width: 80%;
+    margin-bottom: 1em;
+    margin-left: 10px;
+    background-color: white;
+    
+    border-style: solid;
+    border-color: blue;
+    border-width: 2px;
+    
+    padding-bottom: 10px;
+}
+
+
+#current-user-nav ul {
+    list-style-type: none;
+}
+
+#current-user-nav li {
+    margin-left: -1em;
+}
+
+#current-user-nav-heading {
+    padding-top: 0px;
+    padding-left: 10px;
+}
+
+#current-user-nav-heading h3 {
+    padding-left: 25px;
+    min-height: 25px;
+    background-image: url(../img/tango/user.gif);
+    background-repeat: no-repeat;
+}
+
 #admin-nav {
     width: 80%;
     margin-bottom: 1em;
