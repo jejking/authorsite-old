@@ -1,21 +1,65 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://acegisecurity.org/authz" prefix="authz" %>
 <fmt:bundle basename="org.authorsite.web.resources.standard">
     <div id="nav">
-        <%--
-    TODO - this needs to check using the acegi taglib if we are logged
-    in as a user in role ADMIN.
-    
-    If yes, display this div...
-    <div id="admin-nav">
-        <div id="admin-nav-heading">
-            <h3>Administration</h3>
+        
+        <div id="current-user-nav">
+            <div id="current-user-nav-heading">
+                <h3>
+                    <fmt:message key="current-user-heading"/>: 
+                    <authz:authorize ifNotGranted="ROLE_ANONYMOUS">
+                        <authz:authentication operation="username"/>
+                    </authz:authorize>
+                    <authz:authorize ifAnyGranted="ROLE_ANONYMOUS">
+                        <fmt:message key="no-current-user"/>
+                    </authz:authorize>
+                </h3>
+            </div>
+            <ul>
+                <li>
+                    <authz:authorize ifNotGranted="ROLE_ANONYMOUS">
+                        <c:url value="/img/tango/system-log-out.png" var="logoutIcon" scope="page"/>
+                        <c:url value="/auth/logout" var="logoutUrl" scope="page"/>
+                        <img src="${pageScope.logoutIcon}"/>
+                        <a href="${pageScope.logoutUrl}">
+                            <fmt:message key="logout"/>
+                        </a>
+                    </authz:authorize>
+                    <authz:authorize ifAnyGranted="ROLE_ANONYMOUS">
+                        <c:url value="/img/tango/system-log-in.png" var="loginIcon" scope="page"/>
+                        <c:url value="/auth/login" var="loginUrl" scope="page"/>
+                        <img src="${pageScope.loginIcon}"/>
+                        <a href="${pageScope.loginUrl}">
+                            <fmt:message key="login"/>
+                        </a>
+                    </authz:authorize>
+                </li>
+            </ul>    
         </div>
-        <ul>
-            <li><img alt="system users" src="img/tango/system-users.png" /> <a href="/admin/system_users">System Users</a></li>
-            <li><img alt="logout" src="img/tango/system-log-out.png" /> <a href="/logout">Logout <span class="username">hanswurst</span></a></li>
-        </ul>
-    </div>
-    --%>
+        
+        
+        
+        <authz:authorize ifAllGranted="ROLE_ADMINISTRATOR">
+            <div id="admin-nav">
+                <div id="admin-nav-heading">
+                    <h3>
+                        <fmt:message key="administration-heading"/>
+                    </h3>
+                </div>
+                <ul>
+                    <li>
+                        <fmt:message key="system-users" var="systemUsers"/>
+                        <c:url value="/img/tango/system-users.png" var="systemUsersImg" scope="page"/>
+                        <img alt="${systemUsers}" src="${pageScope.systemUsersImg}" />
+                        
+                        <c:url value="/admin/systemUsers/index" var="systemUsersIndex" scope="page"/>
+                        <a href="${systemUsersIndex}">${systemUsers}</a>
+                    </li>
+                </ul>
+            </div>
+        </authz:authorize>
+    
 
         <div id="content-nav">
             <div id="content-nav-heading">
