@@ -64,7 +64,8 @@
             </div>
         </c:if>
         <div id="imprint">
-            <a href="/content/legal/imprint">
+            <c:url value="/content/legal/imprint" var="imprintLink" scope="page"/>
+            <a href="${pageScope.imprintLink}">
                 <fmt:message key="imprint"/>
             </a>
         </div>

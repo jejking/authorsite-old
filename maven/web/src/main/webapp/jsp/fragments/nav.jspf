@@ -70,17 +70,20 @@
             <div id="content-nav-listing">
                 <ul>
                     <li>
-                        <a href="/people/index">
+                        <c:url value="/people/index" var="peopleLink" scope="page"/>
+                        <a href="${pageScope.peopleLink}">
                             <fmt:message key="people-link"/>
                         </a>
                     </li>
                     <li>
-                        <a href="/works/index">
+                        <c:url value="/works/index" var="worksLink" scope="page"/>
+                        <a href="${pageScope.worksLink}">
                             <fmt:message key="works-link"/>
                         </a>
                     </li>
                     <li>
-                        <a href="/mail/index">
+                        <c:url value="/mail/index" var="mailLink" scope="page"/>
+                        <a href="${pageScope.mailLink}">
                             <fmt:message key="mail-link"/>
                         </a>
                     </li>
