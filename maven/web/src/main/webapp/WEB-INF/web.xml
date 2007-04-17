@@ -213,6 +213,21 @@
     
     <!-- end spring MVC -->
     
+    <!-- dwr -->
+    <servlet>
+        <servlet-name>dwr-invoker</servlet-name>
+        <servlet-class>org.directwebremoting.spring.DwrSpringServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>dwr-invoker</servlet-name>
+        <url-pattern>/dwr/*</url-pattern>
+    </servlet-mapping>
+    
     <security-constraint>
         <display-name>NoDirectJspInvocation</display-name>
         <web-resource-collection>
