@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+       http://www.directwebremoting.org/schema/spring-dwr
+       http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd" default-autowire="byName">
+    
+    
+    <bean id="org.acegisecurity.acls.domain.BasePermission.ADMINISTRATION" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField">
+            <value>org.acegisecurity.acls.domain.BasePermission.ADMINISTRATION</value>
+        </property>
+    </bean>
+    <bean id="org.acegisecurity.acls.domain.BasePermission.READ" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField">
+            <value>org.acegisecurity.acls.domain.BasePermission.READ</value>
+        </property>
+    </bean>
+    <bean id="org.acegisecurity.acls.domain.BasePermission.DELETE" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField">
+            <value>org.acegisecurity.acls.domain.BasePermission.DELETE</value>
+        </property>
+    </bean>
+    <bean id="org.acegisecurity.acls.domain.BasePermission.CREATE" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField">
+            <value>org.acegisecurity.acls.domain.BasePermission.CREATE</value>
+        </property>
+    </bean>
+    <bean id="org.acegisecurity.acls.domain.BasePermission.WRITE" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <property name="staticField">
+            <value>org.acegisecurity.acls.domain.BasePermission.WRITE</value>
+        </property>
+    </bean>
+    
+    <!-- define authentication manager -->
+    <bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
+        <property name="providers">
+            <list>
+                <ref bean="daoAuthenticationProvider"/>
+                <ref bean="anonymousAuthenticationProvider"/>
+            </list>
+        </property>
+    </bean>
+    
+    
+    <!-- define dao auth provider -->
+    <bean id="passwordEncoder" class="org.acegisecurity.providers.encoding.ShaPasswordEncoder">
+        <constructor-arg type="int" value="256"/>
+    </bean>
+    
+    <bean id="daoAuthenticationProvider" class="org.acegisecurity.providers.dao.DaoAuthenticationProvider">
+        <property name="userDetailsService">
+            <ref bean="authorsiteUserDetailsService"/>
+        </property>
+        <property name="userCache">
+            <ref bean="userCache"/>
+        </property>
+        <property name="passwordEncoder">
+            <ref bean="passwordEncoder"/>
+        </property>
+        <property name="saltSource">
+            <ref bean="saltSource"/>
+        </property>
+    </bean>
+    
+    <!-- configure User details service? - its ref to systemUserDao should be autowired... -->
+    <bean id="authorsiteUserDetailsService" class="org.authorsite.security.AuthorsiteUserDetailsService" />
+    
+    
+    
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+    
+    <bean id="userCacheBackend" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <property name="cacheManager">
+            <ref bean="cacheManager"/>
+        </property>
+        <property name="cacheName">
+            <value>userCache</value>
+        </property>
+    </bean>
+    
+    <bean id="userCache" class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache">
+        <property name="cache">
+            <ref bean="userCacheBackend"/>
+        </property>
+    </bean>
+    
+    <bean id="saltSource" class="org.acegisecurity.providers.dao.salt.ReflectionSaltSource">
+        <property name="userPropertyToUse">
+            <value>getUsername</value>
+        </property>
+    </bean>
+    
+    <bean id="roleVoter" class="org.acegisecurity.vote.RoleVoter"/>
+    
+    <bean id="aclUserChangePasswordVoter" class="org.acegisecurity.vote.AclEntryVoter">
+      <constructor-arg>
+      	<ref bean="mutableAclService"/>
+      </constructor-arg>
+      <constructor-arg>
+      	<value>ACL_USER_CHANGEPASSWORD</value>
+      </constructor-arg>
+      <constructor-arg>
+      	<list>
+          <ref local="org.acegisecurity.acls.domain.BasePermission.WRITE"/>
+          <ref local="org.acegisecurity.acls.domain.BasePermission.ADMINISTRATION"/>
+      	</list>
+      </constructor-arg>
+      <property name="processDomainObjectClass">
+          <value>org.authorsite.security.SystemUser</value>
+      </property>
+   </bean>
+
+   <bean id="aclIndividualAdminVoter" class="org.acegisecurity.vote.AclEntryVoter">
+      <constructor-arg>
+      	<ref bean="mutableAclService"/>
+      </constructor-arg>
+      <constructor-arg>
+      	<value>ACL_INDIVIDUAL_ADMIN</value>
+      </constructor-arg>
+      <constructor-arg>
+      	<list>
+          <ref bean="org.acegisecurity.acls.domain.BasePermission.WRITE"/>
+          <ref bean="org.acegisecurity.acls.domain.BasePermission.ADMINISTRATION"/>
+      	</list>
+      </constructor-arg>
+      <property name="processDomainObjectClass">
+          <value>org.authorsite.domain.Individual</value>
+      </property>
+   </bean> 
+   
+   
+    
+    <bean id="businessAccessDecisionManager" class="org.acegisecurity.vote.AffirmativeBased">
+        <property name="allowIfAllAbstainDecisions">
+            <value>false</value>
+        </property>
+        <property name="decisionVoters">
+            <list>
+                <ref bean="roleVoter"/>
+                <ref bean="aclUserChangePasswordVoter"/>
+                <ref bean="aclIndividualAdminVoter"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="methodSecurityInterceptorAspect" class="org.authorsite.security.MethodSecurityInterceptorAspect">
+        <property name="objectDefinitionSource">
+            <ref bean="objectDefinitionSource"/>
+        </property>
+        <property name="authenticationManager">
+            <ref bean="authenticationManager"/>
+        </property>
+        <property name="accessDecisionManager">
+            <ref bean="businessAccessDecisionManager"/>
+        </property>
+    </bean>
+    
+    
+    <bean id="attributes" class="org.acegisecurity.annotation.SecurityAnnotationAttributes"/>
+    
+    <bean id="objectDefinitionSource" class="org.acegisecurity.intercept.method.MethodDefinitionAttributes">
+        <property name="attributes">
+            <ref bean="attributes"/>
+        </property>
+    </bean>
+    
+    <bean id="mutableAclService" class="org.acegisecurity.acls.jdbc.JdbcMutableAclService">
+        <constructor-arg>
+            <ref bean="dataSource"/>
+        </constructor-arg> 
+        <constructor-arg>
+            <ref bean="lookupStrategy"/>
+            </constructor-arg>
+        <constructor-arg>
+            <ref bean="aclCache"/>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="aclCache" class="org.acegisecurity.acls.jdbc.EhCacheBasedAclCache">
+        <constructor-arg>
+            <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                <property name="cacheManager">
+                    <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+                </property>
+                <property name="cacheName">
+                    <value>aclCache</value>
+                </property>
+            </bean>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="lookupStrategy" class="org.acegisecurity.acls.jdbc.BasicLookupStrategy">
+        <constructor-arg>
+            <ref bean="dataSource"/>
+        </constructor-arg>
+        <constructor-arg>
+            <ref bean="aclCache"/>
+        </constructor-arg>
+        <constructor-arg>
+            <ref bean="aclAuthorizationStrategy"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.acegisecurity.acls.domain.ConsoleAuditLogger"/>
+        </constructor-arg>
+    </bean>
+    
+    
+    <bean id="aclAuthorizationStrategy" class="org.acegisecurity.acls.domain.AclAuthorizationStrategyImpl">
+        <constructor-arg>
+            <list>
+                <bean class="org.acegisecurity.GrantedAuthorityImpl">
+                    <constructor-arg value="ROLE_ADMINISTRATOR"/>
+                </bean>
+                <bean class="org.acegisecurity.GrantedAuthorityImpl">
+                    <constructor-arg value="ROLE_ADMINISTRATOR"/>
+                </bean>
+                <bean class="org.acegisecurity.GrantedAuthorityImpl">
+                    <constructor-arg value="ROLE_ADMINISTRATOR"/>
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+    
+   
+    
+     <!-- Automatically receives AuthenticationEvent messages -->
+   <bean id="loggerListener" class="org.acegisecurity.event.authentication.LoggerListener"/>
+    
+</beans>
