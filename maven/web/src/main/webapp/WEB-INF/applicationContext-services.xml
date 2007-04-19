@@ -6,24 +6,62 @@
        xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
        http://www.directwebremoting.org/schema/spring-dwr
-       http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd" default-autowire="byName">  
-    
-    
-    
-    <!-- *our* security services -->
-    <bean id="systemUserManagementService" class="org.authorsite.security.SystemUserManagementServiceImpl"/>
+       http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd" default-autowire="byName">
+
+
+    <!-- collaborating ACL managers. Not for public consumption... -->
     <bean id="systemUserAclManager" class="org.authorsite.security.SystemUserAclManagerImpl"/>
-    
-    <!-- our domain services -->
     <bean id="individualAclManager" class="org.authorsite.domain.service.IndividualAclManagerImpl" />
-    <bean id="individualManagementService" class="org.authorsite.domain.service.IndividualManagementServiceImpl">
-        <dwr:remote javascript="IndividualManagementService"/>
+
+    <!-- *our* security services -->
+    <bean id="systemUserManagementService" class="org.authorsite.security.SystemUserManagementServiceImpl">
+        <dwr:remote javascript="SystemUserManagementService">
+            <dwr:include method="removeAuthority"/>
+            <dwr:include method="grantAuthority"/>
+            <dwr:include method="changePassword"/>
+            <dwr:include method="deleteSystemUser"/>
+            <dwr:include method="enableSystemUser"/>
+            <dwr:include method="disableSystemUser"/>
+            <dwr:include method="createSystemUserFromIndividual"/>
+            <dwr:include method="createNewSystemUser"/>
+            <dwr:include method="removeAuthority"/>
+        </dwr:remote>
     </bean>
-    <bean id="collectiveManagementService" class="org.authorsite.domain.service.CollectiveManagementServiceImpl"/>    
-    
+
+
+    <!-- our domain services -->
+
+    <bean id="individualManagementService" class="org.authorsite.domain.service.IndividualManagementServiceImpl">
+        <dwr:remote javascript="IndividualManagementService">
+            <dwr:include method="countIndividuals"/>
+            <dwr:include method="delete"/>
+            <dwr:include method="findById"/>
+            <dwr:include method="findIndividualsByName"/>
+            <dwr:include method="findIndividualsByNameAndGivenNames"/>
+            <dwr:include method="findIndividualsByNameAndGivenNamesWildcard"/>
+            <dwr:include method="findIndividualsByNameWildcard"/>
+            <dwr:include method="findAllIndividuals"/>
+            <dwr:include method="save"/>
+            <dwr:include method="update"/>
+        </dwr:remote>
+    </bean>
+    <bean id="collectiveManagementService" class="org.authorsite.domain.service.CollectiveManagementServiceImpl">
+        <dwr:remote javascript="CollectiveManagementService">
+            <dwr:include method="countCollectives"/>
+            <dwr:include method="delete"/>
+            <dwr:include method="findById"/>
+            <dwr:include method="findCollectivesByName"/>
+            <dwr:include method="findCollectivesByNameWildcard"/>
+            <dwr:include method="findCollectivesByPlace"/>
+            <dwr:include method="findCollectivesByPlaceWildcard"/>
+            <!-- <dwr:include method="findAllCollectives"/> -->
+            <dwr:include method="save"/>
+            <dwr:include method="update"/>
+        </dwr:remote>
+    </bean>
 </beans>
