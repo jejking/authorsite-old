@@ -14,10 +14,6 @@
        http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd" default-autowire="byName">
 
 
-    <!-- collaborating ACL managers. Not for public consumption... -->
-    <bean id="systemUserAclManager" class="org.authorsite.security.SystemUserAclManagerImpl"/>
-    <bean id="individualAclManager" class="org.authorsite.domain.service.IndividualAclManagerImpl" />
-
     <!-- *our* security services -->
     <bean id="systemUserManagementService" class="org.authorsite.security.SystemUserManagementServiceImpl">
         <dwr:remote javascript="SystemUserManagementService">
@@ -30,6 +26,8 @@
             <dwr:include method="createSystemUserFromIndividual"/>
             <dwr:include method="createNewSystemUser"/>
             <dwr:include method="removeAuthority"/>
+            <dwr:include method="findAllSystemUsers"/>
+            <dwr:include method="findAllSystemUsersPaging"/>
         </dwr:remote>
     </bean>
 
@@ -46,10 +44,12 @@
             <dwr:include method="findIndividualsByNameAndGivenNamesWildcard"/>
             <dwr:include method="findIndividualsByNameWildcard"/>
             <dwr:include method="findAllIndividuals"/>
+            <dwr:include method="findAllIndividualsPaging"/>
             <dwr:include method="save"/>
             <dwr:include method="update"/>
         </dwr:remote>
     </bean>
+
     <bean id="collectiveManagementService" class="org.authorsite.domain.service.CollectiveManagementServiceImpl">
         <dwr:remote javascript="CollectiveManagementService">
             <dwr:include method="countCollectives"/>
@@ -59,9 +59,17 @@
             <dwr:include method="findCollectivesByNameWildcard"/>
             <dwr:include method="findCollectivesByPlace"/>
             <dwr:include method="findCollectivesByPlaceWildcard"/>
-            <!-- <dwr:include method="findAllCollectives"/> -->
+            <dwr:include method="findAllCollectives"/>
+            <dwr:include method="findAllCollectivesPaging"/>
             <dwr:include method="save"/>
             <dwr:include method="update"/>
         </dwr:remote>
     </bean>
+    <dwr:configuration>
+        <dwr:convert type="bean" class="org.authorsite.domain.Individual"/>
+        <dwr:convert type="bean" class="org.authorsite.domain.Collective"/>
+        <dwr:convert type="bean" class="org.authorsite.security.SystemUser"/>
+        <dwr:convert type="bean" class="org.authorsite.security.Authority"/>
+    </dwr:configuration>
+
 </beans>

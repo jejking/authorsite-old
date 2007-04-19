@@ -6,32 +6,34 @@
        xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
        http://www.directwebremoting.org/schema/spring-dwr
        http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd" default-autowire="byName">
-    
-    
+
+
     <aop:aspectj-autoproxy/>
-    
-    
-    
+
+
+
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-    
+
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
-    
+
     <bean id="collectiveDao" class="org.authorsite.dao.CollectiveDaoJPA" />
     <bean id="individualDao" class="org.authorsite.dao.IndividualDaoJPA" />
     <bean id="systemUserDao" class="org.authorsite.dao.SystemUserDaoJPA" />
-    
+
     <bean id="lifecycleTrackingAspect" class="org.authorsite.domain.aspects.LifecycleTrackingAspect" />
-    
-    
-  
-        
-   
-   
-    
+
+
+    <!-- collaborating ACL managers. Not for public consumption... -->
+    <bean id="systemUserAclManager" class="org.authorsite.security.SystemUserAclManagerImpl"/>
+    <bean id="individualAclManager" class="org.authorsite.domain.service.IndividualAclManagerImpl" />
+
+
+
+
 </beans>
