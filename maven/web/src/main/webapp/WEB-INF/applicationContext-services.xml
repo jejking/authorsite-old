@@ -26,6 +26,7 @@
             <dwr:include method="createSystemUserFromIndividual"/>
             <dwr:include method="createNewSystemUser"/>
             <dwr:include method="removeAuthority"/>
+            <dwr:include method="findById"/>
             <dwr:include method="findAllSystemUsers"/>
             <dwr:include method="findAllSystemUsersPaging"/>
         </dwr:remote>
@@ -37,7 +38,7 @@
     <bean id="individualManagementService" class="org.authorsite.domain.service.IndividualManagementServiceImpl">
         <dwr:remote javascript="IndividualManagementService">
             <dwr:include method="countIndividuals"/>
-            <dwr:include method="delete"/>
+            <dwr:include method="deleteIndividual"/>
             <dwr:include method="findById"/>
             <dwr:include method="findIndividualsByName"/>
             <dwr:include method="findIndividualsByNameAndGivenNames"/>
@@ -53,7 +54,7 @@
     <bean id="collectiveManagementService" class="org.authorsite.domain.service.CollectiveManagementServiceImpl">
         <dwr:remote javascript="CollectiveManagementService">
             <dwr:include method="countCollectives"/>
-            <dwr:include method="delete"/>
+            <dwr:include method="deleteCollective"/>
             <dwr:include method="findById"/>
             <dwr:include method="findCollectivesByName"/>
             <dwr:include method="findCollectivesByNameWildcard"/>
