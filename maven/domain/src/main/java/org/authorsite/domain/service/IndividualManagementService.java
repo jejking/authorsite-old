@@ -50,7 +50,7 @@ public interface IndividualManagementService {
      * @see IndividualAclManager#deleteIndividualAcl(Individual)
      */
     @Secured( { "ROLE_ADMINISTRATOR", "ACL_INDIVIDUAL_ADMIN" })
-    public void delete(Individual i) throws DataAccessException;
+    public void deleteIndividual(Individual i) throws DataAccessException;
 
     /**
      * Finds individual by primary key.
@@ -129,7 +129,7 @@ public interface IndividualManagementService {
      * @throws DataAccessException
      * @see IndividualDao#findAllIndividuals(int,int)
      */
-    public List<Individual> findAllIndividuals(int pageNumber, int pageSize) throws DataAccessException;
+    public List<Individual> findAllIndividualsPaging(int pageNumber, int pageSize) throws DataAccessException;
     
     
     /**

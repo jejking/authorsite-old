@@ -32,6 +32,14 @@ import org.springframework.dao.DataAccessException;
 public interface SystemUserManagementService {
 
     /**
+     * @param id
+     * @return the system user with that id or <code>null</code>
+     * @throws DataAccessException
+     */
+    @Secured( { "ROLE_ADMINISTRATOR" })
+    public SystemUser findById(long id) throws DataAccessException;
+    
+    /**
      * Returns lists of all system users.
      * 
      * @return list of all system users
@@ -49,7 +57,7 @@ public interface SystemUserManagementService {
      * @throws DataAccessException
      */
     @Secured( { "ROLE_ADMINISTRATOR" })
-    public List<SystemUser> findAllSystemUsers(int pageNumber, int pageSize) throws DataAccessException;
+    public List<SystemUser> findAllSystemUsersPaging(int pageNumber, int pageSize) throws DataAccessException;
     
     /**
      * Creates brand new System User and the associated Individual

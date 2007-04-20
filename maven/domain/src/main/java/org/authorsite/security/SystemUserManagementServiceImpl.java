@@ -57,13 +57,19 @@ public class SystemUserManagementServiceImpl implements SystemUserManagementServ
     
     @Secured( { "ROLE_ADMINISTRATOR" })
     @Transactional(readOnly = true)
+    public SystemUser findById(long id) throws DataAccessException {
+        return this.systemUserDao.findById(id);
+    }
+    
+    @Secured( { "ROLE_ADMINISTRATOR" })
+    @Transactional(readOnly = true)
     public List<SystemUser> findAllSystemUsers() throws DataAccessException {
         return this.systemUserDao.findAllSystemUsers();
     }
 
     @Secured( { "ROLE_ADMINISTRATOR" })
     @Transactional(readOnly = true)
-    public List<SystemUser> findAllSystemUsers(int pageNumber, int pageSize) throws DataAccessException {
+    public List<SystemUser> findAllSystemUsersPaging(int pageNumber, int pageSize) throws DataAccessException {
         return this.systemUserDao.findAllSystemUsers(pageNumber, pageSize);
     }
 
@@ -248,5 +254,7 @@ public class SystemUserManagementServiceImpl implements SystemUserManagementServ
     public void setIndividualAclManager(IndividualAclManager individualAclManager) {
         this.individualAclManager = individualAclManager;
     }
+
+
 
 }

@@ -72,7 +72,7 @@ public class CollectiveManagementServiceImpl implements CollectiveManagementServ
      * @see org.authorsite.domain.service.CollectiveManagementService#delete(org.authorsite.domain.Collective)
      */
     @Secured( { "ROLE_ADMINISTRATOR", "ROLE_EDITOR" })
-    public void delete(Collective c) throws DataAccessException {
+    public void deleteCollective(Collective c) throws DataAccessException {
         this.collectiveDao.delete(c);
     }
 
@@ -132,7 +132,7 @@ public class CollectiveManagementServiceImpl implements CollectiveManagementServ
     }
     
     @Transactional(readOnly = true)
-    public List<Collective> findAllCollectives(int pageNumber, int pageSize) throws DataAccessException {
+    public List<Collective> findAllCollectivesPaging(int pageNumber, int pageSize) throws DataAccessException {
         return this.collectiveDao.findAllCollectives(pageNumber, pageSize);
     }
     

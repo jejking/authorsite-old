@@ -98,7 +98,7 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
      * @see org.authorsite.domain.service.IndividualManagementService#delete(org.authorsite.domain.Individual)
      */
     @Secured( { "ROLE_ADMINISTRATOR", "ACL_INDIVIDUAL_ADMIN" })
-    public void delete(Individual i) throws DataAccessException {
+    public void deleteIndividual(Individual i) throws DataAccessException {
         this.individualDao.delete(i);
         this.individualAclManager.deleteIndividualAcl(i);
     }
@@ -184,7 +184,7 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
     }
 
     @Transactional(readOnly = true)
-    public List<Individual> findAllIndividuals(int pageNumber, int pageSize) throws DataAccessException {
+    public List<Individual> findAllIndividualsPaging(int pageNumber, int pageSize) throws DataAccessException {
         return this.individualDao.findAllIndividuals(pageNumber, pageSize);
     }
 

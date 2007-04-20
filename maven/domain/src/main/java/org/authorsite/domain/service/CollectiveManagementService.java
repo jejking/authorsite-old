@@ -49,7 +49,7 @@ public interface CollectiveManagementService {
      * @see CollectiveDao#delete(Collective)
      */
     @Secured( { "ROLE_ADMINISTRATOR", "ROLE_EDITOR" })
-    public void delete(Collective c) throws DataAccessException;
+    public void deleteCollective(Collective c) throws DataAccessException;
 
     /**
      * Loads single collective by primary key.
@@ -118,7 +118,7 @@ public interface CollectiveManagementService {
      * @return "page" list
      * @throws DataAccessException
      */
-    public List<Collective> findAllCollectives(int pageNumber, int pageSize) throws DataAccessException;
+    public List<Collective> findAllCollectivesPaging(int pageNumber, int pageSize) throws DataAccessException;
 
     /**
      * Saves <em>new</em> instance to the database.
