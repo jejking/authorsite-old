@@ -173,7 +173,8 @@
         </property>
     </bean>
     
-    <bean id="mutableAclService" class="org.acegisecurity.acls.jdbc.JdbcMutableAclService">
+    <!--<bean id="mutableAclService" class="org.acegisecurity.acls.jdbc.JdbcMutableAclService">-->
+    <bean id="mutableAclService" class="org.authorsite.security.DerbyJdbcMutableAclService">
         <constructor-arg>
             <ref bean="dataSource"/>
         </constructor-arg> 
@@ -217,12 +218,15 @@
     <bean id="aclAuthorizationStrategy" class="org.acegisecurity.acls.domain.AclAuthorizationStrategyImpl">
         <constructor-arg>
             <list>
+                <!-- index 0 is the authority needed to change ownership -->
                 <bean class="org.acegisecurity.GrantedAuthorityImpl">
                     <constructor-arg value="ROLE_ADMINISTRATOR"/>
                 </bean>
+                <!-- index 1 is the authority needed to modify auditing details -->
                 <bean class="org.acegisecurity.GrantedAuthorityImpl">
                     <constructor-arg value="ROLE_ADMINISTRATOR"/>
                 </bean>
+                <!-- index 2 is the authority needed to change other ACL and ACE details -->
                 <bean class="org.acegisecurity.GrantedAuthorityImpl">
                     <constructor-arg value="ROLE_ADMINISTRATOR"/>
                 </bean>
