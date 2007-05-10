@@ -119,13 +119,17 @@ public interface IndividualDao {
      * Returns all individuals known to the system.
      *
      * @return list of all individuals in the system
+     * @throws DataAccessException 
      */
     public List<Individual> findAllIndividuals() throws DataAccessException;
     
     /**
      * Returns "page" of list of all individuals known to the system.
-     *
+     * 
+     * @param pageNumber 
+     * @param pageSize 
      * @return page of list of all individuals known to the system.
+     * @throws DataAccessException 
      */
     public List<Individual> findAllIndividuals(int pageNumber, int pageSize)
             throws DataAccessException;

@@ -28,6 +28,7 @@ import org.acegisecurity.acls.objectidentity.ObjectIdentity;
 import org.acegisecurity.acls.objectidentity.ObjectIdentityImpl;
 import org.acegisecurity.acls.sid.GrantedAuthoritySid;
 import org.acegisecurity.acls.sid.PrincipalSid;
+import org.apache.log4j.Logger;
 import org.authorsite.domain.Individual;
 import org.authorsite.security.SystemUser;
 
@@ -38,6 +39,7 @@ import org.authorsite.security.SystemUser;
  */
 public class IndividualAclManagerImpl implements IndividualAclManager {
 
+    private static final Logger LOGGER = Logger.getLogger(IndividualAclManagerImpl.class);
     private MutableAclService mutableAclService;
 
     /**
@@ -61,6 +63,7 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
         acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), true);
         acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
         this.mutableAclService.updateAcl(acl);
+        LOGGER.info("Added Admin and Write permissions for the Editor Role to individual " + i);
     }
 
     public void createIndividualAcl(Individual i) {
@@ -69,11 +72,13 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
         acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), true);
         acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
         this.mutableAclService.updateAcl(acl);
+        LOGGER.info("Created new ACL with Admin and Write permissions for the Editor Role on individual " + i);
     }
 
     public void deleteIndividualAcl(Individual i) {
         ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
         this.mutableAclService.deleteAcl(oid, true);
+        LOGGER.info("Deleted all ACL Entries for individual "+ i );
     }
 
     public void grantSystemUserAdminOnIndividual(Individual i, SystemUser user) {
@@ -81,6 +86,7 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
         AclImpl acl = getAcl(oid);
         acl.insertAce(null, BasePermission.WRITE, new PrincipalSid(user.getUserName()), true);
         this.mutableAclService.updateAcl(acl);
+        LOGGER.info("Granted systmer user " + user + " Write permissions on individual " + i);
     }
 
     public void removeEditorRoleFromIndividualAcl(Individual i) {
@@ -92,6 +98,7 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
             }
         }
         this.mutableAclService.updateAcl(acl);
+        LOGGER.info("Removed all permissions for the Editor Role from individual " + i);
     }
 
     public void removeSystemUserAdminOnIndividual(Individual i, SystemUser user) {
@@ -103,6 +110,7 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
             }
         }
         this.mutableAclService.updateAcl(acl);
+        LOGGER.info("Removed the permissions of system user " + user + " on individual " + i);
     }
 
     private AclImpl getAcl(ObjectIdentity oid) {

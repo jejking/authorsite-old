@@ -21,6 +21,7 @@ package org.authorsite.domain.service;
 import java.util.List;
 
 import org.acegisecurity.annotation.Secured;
+import org.apache.log4j.Logger;
 import org.authorsite.dao.CollectiveDao;
 import org.authorsite.domain.Collective;
 import org.springframework.dao.DataAccessException;
@@ -34,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CollectiveManagementServiceImpl implements CollectiveManagementService {
 
+    private static final Logger LOGGER = Logger.getLogger(CollectiveManagementServiceImpl.class);
     private CollectiveDao collectiveDao;
 
     /**
@@ -74,6 +76,7 @@ public class CollectiveManagementServiceImpl implements CollectiveManagementServ
     @Secured( { "ROLE_ADMINISTRATOR", "ROLE_EDITOR" })
     public void deleteCollective(Collective c) throws DataAccessException {
         this.collectiveDao.delete(c);
+        LOGGER.info("Deleted collective " + c);
     }
 
     /*
@@ -144,6 +147,7 @@ public class CollectiveManagementServiceImpl implements CollectiveManagementServ
     @Secured( { "ROLE_ADMINISTRATOR", "ROLE_EDITOR" })
     public void save(Collective c) throws DataAccessException {
         this.collectiveDao.save(c);
+        LOGGER.info("Created new collective: " + c);
     }
 
     /*
@@ -153,7 +157,9 @@ public class CollectiveManagementServiceImpl implements CollectiveManagementServ
      */
     @Secured( { "ROLE_ADMINISTRATOR", "ROLE_EDITOR" })
     public Collective update(Collective c) throws DataAccessException {
-        return this.collectiveDao.update(c);
+        Collective updated = this.collectiveDao.update(c);
+        LOGGER.info("Updated collective: " + c);
+        return updated;
     }
 
     

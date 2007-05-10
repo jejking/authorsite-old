@@ -19,16 +19,14 @@
 
 package org.authorsite.dao;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.authorsite.domain.Individual;
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +47,9 @@ public class IndividualDaoJPA implements IndividualDao {
 	super();
     }
     
+    /**
+     * @param entityManager
+     */
     @PersistenceContext
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -110,7 +111,7 @@ public class IndividualDaoJPA implements IndividualDao {
     @Transactional(readOnly = true)
     public List<Individual> findIndividualsByNameAndGivenNamesWildcard(
 	    String name, String givenNames) throws DataAccessException {
-	Map<String, String> params = new HashMap<String, String>();
+	
         Query q = this.entityManager.createNamedQuery("IndividualsByNameAndGivenNamesWildcard");
         q.setParameter("individualName", name);
         q.setParameter("givenNames", givenNames);

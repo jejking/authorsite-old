@@ -117,6 +117,7 @@ public interface CollectiveDao {
      * Returns all known collectives in the system.
      *
      * @return list of all collective instances
+     * @throws DataAccessException 
      */ 
     public List<Collective> findAllCollectives() throws DataAccessException;
 

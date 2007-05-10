@@ -78,7 +78,7 @@ public class SystemUser extends AbstractEntry {
      * Creates a new instance of SystemUser
      */
     public SystemUser() {
-	super();
+        super();
     }
 
     /**
@@ -91,9 +91,9 @@ public class SystemUser extends AbstractEntry {
      * @param password
      */
     public SystemUser(String userName, String password) {
-	this.setUserName(userName);
-	this.setPassword(password);
-	this.setEnabled(true);
+    	this.setUserName(userName);
+    	this.setPassword(password);
+    	this.setEnabled(true);
     }
 
     /**
@@ -105,8 +105,8 @@ public class SystemUser extends AbstractEntry {
      * @param password
      */
     public SystemUser(Individual individual, String userName, String password) {
-	this(userName, password);
-	this.individual = individual;
+    	this(userName, password);
+    	this.individual = individual;
     }
 
     /**
@@ -116,7 +116,7 @@ public class SystemUser extends AbstractEntry {
      */
     @Column(unique = true, nullable = false, updatable = false)
     public String getUserName() {
-	return this.userName;
+        return this.userName;
     }
 
     /**
@@ -125,7 +125,7 @@ public class SystemUser extends AbstractEntry {
      * @param userName
      */
     public void setUserName(String userName) {
-	this.userName = userName;
+            this.userName = userName;
     }
 
     /**
@@ -135,7 +135,7 @@ public class SystemUser extends AbstractEntry {
      */
     @Column(nullable = false)
     public String getPassword() {
-	return this.password;
+        return this.password;
     }
 
     /**
@@ -144,7 +144,7 @@ public class SystemUser extends AbstractEntry {
      * @param password
      */
     public void setPassword(String password) {
-	this.password = password;
+        this.password = password;
     }
 
     /**
@@ -154,7 +154,7 @@ public class SystemUser extends AbstractEntry {
      */
     @Column(nullable = false)
     public boolean isEnabled() {
-	return this.isEnabled;
+        return this.isEnabled;
     }
 
     /**
@@ -163,7 +163,7 @@ public class SystemUser extends AbstractEntry {
      * @param isEnabled
      */
     public void setEnabled(boolean isEnabled) {
-	this.isEnabled = isEnabled;
+        this.isEnabled = isEnabled;
     }
 
     /**
@@ -174,15 +174,15 @@ public class SystemUser extends AbstractEntry {
     @CollectionOfElements(fetch = FetchType.EAGER)
     @JoinTable(name = "SystemUser_Authorities", joinColumns = @JoinColumn(name = "SystemUser_id"))
     public Set<Authority> getAuthorities() {
-	if (this.authorities == null) {
-	    return new HashSet<Authority>();
-	} else {
-	    return this.authorities;
-	}
+        if (this.authorities == null) {
+            return new HashSet<Authority>();
+        } else {
+            return this.authorities;
+        }
     }
 
     protected void setAuthorities(Set<Authority> authorities) {
-	this.authorities = authorities;
+        this.authorities = authorities;
     }
 
     /**
@@ -190,7 +190,7 @@ public class SystemUser extends AbstractEntry {
      */
     @OneToOne(optional = false)
     public Individual getIndividual() {
-	return this.individual;
+        return this.individual;
     }
 
     /**
@@ -199,7 +199,70 @@ public class SystemUser extends AbstractEntry {
      * @param individual
      */
     public void setIndividual(Individual individual) {
-	this.individual = individual;
+        this.individual = individual;
     }
 
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = super.hashCode();
+        result = PRIME * result + ((this.authorities == null) ? 0 : this.authorities.hashCode());
+        result = PRIME * result + ((this.individual == null) ? 0 : this.individual.hashCode());
+        result = PRIME * result + (this.isEnabled ? 1231 : 1237);
+        result = PRIME * result + ((this.password == null) ? 0 : this.password.hashCode());
+        result = PRIME * result + ((this.userName == null) ? 0 : this.userName.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (! (obj instanceof SystemUser ))
+            return false;
+        final SystemUser other = (SystemUser) obj;
+        if (this.authorities == null) {
+            if (other.authorities != null)
+                return false;
+        } else if (!this.authorities.equals(other.authorities))
+            return false;
+        if (this.individual == null) {
+            if (other.individual != null)
+                return false;
+        } else if (!this.individual.equals(other.individual))
+            return false;
+        if (this.isEnabled != other.isEnabled)
+            return false;
+        if (this.password == null) {
+            if (other.password != null)
+                return false;
+        } else if (!this.password.equals(other.password))
+            return false;
+        if (this.userName == null) {
+            if (other.userName != null)
+                return false;
+        } else if (!this.userName.equals(other.userName))
+            return false;
+        return true;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("System User ");
+        sb.append(super.toString());
+        sb.append(", Username: " + this.userName);
+        sb.append(", enabled: " + this.isEnabled);
+        sb.append(", Authorities: (");
+        for (Authority authority : this.authorities) {
+            sb.append(authority);
+        }
+        sb.append(")");
+        sb.append(", Individual: " + this.individual);
+        return sb.toString();
+    }
+    
+    
 }

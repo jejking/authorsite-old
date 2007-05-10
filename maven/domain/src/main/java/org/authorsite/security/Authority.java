@@ -42,19 +42,19 @@ public enum Authority {
 
     /** Creates a new instance of Authority */
     Authority(String roleName) {
-	this.roleName = roleName;
+        this.roleName = roleName;
     }
 
     @Override
     public String toString() {
-	return this.roleName;
+        return this.roleName;
     }
 
     /**
      * @return role name
      */
     public String getRoleName() {
-	return this.roleName;
+        return this.roleName;
     }
 
 }

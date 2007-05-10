@@ -24,6 +24,7 @@ import org.acegisecurity.acls.domain.BasePermission;
 import org.acegisecurity.acls.objectidentity.ObjectIdentity;
 import org.acegisecurity.acls.objectidentity.ObjectIdentityImpl;
 import org.acegisecurity.acls.sid.PrincipalSid;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -31,7 +32,7 @@ import org.acegisecurity.acls.sid.PrincipalSid;
  */
 public class SystemUserAclManagerImpl implements SystemUserAclManager {
     
-    
+    private static final Logger LOGGER = Logger.getLogger(SystemUserAclManagerImpl.class);
     private MutableAclService mutableAclService;
     
     public void addSystemUserChangePasswordPermission(SystemUser user) {
@@ -39,7 +40,7 @@ public class SystemUserAclManagerImpl implements SystemUserAclManager {
         MutableAcl acl = getMutableAclService().createAcl(objectIdentity);
         acl.insertAce(null, BasePermission.WRITE, new PrincipalSid(user.getUserName()), true);
         acl.insertAce(null, BasePermission.READ, new PrincipalSid(user.getUserName()), true);
-        System.out.println("Added base permissions WRITE and READ to user: " + user);
+        LOGGER.info("Added base permissions WRITE and READ to user: " + user);
         getMutableAclService().updateAcl(acl);
     }
 

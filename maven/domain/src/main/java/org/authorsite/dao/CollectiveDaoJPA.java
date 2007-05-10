@@ -19,16 +19,14 @@
 
 package org.authorsite.dao;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.authorsite.domain.Collective;
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,9 +45,12 @@ public class CollectiveDaoJPA implements CollectiveDao {
      * Creates a new instance of CollectiveDaoJPA.
      */
     public CollectiveDaoJPA() {
-	super();
+        super();
     }
     
+    /**
+     * @param entityManager
+     */
     @PersistenceContext
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -57,7 +58,7 @@ public class CollectiveDaoJPA implements CollectiveDao {
 
     @Transactional(readOnly = true)
     public Collective findById(long id) throws DataAccessException {
-        return this.entityManager.find( Collective.class, new Long(id));
+        return this.entityManager.find(Collective.class, new Long(id));
     }
 
     public void save(final Collective c) throws DataAccessException {

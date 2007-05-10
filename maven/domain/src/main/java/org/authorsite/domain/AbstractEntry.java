@@ -54,7 +54,7 @@ public abstract class AbstractEntry implements Serializable {
      * Default constructor.
      */
     public AbstractEntry() {
-	super();
+        super();
     }
 
     /**
@@ -65,7 +65,7 @@ public abstract class AbstractEntry implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
-	return this.id;
+        return this.id;
     }
 
     /**
@@ -75,7 +75,7 @@ public abstract class AbstractEntry implements Serializable {
      */
     @Version
     public int getVersion() {
-	return this.version;
+        return this.version;
     }
 
     /**
@@ -85,7 +85,7 @@ public abstract class AbstractEntry implements Serializable {
      * @param i the version
      */
     protected void setVersion(int i) {
-	this.version = i;
+        this.version = i;
     }
 
     /**
@@ -94,7 +94,7 @@ public abstract class AbstractEntry implements Serializable {
      * @param id
      */
     public void setId(long id) {
-	this.id = id;
+        this.id = id;
     }
 
     /**
@@ -102,14 +102,14 @@ public abstract class AbstractEntry implements Serializable {
      */
     @Temporal(value = TemporalType.TIMESTAMP)
     public Date getCreatedAt() {
-	return this.createdAt;
+        return this.createdAt;
     }
 
     /**
      * @param createdAt the createdAt to set
      */
     public void setCreatedAt(Date createdAt) {
-	this.createdAt = createdAt;
+        this.createdAt = createdAt;
     }
 
     /**
@@ -117,14 +117,14 @@ public abstract class AbstractEntry implements Serializable {
      */
     @OneToOne(optional = true)
     public Individual getCreatedBy() {
-	return this.createdBy;
+        return this.createdBy;
     }
 
     /**
      * @param createdBy the createdBy to set
      */
     public void setCreatedBy(Individual createdBy) {
-	this.createdBy = createdBy;
+        this.createdBy = createdBy;
     }
 
     /**
@@ -132,14 +132,14 @@ public abstract class AbstractEntry implements Serializable {
      */
     @Temporal(value = TemporalType.TIMESTAMP)
     public Date getUpdatedAt() {
-	return this.updatedAt;
+        return this.updatedAt;
     }
 
     /**
      * @param updatedAt the updatedAt to set
      */
     public void setUpdatedAt(Date updatedAt) {
-	this.updatedAt = updatedAt;
+        this.updatedAt = updatedAt;
     }
 
     /**
@@ -147,14 +147,72 @@ public abstract class AbstractEntry implements Serializable {
      */
     @OneToOne(optional = true)
     public Individual getUpdatedBy() {
-	return this.updatedBy;
+        return this.updatedBy;
     }
 
     /**
      * @param updatedBy the updatedBy to set
      */
     public void setUpdatedBy(Individual updatedBy) {
-	this.updatedBy = updatedBy;
+        this.updatedBy = updatedBy;
     }
 
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = PRIME * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
+        result = PRIME * result + (int) (this.id ^ (this.id >>> 32));
+        result = PRIME * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = PRIME * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
+        result = PRIME * result + this.version;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if ( ! ( obj instanceof AbstractEntry )) {
+            return false;
+        }
+        final AbstractEntry other = (AbstractEntry) obj;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        } else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.createdBy == null) {
+            if (other.createdBy != null)
+                return false;
+        } else if (!this.createdBy.equals(other.createdBy))
+            return false;
+        if (this.id != other.id)
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        } else if (!this.updatedAt.equals(other.updatedAt))
+            return false;
+        if (this.updatedBy == null) {
+            if (other.updatedBy != null)
+                return false;
+        } else if (!this.updatedBy.equals(other.updatedBy))
+            return false;
+        if (this.version != other.version)
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("id: " +id );
+        sb.append(", version: " + this.version);
+        return sb.toString();
+    }
+    
 }
