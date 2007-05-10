@@ -90,7 +90,8 @@ public class SystemUserManagementServiceImpl implements SystemUserManagementServ
 
         this.systemUserAclManager.addSystemUserChangePasswordPermission(user);
         this.individualAclManager.createIndividualAcl(i);
-        this.individualAclManager.grantSystemUserAdminOnIndividual(i, user);
+        this.individualAclManager.removeEditorRoleFromIndividualAcl(i);
+        this.individualAclManager.grantAdminOnIndividualToSystemUser(i, user);
     }
 
     @Secured( { "ROLE_ADMINISTRATOR" })
@@ -105,7 +106,7 @@ public class SystemUserManagementServiceImpl implements SystemUserManagementServ
         this.systemUserAclManager.addSystemUserChangePasswordPermission(user);
 
         this.individualAclManager.removeEditorRoleFromIndividualAcl(individual);
-        this.individualAclManager.grantSystemUserAdminOnIndividual(individual, user);
+        this.individualAclManager.grantAdminOnIndividualToSystemUser(individual, user);
     }
 
     @Secured( { "ROLE_ADMINISTRATOR" })
@@ -125,7 +126,7 @@ public class SystemUserManagementServiceImpl implements SystemUserManagementServ
 
         // user loses permissions on his/her individual, generic Editor perms
         // restored
-        this.individualAclManager.removeSystemUserAdminOnIndividual(user.getIndividual(), user);
+        this.individualAclManager.removeAdminOnIndividualFromSystemUser(user.getIndividual(), user);
         this.individualAclManager.addEditorRoleToIndividualAcl(user.getIndividual());
 
         // do the actual deletion

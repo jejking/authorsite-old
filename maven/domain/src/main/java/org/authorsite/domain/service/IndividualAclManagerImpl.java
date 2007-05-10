@@ -81,7 +81,7 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
         LOGGER.info("Deleted all ACL Entries for individual "+ i );
     }
 
-    public void grantSystemUserAdminOnIndividual(Individual i, SystemUser user) {
+    public void grantAdminOnIndividualToSystemUser(Individual i, SystemUser user) {
         ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
         AclImpl acl = getAcl(oid);
         acl.insertAce(null, BasePermission.WRITE, new PrincipalSid(user.getUserName()), true);
@@ -101,7 +101,7 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
         LOGGER.info("Removed all permissions for the Editor Role from individual " + i);
     }
 
-    public void removeSystemUserAdminOnIndividual(Individual i, SystemUser user) {
+    public void removeAdminOnIndividualFromSystemUser(Individual i, SystemUser user) {
         ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
         AclImpl acl = getAcl(oid);
         for (AccessControlEntry entry : acl.getEntries()) {

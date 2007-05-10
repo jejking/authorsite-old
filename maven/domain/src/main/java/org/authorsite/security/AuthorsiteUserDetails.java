@@ -90,5 +90,11 @@ public class AuthorsiteUserDetails implements UserDetails {
     public SystemUser getSystemUser() {
 	return this.systemUser;
     }
+    
+   @Override
+   public String toString()
+   {
+       return this.getUsername();
+   }
 
 }

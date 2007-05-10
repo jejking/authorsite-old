@@ -75,7 +75,7 @@ public interface IndividualAclManager {
      * @param i
      * @param user
      */
-    public void grantSystemUserAdminOnIndividual(Individual i, SystemUser user);
+    public void grantAdminOnIndividualToSystemUser(Individual i, SystemUser user);
 
     /**
      * Removes ACL permissions on the Individual from
@@ -88,7 +88,7 @@ public interface IndividualAclManager {
      * @param i
      * @param user
      */
-    public void removeSystemUserAdminOnIndividual(Individual i, SystemUser user);
+    public void removeAdminOnIndividualFromSystemUser(Individual i, SystemUser user);
 
     /**
      * Fully deletes ACL on an Individual. 
