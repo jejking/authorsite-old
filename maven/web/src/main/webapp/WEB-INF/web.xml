@@ -210,23 +210,12 @@
         <servlet-name>spring-dispatcher</servlet-name>
         <url-pattern>/auth/*</url-pattern>
     </servlet-mapping>
-    
-    <!-- end spring MVC -->
-    
-    <!-- dwr -->
-    <servlet>
-        <servlet-name>dwr-invoker</servlet-name>
-        <servlet-class>org.directwebremoting.spring.DwrSpringServlet</servlet-class>
-        <init-param>
-            <param-name>debug</param-name>
-            <param-value>true</param-value>
-        </init-param>
-    </servlet>
-    
     <servlet-mapping>
-        <servlet-name>dwr-invoker</servlet-name>
+        <servlet-name>spring-dispatcher</servlet-name>
         <url-pattern>/dwr/*</url-pattern>
     </servlet-mapping>
+    
+    <!-- end spring MVC -->
     
     <security-constraint>
         <display-name>NoDirectJspInvocation</display-name>

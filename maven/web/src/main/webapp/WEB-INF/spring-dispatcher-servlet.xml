@@ -2,7 +2,10 @@
 <!-- defines spring context for Spring MVC -->
 <beans xmlns="http://www.springframework.org/schema/beans" 
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.directwebremoting.org/schema/spring-dwr
+       http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
     
     <bean id="homeIndexController" class="org.authorsite.web.mvc.controllers.HomeIndexController">
         <property name="supportedMethods" value="GET"/>
@@ -29,14 +32,13 @@
    </bean>
 
 
-   
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
     
-    
+    <dwr:controller id="dwrController" debug="true"/>
     
     <bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="urlMap">
@@ -55,6 +57,9 @@
                 </entry>
                 <entry key="/people/individuals/*">
                     <ref bean="individualsViewController"/>
+                </entry>
+                <entry key="/dwr/**">
+                    <ref bean="dwrController"/>
                 </entry>
             </map>
         </property>

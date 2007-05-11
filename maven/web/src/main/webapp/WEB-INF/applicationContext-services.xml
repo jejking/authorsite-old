@@ -13,7 +13,6 @@
        http://www.directwebremoting.org/schema/spring-dwr
        http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd" default-autowire="byName">
 
-
     <!-- *our* security services -->
     <bean id="systemUserManagementService" class="org.authorsite.security.SystemUserManagementServiceImpl">
         <dwr:remote javascript="SystemUserManagementService">
