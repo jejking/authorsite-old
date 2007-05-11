@@ -71,5 +71,4 @@
         <dwr:convert type="bean" class="org.authorsite.security.SystemUser"/>
         <dwr:convert type="bean" class="org.authorsite.security.Authority"/>
     </dwr:configuration>
-
 </beans>
