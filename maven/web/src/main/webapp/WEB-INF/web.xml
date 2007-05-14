@@ -147,7 +147,7 @@
     <filter-mapping>
         <filter-name>IdExtractionFilter</filter-name>
         <url-pattern>/people/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping> 
     <filter-mapping>
         <filter-name>IdExtractionFilter</filter-name>
         <url-pattern>/admin/users/*</url-pattern>
@@ -252,6 +252,6 @@
     </security-constraint>
     
     <welcome-file-list>
-        <welcome-file>/index</welcome-file>
+        <welcome-file>/index.jsp</welcome-file>
     </welcome-file-list>    
 </web-app>

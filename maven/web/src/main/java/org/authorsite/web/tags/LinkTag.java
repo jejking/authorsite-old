@@ -93,7 +93,15 @@ public class LinkTag extends BodyTagSupport {
             url = baseUrl + "/" + entry.getId();
         }
         
-        return url;
+        if ( pageContext != null ) {
+            String contextPath = pageContext.getServletContext().getContextPath();
+            return contextPath + url;
+        }
+        else {
+            return url;    
+        }
+        
+        
 
     }
     

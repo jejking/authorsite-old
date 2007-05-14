@@ -69,7 +69,7 @@ public class IdExtractionFilter implements Filter {
                 httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
         } 
-        
+        chain.doFilter(request, response);
     }
     
 }

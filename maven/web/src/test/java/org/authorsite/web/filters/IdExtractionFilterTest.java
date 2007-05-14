@@ -7,6 +7,12 @@
 
 package org.authorsite.web.filters;
 
+import java.io.IOException;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import junit.framework.*;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -35,7 +41,7 @@ public class IdExtractionFilterTest extends TestCase {
         request.setRequestURI("/people/individuals/123");
         
         IdExtractionFilter filter = new IdExtractionFilter();
-        filter.doFilter(request, response, null);
+        filter.doFilter(request, response, new MockFilterChain());
         assertEquals(new Long(123), request.getAttribute("id"));
     }
     
@@ -46,7 +52,7 @@ public class IdExtractionFilterTest extends TestCase {
         request.setRequestURI("/people/individuals/index");
         
         IdExtractionFilter filter = new IdExtractionFilter();
-        filter.doFilter(request, response, null);
+        filter.doFilter(request, response, new MockFilterChain());
         assertNull(request.getAttribute("id"));
     }
     
@@ -57,7 +63,20 @@ public class IdExtractionFilterTest extends TestCase {
         request.setRequestURI("/people/individuals/wibble");
         
         IdExtractionFilter filter = new IdExtractionFilter();
-        filter.doFilter(request, response, null);
+        filter.doFilter(request, response, new MockFilterChain());
         assertEquals(HttpServletResponse.SC_NOT_FOUND, response.getStatus());
+    }
+    
+    private final class MockFilterChain implements FilterChain {
+        
+        boolean doFilterCalled = false;
+        
+        void init(FilterConfig filterConfig) throws ServletException {
+            // do nothing
+        }
+
+        public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
+            this.doFilterCalled = true;
+        }
     }
 }
