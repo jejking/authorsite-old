@@ -78,6 +78,8 @@ public class LifecycleTrackingAspect {
 	    entry.setUpdatedBy(individual);
 	    LOGGER.debug("Set created and updated by to: " + individual);
 	}
+        
+        LOGGER.debug("Entry State at end of aspect is.. \n" + entry );
 
     }
 

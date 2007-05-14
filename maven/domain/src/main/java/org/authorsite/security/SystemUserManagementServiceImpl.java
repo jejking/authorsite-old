@@ -27,6 +27,7 @@ import org.authorsite.dao.IndividualDao;
 import org.authorsite.dao.SystemUserDao;
 import org.authorsite.domain.Individual;
 import org.authorsite.domain.service.IndividualAclManager;
+import org.authorsite.domain.service.IndividualManagementService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,14 +39,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SystemUserManagementServiceImpl implements SystemUserManagementService {
 
-    private IndividualDao individualDao;
-
     private SystemUserDao systemUserDao;
 
     private PasswordEncoder passwordEncoder;
 
     private SystemUserAclManager systemUserAclManager;
 
+    private IndividualManagementService individualManagementService;
+    
     private IndividualAclManager individualAclManager;
 
     /**
@@ -80,7 +81,7 @@ public class SystemUserManagementServiceImpl implements SystemUserManagementServ
         i.setName(name);
         i.setGivenNames(givenNames);
         i.setNameQualification(nameQualification);
-        this.individualDao.save(i);
+        this.individualManagementService.save(i);
 
         SystemUser user = new SystemUser(i, username, this.passwordEncoder.encodePassword(password, username));
         HashSet<Authority> authorities = new HashSet<Authority>();
@@ -89,7 +90,6 @@ public class SystemUserManagementServiceImpl implements SystemUserManagementServ
         this.systemUserDao.save(user);
 
         this.systemUserAclManager.addSystemUserChangePasswordPermission(user);
-        this.individualAclManager.createIndividualAcl(i);
         this.individualAclManager.removeEditorRoleFromIndividualAcl(i);
         this.individualAclManager.grantAdminOnIndividualToSystemUser(i, user);
     }
@@ -162,10 +162,10 @@ public class SystemUserManagementServiceImpl implements SystemUserManagementServ
     }
 
     /**
-     * @return individual dao
+     * @return individual management service
      */
-    public IndividualDao getIndividualDao() {
-        return this.individualDao;
+    public IndividualManagementService getIndividualManagementService() {
+        return this.individualManagementService;
     }
 
     /**
@@ -177,8 +177,8 @@ public class SystemUserManagementServiceImpl implements SystemUserManagementServ
      * 
      * @param individualDao
      */
-    public void setIndividualDao(IndividualDao individualDao) {
-        this.individualDao = individualDao;
+    public void setIndividualManagementService(IndividualManagementService individualManagementService) {
+        this.individualManagementService = individualManagementService;
     }
 
     /**

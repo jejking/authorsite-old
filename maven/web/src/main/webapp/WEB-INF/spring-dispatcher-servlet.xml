@@ -2,17 +2,13 @@
 <!-- defines spring context for Spring MVC -->
 <beans xmlns="http://www.springframework.org/schema/beans" 
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-       http://www.directwebremoting.org/schema/spring-dwr
-       http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd" default-autowire="byName">
     
     <bean id="homeIndexController" class="org.authorsite.web.mvc.controllers.HomeIndexController">
         <property name="supportedMethods" value="GET"/>
     </bean>
     
    <bean id="individualsIndexController" class="org.authorsite.web.mvc.controllers.IndividualsIndexController">
-       <property name="cacheSeconds" value="600"/>
        <property name="supportedMethods" value="GET"/>
    </bean>
    
@@ -32,19 +28,20 @@
    </bean>
 
 
+   
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
     
-    <dwr:controller id="dwrController" debug="true"/>
+    
     
     <bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="urlMap">
             <map>
                 <entry key="/index">
-                    <ref bean="homeIndexController"/>
+                    <ref bean="individualsIndexController"/>
                 </entry>
                 <entry key="/auth/login">
                     <ref bean="loginController"/>
@@ -52,15 +49,13 @@
                 <entry key="/auth/loginFailed">
                     <ref bean="loginFailedController"/>
                 </entry>
-                <entry key="/people/indidividuals/index">
+                <entry key="/people/index">
                     <ref bean="individualsIndexController"/>
                 </entry>
+                <!--
                 <entry key="/people/individuals/*">
                     <ref bean="individualsViewController"/>
-                </entry>
-                <entry key="/dwr/**">
-                    <ref bean="dwrController"/>
-                </entry>
+                </entry> -->
             </map>
         </property>
         <property name="alwaysUseFullPath" value="true"/>

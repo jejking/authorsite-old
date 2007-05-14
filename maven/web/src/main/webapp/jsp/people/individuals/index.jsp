@@ -1,36 +1,61 @@
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
-<%--
-The taglib directive below imports the JSTL library. If you uncomment it,
-you must also add the JSTL library to the project. The Add Library... action
-on Libraries node in Projects view can be used to add the JSTL 1.1 library.
---%>
-<%--
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
---%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.authorsite.org/tags/authorsite" prefix="as" %>
+<%@ taglib uri="http://acegisecurity.org/authz" prefix="authz" %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<%@ include file="/jsp/fragments/header.jspf" %>
+<%@ include file="/jsp/fragments/nav.jspf" %>    
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
+<div id="main">
+    <fmt:bundle basename="org.authorsite.web.resources.bib.people">
+        <h1>
+            <fmt:message key="individuals-header"/>
+        </h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <fmt:message key="name"/>
+                    </th>
+                    <th>
+                        <fmt:message key="givenNames"/>
+                    </th>
+                    <th>
+                        <fmt:message key="nameQualification"/>
+                    </th>
+                    <th>
+                        <fmt:message key="action"/>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${individuals}" var="individual">
+                    <tr>
+                        <td>
+                            ${individual.name}
+                        </td>
+                        <td>
+                            ${individual.givenNames}
+                        </td>
+                        <td>
+                            ${individual.nameQualification}
+                        </td>
+                        <td>
+                            <fmt:message key="view"/> <as:LinkTag entry="${individual}" />
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+        
+        
+    </fmt:bundle>
+        
+</div>
 
-    <h1>JSP Page</h1>
-    
-    <%--
-    This example uses JSTL, uncomment the taglib directive above.
-    To test, display the page like this: index.jsp?sayHello=true&name=Murphy
-    --%>
-    <%--
-    <c:if test="${param.sayHello}">
-        <!-- Let's welcome the user ${param.name} -->
-        Hello ${param.name}!
-    </c:if>
-    --%>
-    
-    </body>
-</html>
+
+<%@ include file="/jsp/fragments/extra.jspf" %>    
+<%@ include file="/jsp/fragments/footer.jspf" %>

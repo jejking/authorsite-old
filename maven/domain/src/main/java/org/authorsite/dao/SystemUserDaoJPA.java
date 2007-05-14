@@ -81,7 +81,7 @@ public class SystemUserDaoJPA implements SystemUserDao {
 
     public void delete(SystemUser user) {
         this.entityManager.remove(user);
-        this.entityManager.flush();
+//        this.entityManager.flush();
     }
 
     @Transactional(readOnly = true)
@@ -89,6 +89,7 @@ public class SystemUserDaoJPA implements SystemUserDao {
     public SystemUser findUserByUsername(String username) {
         Query q = this.entityManager.createNamedQuery("SystemUserByUserName");
         q.setParameter("userName", username);
+        
         List resultList = q.getResultList();
         if ( resultList.isEmpty()) {
             return null;

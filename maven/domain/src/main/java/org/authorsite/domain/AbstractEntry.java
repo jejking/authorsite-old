@@ -20,9 +20,11 @@ package org.authorsite.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -115,7 +117,7 @@ public abstract class AbstractEntry implements Serializable {
     /**
      * @return the createdBy
      */
-    @OneToOne(optional = true)
+    @ManyToOne(optional=false, fetch=FetchType.LAZY)
     public Individual getCreatedBy() {
         return this.createdBy;
     }
@@ -145,7 +147,7 @@ public abstract class AbstractEntry implements Serializable {
     /**
      * @return the updatedBy
      */
-    @OneToOne(optional = true)
+    @ManyToOne(optional = false, fetch=FetchType.LAZY)
     public Individual getUpdatedBy() {
         return this.updatedBy;
     }
@@ -212,6 +214,17 @@ public abstract class AbstractEntry implements Serializable {
         StringBuffer sb = new StringBuffer();
         sb.append("id: " +id );
         sb.append(", version: " + this.version);
+        if (this.createdBy != null)
+        {
+            sb.append(", created by: " + this.createdBy.getId());
+        }
+        
+        sb.append(", created at: " + this.createdAt);
+        if ( this.updatedBy != null )
+        {
+            sb.append(", updated by: " + this.updatedBy.getId());
+        }
+        sb.append(", updated at: " + this.updatedAt);
         return sb.toString();
     }
     

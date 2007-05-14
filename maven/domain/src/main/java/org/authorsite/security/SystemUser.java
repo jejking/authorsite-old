@@ -188,7 +188,7 @@ public class SystemUser extends AbstractEntry {
     /**
      * @return the individual associated with the User
      */
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, fetch=FetchType.EAGER)
     public Individual getIndividual() {
         return this.individual;
     }
@@ -256,8 +256,10 @@ public class SystemUser extends AbstractEntry {
         sb.append(", Username: " + this.userName);
         sb.append(", enabled: " + this.isEnabled);
         sb.append(", Authorities: (");
-        for (Authority authority : this.authorities) {
-            sb.append(authority);
+        if ( this.authorities != null) {
+            for (Authority authority : this.authorities) {
+                sb.append(authority);
+            }
         }
         sb.append(")");
         sb.append(", Individual: " + this.individual);

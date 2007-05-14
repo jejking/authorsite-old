@@ -20,9 +20,14 @@ public class CollectiveDaoJPATest extends AbstractJPATest  {
     }
     
   private CollectiveDao collectiveDao;
+  private IndividualDao individualDao;
 
   public void setCollectiveDao(CollectiveDao collectiveDao) {
-    this.collectiveDao = collectiveDao;
+      this.collectiveDao = collectiveDao;
+  }
+  
+  public void setIndividualDao(IndividualDao individualDao) {
+      this.individualDao = individualDao;
   }
 
   protected String[] getConfigLocations() {
@@ -30,32 +35,37 @@ public class CollectiveDaoJPATest extends AbstractJPATest  {
   }
 
   protected void onSetUpInTransaction() throws Exception {
-    System.out.println("On setup in transaction");
+
+    
+    jdbcTemplate.execute("insert into Human " +
+                "(id, createdAt, createdBy_id, updatedAt, " +
+                "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
+                " values (0, current_timestamp, 0, current_timestamp, 0, 0, null, 'Wurst', 'Hans', 'Individual')");
     
     jdbcTemplate.execute("insert into Human " +
             "(id, createdAt, createdBy_id, updatedAt, " +
             "updatedBy_id, version, nameQualification, name, place, DTYPE)" +
-            " values (1, null, null, null, null, 0, null, 'Sausage', 'Wurstland', 'Collective')");
+            " values (1, current_timestamp, 0, current_timestamp, 0, 0, null, 'Sausage', 'Wurstland', 'Collective')");
     jdbcTemplate.execute("insert into Human " +
             "(id, createdAt, createdBy_id, updatedAt, " +
             "updatedBy_id, version, nameQualification, name, place, DTYPE)" +
-            " values (2, null, null, null, null, 0, null, 'Mortadella', 'Torino', 'Collective')");
+            " values (2, current_timestamp, 0, current_timestamp, 0, 0, null, 'Mortadella', 'Torino', 'Collective')");
     jdbcTemplate.execute("insert into Human " +
             "(id, createdAt, createdBy_id, updatedAt, " +
             "updatedBy_id, version, nameQualification, name, place, DTYPE)" +
-            " values (3, null, null, null, null, 0, null, 'Salami', 'Hamburg', 'Collective')");
+            " values (3, current_timestamp, 0, current_timestamp, 0, 0, null, 'Salami', 'Hamburg', 'Collective')");
     jdbcTemplate.execute("insert into Human " +
             "(id, createdAt, createdBy_id, updatedAt, " +
             "updatedBy_id, version, nameQualification, name, place, DTYPE)" +
-            " values (4, null, null, null, null, 0, null, 'Sausage', 'Hamburg', 'Collective')");
+            " values (4, current_timestamp, 0, current_timestamp, 0, 0, null, 'Sausage', 'Hamburg', 'Collective')");
     jdbcTemplate.execute("insert into Human " +
             "(id, createdAt, createdBy_id, updatedAt, " +
             "updatedBy_id, version, nameQualification, name, place, DTYPE)" +
-            " values (5, null, null, null, null, 0, null, 'Sauces Are Us', 'Hampstead', 'Collective')");
+            " values (5, current_timestamp, 0, current_timestamp, 0, 0, null, 'Sauces Are Us', 'Hampstead', 'Collective')");
     jdbcTemplate.execute("insert into Human " +
             "(id, createdAt, createdBy_id, updatedAt, " +
             "updatedBy_id, version, nameQualification, name, place, DTYPE)" +
-            " values (6, null, null, null, null, 0, null, 'Franzbrötchen', 'Hamburg', 'Collective')");
+            " values (6, current_timestamp, 0, current_timestamp, 0, 0, null, 'Franzbrötchen', 'Hamburg', 'Collective')");
   }
 
   public CollectiveDao getCollectiveDao() {
@@ -66,7 +76,12 @@ public class CollectiveDaoJPATest extends AbstractJPATest  {
   
   
   public void testSaveCollective() throws Exception {
+      
+      Individual hansWurst = individualDao.findById(0);
+      
       Collective c = new Collective("Foo Inc", "Barsville");
+      c.setCreatedBy(hansWurst);
+      c.setUpdatedBy(hansWurst);
       this.collectiveDao.save(c);
       assertTrue(c.getId() > 0 );
       assertNotNull(c.getCreatedAt());
@@ -82,8 +97,14 @@ public class CollectiveDaoJPATest extends AbstractJPATest  {
   }
   
   public void testUpdateCollective() throws Exception {
+      
+      Individual hansWurst = individualDao.findById(0);
+      
       Collective c = new Collective("Foo Inc", "Barsville");
+      c.setCreatedBy(hansWurst);
+      c.setUpdatedBy(hansWurst);
       this.collectiveDao.save(c);
+      
       long id = c.getId();
 
       c.setName("Foo Ltd");

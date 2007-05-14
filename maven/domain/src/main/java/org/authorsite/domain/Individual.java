@@ -166,6 +166,7 @@ public class Individual extends AbstractHuman implements
     @Override
     public String toString() {
 	StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
 	sb.append(this.getName());
 	if (this.givenNames != null) {
 	    sb.append(", ");

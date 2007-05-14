@@ -152,6 +152,7 @@ public class Collective extends AbstractHuman implements
     @Override
     public String toString() {
 	StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
 	sb.append(this.getName());
 	if (this.place != null) {
 	    sb.append(", ");

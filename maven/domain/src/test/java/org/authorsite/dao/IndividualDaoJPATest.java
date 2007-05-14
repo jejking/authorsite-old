@@ -43,37 +43,41 @@ public class IndividualDaoJPATest extends AbstractJPATest {
 
     protected void onSetUpInTransaction() throws Exception {
 
+        
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
-                " values (1, null, null, null, null, 0, null, 'Wurst', 'Hans', 'Individual')");
+                " values (1, current_timestamp, 1, current_timestamp, 1, 0, null, 'Wurst', 'Hans', 'Individual')");
+        
+        
         jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, userName, password, enabled) " +
-                "values (1, 1, null, null, null, null, 0, 'hanswurst', 'secret', 1)"  );
+                "values (1, 1, current_timestamp, 1, current_timestamp, 1, 0, 'hanswurst', 'secret', 1)"  );
+        
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
-                " values (2, null, null, null, null, 0, null, 'Sausage', 'Johnny', 'Individual')");
+                " values (2, current_timestamp, 1, current_timestamp, 1, 0, null, 'Sausage', 'Johnny', 'Individual')");
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
-                " values (3, null, null, null, null, 0, null, 'Wurst', 'Johannes', 'Individual')");
+                " values (3, current_timestamp, 1, current_timestamp, 1, 0, null, 'Wurst', 'Johannes', 'Individual')");
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
-                " values (4, null, null, null, null, 0, null, 'Sausage', 'Peter', 'Individual')");
+                " values (4, current_timestamp,1, current_timestamp, 1, 0, null, 'Sausage', 'Peter', 'Individual')");
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
-                " values (5, null, null, null, null, 0, null, 'Saucemaker', 'Paul', 'Individual')");
+                " values (5, current_timestamp, 1, current_timestamp, 1, 0, null, 'Saucemaker', 'Paul', 'Individual')");
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
-                " values (6, null, null, null, null, 0, null, 'Butcher', 'Paul', 'Individual')");
+                " values (6, current_timestamp, 1, current_timestamp, 1, 0, null, 'Butcher', 'Paul', 'Individual')");
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
-                " values (7, null, null, null, null, 0, 'Jnr', 'Wurst', 'Hans', 'Individual')");
+                " values (7, current_timestamp, 1, current_timestamp, 1, 0, 'Jnr', 'Wurst', 'Hans', 'Individual')");
         
     }
 
@@ -92,7 +96,11 @@ public class IndividualDaoJPATest extends AbstractJPATest {
   
   public void testSaveIndividual() throws Exception {
       
+      Individual hansWurst = this.individualDao.findById(1);
+      
       Individual i1 = new Individual("McTest", "Test");
+      i1.setCreatedBy(hansWurst);
+      i1.setUpdatedBy(hansWurst);
       
       this.individualDao.save(i1);
       assertTrue(i1.getId() > 0 );

@@ -46,32 +46,37 @@ public class SystemUserDaoJPATest extends AbstractJPATest {
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
-                " values (1, null, null, null, null, 0, null, 'Wurst', 'Hans', 'Individual')");
+                " values (1, current_timestamp, 1, current_timestamp, 1, 0, null, 'Wurst', 'Hans', 'Individual')");
+        
         jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, userName, password, enabled) " +
-                "values (1, 1, null, null, null, null, 0, 'hanswurst', 'secret', 1)"  );
+                "values (1, 1, current_timestamp, 1, current_timestamp, 1, 0, 'hanswurst', 'secret', 1)"  );
+        
+        jdbcTemplate.execute("insert into SystemUser_Authorities(SystemUser_id, element) " +
+                "values ( 1, 0 )");
         
         
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
-                " values (2, null, null, null, null, 0, null, 'Sausage', 'Johnny', 'Individual')");
+                " values (2, current_timestamp, 1, current_timestamp, 1, 0, null, 'Sausage', 'Johnny', 'Individual')");
+        
         jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, userName, password, enabled) " +
-                "values (2, 2, null, null, null, null, 0, 'johnnysausage', 'secret', 1)"  );
+                "values (2, 2, current_timestamp, 1, current_timestamp, 1, 0, 'johnnysausage', 'secret', 1)"  );
         
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
-                " values (3, null, null, null, null, 0, null, 'Wurst', 'Johannes', 'Individual')");
+                " values (3, current_timestamp, 1, current_timestamp, 1, 0, null, 'Wurst', 'Johannes', 'Individual')");
         
         jdbcTemplate.execute("insert into Human " +
                 "(id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
-                " values (4, null, null, null, null, 0, null, 'Super', 'User', 'Individual')");
+                " values (4, current_timestamp, 1, current_timestamp, 1, 0, null, 'Super', 'User', 'Individual')");
         jdbcTemplate.execute("insert into SystemUser (id, individual_id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, userName, password, enabled) " +
-                "values (4, 4, null, null, null, null, 0, 'admin', 'secret', 1)"  );
+                "values (4, 4, current_timestamp, 1, current_timestamp, 1, 0, 'admin', 'secret', 1)"  );
         jdbcTemplate.execute("insert into SystemUser_Authorities(SystemUser_id, element) " +
                 "values ( 4, 0 )");
         
@@ -116,11 +121,16 @@ public class SystemUserDaoJPATest extends AbstractJPATest {
     }
     
     public void testCreateSystemUserWithExistingIndividual() throws Exception {
+        
+        Individual hansWurst = individualDao.findById(1);
+        
         Individual johannesWurst = individualDao.findById(3);
         SystemUser jwUser = new SystemUser();
         jwUser.setIndividual(johannesWurst);
         jwUser.setUserName("johanneswurst");
         jwUser.setPassword("salami");
+        jwUser.setCreatedBy(hansWurst);
+        jwUser.setUpdatedBy(hansWurst);
         
         systemUserDao.save(jwUser);
         long id = jwUser.getId();
@@ -223,11 +233,17 @@ public class SystemUserDaoJPATest extends AbstractJPATest {
     }
     
     public void testCreateSystemUserWithAuthorities() throws Exception {
+        
+        Individual hansWurst = individualDao.findById(1);
+        
         Individual johannesWurst = individualDao.findById(3);
         SystemUser jwUser = new SystemUser();
         jwUser.setIndividual(johannesWurst);
         jwUser.setUserName("johanneswurst");
         jwUser.setPassword("salami");
+        
+        jwUser.setCreatedBy(hansWurst);
+        jwUser.setUpdatedBy(hansWurst);
         
         jwUser.getAuthorities().add(Authority.ADMIN);
         systemUserDao.save(jwUser);
