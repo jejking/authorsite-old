@@ -19,17 +19,15 @@
    </bean>
    
    <bean id="individualsViewController" class="org.authorsite.web.mvc.controllers.IndividualsViewController">
-       <property name="cacheSeconds" value="600"/>
-       <property name="supportedMethods" value="GET"/>
+       <!-- <property name="supportedMethods" value="GET"/> -->
+       <property name="individualManagementService" ref="individualManagementService"/>
    </bean>
    
    <bean id="loginController" class="org.authorsite.web.mvc.controllers.auth.LoginController">
-       <property name="cacheSeconds" value="600"/>
        <property name="supportedMethods" value="GET"/>
    </bean>
     
    <bean id="loginFailedController" class="org.authorsite.web.mvc.controllers.auth.LoginFailedController">
-       <property name="cacheSeconds" value="600"/>
        <property name="supportedMethods" value="GET"/>
    </bean>
 

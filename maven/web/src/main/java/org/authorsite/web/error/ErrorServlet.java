@@ -79,6 +79,7 @@ public class ErrorServlet extends HttpServlet {
         
         if ( errorCode == null ) {
             errorCode = "500";
+            LOGGER.warn("No error code set, setting to 500");
             request.setAttribute("javax.servlet.error.status_code", errorCode);
         }
         
@@ -98,7 +99,7 @@ public class ErrorServlet extends HttpServlet {
         }
         
         // set up some attributes for error page to use
-        request.setAttribute("pageTitle", "Error" + errorCode + " " + request.getSession().getServletContext().getInitParameter("siteName"));
+        request.setAttribute("pageTitle", "Error " + errorCode + " " + request.getSession().getServletContext().getInitParameter("siteName"));
         
         // forward to /jsp/errors/error.jsp to render the appropriate message
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/errors/error.jsp");

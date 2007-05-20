@@ -63,13 +63,14 @@ public class IdExtractionFilter implements Filter {
                 idLong = new Long(Long.parseLong(pathComponents[pathComponents.length - 1]));
                 request.setAttribute("id", idLong);
                 LOGGER.debug("Set request id attribute to: "+ idLong);
+                chain.doFilter(request, response);
             }
             catch (NumberFormatException nfe) {
                 HttpServletResponse httpResponse = (HttpServletResponse) response;
                 httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
         } 
-        chain.doFilter(request, response);
+        
     }
     
 }
