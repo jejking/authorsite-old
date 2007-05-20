@@ -46,6 +46,7 @@
             <dwr:include method="findAllIndividuals"/>
             <dwr:include method="findAllIndividualsPaging"/>
             <dwr:include method="save"/>
+            <dwr:include method="createAndSaveIndividual"/>
             <dwr:include method="update"/>
         </dwr:remote>
     </bean>

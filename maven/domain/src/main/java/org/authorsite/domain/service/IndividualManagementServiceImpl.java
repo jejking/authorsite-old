@@ -172,6 +172,16 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
         LOGGER.info("Created new individual: " + i);
         this.individualAclManager.createIndividualAcl(i);
     }
+    
+    @Secured( {"ROLE_EDITOR","ROLE_ADMINISTRATOR" })
+    public Individual createAndSaveIndividual(String name, String givenNames, String nameQualification) throws DataAccessException {
+        Individual i = new Individual( name, givenNames );
+        if (nameQualification != null) {
+            i.setNameQualification(nameQualification);
+        }
+        this.save(i);
+        return i;
+    }
 
     /*
      * (non-Javadoc)
@@ -194,5 +204,7 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
     public List<Individual> findAllIndividualsPaging(int pageNumber, int pageSize) throws DataAccessException {
         return this.individualDao.findAllIndividuals(pageNumber, pageSize);
     }
+
+ 
 
 }

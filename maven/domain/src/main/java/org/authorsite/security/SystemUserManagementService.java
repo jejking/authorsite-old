@@ -61,7 +61,12 @@ public interface SystemUserManagementService {
     
     /**
      * Creates brand new System User and the associated Individual
-     * in the database.
+     * in the database. <code>ROLE_EDITOR</code> has no permissions on the Individual.
+     * Only <code>ROLE_ADMINISTRATOR</code> and the new System User can edit
+     * the individual. The System User is not in a position to delete the Individual.
+     * The System User can only change his/her password (<code>ACL_CHANGE_PASSWORD</code>)
+     * whilst <code>ROLE_ADMINISTRATOR</code> has full permissions on the System User 
+     * instance.
      * 
      * @param username
      * @param password
@@ -78,6 +83,15 @@ public interface SystemUserManagementService {
      * Creates a system user from the specified individual.
      * 
      * <p>Note, the individual must already be persisted in the database.</p>
+     *
+     * <p>
+     * <code>ROLE_EDITOR</code> has its permissions removed from the Individual.
+     * Only <code>ROLE_ADMINISTRATOR</code> and the new System User can edit
+     * the individual. The System User is not in a position to delete the Individual.
+     * The System User can only change his/her password (<code>ACL_CHANGE_PASSWORD</code>)
+     * whilst <code>ROLE_ADMINISTRATOR</code> has full permissions on the System User 
+     * instance.
+     * </p>
      * 
      * @param username
      * @param password
@@ -110,7 +124,7 @@ public interface SystemUserManagementService {
     /**
      * Permanently deletes a system user. The {@link Individual} associated
      * with the user remains - and becomes available for editing by any 
-     * user with the <code>ROLE_EDITOR</code>.
+     * user with the <code>ROLE_EDITOR</code> granted authority..
      * 
      * @param user
      * @throws DataAccessException

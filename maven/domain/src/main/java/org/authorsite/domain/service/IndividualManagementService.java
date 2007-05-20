@@ -144,6 +144,18 @@ public interface IndividualManagementService {
      */
     @Secured( { "ROLE_EDITOR", "ROLE_ADMINISTRATOR" })
     public void save(Individual i) throws DataAccessException;
+    
+    /**
+     * Creates a new individual from the parameters and saves the instance
+     * to the database. Sets the ACL to allow any User with privilege
+     * <code>ROLE_EDITOR</code> to administer the Individual.
+     *
+     * @param name
+     * @param givenNames
+     * @param nameQualification
+     */
+    @Secured( { "ROLE_EDITOR", "ROLE_ADMINISTRATOR" })
+    public Individual createAndSaveIndividual(String name, String givenNames, String nameQualification) throws DataAccessException;
 
     /**
      * Updates the persistent storage of an <code>Individual</code>

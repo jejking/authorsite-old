@@ -31,12 +31,14 @@ import org.acegisecurity.acls.sid.PrincipalSid;
 import org.apache.log4j.Logger;
 import org.authorsite.domain.Individual;
 import org.authorsite.security.SystemUser;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation based on Acegi Security.
  * 
  * @author jking
  */
+@Transactional()
 public class IndividualAclManagerImpl implements IndividualAclManager {
 
     private static final Logger LOGGER = Logger.getLogger(IndividualAclManagerImpl.class);
@@ -61,18 +63,17 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
         ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
         AclImpl acl = getAcl(oid);
         acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), true);
-        acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
+        //acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
         this.mutableAclService.updateAcl(acl);
-        LOGGER.info("Added Admin and Write permissions for the Editor Role to individual " + i);
+        LOGGER.info("Added Admin permissions for the Editor Role to individual " + i);
     }
 
     public void createIndividualAcl(Individual i) {
         ObjectIdentity oid = new ObjectIdentityImpl(Individual.class, new Long(i.getId()));
         MutableAcl acl = this.mutableAclService.createAcl(oid);
         acl.insertAce(null, BasePermission.ADMINISTRATION, new GrantedAuthoritySid("ROLE_EDITOR"), true);
-        acl.insertAce(null, BasePermission.WRITE, new GrantedAuthoritySid("ROLE_EDITOR"), true);
         this.mutableAclService.updateAcl(acl);
-        LOGGER.info("Created new ACL with Admin and Write permissions for the Editor Role on individual " + i);
+        LOGGER.info("Created new ACL with Admin permissions for the Editor Role on individual " + i);
     }
 
     public void deleteIndividualAcl(Individual i) {
@@ -86,7 +87,7 @@ public class IndividualAclManagerImpl implements IndividualAclManager {
         AclImpl acl = getAcl(oid);
         acl.insertAce(null, BasePermission.WRITE, new PrincipalSid(user.getUserName()), true);
         this.mutableAclService.updateAcl(acl);
-        LOGGER.info("Granted systmer user " + user + " Write permissions on individual " + i);
+        LOGGER.info("Granted system user " + user + " Write permissions on individual " + i);
     }
 
     public void removeEditorRoleFromIndividualAcl(Individual i) {
