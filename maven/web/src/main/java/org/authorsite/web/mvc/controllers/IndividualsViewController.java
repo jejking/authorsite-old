@@ -56,6 +56,7 @@ public class IndividualsViewController implements Controller {
             return null;
         }
         else {
+            httpServletRequest.setAttribute("entry", i);
             LOGGER.debug("returning individual" + i);
             return new ModelAndView("people/individuals/individual", "individual", i);
         }

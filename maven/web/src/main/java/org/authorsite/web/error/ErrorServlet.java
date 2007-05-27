@@ -70,7 +70,7 @@ public class ErrorServlet extends HttpServlet {
        
         // from request object, extract error details
         String errorCode = ((Integer) request.getAttribute("javax.servlet.error.status_code")).toString();
-        String exceptionType = (String) request.getAttribute("javax.servlet.error.exception_type");
+        Class exceptionType = (Class) request.getAttribute("javax.servlet.error.exception_type");
         String message = (String) request.getAttribute("javax.servlet.error.message");
         Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
         String request_uri =  (String) request.getAttribute("javax.servlet.error.request_uri");
@@ -95,7 +95,12 @@ public class ErrorServlet extends HttpServlet {
             if (message != null) {
                 mesgBuilder.append("Message: " + message);
             }
-            LOGGER.error(mesgBuilder.toString(), throwable);
+            StringWriter stringWriter = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(stringWriter);
+            throwable.printStackTrace(printWriter);
+            
+            LOGGER.error(mesgBuilder.toString());
+            LOGGER.error(stringWriter.toString());
         }
         
         // set up some attributes for error page to use

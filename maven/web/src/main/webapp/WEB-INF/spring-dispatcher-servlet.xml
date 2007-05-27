@@ -37,9 +37,15 @@
         <property name="suffix" value=".jsp"/>
     </bean>
     
-    
+    <bean id="oemiv" class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor" autowire="byName"/>
+
     
     <bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="oemiv"/>
+            </list>
+        </property>
         <property name="urlMap">
             <map>
                 <entry key="/index">

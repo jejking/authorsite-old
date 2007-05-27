@@ -8,7 +8,7 @@
         <div id="rights">
             <%-- handle copyright stuff. If not specified, assume public domain --%>
             <c:choose>
-                <c:when test="${requestScope.contentCopyright}" >
+                <c:when test="${!empty requestScope.contentCopyright}" >
                     <fmt:message key="copyright"/> &#170;
                     
                     <%-- copyright date. If not specified, assume now. --%>
@@ -45,7 +45,7 @@
                 </c:otherwise>
             </c:choose>
         </div>
-        <c:if test="${requestScope.entry}">
+        <c:if test="${!empty requestScope.entry}">
             <div id="lifecycle">
                 <fmt:message key="created-at">
                     <fmt:param value="${requestScope.entry.createdAt}"/>
