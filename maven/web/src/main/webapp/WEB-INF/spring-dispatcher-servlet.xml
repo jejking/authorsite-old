@@ -19,7 +19,7 @@
    </bean>
    
    <bean id="individualsViewController" class="org.authorsite.web.mvc.controllers.IndividualsViewController">
-       <!-- <property name="supportedMethods" value="GET"/> -->
+       <property name="supportedMethods" value="GET"/>
        <property name="individualManagementService" ref="individualManagementService"/>
    </bean>
    
