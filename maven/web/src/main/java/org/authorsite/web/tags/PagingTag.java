@@ -15,15 +15,18 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
+import org.apache.log4j.Logger;
 
 /**
  * Generated tag handler class.
+ *
  * @author  jejking
  * @version
  */
-
 public class PagingTag extends SimpleTagSupport {
 
+    private static final Logger LOGGER = Logger.getLogger(PagingTag.class);
+    
     private int pageNumber;
     private int pageSize;
     private int count;
@@ -31,7 +34,6 @@ public class PagingTag extends SimpleTagSupport {
     private String indexUrl;
     
     private ResourceBundle resourceBundle;
-
     private int maxPageNumber;
     
     /** Creates new instance of tag handler */
@@ -83,6 +85,10 @@ public class PagingTag extends SimpleTagSupport {
         this.indexUrl = indexUrl;
     }
     
+    public int getMaxPageNumber() {
+        return maxPageNumber;
+    }
+    
     public void doTag() {
         try {
             loadResourceBundle();
@@ -98,15 +104,12 @@ public class PagingTag extends SimpleTagSupport {
             doLast(out);
         }
         catch (Exception e) {
-            
+            LOGGER.error("Exception generating paging tag content", e);
         }
         
     }    
 
-    
-    
-
-    private void loadResourceBundle() {
+    void loadResourceBundle() {
         
         if ( this.locale == null) {
             this.locale = Locale.getDefault();
@@ -116,84 +119,92 @@ public class PagingTag extends SimpleTagSupport {
         
     }
 
-    private void sanitizeInputs() {
+    void sanitizeInputs() {
         if (this.count < 0 ) {
             this.count = 0;
         }
         
-        if (this.pageNumber < 0) {
+        if (this.pageNumber < 1) {
             this.pageNumber = 1;
         }
         
-        if (this.pageSize < 0 || pageSize > 50) {
+        if (this.pageSize < 1 || pageSize > 50) {
             this.pageSize = 10;
         }
         
-        this.maxPageNumber = (this.count / this.pageSize) + 1;
+        boolean needExtraPage = (this.count % this.pageSize > 0 ? true : false) | this.count == 0;
+        this.maxPageNumber = (this.count / this.pageSize);
+        if (needExtraPage)  {
+            this.maxPageNumber++;
+        }
         
         if ( this.pageNumber > this.maxPageNumber ) {
             this.pageNumber = this.maxPageNumber;
         }
-            
         
     }
 
-    private void doFirst(JspWriter out) throws IOException {
-        out.write("<div class=\"pager\">");
-        out.write("<span id=\"pager.first\">");
+    void doFirst(JspWriter out) throws IOException {
+        out.print("<div class=\"pager\">");
+        out.print("<span id=\"pager.first\">");
         if (this.pageNumber > 1) {
             String url = buildUrl(this.indexUrl, 1, this.pageSize);
             String title = this.resourceBundle.getString("pager.first");
-            writeLink( out, url, title, "<<" );
+            printLink( out, url, title, " &lt;&lt; " );
         }
         else {
-            out.write(" << ");
+            out.print(" &lt;&lt; ");
         }
-        out.write("</span>");
+        out.print("</span>");
     }
 
-    private void doPrevious(JspWriter out) throws IOException{
-        out.write("<span id=\"pager.previous\">");
+    void doPrevious(JspWriter out) throws IOException{
+        out.print("<span id=\"pager.previous\">");
         if (this.pageNumber > 1) {
             String url = buildUrl(this.indexUrl, this.pageNumber - 1, this.pageSize);
             String title = this.resourceBundle.getString("pager.previous");
-            writeLink( out, url, title, "<" );
+            printLink( out, url, title, " &lt; " );
         }
         else {
-            out.write(" < ");
+            out.print(" &lt; ");
         }
-        out.write("</span>");
+        out.print("</span>");
     }
 
-    private void doNext(JspWriter out) throws IOException{
-        out.write("<span id=\"pager.next\">");
+    void doNext(JspWriter out) throws IOException{
+        out.print("<span id=\"pager.next\">");
         if (this.pageNumber != this.maxPageNumber) {
             String url = buildUrl(this.indexUrl, this.pageNumber + 1, this.pageSize);
             String title = this.resourceBundle.getString("pager.next");
-            writeLink( out, url, title, ">" );
+            printLink( out, url, title, " &gt; " );
         }
         else {
-            out.write(" > ");
+            out.print(" &gt; ");
         }
         
-        out.write("</span>");
+        out.print("</span>");
     }
 
-    private void doLast(JspWriter out) throws IOException {
-        out.write("<span id=\"pager.last\">");
+    void doLast(JspWriter out) throws IOException {
+        out.print("<span id=\"pager.last\">");
         if (this.pageNumber != this.maxPageNumber) {
             String url = buildUrl(this.indexUrl, this.maxPageNumber, this.pageSize);
             String title = this.resourceBundle.getString("pager.last");
-            writeLink( out, url, title, ">>" );
+            printLink( out, url, title, " &gt;&gt; " );
             
         }
         else {
-            out.write(" >> ");
+            out.print(" &gt;&gt; ");
         }
         
-        out.write("</span>");
+        out.print("</span>");
         // ends pager div
-        out.write("</div>");
+        out.print("</div>");
+    }
+
+    void doCentralBlock(JspWriter out) throws IOException {
+        CentralBlock centralBlock = new CentralBlock(this.pageNumber, this.maxPageNumber);
+        centralBlock.print(out);
     }
 
     private String buildUrl(String indexUrl, int pageNumber, int pageSize) {
@@ -206,54 +217,62 @@ public class PagingTag extends SimpleTagSupport {
         sb.append(pageSize);
         return sb.toString();
     }
-
-    private void doCentralBlock(JspWriter out) throws IOException {
-        
-        /* 
-         * we need to work out how
-         * many page blocks fit between
-         * the first and the max
-         *
-         * of these we can have at most 5
-         *
-         * the active page should not be an active link
-         *
-         */
-         
-        int minCentralPageNumber = this.pageNumber - 2;
-        int maxCentralPageNumber = this.pageNumber + 2;
-        
-        if ( minCentralPageNumber < 1 ) {
-            minCentralPageNumber = 1;
-            maxCentralPageNumber = 5;
-        }
-        
-        if (maxCentralPageNumber > this.maxPageNumber ) {
-            maxCentralPageNumber = this.maxPageNumber;
-        }
-        
-        
-        // iterate from min to max, don't write link for current page
-        
-        for ( int i = minCentralPageNumber; i <= maxCentralPageNumber; i++ ) {
-            if ( i == this.pageNumber ) {
-                out.write( " " + i + " " );
-            }
-            else
-            {
-                String title = this.resourceBundle.getString("pager.pageNumber") + " " + i;
-                writeLink(out, this.indexUrl, title, Integer.toString(i) );
-            }
-        }
-    }
-
-    private void writeLink(JspWriter out, String url, String title, String text) throws IOException {
-        out.write("<a href=\"" + url + "\" title=\"" + title + "\">");
-        out.write(text);
-        out.write("</a>");
+    
+    private void printLink(JspWriter out, String url, String title, String text) throws IOException {
+        out.print("<a href=\"" + url + "\" title=\"" + title + "\">");
+        out.print(text);
+        out.print("</a>");
     }
     
-    
+    private class CentralBlock {
+        
+        private int pageNumber;
+        private int maxPageNumber;
+        
+        private int minBlockPageNumber;
+        private int maxBlockPageNumber;
+        
+        public CentralBlock(int pageNumber, int maxPageNumber) {
+            this.pageNumber = pageNumber;
+            this.maxPageNumber = maxPageNumber;
+        }
+        
+        public void print(JspWriter out) throws IOException {
+
+            this.minBlockPageNumber = this.pageNumber - 4;
+            int distToMax = this.maxPageNumber - this.pageNumber;
+            this.minBlockPageNumber += distToMax < 2 ? distToMax : 2;
+            if ( this.minBlockPageNumber < 1 )  {
+                this.minBlockPageNumber = 1;
+            }
+            
+            this.maxBlockPageNumber = this.pageNumber + 4;
+            int distToMin = this.pageNumber - 1;
+            this.maxBlockPageNumber -= distToMin < 2 ? distToMin : 2;
+            if (this.maxBlockPageNumber > this.maxPageNumber) {
+                this.maxBlockPageNumber = this.maxPageNumber;
+            }
+            
+            int i = minBlockPageNumber;
+            
+            do {
+                if ( i == this.pageNumber ) {
+                    out.print( " " + i + " " );
+                }
+                else
+                {
+                    out.print(" ");
+                    String title = PagingTag.this.resourceBundle.getString("pager.pageNumber") + " " + i;
+                    String url = buildUrl(PagingTag.this.indexUrl, i, PagingTag.this.pageSize);
+                    printLink(out, url, title, Integer.toString(i) );
+                    out.print(" ");
+                }
+                i++;
+            }
+            while (i <= maxBlockPageNumber);
+            
+        }
+
+        
+    }
 }
-
-
