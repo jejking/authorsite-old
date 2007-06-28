@@ -26,7 +26,7 @@ import org.springframework.web.servlet.mvc.Controller;
  *
  * @author jejking
  */
-public class IndividualsViewController implements Controller {
+public class IndividualsViewController extends AbstractController {
     
     private static final Logger LOGGER = Logger.getLogger(IndividualsViewController.class);
     private IndividualManagementService individualManagementService;
@@ -39,7 +39,7 @@ public class IndividualsViewController implements Controller {
         this.individualManagementService = individualManagementService;
     }
     
-    public ModelAndView handleRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+    protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         Long id = (Long) httpServletRequest.getAttribute("id");
         
         if (id==null) {

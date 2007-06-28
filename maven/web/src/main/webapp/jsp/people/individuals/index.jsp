@@ -51,6 +51,11 @@
             </tbody>
         </table>
         
+        <c:url var="indexUrl" value="/people/individuals/index"/>
+        <%--
+            Note, the values passed in here should be set by IndividualsIndexController
+        --%>
+        <as:PagingTag count="${count}" indexUrl="${indexUrl}" pageSize="${pageSizeUsed}" pageNumber="${pageNumberUsed}"/>
         
     </fmt:bundle>
         
