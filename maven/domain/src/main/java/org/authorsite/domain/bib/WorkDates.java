@@ -69,6 +69,11 @@ public class WorkDates implements Comparable<WorkDates>, Serializable {
     public WorkDates(int year) {
 	this(year, 1, 1);
     }
+    
+    public WorkDates(int fromYear, int toYear) {
+        this(fromYear);
+        this.toDate = this.buildDate(toYear, 1, 1);
+    }
 
     /**
      * Creates object, setting values of date property
@@ -81,7 +86,11 @@ public class WorkDates implements Comparable<WorkDates>, Serializable {
      * @param day 
      */
     public WorkDates(int year, int month, int day) {
-	GregorianCalendar gc = new GregorianCalendar();
+	this.date = this.buildDate(year, month, day);
+    }
+
+    private Date buildDate(int year, int month, int day) {
+        GregorianCalendar gc = new GregorianCalendar();
 	gc.set(Calendar.YEAR, year);
 	// month
 	gc.set(Calendar.MONTH, month);
@@ -92,9 +101,9 @@ public class WorkDates implements Comparable<WorkDates>, Serializable {
 	gc.set(Calendar.MINUTE, 0);
 	gc.set(Calendar.SECOND, 0);
 	gc.set(Calendar.MILLISECOND, 0);
-	this.date = gc.getTime();
+        return gc.getTime();
     }
-
+    
     /**
      * Returns date.
      * 
