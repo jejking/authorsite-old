@@ -117,6 +117,12 @@ public abstract class AbstractNavNode implements NavNode {
         this.resourceBundleName = resourceBundleName;
     }
 
-
+    protected void addChild(NavNode navNode) { 
+        if ( !this.childrenMap.containsKey(navNode.getName())) 
+        {
+            this.childrenMap.put(navNode.getName(), navNode);
+            this.children.add(navNode);
+        }
+    }
     
 }

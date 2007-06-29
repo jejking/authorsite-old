@@ -9,9 +9,6 @@
 
 package org.authorsite.web.nav;
 
-import java.util.List;
-import java.util.Locale;
-
 /**
  *
  * @author jejking

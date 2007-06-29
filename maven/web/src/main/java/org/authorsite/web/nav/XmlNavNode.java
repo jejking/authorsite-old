@@ -13,12 +13,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Attr;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -32,6 +30,7 @@ import org.xml.sax.SAXException;
  */
 public class XmlNavNode extends AbstractNavNode {
     
+    private static final Logger LOGGER = Logger.getLogger(XmlNavNode.class);
     private static DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     
     private String xmlPath;
@@ -39,6 +38,10 @@ public class XmlNavNode extends AbstractNavNode {
     
     /** Creates a new instance of XmlNavNode */
     public XmlNavNode() {
+    }
+    
+    public XmlNavNode(String xmlPath) {
+        this.setXmlPath(xmlPath);
     }
     
     public void setXmlPath(String xmlPath) {
@@ -70,13 +73,13 @@ public class XmlNavNode extends AbstractNavNode {
             this.buildChildren(root, this);
         }
         catch (ParserConfigurationException ex) {
-            ex.printStackTrace();
+            LOGGER.fatal(ex);
         }
         catch (SAXException ex) {
-            
+            LOGGER.fatal(ex);
         }
         catch (IOException ex) {
-            
+            LOGGER.fatal(ex);
         }
     }
     
@@ -88,11 +91,14 @@ public class XmlNavNode extends AbstractNavNode {
                XmlNavNode childNavNode = new XmlNavNode();
                Element childElement = (Element) childNode;
                XmlNavNode.configureFromElement(childElement, childNavNode);
+               parent.addChild(childNavNode);
                childNavNode.setParent(parent);
                childNavNode.buildChildren(childElement, childNavNode);
             }
         }
     }
+    
+    
     
     public String getPath() {
         if (this.pathIndex == null) {
