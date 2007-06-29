@@ -14,6 +14,24 @@
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>utils</name>
-  
+    
+ <dependencies>
+        <dependency>
+            <groupId>org.authorsite</groupId>
+            <artifactId>domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-remoting</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-support</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+</dependencies>
 
 </project>

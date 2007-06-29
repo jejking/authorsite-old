@@ -2,10 +2,10 @@ package org.authorsite.utils.bib.loader.ris;
 
 import java.util.SortedSet;
 
-import org.authorsite.bib.Book;
-import org.authorsite.bib.Collective;
-import org.authorsite.bib.Individual;
-import org.authorsite.bib.WorkDates;
+import org.authorsite.domain.bib.Book;
+import org.authorsite.domain.Collective;
+import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.WorkDates;
 
 
 public class BookHandler implements RISEntryHandler {
@@ -35,16 +35,16 @@ public class BookHandler implements RISEntryHandler {
         publisherBean.setName(publisherName);
         publisherBean.setPlace(placeName);
         
-        Collective publisher = Bibliography.getInstance().getAuthoritativeCollective(publisherBean);
+        //Collective publisher = Bibliography.getInstance().getAuthoritativeCollective(publisherBean);
         
         Book b = new Book();
         b.setTitle(title);
         b.setYears(year);
-        b.setPublisher(publisher);
+        b.setPublisher(publisherBean);
         b.addAuthors(authoritativeAuthors);
         b.addEditors(authoritativeEditors);
         
-        Bibliography.getInstance().getAuthoritativeBook(b);
+        //Bibliography.getInstance().getAuthoritativeBook(b);
         System.out.println(b);
     }
 

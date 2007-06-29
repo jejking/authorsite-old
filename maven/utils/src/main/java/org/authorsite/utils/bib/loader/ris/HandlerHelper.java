@@ -1,14 +1,15 @@
 package org.authorsite.utils.bib.loader.ris;
 
-import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.authorsite.bib.Individual;
-import org.authorsite.bib.WorkDates;
+import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.WorkDates;
 
 public class HandlerHelper {
 
@@ -64,7 +65,7 @@ public class HandlerHelper {
         SortedSet<Individual> authoritativeAuthors = new TreeSet<Individual>();
         
         for ( Individual individual : authorBeanSet ) {
-            authoritativeAuthors.add(Bibliography.getInstance().getAuthoritativeIndividual(individual));
+            authoritativeAuthors.add(individual);
         }
         
         return authoritativeAuthors;
@@ -107,18 +108,14 @@ public class HandlerHelper {
     
 
     private static WorkDates extractSingleYear(String yearsString) {
-        WorkDates workDates = new WorkDates();
-        workDates.setYear(Integer.parseInt(yearsString));
-        return workDates;
+        
+        int year = Integer.parseInt(yearsString);
+        return new WorkDates(year);
     }
 
     private static WorkDates extractYearRange(String yearsString) {
         String[] years = yearsString.split("-");
-        WorkDates workYears = new WorkDates();
-        
-        
         int fromYear = Integer.parseInt(years[0]);
-        workYears.setYear(fromYear);
         
         String origToYearString = years[1];
         
@@ -126,44 +123,43 @@ public class HandlerHelper {
                 .length() - origToYearString.length()))
                 + origToYearString;
         int toYear = Integer.parseInt(toYearString);
-        workYears.setToYear(toYear);
-        return workYears;
+        
+        WorkDates workDates = new WorkDates(fromYear, toYear);
+        
+        return workDates;
     }
 
     private static WorkDates extractDayDate(String yearsString) throws RISException {
         String[] dateComponents = yearsString.split(" ");
-        WorkDates workDate = new WorkDates();
-        workDate.setYear(Integer.parseInt(dateComponents[0]));
-        workDate.setDay(Integer.parseInt(dateComponents[1]));
         
+        int year = (Integer.parseInt(dateComponents[0]));
+        int day = (Integer.parseInt(dateComponents[1]));
+        
+        int month = 0;
         String normalisedMonth = dateComponents[2].substring(0, 3).toUpperCase();
         for ( int i = 0; i < 12; i ++ ) {
             if ( HandlerHelper.CAL_MONTHS[i].equals(normalisedMonth)) {
-                workDate.setMonth(i + 1);
+                month = (i + 1);
             }
         }
-        
-        if ( workDate.getMonth() == Integer.MIN_VALUE ) {
-            throw new RISException("Could not determine month for " + dateComponents[2] + " using normalised month " + normalisedMonth);
-        }
-        
+        WorkDates workDate = new WorkDates(year, month, day);
         return workDate;
     }
     
     private static WorkDates extractMonthDate(String yearsString) throws RISException {
         String[] dateComponents = yearsString.split(" ");
         WorkDates workDate = new WorkDates();
-        workDate.setYear(Integer.parseInt(dateComponents[0]));
+        int year = (Integer.parseInt(dateComponents[0]));
+        int month = 0;
         String normalisedMonth = dateComponents[1].substring(0, 3).toUpperCase();
         for ( int i = 0; i < 12; i ++ ) {
             if ( HandlerHelper.CAL_MONTHS[i].equals(normalisedMonth)) {
-                workDate.setMonth(i + 1);
+                month = i + 1;
             }
         }
         
-        if ( workDate.getMonth() == Integer.MIN_VALUE ) {
-            throw new RISException("Could not determine month for " + dateComponents[2] + " using normalised month " + normalisedMonth);
-        }
+        GregorianCalendar gc = new GregorianCalendar(year, month, 1);
+        workDate.setDate(gc.getTime());
         return workDate;
     }
 

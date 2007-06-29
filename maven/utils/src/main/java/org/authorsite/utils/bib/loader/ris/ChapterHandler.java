@@ -2,11 +2,11 @@ package org.authorsite.utils.bib.loader.ris;
 
 import java.util.SortedSet;
 
-import org.authorsite.bib.Book;
-import org.authorsite.bib.Chapter;
-import org.authorsite.bib.Collective;
-import org.authorsite.bib.Individual;
-import org.authorsite.bib.WorkDates;
+import org.authorsite.domain.bib.Book;
+import org.authorsite.domain.bib.Chapter;
+import org.authorsite.domain.Collective;
+import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.WorkDates;
 
 
 public class ChapterHandler implements RISEntryHandler {
@@ -64,10 +64,10 @@ public class ChapterHandler implements RISEntryHandler {
         Collective publisherBean = new Collective();
         publisherBean.setName(publisherName);
         publisherBean.setPlace(publisherPlace);
-        Collective authoritativePublisher = Bibliography.getInstance().getAuthoritativeCollective(publisherBean);
-        bookBean.setPublisher(authoritativePublisher);
+        //Collective authoritativePublisher = Bibliography.getInstance().getAuthoritativeCollective(publisherBean);
+        bookBean.setPublisher(publisherBean);
         
-        Book authoritativeBook = Bibliography.getInstance().getAuthoritativeBook( bookBean );
+        //Book authoritativeBook = Bibliography.getInstance().getAuthoritativeBook( bookBean );
         
         Chapter chapterBean = new Chapter();
         chapterBean.addAuthors(authoritativeAuthors);
@@ -75,9 +75,9 @@ public class ChapterHandler implements RISEntryHandler {
         chapterBean.setTitle(chapterTitle);
         chapterBean.setYears(year);
         chapterBean.setPages(pagesBuilder.toString());
-        chapterBean.setBook(authoritativeBook);
+        chapterBean.setBook(bookBean);
         
-        Bibliography.getInstance().getAuthoritativeChapter(chapterBean);
+        // Bibliography.getInstance().getAuthoritativeChapter(chapterBean);
     }
 
 }

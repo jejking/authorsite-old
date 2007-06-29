@@ -1,10 +1,10 @@
 package org.authorsite.utils.bib.loader.ris;
 
 import java.util.SortedSet;
-import org.authorsite.bib.Collective;
-import org.authorsite.bib.Individual;
-import org.authorsite.bib.Thesis;
-import org.authorsite.bib.WorkDates;
+import org.authorsite.domain.Collective;
+import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.Thesis;
+import org.authorsite.domain.bib.WorkDates;
 
 
 public class ThesisHandler implements RISEntryHandler {
@@ -19,11 +19,11 @@ public class ThesisHandler implements RISEntryHandler {
         String title = HandlerHelper.getFirstString(entry.getValues("T1"));
         
         // extract awarding body
-        Collective cBean = new Collective();
-        cBean.setName(HandlerHelper.getFirstString(entry.getValues("PB")));
-        cBean.setPlace(HandlerHelper.getFirstString(entry.getValues("CY")));
+        Collective awardingBody = new Collective();
+        awardingBody.setName(HandlerHelper.getFirstString(entry.getValues("PB")));
+        awardingBody.setPlace(HandlerHelper.getFirstString(entry.getValues("CY")));
         
-        Collective awardingBody = Bibliography.getInstance().getAuthoritativeCollective( cBean );
+        //Collective awardingBody = Bibliography.getInstance().getAuthoritativeCollective( cBean );
         
         // extract degree
         String degree = HandlerHelper.getFirstString(entry.getValues("M1"));
@@ -36,7 +36,7 @@ public class ThesisHandler implements RISEntryHandler {
         t.setDegree(degree);
         t.setYears(year);
         
-        Bibliography.getInstance().getAuthoritativeThesis( t );
+        //Bibliography.getInstance().getAuthoritativeThesis( t );
 
     }
 

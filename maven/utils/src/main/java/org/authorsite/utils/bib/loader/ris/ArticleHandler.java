@@ -2,10 +2,10 @@ package org.authorsite.utils.bib.loader.ris;
 
 import java.util.SortedSet;
 
-import org.authorsite.bib.Article;
-import org.authorsite.bib.Individual;
-import org.authorsite.bib.Journal;
-import org.authorsite.bib.WorkDates;
+import org.authorsite.domain.bib.Article;
+import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.Journal;
+import org.authorsite.domain.bib.WorkDates;
 
 
 public class ArticleHandler implements RISEntryHandler {
@@ -33,7 +33,7 @@ public class ArticleHandler implements RISEntryHandler {
         if ( journalTitle != null ) {
             Journal jBean = new Journal();
             jBean.setTitle(journalTitle);
-            j = Bibliography.getInstance().getAuthoritativeJournal(jBean);
+            
         }
         
         // pages... (papyrus puts thems all as SP, but try and handle EP too
@@ -58,7 +58,7 @@ public class ArticleHandler implements RISEntryHandler {
         a.setJournal(j);
         a.setPages(pagesBuilder.toString());
         
-        Bibliography.getInstance().getAuthoritativeArticle(a);
+        
         
     }
 
