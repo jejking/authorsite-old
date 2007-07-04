@@ -10,96 +10,70 @@
 package org.authorsite.web.nav;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.LinkedList;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import java.util.Iterator;
+import java.util.List;
 import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.jdom.Attribute;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 
 
 /**
  *
  * @author jejking
  */
-public class XmlNavNode extends AbstractNavNode {
+public class XmlNavNode extends ConfigurableNavNode {
     
     private static final Logger LOGGER = Logger.getLogger(XmlNavNode.class);
-    private static DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-    
-    private String xmlPath;
     private String pathIndex;
     
-    /** Creates a new instance of XmlNavNode */
-    public XmlNavNode() {
-    }
-    
-    public XmlNavNode(String xmlPath) {
-        this.setXmlPath(xmlPath);
-    }
-    
-    public void setXmlPath(String xmlPath) {
-        this.xmlPath = xmlPath;
-        initialiseFromXmlPath();
-    }
-    
-    private static void configureFromElement(Element element, XmlNavNode navNode) {
-        navNode.name = element.getTagName();
-        String resourceBundleName = element.getAttribute("resourceBundleName");
-        if (resourceBundleName.length() > 0) {
-            navNode.resourceBundleName = resourceBundleName;
+    public static XmlNavNode buildInstance(String xmlPath) {
+        try {
+            SAXBuilder saxBuilder = new org.jdom.input.SAXBuilder();
+            Document document = saxBuilder.build(org.authorsite.web.nav.XmlNavNode.class.getResourceAsStream(xmlPath));
+            Element root = document.getRootElement();
+            XmlNavNode rootNode = new XmlNavNode(root);
+            return rootNode;
+        } catch (JDOMException ex) {
+            LOGGER.fatal(ex);
+        } catch (IOException ex) {
+            LOGGER.fatal(ex);
         }
-        String iconUrl = element.getAttribute("iconUrl");
-        if (iconUrl.length() > 0) {
-            navNode.iconUrl = iconUrl;
-        }
+        return null;
     }
 
-    private void initialiseFromXmlPath() {
-        this.children = new LinkedList<NavNode>();
-        this.childrenMap = new HashMap<String, NavNode>();
-        try {
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            InputStream inputStream = XmlNavNode.class.getResourceAsStream(this.xmlPath);
-            Document document = documentBuilder.parse(inputStream);
-            Element root = document.getDocumentElement();
-            XmlNavNode.configureFromElement(root, this);
-            this.buildChildren(root, this);
+    private XmlNavNode(Element element) {
+        
+        // name
+        this.name = element.getName();
+        
+        // attributes - resourceBundleName / iconUrl
+        Attribute resourceBundleNameAttr = element.getAttribute("resourceBundleName");
+        if ( resourceBundleNameAttr != null ) {
+            this.resourceBundleName = resourceBundleNameAttr.getValue();
         }
-        catch (ParserConfigurationException ex) {
-            LOGGER.fatal(ex);
+        
+        Attribute iconUrlAttr = element.getAttribute("iconUrl");
+        if (iconUrlAttr != null ) {
+            this.iconUrl = iconUrlAttr.getValue();
         }
-        catch (SAXException ex) {
-            LOGGER.fatal(ex);
+        
+        // children
+        List childrenList = element.getChildren();
+        Iterator childrenIterator = childrenList.iterator();
+        while(childrenIterator.hasNext()) {
+            Element childElement = (Element) childrenIterator.next();
+            XmlNavNode childNavNode = new XmlNavNode(childElement);
+            this.addChild(childNavNode);
+            childNavNode.setParent(this);
         }
-        catch (IOException ex) {
-            LOGGER.fatal(ex);
-        }
+            
     }
+            
     
-    private void buildChildren(Element element, XmlNavNode parent)  {
-        NodeList childNodes = element.getChildNodes();
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            Node childNode = childNodes.item(i);
-            if (childNode.getNodeType() == Node.ELEMENT_NODE) {
-               XmlNavNode childNavNode = new XmlNavNode();
-               Element childElement = (Element) childNode;
-               XmlNavNode.configureFromElement(childElement, childNavNode);
-               parent.addChild(childNavNode);
-               childNavNode.setParent(parent);
-               childNavNode.buildChildren(childElement, childNavNode);
-            }
-        }
-    }
-    
-    
-    
+    @Override
     public String getPath() {
         if (this.pathIndex == null) {
             this.pathIndex = super.getPath() + "/index";
@@ -107,9 +81,9 @@ public class XmlNavNode extends AbstractNavNode {
         return this.pathIndex;
     }
 
-    private void setParent(XmlNavNode parent) {
-        this.parent = parent;
-    }
+    
+
+    
     
     
 }

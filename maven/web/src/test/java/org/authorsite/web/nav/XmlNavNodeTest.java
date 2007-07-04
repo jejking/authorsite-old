@@ -22,7 +22,7 @@ public class XmlNavNodeTest extends TestCase{
     }
 
     public void testSimpleAssembly() throws Exception {
-        XmlNavNode navNode = new XmlNavNode("/testNav1.xml");
+        XmlNavNode navNode = XmlNavNode.buildInstance("/testNav1.xml");
         assertEquals("people", navNode.getName());
         List<NavNode> children = navNode.getChildren();
         assertEquals(2, children.size());
@@ -32,7 +32,7 @@ public class XmlNavNodeTest extends TestCase{
         
         List<NavNode> grandChildren = individuals.getChildren();
         assertEquals(3, grandChildren.size());
-        assertEquals("plebs", individuals.getNamedChild("plebs"));
+        assertEquals("plebs", individuals.getNamedChild("plebs").getName());
         
         NavNode collectives = navNode.getNamedChild("collectives");
         assertNotNull(collectives);

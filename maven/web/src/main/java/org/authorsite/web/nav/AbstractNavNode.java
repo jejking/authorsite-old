@@ -10,6 +10,8 @@
 package org.authorsite.web.nav;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -28,8 +30,8 @@ public abstract class AbstractNavNode implements NavNode {
     protected String iconUrl;
     
     
-    protected List<NavNode> children;
-    protected Map<String, NavNode> childrenMap;
+    protected List<NavNode> children = new LinkedList<NavNode>();
+    protected Map<String, NavNode> childrenMap = new HashMap<String, NavNode>();
     protected String resourceBundleName = "org.authorsite.web.resources.nav"; // default resource bundle
     
     
@@ -61,17 +63,17 @@ public abstract class AbstractNavNode implements NavNode {
         return this.name;
     }
 
-    
-    
     public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
     }
     
+    @Override
     public String getIconUrl() {
         return this.iconUrl;
     }
 
 
+    @Override
     public List<NavNode> getChildren() {
         if (this.children == null) {
             return Collections.emptyList();

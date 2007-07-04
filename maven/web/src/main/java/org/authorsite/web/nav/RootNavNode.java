@@ -13,24 +13,28 @@ package org.authorsite.web.nav;
  *
  * @author jejking
  */
-public class RootNavNode extends ConfigurableNavNode {
+public final class RootNavNode extends ConfigurableNavNode {
     
     /** Creates a new instance of RootNavNode */
     public RootNavNode() {
     }
 
+    @Override
     public String getPath() {
         return "/";
     }
 
+    @Override
     public NavNode getParentNode() {
         return null;
     }
 
+    @Override
     public String getName() {
         return "/";
     }
     
+    @Override
     public String getIconUrl() {
         return null;
     }
