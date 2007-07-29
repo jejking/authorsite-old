@@ -9,6 +9,7 @@ package org.authorsite.web.nav;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Representation of a node in the navigation
@@ -17,27 +18,39 @@ import java.util.Locale;
  * <p>Different parts of the application, and their representation
  * at the web level, will implement this interface to provide a 
  * coherent view of the application and its content.</p>
- *
+ * 
  * @author jejking
  */
 public interface NavNode {
     
     /**
-     * @return path from root node. This does not
-     * include the web application context root.
+     * Assembles and returns the logical application path.
+     * 
+     * <p>This does notinclude the web application context root, but rather 
+     * from the logical application root. Implementations
+     * may <b>not</b> return <code>null</code> or the
+     * empty string.</p>
+     * 
+     * <p>The path is constructed from path of the
+     * parent node and seperated with a forward 
+     * slash character ("/").</p>
+     * 
+     * @return path from root node.
      */
     public String getPath();
     
     /**
      * @return the parent note. In the case of the root
-     * node this may be <code>null</code>
+     * node this will be <code>null</code>.
      */
     public NavNode getParentNode();
     
     /**
      * @return list of children. This may be the 
-     * empty list if the node is a leaf node. Children
-     * must have a unique <code>name</code>.
+     * empty list if the node is a leaf node - it may
+     * not be <code>null</code>.. Children
+     * must have a unique <code>name</code> so that
+     * each node in the tree has a unique path.
      */
     public List<NavNode> getChildren();
     
@@ -56,6 +69,7 @@ public interface NavNode {
     public String getDefaultLocalName();
     
     /**
+     * @param locale 
      * @return the natural language name of the node in the 
      * specified language. If not found, attempt to return the
      * default natural language name (and if that fails, the 
@@ -64,17 +78,33 @@ public interface NavNode {
     public String getLocalName(Locale locale);
     
     /**
+     * @param name 
      * @return the named node. If not found, or node has no 
      * children, return <code>null</code>.
      */
     public NavNode getNamedChild(String name);
     
     /**
-     * @returns link to the corresponding icon. May be <code>null</code>
+     * 
+     * @return link to the corresponding icon. May be <code>null</code>
      * if none configured.
      */
     public String getIconUrl();
 
+    /**
+     * Registers a child node as belonging to this node.
+     * 
+     * <p>If an identically named child is already registered,
+     * then this method has no effect.</p>
+     * 
+     * @param child
+     */
+    public void registerChild(NavNode child);
+
+    /**
+     * @return name of resource bundle to use
+     */
+    public String getResourceBundleName();
     
-    
+   
 }

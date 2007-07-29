@@ -9,34 +9,55 @@
 
 package org.authorsite.web.nav;
 
+import java.util.Locale;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+
 /**
  *
  * @author jejking
  */
-public final class RootNavNode extends ConfigurableNavNode {
+public final class RootNavNode extends AbstractNavNode {
+    
+    private static final AbstractNavNode INSTANCE = new RootNavNode();
     
     /** Creates a new instance of RootNavNode */
-    public RootNavNode() {
+    private RootNavNode() {
+        super();
+    }
+    
+    public static NavNode getInstance() {
+        return RootNavNode.INSTANCE;
     }
 
-    @Override
     public String getPath() {
         return "/";
     }
 
-    @Override
     public NavNode getParentNode() {
         return null;
     }
 
-    @Override
     public String getName() {
         return "/";
     }
     
-    @Override
     public String getIconUrl() {
         return null;
     }
+
+    public String getDefaultLocalName() {
+	return this.getName();
+    }
+
+    public String getLocalName(Locale locale) {
+	return this.getName();
+    }
+
+    public String getResourceBundleName() {
+	return "org.authorsite.web.resources.nav";
+    }
+    
+    
     
 }

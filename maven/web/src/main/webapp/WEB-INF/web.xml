@@ -134,20 +134,23 @@
         </init-param>
     </filter>
     
-    <filter-mapping>
-        <filter-name>Acegi Filter Chain Proxy</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-    
+   
     
     <filter>
         <filter-name>IdExtractionFilter</filter-name>
         <filter-class>org.authorsite.web.filters.IdExtractionFilter</filter-class>
     </filter>
+    
+    <!-- loads up the main spring application context -->
+
+    <filter-mapping>
+        <filter-name>Acegi Filter Chain Proxy</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>IdExtractionFilter</filter-name>
         <url-pattern>/people/*</url-pattern>
-    </filter-mapping> 
+    </filter-mapping>
     <filter-mapping>
         <filter-name>IdExtractionFilter</filter-name>
         <url-pattern>/admin/users/*</url-pattern>
@@ -160,8 +163,6 @@
         <filter-name>IdExtractionFilter</filter-name>
         <url-pattern>/mail/messages/*</url-pattern>
     </filter-mapping>
-    
-    <!-- loads up the main spring application context -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>

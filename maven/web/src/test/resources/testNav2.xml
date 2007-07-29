@@ -1,0 +1,8 @@
+<people>
+    <individuals resourceBundleName="org.authorsite.web.resources.test" iconUrl="/icons/test.png">
+        <important/>
+        <ordinary/>
+        <plebs/>
+    </individuals>
+    <collectives/>
+</people>
