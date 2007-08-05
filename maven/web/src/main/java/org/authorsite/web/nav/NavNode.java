@@ -9,7 +9,6 @@ package org.authorsite.web.nav;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**
  * Representation of a node in the navigation
@@ -106,5 +105,20 @@ public interface NavNode {
      */
     public String getResourceBundleName();
     
+    /**
+     * Determines whether this is an ancestor (recursive
+     * parent relationship) of the <code>navNode</code>
+     * parameter or not.
+     * 
+     * @param navNode
+     * @return <code>true</code> if given this is an ancestor, else <code>false</code>
+     */
+    public boolean isAncestorOf(NavNode navNode);
+    
+    /**
+     * @param path
+     * @return corresponding node or <code>null</code>
+     */
+    public NavNode getDescendantByPath(String path);
    
 }

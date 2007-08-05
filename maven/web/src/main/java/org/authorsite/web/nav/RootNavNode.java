@@ -9,7 +9,9 @@
 
 package org.authorsite.web.nav;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
@@ -20,6 +22,8 @@ import java.util.ResourceBundle;
 public final class RootNavNode extends AbstractNavNode {
     
     private static final AbstractNavNode INSTANCE = new RootNavNode();
+    
+    private final Map<String, NavNode> pathNavNodeMap = new HashMap<String, NavNode>(); 
     
     /** Creates a new instance of RootNavNode */
     private RootNavNode() {
@@ -57,7 +61,5 @@ public final class RootNavNode extends AbstractNavNode {
     public String getResourceBundleName() {
 	return "org.authorsite.web.resources.nav";
     }
-    
-    
     
 }

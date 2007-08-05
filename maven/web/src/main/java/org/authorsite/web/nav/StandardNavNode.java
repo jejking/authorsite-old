@@ -90,4 +90,37 @@ public class StandardNavNode extends AbstractNavNode {
 	return this.resourceBundleName;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+	final int PRIME = 31;
+	int result = 1;
+	result = PRIME * result + ((this.path == null) ? 0 : this.path.hashCode());
+	return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	final StandardNavNode other = (StandardNavNode) obj;
+	if (this.path == null) {
+	    if (other.path != null)
+		return false;
+	} else if (!this.path.equals(other.path))
+	    return false;
+	return true;
+    }
+
+    
+    
 }
