@@ -21,6 +21,11 @@
      </listener>
    -->
   <tag>
+      <name>NavTag</name>
+      <tag-class>org.authorsite.web.tags.NavTag</tag-class>
+      <body-content>empty</body-content>
+  </tag>
+  <tag>
     <name>LinkTag</name>
     <tag-class>org.authorsite.web.tags.LinkTag</tag-class>
     <body-content>empty</body-content>
