@@ -10,11 +10,10 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-import javax.servlet.jsp.JspException;
+
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.BodyContent;
-import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
+
 import org.apache.log4j.Logger;
 
 /**
