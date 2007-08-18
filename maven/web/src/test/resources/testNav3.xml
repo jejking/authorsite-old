@@ -1,0 +1,8 @@
+<people resourceBundleName="org.authorsite.web.resources.test">
+    <individuals>
+        <important/>
+        <ordinary/>
+        <plebs/>
+    </individuals>
+    <collectives/>
+</people>

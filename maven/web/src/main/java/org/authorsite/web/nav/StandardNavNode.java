@@ -1,6 +1,7 @@
 package org.authorsite.web.nav;
 
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
@@ -67,11 +68,21 @@ public class StandardNavNode extends AbstractNavNode {
     }
 
     public String getDefaultLocalName() {
-	return ResourceBundle.getBundle(resourceBundleName).getString(this.name);
+	try {
+            return ResourceBundle.getBundle(resourceBundleName).getString(this.name);
+        }
+        catch (MissingResourceException mre) {
+            return this.name;
+        }
     }
 
     public String getLocalName(Locale locale) {
-	return ResourceBundle.getBundle(resourceBundleName, locale).getString(this.name);
+	try {
+            return ResourceBundle.getBundle(resourceBundleName, locale).getString(this.name);
+        }
+        catch (MissingResourceException mre) {
+            return this.name;
+        }
     }
 
     public String getName() {

@@ -21,7 +21,7 @@
      </listener>
    -->
   <tag>
-      <name>NavTag</name>
+      <name>nav</name>
       <tag-class>org.authorsite.web.tags.NavTag</tag-class>
       <body-content>empty</body-content>
   </tag>

@@ -59,5 +59,36 @@ public class StandardNavNodeTest extends TestCase {
 	assertEquals("parent", parent.getLocalName(Locale.CHINESE));
     }
     
+    public void testIsAncestorOf() {
+	StandardNavNode parent = new StandardNavNode( RootNavNode.getInstance(), "parent", "org.test.resource.parent", "/icons/parent.png" );
+	StandardNavNode child = new StandardNavNode(parent, "child", "org.test.resource.child", "/icons/child.png");
+	
+	assertTrue(parent.isAncestorOf(child));
+	assertTrue(RootNavNode.getInstance().isAncestorOf(child));
+	
+	assertFalse(child.isAncestorOf(parent));
+	assertFalse(child.isAncestorOf(RootNavNode.getInstance()));
+	assertFalse(parent.isAncestorOf(RootNavNode.getInstance()));
+	
+    }
     
+    public void testGetDescendantByPath() {
+	StandardNavNode parent = new StandardNavNode( RootNavNode.getInstance(), "parent", "org.test.resource.parent", "/icons/parent.png" );
+	StandardNavNode child = new StandardNavNode(parent, "child", "org.test.resource.child", "/icons/child.png");
+	
+	NavNode foundChild = RootNavNode.getInstance().getDescendantByPath("/parent/child");
+	assertEquals(child, foundChild);
+	
+	NavNode parentFoundChild = parent.getDescendantByPath("/child");
+	assertEquals(child, parentFoundChild);
+	
+	NavNode childchild = child.getDescendantByPath("/child");
+	assertNull(childchild);
+	
+	NavNode foundChild2 = RootNavNode.getInstance().getDescendantByPath("/parent/child/123");
+	assertEquals(child, foundChild2);
+	
+	NavNode nonexistent = RootNavNode.getInstance().getDescendantByPath(("/blah/wibble"));
+	assertNull(nonexistent);
+    }
 }

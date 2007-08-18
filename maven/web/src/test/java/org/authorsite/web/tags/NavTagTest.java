@@ -12,6 +12,8 @@ import org.springframework.mock.web.MockPageContext;
 import org.springframework.mock.web.MockServletContext;
 
 import junit.framework.TestCase;
+import org.authorsite.web.nav.AbstractNavNode;
+import org.authorsite.web.nav.RootNavNode;
 
 public class NavTagTest extends TestCase {
 
@@ -46,6 +48,8 @@ public class NavTagTest extends TestCase {
 	this.navTag = new NavTag();
 	this.navTag.setPageContext(this.pageContext);
 	
+        ((AbstractNavNode)RootNavNode.getInstance()).clearChildren();
+        
 	XmlNavNodeFactory.buildInstance("/testNav3.xml");
     }
 

@@ -15,6 +15,10 @@
     </context-param>
     
     
+    <listener>
+        <description>Initialises tree of nav nodes.</description>
+        <listener-class>org.authorsite.web.listeners.NavNodeInitialiserServletContextListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>ErrorServlet</servlet-name>
         <servlet-class>org.authorsite.web.error.ErrorServlet</servlet-class>

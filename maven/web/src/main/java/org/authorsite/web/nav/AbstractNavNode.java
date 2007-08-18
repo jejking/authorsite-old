@@ -91,4 +91,10 @@ public abstract class AbstractNavNode implements NavNode {
     public String toString() {
         return ("NavNode: " + this.getPath());
     }
+    
+    public void clearChildren()
+    {
+        this.navNodeList.clear();
+        this.navNodeNameMap.clear();
+    }
 }
