@@ -18,6 +18,7 @@
  */
 package org.authorsite.domain.bib;
 
+import javax.persistence.Entity;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -31,6 +32,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * 
  * @author jejking
  */
+@Entity
 public class Journal extends AbstractWork implements Comparable<Journal> {
 
     /**
@@ -66,6 +68,7 @@ public class Journal extends AbstractWork implements Comparable<Journal> {
 	return new HashCodeBuilder().append(this.getTitle()).toHashCode();
     }
 
+    @Override
     public int compareTo(Journal journal) {
 	return new CompareToBuilder().append(this.getTitle(), journal.getTitle()).toComparison();
     }

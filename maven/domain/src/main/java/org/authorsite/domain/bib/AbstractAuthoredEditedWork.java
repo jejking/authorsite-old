@@ -21,6 +21,7 @@ package org.authorsite.domain.bib;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.ManyToMany;
 
 import org.authorsite.domain.AbstractHuman;
 
@@ -132,19 +133,21 @@ public abstract class AbstractAuthoredEditedWork extends AbstractWork {
     }
 
     /**
-         * Gets authors.
-         * 
-         * @return set of authors
-         */
+     * Gets authors.
+     * 
+     * @return set of authors
+     */
+    @ManyToMany
     public Set<AbstractHuman> getAuthors() {
 	return this.authors;
     }
 
     /**
-         * Gets editors.
-         * 
-         * @return set of editors
-         */
+     * Gets editors.
+     * 
+     * @return set of editors
+     */
+    @ManyToMany
     public Set<AbstractHuman> getEditors() {
 	return this.editors;
     }

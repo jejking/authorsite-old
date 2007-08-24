@@ -22,6 +22,9 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 
@@ -42,6 +45,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
  * @author jejking
  *
  */
+@Embeddable
 public class WorkDates implements Comparable<WorkDates>, Serializable {
 
     /**
@@ -109,6 +113,7 @@ public class WorkDates implements Comparable<WorkDates>, Serializable {
      * 
      * @return copy of date, may be <code>null</null>
      */
+    @Temporal(value = TemporalType.DATE)
     public Date getDate() {
 	if (this.date != null) {
 	    return (Date) this.date.clone();
@@ -156,6 +161,7 @@ public class WorkDates implements Comparable<WorkDates>, Serializable {
      * @return to date property. If this is <code>null</code>, returns <code>null</code>,
      * else return a copy of the property.
      */
+    @Temporal(value = TemporalType.DATE)
     public Date getToDate() {
 	if (this.toDate == null) {
 	    return null;

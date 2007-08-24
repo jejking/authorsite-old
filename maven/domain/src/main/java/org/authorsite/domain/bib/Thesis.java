@@ -18,6 +18,7 @@
  */
 package org.authorsite.domain.bib;
 
+import javax.persistence.Entity;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -39,6 +40,7 @@ import org.authorsite.domain.Individual;
  * @author jejking
  *
  */
+@Entity
 public class Thesis extends AbstractWork implements Comparable<Thesis> {
 
     /**

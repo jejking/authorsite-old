@@ -18,6 +18,12 @@
  */
 package org.authorsite.domain.bib;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 import org.authorsite.domain.AbstractEntry;
 
 /**
@@ -36,6 +42,9 @@ import org.authorsite.domain.AbstractEntry;
  * @author jejking
  *
  */
+@Entity
+@Table(name="Work")
+@Inheritance(strategy=InheritanceType.JOINED)
 public abstract class AbstractWork extends AbstractEntry {
 
     private String title;
@@ -54,6 +63,7 @@ public abstract class AbstractWork extends AbstractEntry {
      * 
      * @return title. If <code>null</code>, returns "Unknown".
      */
+    @Column(nullable=false)
     public String getTitle() {
 	if (this.title == null) {
 	    return "Unknown";
@@ -76,6 +86,7 @@ public abstract class AbstractWork extends AbstractEntry {
      * 
      * @return work dates, may be <code>null</code> if not known.
      */
+    @Embedded
     public WorkDates getWorkDates() {
 	return this.workDates;
     }
