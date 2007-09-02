@@ -51,7 +51,7 @@ public class ArticleHandler implements RISEntryHandler {
         
         Article a = new Article();
         a.addAuthors(authoritativeAuthors);
-        a.setYears(years);
+        a.setWorkDates(years);
         a.setTitle(title);
         a.setVolume(volume);
         a.setIssue(issue);

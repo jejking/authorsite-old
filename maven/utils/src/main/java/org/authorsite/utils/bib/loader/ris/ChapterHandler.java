@@ -6,6 +6,7 @@ import org.authorsite.domain.bib.Book;
 import org.authorsite.domain.bib.Chapter;
 import org.authorsite.domain.Collective;
 import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.Publisher;
 import org.authorsite.domain.bib.WorkDates;
 
 
@@ -60,12 +61,12 @@ public class ChapterHandler implements RISEntryHandler {
         bookBean.addAuthors(bookAuthoritativeAuthors);
         bookBean.addEditors(bookAuthoritativeEditors);
         bookBean.setTitle(bookTitle);
-        bookBean.setYears(year);
+        bookBean.setWorkDates(year);
         Collective publisherBean = new Collective();
         publisherBean.setName(publisherName);
         publisherBean.setPlace(publisherPlace);
         //Collective authoritativePublisher = Bibliography.getInstance().getAuthoritativeCollective(publisherBean);
-        bookBean.setPublisher(publisherBean);
+        bookBean.setPublisher(new Publisher(bookBean, publisherBean));
         
         //Book authoritativeBook = Bibliography.getInstance().getAuthoritativeBook( bookBean );
         
@@ -73,7 +74,7 @@ public class ChapterHandler implements RISEntryHandler {
         chapterBean.addAuthors(authoritativeAuthors);
         chapterBean.addEditors(authoritativeEditors);
         chapterBean.setTitle(chapterTitle);
-        chapterBean.setYears(year);
+        chapterBean.setWorkDates(year);
         chapterBean.setPages(pagesBuilder.toString());
         chapterBean.setBook(bookBean);
         

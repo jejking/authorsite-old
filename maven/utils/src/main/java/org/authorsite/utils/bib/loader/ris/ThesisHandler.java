@@ -3,6 +3,8 @@ package org.authorsite.utils.bib.loader.ris;
 import java.util.SortedSet;
 import org.authorsite.domain.Collective;
 import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.Author;
+import org.authorsite.domain.bib.AwardingBody;
 import org.authorsite.domain.bib.Thesis;
 import org.authorsite.domain.bib.WorkDates;
 
@@ -31,10 +33,10 @@ public class ThesisHandler implements RISEntryHandler {
         // assemble the thesis
         Thesis t = new Thesis();
         t.setTitle(title);
-        t.setAuthor(authoritativeAuthors.first());
-        t.setAwardingBody(awardingBody);
+        t.setAuthor(new Author(t, authoritativeAuthors.first()));
+        t.setAwardingBody(new AwardingBody(t, awardingBody));
         t.setDegree(degree);
-        t.setYears(year);
+        t.setWorkDates(year);
         
         //Bibliography.getInstance().getAuthoritativeThesis( t );
 

@@ -5,6 +5,7 @@ import java.util.SortedSet;
 import org.authorsite.domain.bib.Book;
 import org.authorsite.domain.Collective;
 import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.Publisher;
 import org.authorsite.domain.bib.WorkDates;
 
 
@@ -39,8 +40,8 @@ public class BookHandler implements RISEntryHandler {
         
         Book b = new Book();
         b.setTitle(title);
-        b.setYears(year);
-        b.setPublisher(publisherBean);
+        b.setWorkDates(year);
+        b.setPublisher(new Publisher(b, publisherBean));
         b.addAuthors(authoritativeAuthors);
         b.addEditors(authoritativeEditors);
         
