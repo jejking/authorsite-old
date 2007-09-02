@@ -1,6 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://acegisecurity.org/authz" prefix="authz" %>
+<%@ taglib uri="http://www.authorsite.org/tags/authorsite" prefix="as" %>
 <fmt:bundle basename="org.authorsite.web.resources.standard">
     <div id="nav">
         
@@ -68,31 +69,7 @@
                 </h3>
             </div>
             <div id="content-nav-listing">
-                <ul>
-                    <li>
-                        <c:url value="/people/index" var="peopleLink" scope="page"/>
-                        <a href="${pageScope.peopleLink}">
-                            <fmt:message key="people-link"/>
-                        </a>
-                    </li>
-                    <li>
-                        <c:url value="/works/index" var="worksLink" scope="page"/>
-                        <a href="${pageScope.worksLink}">
-                            <fmt:message key="works-link"/>
-                        </a>
-                    </li>
-                    <li>
-                        <c:url value="/mail/index" var="mailLink" scope="page"/>
-                        <a href="${pageScope.mailLink}">
-                            <fmt:message key="mail-link"/>
-                        </a>
-                    </li>
-                    <%--
-                        we should add here an element which grabs the 
-                        top level content "folders" when we 
-                        have implemented them
-                    --%>
-                </ul>
+                <as:nav/>
             </div>
         </div>
     </div>
