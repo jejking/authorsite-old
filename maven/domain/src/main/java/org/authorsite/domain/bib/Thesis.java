@@ -18,7 +18,11 @@
  */
 package org.authorsite.domain.bib;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -48,9 +52,9 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      */
     private static final long serialVersionUID = -6310817720547175025L;
 
-    private Individual author;
+    private Author author;
 
-    private Collective awardingBody;
+    private AwardingBody awardingBody;
 
     private String degree;
 
@@ -66,7 +70,8 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * 
      * @return author
      */
-    public Individual getAuthor() {
+    @OneToOne(optional=false, fetch=FetchType.EAGER)
+    public Author getAuthor() {
 	return this.author;
     }
 
@@ -75,7 +80,7 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * 
      * @param author should not be <code>null</code>
      */
-    public void setAuthor(Individual author) {
+    public void setAuthor(Author author) {
 	this.author = author;
     }
 
@@ -84,7 +89,8 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * 
      * @return awardingBody
      */
-    public Collective getAwardingBody() {
+    @OneToOne(optional=false, fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+    public AwardingBody getAwardingBody() {
 	return this.awardingBody;
     }
 
@@ -93,7 +99,7 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * 
      * @param awardingBody should not be <code>null</code>
      */
-    public void setAwardingBody(Collective awardingBody) {
+    public void setAwardingBody(AwardingBody awardingBody) {
 	this.awardingBody = awardingBody;
     }
 

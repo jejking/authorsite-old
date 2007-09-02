@@ -24,20 +24,20 @@ public class ChapterTest extends TestCase {
         
         Book b = new Book();
         b.setTitle("Musings on Stuff");
-        b.setYears( new WorkDates(2006));
-        b.setPublisher(c);
+        b.setWorkDates( new WorkDates(2006));
+        b.setPublisher( new Publisher( b, c));
         b.addEditor(i1);
         
         Chapter ch1 = new Chapter();
         ch1.setBook(b);
         ch1.addAuthor(i2);
         ch1.addAuthor(i1);
-        ch1.setYears(new WorkDates(2006));
+        ch1.setWorkDates(new WorkDates(2006));
         ch1.setTitle("Introduction to Stuff");
         
         Chapter ch2 = new Chapter();
         ch2.setBook(b);
-        ch2.setYears(new WorkDates(2006));
+        ch2.setWorkDates(new WorkDates(2006));
         ch2.addAuthor(i1);
         ch2.addAuthor(i2);
         ch2.setTitle("Introduction to Stuff");
@@ -51,7 +51,7 @@ public class ChapterTest extends TestCase {
         Chapter ch3 = new Chapter();
         ch3.setBook(b);
         ch3.addAuthor(i1);
-        ch3.setYears( new WorkDates(2006));
+        ch3.setWorkDates( new WorkDates(2006));
         ch3.setTitle("Introduction to Stuff");
         
         assertFalse(ch1.equals(ch3));

@@ -18,11 +18,13 @@
  */
 package org.authorsite.domain.bib;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.authorsite.domain.AbstractHuman;
 
 /**
  * Class representing a printed book.
@@ -52,13 +54,13 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
          */
     private static final long serialVersionUID = -1294714725294860372L;
 
-    private AbstractHuman publisher;
+    private Publisher publisher;
 
     private String volume;
 
     /**
-         * Default constructor.
-         */
+     * Default constructor.
+     */
     public Book() {
 	super();
     }
@@ -68,7 +70,8 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
          * 
          * @return publisher, may be <code>null</code>.
          */
-    public AbstractHuman getPublisher() {
+    @OneToOne(optional=true, fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+    public Publisher getPublisher() {
 	return this.publisher;
     }
 
@@ -78,7 +81,7 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
          * @param publisher
          *                may be <code>null</code>
          */
-    public void setPublisher(AbstractHuman publisher) {
+    public void setPublisher(Publisher publisher) {
 	this.publisher = publisher;
     }
 
@@ -111,10 +114,10 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
 	}
 	if (obj instanceof Book) {
 	    Book rhs = (Book) obj;
-	    if (this.authors.size() == rhs.authors.size() && this.editors.size() == rhs.editors.size()) {
+	    if (this.getAuthors().size() == rhs.getAuthors().size() && this.getEditors().size() == rhs.getEditors().size()) {
 		return new EqualsBuilder().append(this.getTitle(), rhs.getTitle()).append(this.getWorkDates(),
-			rhs.getWorkDates()).append(this.authors.toArray(), rhs.authors.toArray()).append(
-			this.editors.toArray(), rhs.editors.toArray()).append(this.publisher, rhs.publisher).isEquals();
+			rhs.getWorkDates()).append(this.getAuthors().toArray(), rhs.getAuthors().toArray()).append(
+			this.getEditors().toArray(), rhs.getEditors().toArray()).append(this.publisher, rhs.publisher).isEquals();
 	    } else {
 		return false;
 	    }
@@ -125,14 +128,14 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
 
     @Override
     public int hashCode() {
-	return new HashCodeBuilder().append(this.getTitle()).append(this.getWorkDates()).append(this.authors.toArray())
-		.append(this.editors.toArray()).append(this.publisher).toHashCode();
+	return new HashCodeBuilder().append(this.getTitle()).append(this.getWorkDates()).append(this.getAuthors().toArray())
+		.append(this.getEditors().toArray()).append(this.publisher).toHashCode();
     }
 
     @Override
     public String toString() {
 	StringBuilder sb = new StringBuilder();
-	for (AbstractHuman author : this.authors) {
+	for (Author author : this.getAuthors()) {
 	    sb.append(author);
 	    sb.append(" ");
 	}
@@ -142,7 +145,7 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
 	sb.append(this.getWorkDates());
 	sb.append(") ");
 	sb.append("Eds: ");
-	for (AbstractHuman editor : this.editors) {
+	for (Editor editor : this.getEditors()) {
 	    sb.append(editor);
 	    sb.append(" ");
 	}
@@ -152,8 +155,8 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
 
     public int compareTo(Book book) {
 	return new CompareToBuilder().append(this.getTitle(), book.getTitle()).append(this.getWorkDates(),
-		book.getWorkDates()).append(this.authors.toArray(), book.authors.toArray()).append(
-		this.editors.toArray(), book.editors.toArray()).append(this.publisher, book.publisher).toComparison();
+		book.getWorkDates()).append(this.getAuthors().toArray(), book.getAuthors().toArray()).append(
+		this.getEditors().toArray(), book.getEditors().toArray()).append(this.publisher, book.publisher).toComparison();
 
     }
 

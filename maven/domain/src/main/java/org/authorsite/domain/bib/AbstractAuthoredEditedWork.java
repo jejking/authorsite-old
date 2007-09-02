@@ -21,7 +21,7 @@ package org.authorsite.domain.bib;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 import org.authorsite.domain.AbstractHuman;
 
@@ -34,11 +34,7 @@ import org.authorsite.domain.AbstractHuman;
  */
 public abstract class AbstractAuthoredEditedWork extends AbstractWork {
 
-    protected Set<AbstractHuman> authors = new HashSet<AbstractHuman>();
-
-    protected Set<AbstractHuman> editors = new HashSet<AbstractHuman>();
-
-    /**
+   /**
          * Default constructor.
          */
     public AbstractAuthoredEditedWork() {
@@ -56,7 +52,7 @@ public abstract class AbstractAuthoredEditedWork extends AbstractWork {
 	if (author == null) {
 	    throw new IllegalArgumentException("author parameter is null");
 	}
-	return this.authors.add(author);
+	return this.workProducers.add(new Author(this, author));
     }
 
     /**
@@ -70,7 +66,13 @@ public abstract class AbstractAuthoredEditedWork extends AbstractWork {
 	if (authors == null) {
 	    throw new IllegalArgumentException("collection of authors is null");
 	}
-	return this.authors.addAll(authors);
+        boolean addedAll = true;
+        for (AbstractHuman author : authors ) {
+            if ( ! this.addAuthor(author)) {
+                addedAll = false;
+            }
+        }
+	return addedAll;
     }
 
     /**
@@ -81,7 +83,7 @@ public abstract class AbstractAuthoredEditedWork extends AbstractWork {
          */
     public boolean removeAuthor(AbstractHuman authorToRemove) {
 	if (authorToRemove != null) {
-	    return this.authors.remove(authorToRemove);
+	    return this.workProducers.remove(new Author(this, authorToRemove) );
 	} else {
 	    return false;
 	}
@@ -99,7 +101,7 @@ public abstract class AbstractAuthoredEditedWork extends AbstractWork {
 	if (editor == null) {
 	    throw new IllegalArgumentException("editor parameter is null");
 	}
-	return this.editors.add(editor);
+	return this.workProducers.add(new Editor(this, editor));
     }
 
     /**
@@ -115,7 +117,13 @@ public abstract class AbstractAuthoredEditedWork extends AbstractWork {
 	if (editors == null) {
 	    throw new IllegalArgumentException("Editors parameter is null");
 	}
-	return this.editors.addAll(editors);
+	boolean addedAll = true;
+        for (AbstractHuman editor : editors) {
+            if (! this.addEditor(editor)) {
+                addedAll = false;
+            }
+        }
+        return addedAll;
     }
 
     /**
@@ -126,7 +134,7 @@ public abstract class AbstractAuthoredEditedWork extends AbstractWork {
          */
     public boolean removeEditor(AbstractHuman editor) {
 	if (editor != null) {
-	    return this.editors.remove(editor);
+	    return this.workProducers.remove(new Editor(this, editor));
 	} else {
 	    return false;
 	}
@@ -137,19 +145,35 @@ public abstract class AbstractAuthoredEditedWork extends AbstractWork {
      * 
      * @return set of authors
      */
-    @ManyToMany
-    public Set<AbstractHuman> getAuthors() {
-	return this.authors;
+    @Transient
+    public Set<Author> getAuthors() {
+	Set<WorkProducer> authorWorkProducers = super.getWorkProducersOfType(Author.AUTHOR);
+        Set<Author> authors = new HashSet<Author>();
+        for (WorkProducer workProducer : authorWorkProducers ) {
+            if (workProducer instanceof Author) {
+                authors.add((Author) workProducer);
+            }
+        }
+        return authors;
     }
-
+    
+    
     /**
      * Gets editors.
      * 
      * @return set of editors
      */
-    @ManyToMany
-    public Set<AbstractHuman> getEditors() {
-	return this.editors;
+    @Transient
+    public Set<Editor> getEditors() {
+	Set<WorkProducer> editorWorkProducers = super.getWorkProducersOfType(Editor.EDITOR);
+        Set<Editor> editors = new HashSet<Editor>();
+        for (WorkProducer workProducer : editorWorkProducers ) {
+            if (workProducer instanceof Editor) {
+                editors.add((Editor) workProducer);
+            }
+        }
+        return editors;
     }
-
+    
+    
 }

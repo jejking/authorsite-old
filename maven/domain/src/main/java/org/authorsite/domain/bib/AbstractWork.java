@@ -18,11 +18,16 @@
  */
 package org.authorsite.domain.bib;
 
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.authorsite.domain.AbstractEntry;
 
@@ -50,6 +55,8 @@ public abstract class AbstractWork extends AbstractEntry {
     private String title;
 
     private WorkDates workDates = new WorkDates();
+    
+    protected Set<WorkProducer> workProducers = new HashSet<WorkProducer>();
 
     /**
      * Default constructor.
@@ -96,8 +103,27 @@ public abstract class AbstractWork extends AbstractEntry {
      * 
      * @param workDates may be <code>null</code>.
      */
-    public void setYears(WorkDates workDates) {
+    public void setWorkDates(WorkDates workDates) {
 	this.workDates = workDates;
+    }
+
+    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+    public Set<WorkProducer> getWorkProducers() {
+        return workProducers;
+    }
+
+    public void setWorkProducers(Set<WorkProducer> workProducers) {
+        this.workProducers = workProducers;
+    }
+    
+    protected Set<WorkProducer> getWorkProducersOfType(String type) {
+       Set<WorkProducer> filteredSet = new HashSet<WorkProducer>();
+       for (WorkProducer workProducer : workProducers) {
+           if(workProducer.getProducerType().equals(type)) {
+               filteredSet.add(workProducer);
+           }
+       }
+       return filteredSet;
     }
 
 }

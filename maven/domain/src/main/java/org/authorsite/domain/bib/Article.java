@@ -19,10 +19,11 @@
 package org.authorsite.domain.bib;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.authorsite.domain.AbstractHuman;
 
 /**
  * Class describing an article published in a {@link Journal}.
@@ -84,6 +85,7 @@ public class Article extends AbstractAuthoredEditedWork implements Comparable<Ar
      * 
      * @return journal.
      */
+    @ManyToOne(optional=false, fetch=FetchType.EAGER)
     public Journal getJournal() {
 	return this.journal;
     }
@@ -143,9 +145,9 @@ public class Article extends AbstractAuthoredEditedWork implements Comparable<Ar
 	}
 	if (obj instanceof Article) {
 	    Article rhs = (Article) obj;
-	    if (this.authors.size() == rhs.authors.size()) {
+	    if (this.getAuthors().size() == rhs.getAuthors().size()) {
 		return new EqualsBuilder().append(this.getTitle(), rhs.getTitle()).append(this.getWorkDates(),
-			rhs.getWorkDates()).append(this.authors.toArray(), rhs.authors.toArray()).append(this.journal,
+			rhs.getWorkDates()).append(this.getAuthors().toArray(), rhs.getAuthors().toArray()).append(this.journal,
 			rhs.journal).isEquals();
 	    } else {
 		return false;
@@ -157,14 +159,14 @@ public class Article extends AbstractAuthoredEditedWork implements Comparable<Ar
 
     @Override
     public int hashCode() {
-	return new HashCodeBuilder().append(this.getTitle()).append(this.getWorkDates()).append(this.authors.toArray())
+	return new HashCodeBuilder().append(this.getTitle()).append(this.getWorkDates()).append(this.getAuthors().toArray())
 		.append(this.journal).toHashCode();
     }
 
     @Override
     public String toString() {
 	StringBuilder sb = new StringBuilder();
-	for (AbstractHuman author : this.authors) {
+	for (Author author : this.getAuthors()) {
 	    sb.append(author);
 	    sb.append(", ");
 	}
@@ -185,7 +187,7 @@ public class Article extends AbstractAuthoredEditedWork implements Comparable<Ar
 
     public int compareTo(Article rhs) {
 	return new CompareToBuilder().append(this.getTitle(), rhs.getTitle()).append(this.getWorkDates(),
-		rhs.getWorkDates()).append(this.authors.toArray(), rhs.authors.toArray()).append(this.journal,
+		rhs.getWorkDates()).append(this.getAuthors().toArray(), rhs.getAuthors().toArray()).append(this.journal,
 		rhs.journal).toComparison();
     }
 

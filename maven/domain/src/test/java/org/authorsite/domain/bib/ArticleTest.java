@@ -25,7 +25,7 @@ public class ArticleTest extends TestCase {
         Article a2 = new Article();
         a2.setId(2);
         a2.setTitle("An Exercise in Testing");
-        a2.setYears(new WorkDates(2006, 7, 3));
+        a2.setWorkDates(new WorkDates(2006, 7, 3));
         a2.setVolume("V");
         a2.setIssue("Special FooBar Issue");
         a2.setJournal(j1);
@@ -34,7 +34,7 @@ public class ArticleTest extends TestCase {
         
         Article a3 = new Article();
         a3.setTitle("An Exercise in Testing");
-        a3.setYears(new WorkDates(2006, 7, 3));
+        a3.setWorkDates(new WorkDates(2006, 7, 3));
         a3.setVolume("V");
         a3.setIssue("Special FooBar Issue");
         a3.setJournal(j1);
@@ -49,7 +49,7 @@ public class ArticleTest extends TestCase {
         
         Article a4 = new Article();
         a4.setTitle("Fu or Foo? That is the question");
-        a4.setYears(new WorkDates(2006, 7, 3));
+        a4.setWorkDates(new WorkDates(2006, 7, 3));
         a4.setVolume("V");
         a4.setIssue("Special FooBar Issue");
         a4.setJournal(j1);
