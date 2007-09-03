@@ -20,6 +20,7 @@
 package org.authorsite.domain.bib;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import org.authorsite.domain.AbstractHuman;
 
 /**
@@ -38,6 +39,7 @@ public class Author extends WorkProducer {
         super(abstractWork, abstractHuman);
     }
 
+    @Transient
     public String getProducerType() {
         return Author.AUTHOR;
     }

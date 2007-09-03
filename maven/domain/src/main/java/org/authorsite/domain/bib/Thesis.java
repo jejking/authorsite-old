@@ -23,6 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -70,7 +71,7 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * 
      * @return author
      */
-    @OneToOne(optional=false, fetch=FetchType.EAGER)
+    @Transient
     public Author getAuthor() {
 	return this.author;
     }
@@ -89,7 +90,7 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * 
      * @return awardingBody
      */
-    @OneToOne(optional=false, fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+    @Transient
     public AwardingBody getAwardingBody() {
 	return this.awardingBody;
     }
