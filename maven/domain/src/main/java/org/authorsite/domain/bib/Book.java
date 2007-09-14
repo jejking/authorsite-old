@@ -22,6 +22,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -70,7 +71,7 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
          * 
          * @return publisher, may be <code>null</code>.
          */
-    @OneToOne(optional=true, fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+    @Transient
     public Publisher getPublisher() {
 	return this.publisher;
     }

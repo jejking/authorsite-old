@@ -24,9 +24,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import org.authorsite.domain.AbstractHuman;
 
@@ -35,7 +33,6 @@ import org.authorsite.domain.AbstractHuman;
  * @author jejking
  */
 @Entity()
-@Table(name = "Work_Human")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class WorkProducer {
 
@@ -70,7 +67,7 @@ public abstract class WorkProducer {
     @Transient
     public abstract String getProducerType();
     
-    @OneToOne(optional=false)
+    @ManyToOne(optional=false)
     public AbstractHuman getAbstractHuman() {
         return abstractHuman;
     }
@@ -79,7 +76,7 @@ public abstract class WorkProducer {
         this.abstractHuman = abstractHuman;
     }
 
-    @OneToOne(optional=false)
+    @ManyToOne()
     public AbstractWork getAbstractWork() {
         return abstractWork;
     }

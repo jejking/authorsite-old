@@ -107,7 +107,7 @@ public abstract class AbstractWork extends AbstractEntry {
 	this.workDates = workDates;
     }
 
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL}, mappedBy="abstractWork")
     public Set<WorkProducer> getWorkProducers() {
         return workProducers;
     }

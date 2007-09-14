@@ -20,7 +20,9 @@ package org.authorsite.domain.bib;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -67,7 +69,7 @@ public class Journal extends AbstractWork implements Comparable<Journal> {
 	}
     }
 
-    @OneToOne(optional=true, fetch=FetchType.EAGER)
+    @Transient
     public Publisher getPublisher() {
         return publisher;
     }
