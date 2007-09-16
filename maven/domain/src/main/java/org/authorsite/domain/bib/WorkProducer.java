@@ -18,98 +18,113 @@
  */
 package org.authorsite.domain.bib;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+
 import org.authorsite.domain.AbstractHuman;
 
 /**
  *
  * @author jejking
  */
-@Entity()
+@Embeddable()
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class WorkProducer {
+public class WorkProducer {
 
-    private long id;
-    private AbstractWork abstractWork;
+    private WorkProducerType workProducerType;
     private AbstractHuman abstractHuman;
 
+    /**
+     * Default constructor. In general, new instances should be created
+     * from the works API.
+     */
     public WorkProducer() {
         super();
     }
-
-    public WorkProducer(AbstractWork abstractWork, AbstractHuman abstractHuman) {
-        this.abstractWork = abstractWork;
-        this.abstractHuman = abstractHuman;
-    }
-
+    
     /**
-     * Gets id.
-     * 
-     * @return id
+     * @param workProducerType
+     * @param abstractHuman
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public long getId() {
-        return this.id;
+    public WorkProducer(WorkProducerType workProducerType, AbstractHuman abstractHuman) {
+	super();
+	this.workProducerType = workProducerType;
+	this.abstractHuman = abstractHuman;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-    
-    @Transient
-    public abstract String getProducerType();
-    
+
     @ManyToOne(optional=false)
     public AbstractHuman getAbstractHuman() {
         return abstractHuman;
     }
 
-    public void setAbstractHuman(AbstractHuman abstractHuman) {
+    protected void setAbstractHuman(AbstractHuman abstractHuman) {
         this.abstractHuman = abstractHuman;
     }
-
-    @ManyToOne()
-    public AbstractWork getAbstractWork() {
-        return abstractWork;
+    
+    /**
+     * @return work producer type
+     */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
+    public WorkProducerType getWorkProducerType() {
+	return this.workProducerType;
+    }
+    
+    protected void setWorkProducerType(WorkProducerType workProducerType) {
+	this.workProducerType = workProducerType;
     }
 
-    public void setAbstractWork(AbstractWork abstractWork) {
-        this.abstractWork = abstractWork;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final WorkProducer other = (WorkProducer) obj;
-        if (this.abstractWork != other.abstractWork && (this.abstractWork == null || !this.abstractWork.equals(other.abstractWork))) {
-            return false;
-        }
-        if (this.abstractHuman != other.abstractHuman && (this.abstractHuman == null || !this.abstractHuman.equals(other.abstractHuman))) {
-            return false;
-        }
-        return true;
-    }
-
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + (this.abstractWork != null ? this.abstractWork.hashCode() : 0);
-        hash = 67 * hash + (this.abstractHuman != null ? this.abstractHuman.hashCode() : 0);
-        return hash;
+	final int PRIME = 31;
+	int result = 1;
+	result = PRIME * result + ((this.abstractHuman == null) ? 0 : this.abstractHuman.hashCode());
+	result = PRIME * result + ((this.workProducerType == null) ? 0 : this.workProducerType.hashCode());
+	return result;
     }
-   
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	final WorkProducer other = (WorkProducer) obj;
+	if (this.abstractHuman == null) {
+	    if (other.abstractHuman != null)
+		return false;
+	} else if (!this.abstractHuman.equals(other.abstractHuman))
+	    return false;
+	if (this.workProducerType == null) {
+	    if (other.workProducerType != null)
+		return false;
+	} else if (!this.workProducerType.equals(other.workProducerType))
+	    return false;
+	return true;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("Producer Type: ");
+        sb.append(this.workProducerType);
+        sb.append(", Human: ");
+        sb.append(this.abstractHuman);
+        return sb.toString();
+    }
     
 }

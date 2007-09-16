@@ -18,12 +18,15 @@
  */
 package org.authorsite.domain.bib;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.authorsite.domain.AbstractHuman;
 
 /**
  * Class describing an article published in a {@link Journal}.
@@ -166,15 +169,9 @@ public class Article extends AbstractAuthoredEditedWork implements Comparable<Ar
     @Override
     public String toString() {
 	StringBuilder sb = new StringBuilder();
-	for (Author author : this.getAuthors()) {
-	    sb.append(author);
-	    sb.append(", ");
-	}
-	sb.append("'");
-	sb.append(getTitle());
-	sb.append("'(");
-	sb.append(getWorkDates());
-	sb.append("), in ");
+	sb.append("Article:" );
+	sb.append(super.toString());
+	sb.append(" in ");
 	sb.append(this.journal);
 	sb.append(", Volume:");
 	sb.append(this.volume == null ? "Unspecified" : this.volume);
@@ -189,6 +186,26 @@ public class Article extends AbstractAuthoredEditedWork implements Comparable<Ar
 	return new CompareToBuilder().append(this.getTitle(), rhs.getTitle()).append(this.getWorkDates(),
 		rhs.getWorkDates()).append(this.getAuthors().toArray(), rhs.getAuthors().toArray()).append(this.journal,
 		rhs.journal).toComparison();
+    }
+    
+    @Override
+    protected boolean areProducersOk() {
+        
+	// 0-n authors
+	
+	// 0-n editors
+	
+	for (WorkProducerType workProducerType : WorkProducerType.values()) {
+	    if (workProducerType.equals(WorkProducerType.AUTHOR) 
+		|| workProducerType.equals(WorkProducerType.EDITOR)) {
+		continue;
+	    }
+	    Set<AbstractHuman> humans = this.getWorkProducersOfType(workProducerType);
+	    if (!humans.isEmpty()) {
+		return false;
+	    }
+	}
+	return true;
     }
 
 }

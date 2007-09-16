@@ -18,7 +18,11 @@
  */
 package org.authorsite.domain.bib;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,8 +32,14 @@ import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.authorsite.domain.AbstractEntry;
+import org.authorsite.domain.AbstractHuman;
+import org.hibernate.annotations.CollectionOfElements;
+import org.hibernate.annotations.IndexColumn;
 
 /**
  * Class representing common features of works to be 
@@ -55,8 +65,9 @@ public abstract class AbstractWork extends AbstractEntry {
     private String title;
 
     private WorkDates workDates = new WorkDates();
+    private Set<WorkProducer> workProducers = new HashSet<WorkProducer>();
     
-    protected Set<WorkProducer> workProducers = new HashSet<WorkProducer>();
+    protected Map<WorkProducerType, Set<AbstractHuman>> typeHumansMap = new HashMap<WorkProducerType, Set<AbstractHuman>>();
 
     /**
      * Default constructor.
@@ -107,23 +118,84 @@ public abstract class AbstractWork extends AbstractEntry {
 	this.workDates = workDates;
     }
 
-    @OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL}, mappedBy="abstractWork")
+    /**
+     * @return set of all work producers associated with
+     * the work
+     */
+    //@OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL}, mappedBy="abstractWork")
+    @CollectionOfElements
+    @IndexColumn(name="producer_idx")
     public Set<WorkProducer> getWorkProducers() {
         return workProducers;
     }
 
-    public void setWorkProducers(Set<WorkProducer> workProducers) {
-        this.workProducers = workProducers;
+    protected void setWorkProducers(Set<WorkProducer> workProducers) {
+        for (WorkProducer workProducer : workProducers) {
+            this.addWorkProducer(workProducer);
+        }
     }
     
-    protected Set<WorkProducer> getWorkProducersOfType(String type) {
-       Set<WorkProducer> filteredSet = new HashSet<WorkProducer>();
-       for (WorkProducer workProducer : workProducers) {
-           if(workProducer.getProducerType().equals(type)) {
-               filteredSet.add(workProducer);
-           }
-       }
-       return filteredSet;
+    protected void addWorkProducer(WorkProducer workProducer) {
+	this.workProducers.add(workProducer);
+	Set<AbstractHuman> humans = this.typeHumansMap.get(workProducer.getWorkProducerType());
+	if (humans == null) {
+	    humans = new HashSet<AbstractHuman>();
+	    this.typeHumansMap.put(workProducer.getWorkProducerType(), humans);
+	}
+	humans.add(workProducer.getAbstractHuman());
+    }
+    
+    protected void addWorkProducer(WorkProducerType workProducerType, AbstractHuman abstractHuman) {
+	this.workProducers.add(new WorkProducer(workProducerType, abstractHuman));
+    }
+    
+    protected void removeWorkProducer(WorkProducer workProducer) {
+	this.workProducers.remove(workProducer);
+	Set<AbstractHuman> humans = this.typeHumansMap.get(workProducer.getWorkProducerType());
+	if (humans != null) {
+	    humans.remove(workProducer.getAbstractHuman());
+	}
+    }
+    
+    protected void removeWorkProducer(WorkProducerType workProducerType, AbstractHuman abstractHuman) {
+	this.removeWorkProducer(new WorkProducer(workProducerType, abstractHuman));
+    }
+    
+    @Transient
+    protected Set<AbstractHuman> getWorkProducersOfType(WorkProducerType workProducerType) {
+	Set<AbstractHuman> humans = this.typeHumansMap.get(workProducerType);
+	if (humans == null) {
+	    return Collections.emptySet();
+	}
+	return humans;
+    }
+    
+    /**
+     * Checks that the set of work producers are appropriate for the type.
+     *  
+     * 
+     * @throws IllegalStateException
+     */
+    @PrePersist
+    public void validate() throws IllegalStateException {
+	if ( !this.areProducersOk() ) {
+	    throw new IllegalStateException("Invalid producers. Cannot save");
+	}
+    }
+
+    protected abstract boolean areProducersOk();
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Work ");
+        sb.append(super.toString());
+        sb.append(" Title: ");
+        sb.append(this.title);
+        sb.append(", Dates: " );
+        sb.append(this.workDates);
+        sb.append(" ");
+        return sb.toString();
     }
 
 }

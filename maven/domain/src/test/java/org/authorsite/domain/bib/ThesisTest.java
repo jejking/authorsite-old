@@ -20,15 +20,15 @@ public class ThesisTest extends TestCase {
         
         Thesis t1 = new Thesis();
         t1.setTitle("Writing and Rewriting the First World War");
-        t1.setAuthor(new Author(t1,i));
-        t1.setAwardingBody(new AwardingBody(t1, ou));
+        t1.setAuthor(i);
+        t1.setAwardingBody(ou);
         t1.setWorkDates(new WorkDates(1999));
         t1.setDegree("D. Phil");
         
         Thesis t2 = new Thesis();
         t2.setTitle("Writing and Rewriting the First World War");
-        t2.setAuthor(new Author(t2, i));
-        t2.setAwardingBody(new AwardingBody(t2, ou));
+        t2.setAuthor(i);
+        t2.setAwardingBody(ou);
         t2.setWorkDates(new WorkDates(1999));
         t2.setDegree("D. Phil");
         
@@ -41,8 +41,8 @@ public class ThesisTest extends TestCase {
         
         Thesis t3 = new Thesis();
         t3.setTitle("The one I really wanted to write");
-        t3.setAuthor(new Author(t3, i));
-        t3.setAwardingBody(new AwardingBody(t3, ou));
+        t3.setAuthor(i);
+        t3.setAwardingBody(ou);
         t3.setWorkDates(new WorkDates(1999));
         t3.setDegree("D. Phil");
         

@@ -19,8 +19,8 @@
 package org.authorsite.domain.bib;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Transient;
 
 import org.authorsite.domain.AbstractHuman;
@@ -34,110 +34,91 @@ import org.authorsite.domain.AbstractHuman;
  */
 public abstract class AbstractAuthoredEditedWork extends AbstractWork {
 
-   /**
-         * Default constructor.
-         */
+    /**
+     * Default constructor.
+     */
     public AbstractAuthoredEditedWork() {
 	super();
     }
 
     /**
-         * Adds an author to the set of authors.
-         * 
-         * @param author
-         *                May not be <code>null</code>.
-         * @return true if added, false if already there.
-         */
-    public boolean addAuthor(AbstractHuman author) {
+     * Adds an author to the set of authors.
+     * 
+     * @param author
+     *                May not be <code>null</code>.
+     */
+    public void addAuthor(AbstractHuman author) {
 	if (author == null) {
 	    throw new IllegalArgumentException("author parameter is null");
 	}
-	return this.workProducers.add(new Author(this, author));
+	super.addWorkProducer(WorkProducerType.AUTHOR, author);
     }
 
     /**
-         * Adds a collection of authors to the set of authors.
-         * 
-         * @param authors
-         *                may not be <code>null</code>.
-         * @return true if added, false if not.
-         */
-    public boolean addAuthors(Collection<? extends AbstractHuman> authors) {
+     * Adds a collection of authors to the set of authors.
+     * 
+     * @param authors
+     *                may not be <code>null</code>.
+     */
+    public void addAuthors(Collection<? extends AbstractHuman> authors) {
 	if (authors == null) {
 	    throw new IllegalArgumentException("collection of authors is null");
 	}
-        boolean addedAll = true;
-        for (AbstractHuman author : authors ) {
-            if ( ! this.addAuthor(author)) {
-                addedAll = false;
-            }
-        }
-	return addedAll;
-    }
-
-    /**
-         * Removes an author.
-         * 
-         * @param authorToRemove
-         * @return true if removed, false if was not in set
-         */
-    public boolean removeAuthor(AbstractHuman authorToRemove) {
-	if (authorToRemove != null) {
-	    return this.workProducers.remove(new Author(this, authorToRemove) );
-	} else {
-	    return false;
+	for (AbstractHuman author : authors) {
+	    this.addAuthor(author);
 	}
     }
 
     /**
-         * Adds an editor to the set of editors.
-         * 
-         * @param editor
-         * @return true if added, false if not.
-         * @throws IllegalArgumentException
-         *                 if parameter is <code>null</code>
-         */
-    public boolean addEditor(AbstractHuman editor) {
+     * Removes an author.
+     * 
+     * @param authorToRemove
+     */
+    public void removeAuthor(AbstractHuman authorToRemove) {
+	super.removeWorkProducer(WorkProducerType.AUTHOR, authorToRemove);
+    }
+
+    /**
+     * Adds an editor to the set of editors.
+     * 
+     * @param editor
+     * @throws IllegalArgumentException
+     *                 if parameter is <code>null</code>
+     */
+    public void addEditor(AbstractHuman editor) {
 	if (editor == null) {
 	    throw new IllegalArgumentException("editor parameter is null");
 	}
-	return this.workProducers.add(new Editor(this, editor));
+	super.addWorkProducer(WorkProducerType.EDITOR, editor);
     }
 
     /**
-         * Adds a collection of editors to the editors set.
-         * 
-         * @param editors
-         *                may not be <code>null</code>
-         * @return true if added, false if not
-         * @throws IllegalArgumentException
-         *                 if parameter is <code>null</code>
-         */
-    public boolean addEditors(Collection<? extends AbstractHuman> editors) {
+     * Adds a collection of editors to the editors set.
+     * 
+     * @param editors
+     *                may not be <code>null</code>
+     * @throws IllegalArgumentException
+     *                 if parameter is <code>null</code>
+     */
+    public void addEditors(Collection<? extends AbstractHuman> editors) {
 	if (editors == null) {
 	    throw new IllegalArgumentException("Editors parameter is null");
 	}
 	boolean addedAll = true;
-        for (AbstractHuman editor : editors) {
-            if (! this.addEditor(editor)) {
-                addedAll = false;
-            }
-        }
-        return addedAll;
+	for (AbstractHuman editor : editors) {
+	    this.addEditor(editor);
+	}
     }
 
     /**
-         * Removes editor from the editors set.
-         * 
-         * @param editor
-         * @return true if removed, false if not.
-         */
-    public boolean removeEditor(AbstractHuman editor) {
+     * Removes editor from the editors set.
+     * 
+     * @param editor
+     */
+    public void removeEditor(AbstractHuman editor) {
 	if (editor != null) {
-	    return this.workProducers.remove(new Editor(this, editor));
-	} else {
-	    return false;
-	}
+	    super.removeWorkProducer(WorkProducerType.EDITOR, editor);
+	} 
     }
 
     /**
@@ -146,34 +127,36 @@ public abstract class AbstractAuthoredEditedWork extends AbstractWork {
      * @return set of authors
      */
     @Transient
-    public Set<Author> getAuthors() {
-	Set<WorkProducer> authorWorkProducers = super.getWorkProducersOfType(Author.AUTHOR);
-        Set<Author> authors = new HashSet<Author>();
-        for (WorkProducer workProducer : authorWorkProducers ) {
-            if (workProducer instanceof Author) {
-                authors.add((Author) workProducer);
-            }
-        }
-        return authors;
+    public Set<AbstractHuman> getAuthors() {
+	return super.getWorkProducersOfType(WorkProducerType.AUTHOR);
     }
-    
-    
+
     /**
      * Gets editors.
      * 
      * @return set of editors
      */
     @Transient
-    public Set<Editor> getEditors() {
-	Set<WorkProducer> editorWorkProducers = super.getWorkProducersOfType(Editor.EDITOR);
-        Set<Editor> editors = new HashSet<Editor>();
-        for (WorkProducer workProducer : editorWorkProducers ) {
-            if (workProducer instanceof Editor) {
-                editors.add((Editor) workProducer);
-            }
+    public Set<AbstractHuman> getEditors() {
+	return super.getWorkProducersOfType(WorkProducerType.EDITOR);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("Author(s): ");
+        for ( AbstractHuman human: this.getAuthors() ) {
+            sb.append(human);
+            sb.append(" ");
         }
-        return editors;
+        sb.append("Editor(s): ");
+        for (AbstractHuman human : this.getEditors()) {
+            sb.append(human);
+            sb.append(" ");
+        }
+        return sb.toString();
     }
     
-    
+        
 }

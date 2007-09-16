@@ -18,6 +18,8 @@
  */
 package org.authorsite.domain.bib;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -145,21 +147,14 @@ public class Chapter extends AbstractAuthoredEditedWork implements Comparable<Ch
     @Override
     public String toString() {
 	StringBuilder sb = new StringBuilder();
-	for (Author author : this.getAuthors()) {
-	    sb.append(author);
-	    sb.append(" ");
-	}
-	sb.append(this.getTitle());
-	sb.append(" (");
-	sb.append(this.getWorkDates());
-	sb.append(") ");
-	sb.append("Eds: ");
-	for (Editor editor : this.getEditors()) {
-	    sb.append(editor);
-	    sb.append(" ");
-	}
-	sb.append(" in book: ");
+	sb.append("Chapter: " );
+	sb.append(super.toString());
+	sb.append(", in book: ");
 	sb.append(this.book.toString());
+	sb.append(", pp: ");
+	sb.append(this.pages);
+	sb.append(", ch. ");
+	sb.append(this.chapter);
 	return sb.toString();
     }
 
@@ -167,6 +162,29 @@ public class Chapter extends AbstractAuthoredEditedWork implements Comparable<Ch
 	return new CompareToBuilder().append(this.getTitle(), other.getTitle()).append(this.getWorkDates(),
 		other.getWorkDates()).append(this.getAuthors().toArray(), other.getAuthors().toArray()).append(
 		this.getEditors().toArray(), other.getEditors().toArray()).append(this.book, other.book).toComparison();
+    }
+    
+    @Override
+    protected boolean areProducersOk() {
+        // may have 0-n author(may be anonymous!)
+	
+	// may have 0-n editors
+	
+	// no other production rels.
+	for (WorkProducerType workProducerType : WorkProducerType.values()) {
+	    if ( workProducerType.equals(WorkProducerType.AUTHOR)
+		    || workProducerType.equals(WorkProducerType.EDITOR)) {
+		continue;
+	    }
+	    Set<AbstractHuman> humans = this.typeHumansMap.get(workProducerType);
+	    if (humans.isEmpty()) {
+		continue;
+	    }
+	    else {
+		return false;
+	    }
+	}
+	return true;
     }
 
 }

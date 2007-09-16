@@ -35,7 +35,7 @@ public class BookTest extends TestCase {
         b1.addAuthor(i1);
         b1.addAuthor(i2);
         b1.addEditor(i3);
-        b1.setPublisher(new Publisher(b1,c4));
+        b1.setPublisher(c4);
         b1.setTitle("Musings on Stuff");
         b1.setWorkDates( new WorkDates(2006));
         
@@ -44,7 +44,7 @@ public class BookTest extends TestCase {
         b2.addAuthor(i1);
         b2.addAuthor(i2);
         b2.addEditor(i3);
-        b2.setPublisher(new Publisher(b2, c4));
+        b2.setPublisher(c4);
         b2.setTitle("Musings on Stuff");
         b2.setWorkDates( new WorkDates(2006));
         
@@ -57,7 +57,7 @@ public class BookTest extends TestCase {
         Book b3 = new Book();
         b3.setId(3);
         b3.addAuthor(i3);
-        b3.setPublisher(new Publisher(b3,c4));
+        b3.setPublisher(c4);
         b3.setTitle("Musings on Stuff");
         b3.setWorkDates(new WorkDates(2006));
         

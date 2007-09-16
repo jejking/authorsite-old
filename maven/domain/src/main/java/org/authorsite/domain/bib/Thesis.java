@@ -18,7 +18,10 @@
  */
 package org.authorsite.domain.bib;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -27,6 +30,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.authorsite.domain.AbstractHuman;
 import org.authorsite.domain.Collective;
 import org.authorsite.domain.Individual;
 
@@ -53,9 +57,9 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      */
     private static final long serialVersionUID = -6310817720547175025L;
 
-    private Author author;
+    private Individual author;
 
-    private AwardingBody awardingBody;
+    private Collective awardingBody;
 
     private String degree;
 
@@ -72,7 +76,7 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * @return author
      */
     @Transient
-    public Author getAuthor() {
+    public Individual getAuthor() {
 	return this.author;
     }
 
@@ -81,7 +85,8 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * 
      * @param author should not be <code>null</code>
      */
-    public void setAuthor(Author author) {
+    public void setAuthor(Individual author) {
+	super.addWorkProducer(WorkProducerType.AUTHOR, author);
 	this.author = author;
     }
 
@@ -91,7 +96,7 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * @return awardingBody
      */
     @Transient
-    public AwardingBody getAwardingBody() {
+    public Collective getAwardingBody() {
 	return this.awardingBody;
     }
 
@@ -100,7 +105,8 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * 
      * @param awardingBody should not be <code>null</code>
      */
-    public void setAwardingBody(AwardingBody awardingBody) {
+    public void setAwardingBody(Collective awardingBody) {
+	super.addWorkProducer(WorkProducerType.AWARDING_BODY, awardingBody);
 	this.awardingBody = awardingBody;
     }
 
@@ -109,6 +115,7 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * 
      * @return degree
      */
+    @Column(nullable=false)
     public String getDegree() {
 	return this.degree;
     }
@@ -156,6 +163,35 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
 	return new CompareToBuilder().append(this.getTitle(), thesis.getTitle()).append(this.author, thesis.author)
 		.append(this.getWorkDates(), thesis.getWorkDates()).append(this.degree, thesis.degree).append(
 			this.awardingBody, thesis.awardingBody).toComparison();
+    }
+    
+    @Override
+    protected boolean areProducersOk() {
+	
+	if (this.typeHumansMap.size() != 2) {
+	    return false; // can't be right!
+	}
+	
+        // must have one author only, must be Individual
+	Set<AbstractHuman> authors = this.getWorkProducersOfType(WorkProducerType.AUTHOR);
+	if (authors.size() != 1) {
+	    return false;
+	}
+	AbstractHuman author = authors.iterator().next();
+	if (! (author instanceof Individual)) {
+	    return false;
+	}
+	
+	// must have one awarding body only, must be Collective
+	Set<AbstractHuman> awardingBodies = this.getWorkProducersOfType(WorkProducerType.AWARDING_BODY);
+	if (awardingBodies.size() != 1) {
+	    return false;
+	}
+	AbstractHuman awardingBody = awardingBodies.iterator().next();
+	if( ! (awardingBody instanceof Collective)) {
+	    return false;
+	}
+	return true;
     }
 
 }

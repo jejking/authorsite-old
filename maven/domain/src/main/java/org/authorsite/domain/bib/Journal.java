@@ -18,6 +18,8 @@
  */
 package org.authorsite.domain.bib;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -26,6 +28,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.authorsite.domain.AbstractHuman;
 
 /**
  * Class describing a journal as a whole series of regular
@@ -44,7 +47,7 @@ public class Journal extends AbstractWork implements Comparable<Journal> {
      */
     private static final long serialVersionUID = 6400922520162391883L;
     
-    private Publisher publisher;
+    private AbstractHuman publisher;
 
     /**
      * Default constructor.
@@ -70,29 +73,40 @@ public class Journal extends AbstractWork implements Comparable<Journal> {
     }
 
     @Transient
-    public Publisher getPublisher() {
+    public AbstractHuman getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(Publisher publisher) {
+    public void setPublisher(AbstractHuman publisher) {
+	super.addWorkProducer(WorkProducerType.PUBLISHER, publisher);
         this.publisher = publisher;
     }
     
-    
-
     @Override
     public int hashCode() {
 	return new HashCodeBuilder().append(this.getTitle()).toHashCode();
     }
 
-    @Override
     public int compareTo(Journal journal) {
 	return new CompareToBuilder().append(this.getTitle(), journal.getTitle()).toComparison();
     }
 
     @Override
     public String toString() {
-	return this.getTitle();
+	return "Journal: " + this.getTitle();
+    }
+    
+    @Override
+    protected boolean areProducersOk() {
+        // one optional publisher (for now!)
+	if (this.typeHumansMap.size() != 1) {
+	    return false;
+	}
+	Set<AbstractHuman> publishers = super.getWorkProducersOfType(WorkProducerType.PUBLISHER);
+	if (publishers.size() != 1) {
+	    return false;
+	}
+	return true;
     }
 
 }

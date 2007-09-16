@@ -24,8 +24,8 @@ public class ChapterTest extends TestCase {
         
         Book b = new Book();
         b.setTitle("Musings on Stuff");
-        b.setWorkDates( new WorkDates(2006));
-        b.setPublisher( new Publisher( b, c));
+        b.setWorkDates(new WorkDates(2006));
+        b.setPublisher(c);
         b.addEditor(i1);
         
         Chapter ch1 = new Chapter();
