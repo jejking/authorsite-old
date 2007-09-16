@@ -18,20 +18,20 @@
  */
 package org.authorsite.domain.bib;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.persistence.CascadeType;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -67,7 +67,7 @@ public abstract class AbstractWork extends AbstractEntry {
     private WorkDates workDates = new WorkDates();
     private Set<WorkProducer> workProducers = new HashSet<WorkProducer>();
     
-    protected Map<WorkProducerType, Set<AbstractHuman>> typeHumansMap = new HashMap<WorkProducerType, Set<AbstractHuman>>();
+    protected Map<WorkProducerType, SortedSet<AbstractHuman>> typeHumansMap = new HashMap<WorkProducerType, SortedSet<AbstractHuman>>();
 
     /**
      * Default constructor.
@@ -137,9 +137,9 @@ public abstract class AbstractWork extends AbstractEntry {
     
     protected void addWorkProducer(WorkProducer workProducer) {
 	this.workProducers.add(workProducer);
-	Set<AbstractHuman> humans = this.typeHumansMap.get(workProducer.getWorkProducerType());
+	SortedSet<AbstractHuman> humans = this.typeHumansMap.get(workProducer.getWorkProducerType());
 	if (humans == null) {
-	    humans = new HashSet<AbstractHuman>();
+	    humans = new TreeSet<AbstractHuman>();
 	    this.typeHumansMap.put(workProducer.getWorkProducerType(), humans);
 	}
 	humans.add(workProducer.getAbstractHuman());
@@ -197,5 +197,55 @@ public abstract class AbstractWork extends AbstractEntry {
         sb.append(" ");
         return sb.toString();
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+	final int PRIME = 31;
+	int result = 1;
+	result = PRIME * result + ((this.title == null) ? 0 : this.title.hashCode());
+	result = PRIME * result + ((this.workDates == null) ? 0 : this.workDates.hashCode());
+//	result = PRIME * result + ((this.workProducers == null) ? 0 : this.workProducers.hashCode());
+	if (this.workProducers != null) {
+	    result = PRIME * result + Arrays.deepHashCode(this.workProducers.toArray());
+	}
+	return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (!(obj instanceof AbstractWork))
+	    return false;
+	final AbstractWork other = (AbstractWork) obj;
+	if (this.title == null) {
+	    if (other.title != null)
+		return false;
+	} else if (!this.title.equals(other.title))
+	    return false;
+	if (this.workDates == null) {
+	    if (other.workDates != null)
+		return false;
+	} else if (!this.workDates.equals(other.workDates))
+	    return false;
+	if (this.workProducers == null) {
+	    if (other.workProducers != null)
+		return false;
+	} else if (!Arrays.deepEquals(this.workProducers.toArray(), other.workProducers.toArray()))
+	    return false;
+	return true;
+    }
+
+    
+    
+    
 
 }

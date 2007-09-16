@@ -116,33 +116,7 @@ public class Chapter extends AbstractAuthoredEditedWork implements Comparable<Ch
 	this.pages = pages;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-	if (obj == null) {
-	    return false;
-	}
-	if (obj == this) {
-	    return true;
-	}
-	if (obj instanceof Chapter) {
-	    Chapter rhs = (Chapter) obj;
-	    if (this.getAuthors().size() == rhs.getAuthors().size() && this.getEditors().size() == rhs.getEditors().size()) {
-		return new EqualsBuilder().append(this.getTitle(), rhs.getTitle()).append(this.getWorkDates(),
-			rhs.getWorkDates()).append(this.getAuthors().toArray(), rhs.getAuthors().toArray()).append(
-			this.getEditors().toArray(), rhs.getEditors().toArray()).append(this.book, rhs.book).isEquals();
-	    } else {
-		return false;
-	    }
-	} else {
-	    return false;
-	}
-    }
-
-    @Override
-    public int hashCode() {
-	return new HashCodeBuilder().append(this.getTitle()).append(this.getWorkDates()).append(this.getAuthors().toArray())
-		.append(this.getEditors().toArray()).append(this.book).toHashCode();
-    }
+    
 
     @Override
     public String toString() {
@@ -156,6 +130,51 @@ public class Chapter extends AbstractAuthoredEditedWork implements Comparable<Ch
 	sb.append(", ch. ");
 	sb.append(this.chapter);
 	return sb.toString();
+    }
+
+    
+    
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+	final int PRIME = 31;
+	int result = super.hashCode();
+	result = PRIME * result + ((this.book == null) ? 0 : this.book.hashCode());
+	result = PRIME * result + ((this.chapter == null) ? 0 : this.chapter.hashCode());
+	result = PRIME * result + ((this.pages == null) ? 0 : this.pages.hashCode());
+	return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (!super.equals(obj))
+	    return false;
+	if (! (obj instanceof Chapter))
+	    return false;
+	final Chapter other = (Chapter) obj;
+	if (this.book == null) {
+	    if (other.book != null)
+		return false;
+	} else if (!this.book.equals(other.book))
+	    return false;
+	if (this.chapter == null) {
+	    if (other.chapter != null)
+		return false;
+	} else if (!this.chapter.equals(other.chapter))
+	    return false;
+	if (this.pages == null) {
+	    if (other.pages != null)
+		return false;
+	} else if (!this.pages.equals(other.pages))
+	    return false;
+	return true;
     }
 
     public int compareTo(Chapter other) {

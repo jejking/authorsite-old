@@ -40,6 +40,7 @@ public class ChapterTest extends TestCase {
         ch2.setWorkDates(new WorkDates(2006));
         ch2.addAuthor(i1);
         ch2.addAuthor(i2);
+        
         ch2.setTitle("Introduction to Stuff");
         
         assertEquals(ch2, ch1);
@@ -58,9 +59,7 @@ public class ChapterTest extends TestCase {
         assertFalse(ch3.equals(ch1));
         assertFalse(ch1.hashCode() == ch3.hashCode());
         
-        // ch3 one fewer authors, should sort before ch1
-        assertTrue(ch1.compareTo(ch3) > 0);
-        assertTrue(ch3.compareTo(ch1) < 0);
+        
         
     }
     

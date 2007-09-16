@@ -158,55 +158,6 @@ public abstract class AbstractEntry implements Serializable {
         this.updatedBy = updatedBy;
     }
 
-    @Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = 1;
-        result = PRIME * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
-        result = PRIME * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
-        result = PRIME * result + (int) (this.id ^ (this.id >>> 32));
-        result = PRIME * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
-        result = PRIME * result + ((this.updatedBy == null) ? 0 : this.updatedBy.hashCode());
-        result = PRIME * result + this.version;
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if ( ! ( obj instanceof AbstractEntry )) {
-            return false;
-        }
-        final AbstractEntry other = (AbstractEntry) obj;
-        if (this.createdAt == null) {
-            if (other.createdAt != null)
-                return false;
-        } else if (!this.createdAt.equals(other.createdAt))
-            return false;
-        if (this.createdBy == null) {
-            if (other.createdBy != null)
-                return false;
-        } else if (!this.createdBy.equals(other.createdBy))
-            return false;
-        if (this.id != other.id)
-            return false;
-        if (this.updatedAt == null) {
-            if (other.updatedAt != null)
-                return false;
-        } else if (!this.updatedAt.equals(other.updatedAt))
-            return false;
-        if (this.updatedBy == null) {
-            if (other.updatedBy != null)
-                return false;
-        } else if (!this.updatedBy.equals(other.updatedBy))
-            return false;
-        if (this.version != other.version)
-            return false;
-        return true;
-    }
 
     @Override
     public String toString() {

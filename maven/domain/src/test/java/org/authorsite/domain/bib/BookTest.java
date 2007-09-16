@@ -64,8 +64,7 @@ public class BookTest extends TestCase {
         assertFalse(b1.equals(b3));
         assertFalse(b3.equals(b1));
         assertFalse(b1.hashCode() == b3.hashCode());
-        assertTrue(b3.compareTo(b1) < 0 );
-        assertTrue(b1.compareTo(b3) > 0);
+
 
     }
     

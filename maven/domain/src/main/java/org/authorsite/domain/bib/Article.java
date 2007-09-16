@@ -138,32 +138,56 @@ public class Article extends AbstractAuthoredEditedWork implements Comparable<Ar
 	this.volume = volume;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-	if (obj == null) {
-	    return false;
-	}
-	if (obj == this) {
-	    return true;
-	}
-	if (obj instanceof Article) {
-	    Article rhs = (Article) obj;
-	    if (this.getAuthors().size() == rhs.getAuthors().size()) {
-		return new EqualsBuilder().append(this.getTitle(), rhs.getTitle()).append(this.getWorkDates(),
-			rhs.getWorkDates()).append(this.getAuthors().toArray(), rhs.getAuthors().toArray()).append(this.journal,
-			rhs.journal).isEquals();
-	    } else {
-		return false;
-	    }
-	} else {
-	    return false;
-	}
-    }
-
+    
+    
+    
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
-	return new HashCodeBuilder().append(this.getTitle()).append(this.getWorkDates()).append(this.getAuthors().toArray())
-		.append(this.journal).toHashCode();
+	final int PRIME = 31;
+	int result = super.hashCode();
+	result = PRIME * result + ((this.issue == null) ? 0 : this.issue.hashCode());
+	result = PRIME * result + ((this.journal == null) ? 0 : this.journal.hashCode());
+	result = PRIME * result + ((this.pages == null) ? 0 : this.pages.hashCode());
+	result = PRIME * result + ((this.volume == null) ? 0 : this.volume.hashCode());
+	return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (!super.equals(obj))
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	final Article other = (Article) obj;
+	if (this.issue == null) {
+	    if (other.issue != null)
+		return false;
+	} else if (!this.issue.equals(other.issue))
+	    return false;
+	if (this.journal == null) {
+	    if (other.journal != null)
+		return false;
+	} else if (!this.journal.equals(other.journal))
+	    return false;
+	if (this.pages == null) {
+	    if (other.pages != null)
+		return false;
+	} else if (!this.pages.equals(other.pages))
+	    return false;
+	if (this.volume == null) {
+	    if (other.volume != null)
+		return false;
+	} else if (!this.volume.equals(other.volume))
+	    return false;
+	return true;
     }
 
     @Override

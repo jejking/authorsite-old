@@ -130,30 +130,6 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
     }
 
     @Override
-    public boolean equals(Object obj) {
-	if (obj == null) {
-	    return false;
-	}
-	if (obj == this) {
-	    return true;
-	}
-	if (obj instanceof Thesis) {
-	    Thesis rhs = (Thesis) obj;
-	    return new EqualsBuilder().append(this.getTitle(), rhs.getTitle()).append(this.author, rhs.author).append(
-		    this.getWorkDates(), rhs.getWorkDates()).append(this.degree, rhs.degree).append(this.awardingBody,
-		    rhs.awardingBody).isEquals();
-	} else {
-	    return false;
-	}
-    }
-
-    @Override
-    public int hashCode() {
-	return new HashCodeBuilder().append(this.getTitle()).append(this.getAuthor()).append(this.getWorkDates())
-		.append(this.degree).append(this.awardingBody).toHashCode();
-    }
-
-    @Override
     public String toString() {
 	return (this.degree + " thesis by: " + this.getAuthor() + " awarded by " + this.awardingBody + " in " + this
 		.getWorkDates());

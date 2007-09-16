@@ -105,34 +105,7 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
 	this.volume = volume;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-	if (obj == null) {
-	    return false;
-	}
-	if (obj == this) {
-	    return true;
-	}
-	if (obj instanceof Book) {
-	    Book rhs = (Book) obj;
-	    if (this.getAuthors().size() == rhs.getAuthors().size() && this.getEditors().size() == rhs.getEditors().size()) {
-		return new EqualsBuilder().append(this.getTitle(), rhs.getTitle()).append(this.getWorkDates(),
-			rhs.getWorkDates()).append(this.getAuthors().toArray(), rhs.getAuthors().toArray()).append(
-			this.getEditors().toArray(), rhs.getEditors().toArray()).append(this.publisher, rhs.publisher).isEquals();
-	    } else {
-		return false;
-	    }
-	} else {
-	    return false;
-	}
-    }
-
-    @Override
-    public int hashCode() {
-	return new HashCodeBuilder().append(this.getTitle()).append(this.getWorkDates()).append(this.getAuthors().toArray())
-		.append(this.getEditors().toArray()).append(this.publisher).toHashCode();
-    }
-
+    
     @Override
     public String toString() {
 	StringBuilder sb = new StringBuilder();
@@ -142,10 +115,54 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
 	return sb.toString();
     }
 
+    
+    
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+	final int PRIME = 31;
+	int result = super.hashCode();
+	result = PRIME * result + ((this.publisher == null) ? 0 : this.publisher.hashCode());
+	result = PRIME * result + ((this.volume == null) ? 0 : this.volume.hashCode());
+	return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (!super.equals(obj))
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	final Book other = (Book) obj;
+	if (this.publisher == null) {
+	    if (other.publisher != null)
+		return false;
+	} else if (!this.publisher.equals(other.publisher))
+	    return false;
+	if (this.volume == null) {
+	    if (other.volume != null)
+		return false;
+	} else if (!this.volume.equals(other.volume))
+	    return false;
+	return true;
+    }
+
     public int compareTo(Book book) {
-	return new CompareToBuilder().append(this.getTitle(), book.getTitle()).append(this.getWorkDates(),
-		book.getWorkDates()).append(this.getAuthors().toArray(), book.getAuthors().toArray()).append(
-		this.getEditors().toArray(), book.getEditors().toArray()).append(this.getPublisher(), book.getPublisher()).toComparison();
+	return new CompareToBuilder().append(this.getTitle(), book.getTitle())
+		.append(this.getWorkDates(), book.getWorkDates()).append(
+			this.getAuthors().toArray(),
+			book.getAuthors().toArray()).append(
+			this.getEditors().toArray(),
+			book.getEditors().toArray()).append(
+			this.getPublisher(), book.getPublisher())
+		.toComparison();
 
     }
     
