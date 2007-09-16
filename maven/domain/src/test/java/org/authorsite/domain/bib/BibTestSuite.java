@@ -9,6 +9,8 @@ public class BibTestSuite {
     public static Test suite() {
 
         TestSuite suite = new TestSuite();
+        suite.addTestSuite(AbstractWorkTest.class);
+        suite.addTestSuite(AbstractAuthoredEditedWork.class);
         suite.addTestSuite( CollectiveTest.class);
         suite.addTestSuite( IndividualTest.class );
         suite.addTestSuite( JournalTest.class);
