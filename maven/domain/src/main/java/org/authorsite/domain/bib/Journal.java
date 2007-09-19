@@ -29,6 +29,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.authorsite.domain.AbstractHuman;
+import org.authorsite.domain.Individual;
 
 /**
  * Class describing a journal as a whole series of regular
@@ -56,6 +57,26 @@ public class Journal extends AbstractWork implements Comparable<Journal> {
 	super();
     }
 
+    /**
+     * Creates instance with the given title.
+     * 
+     * @param title
+     */
+    public Journal(String title) {
+	super.setTitle(title);
+    }
+
+    /**
+     * Creates instance with given title and publisher.
+     * 
+     * @param title
+     * @param publisher
+     */
+    public Journal(String title, AbstractHuman publisher) {
+	this(title);
+	this.setPublisher(publisher);
+    }
+
     @Override
     public boolean equals(Object obj) {
 	if (obj == null) {
@@ -74,10 +95,26 @@ public class Journal extends AbstractWork implements Comparable<Journal> {
 
     @Transient
     public AbstractHuman getPublisher() {
+	if (this.publisher == null) {
+	    Set<AbstractHuman> publishers = super.getWorkProducersOfType(WorkProducerType.PUBLISHER);
+	    if (!publishers.isEmpty()) {
+		this.publisher = publishers.iterator().next();
+	    }
+	}
         return publisher;
     }
 
+    /**
+     * Sets the publisher. If one is already set, this is cleared and
+     * the new one set.
+     * 
+     * @param publisher
+     */
     public void setPublisher(AbstractHuman publisher) {
+	if (!super.getWorkProducersOfType(WorkProducerType.PUBLISHER).isEmpty()) 
+	{
+	    super.removeAllWorkProducersOfType(WorkProducerType.PUBLISHER);
+	}
 	super.addWorkProducer(WorkProducerType.PUBLISHER, publisher);
         this.publisher = publisher;
     }
@@ -99,11 +136,11 @@ public class Journal extends AbstractWork implements Comparable<Journal> {
     @Override
     protected boolean areProducersOk() {
         // one optional publisher (for now!)
-	if (this.typeHumansMap.size() != 1) {
+	if (this.typeHumansMap.size() > 1) {
 	    return false;
 	}
 	Set<AbstractHuman> publishers = super.getWorkProducersOfType(WorkProducerType.PUBLISHER);
-	if (publishers.size() != 1) {
+	if (publishers.size() > 1) {
 	    return false;
 	}
 	return true;

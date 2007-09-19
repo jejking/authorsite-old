@@ -122,7 +122,6 @@ public abstract class AbstractWork extends AbstractEntry {
      * @return set of all work producers associated with
      * the work
      */
-    //@OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL}, mappedBy="abstractWork")
     @CollectionOfElements
     @IndexColumn(name="producer_idx")
     public Set<WorkProducer> getWorkProducers() {
@@ -146,7 +145,7 @@ public abstract class AbstractWork extends AbstractEntry {
     }
     
     protected void addWorkProducer(WorkProducerType workProducerType, AbstractHuman abstractHuman) {
-	this.workProducers.add(new WorkProducer(workProducerType, abstractHuman));
+	this.addWorkProducer(new WorkProducer(workProducerType, abstractHuman));
     }
     
     protected void removeWorkProducer(WorkProducer workProducer) {
@@ -154,6 +153,18 @@ public abstract class AbstractWork extends AbstractEntry {
 	Set<AbstractHuman> humans = this.typeHumansMap.get(workProducer.getWorkProducerType());
 	if (humans != null) {
 	    humans.remove(workProducer.getAbstractHuman());
+	}
+    }
+    
+    protected void removeAllWorkProducersOfType(WorkProducerType workProducerType) {
+	for (WorkProducer workProducer : this.workProducers) {
+	    if (workProducer.getWorkProducerType().equals(workProducerType)) {
+		this.workProducers.remove(workProducer);
+	    }
+	}
+	Set<AbstractHuman> humans = this.typeHumansMap.get(workProducerType);
+	if (humans != null) {
+	    humans.clear();
 	}
     }
     
@@ -169,6 +180,8 @@ public abstract class AbstractWork extends AbstractEntry {
 	}
 	return humans;
     }
+    
+    
     
     /**
      * Checks that the set of work producers are appropriate for the type.
@@ -245,7 +258,4 @@ public abstract class AbstractWork extends AbstractEntry {
     }
 
     
-    
-    
-
 }
