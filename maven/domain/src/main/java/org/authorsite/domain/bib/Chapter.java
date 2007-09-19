@@ -196,7 +196,7 @@ public class Chapter extends AbstractAuthoredEditedWork implements Comparable<Ch
 		continue;
 	    }
 	    Set<AbstractHuman> humans = this.typeHumansMap.get(workProducerType);
-	    if (humans.isEmpty()) {
+	    if (humans == null || humans.isEmpty()) {
 		continue;
 	    }
 	    else {

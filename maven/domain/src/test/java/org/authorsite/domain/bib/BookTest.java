@@ -1,5 +1,8 @@
 package org.authorsite.domain.bib;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.authorsite.domain.Collective;
 import org.authorsite.domain.Individual;
 
@@ -66,6 +69,105 @@ public class BookTest extends TestCase {
         assertFalse(b1.hashCode() == b3.hashCode());
 
 
+    }
+    
+    public void testAreProducersOkAuthorPublisher() {
+	Book b = new Book();
+	Individual i = new Individual("Foo", "Bar");
+	Collective c = new Collective("A Publisher");
+	b.addAuthor(i);
+	b.setPublisher(c);
+	assertTrue(b.areProducersOk());
+    }
+    
+    public void testAreProducersOkAuthorEditorPublisher() {
+	Book b = new Book();
+	Individual i = new Individual("Foo", "Bar");
+	Individual i2 = new Individual("Wibble", "Wobble");
+	Collective c = new Collective("A Publisher");
+	b.addAuthor(i);
+	b.addEditor(i2);
+	b.setPublisher(c);
+	assertTrue(b.areProducersOk());
+    }
+    
+    public void testAreProducersOkTwoAuthorsTwoEditors() {
+	Book b = new Book();
+	Individual i = new Individual("Foo", "Bar");
+	Individual i2 = new Individual("Wibble", "Wobble");
+	Individual i3 = new Individual("Wurst", "Hans");
+	Individual i4 = new Individual("Sausage", "Bob");
+	Collective c = new Collective("A Publisher");
+	b.addAuthor(i);
+	b.addEditor(i2);
+	b.addEditor(i3);
+	b.addAuthor(i4);
+	b.setPublisher(c);
+	assertTrue(b.areProducersOk());
+    }
+    
+    public void testAreProducersOkEditorsPublisher() {
+	Book b = new Book();
+	Individual i = new Individual("Foo", "Bar");
+	Individual i2 = new Individual("Wibble", "Wobble");
+	Collective c = new Collective("A Publisher");
+	b.addEditor(i);
+	b.addEditor(i2);
+	b.setPublisher(c);
+	assertTrue(b.areProducersOk());
+    }
+    
+    public void testAreProducersOkAuthorOnly() {
+	Book b = new Book();
+	Individual i = new Individual("Foo", "Bar");
+	Collective c = new Collective("A Publisher");
+	b.addAuthor(i);
+	assertTrue(b.areProducersOk());
+    }
+    
+    public void testAreProducersOkEditorOnly() {
+	Book b = new Book();
+	Individual i2 = new Individual("Wibble", "Wobble");
+	Collective c = new Collective("A Publisher");
+	b.addEditor(i2);
+	b.setPublisher(c);
+	assertTrue(b.areProducersOk());
+    }
+    
+    public void testAreProducersOkPublisherOnly() {
+	Book b = new Book();
+	Collective c = new Collective("A Publisher");
+	b.setPublisher(c);
+	assertTrue(b.areProducersOk());	
+    }
+    
+    public void testAreProducersOkTwoPublishers() {
+	Book b = new Book();
+	Individual i2 = new Individual("Wibble", "Wobble");
+	Collective c = new Collective("A Publisher");
+	
+	WorkProducer pub1 = new WorkProducer(WorkProducerType.PUBLISHER, i2);
+	WorkProducer pub2 = new WorkProducer(WorkProducerType.PUBLISHER, c);
+	Set<WorkProducer> workProducers = new HashSet<WorkProducer>();
+	workProducers.add(pub1);
+	workProducers.add(pub2);
+	b.setWorkProducers(workProducers);
+	assertFalse(b.areProducersOk());
+	
+    }
+    
+    public void testAreProducersOkAuthorAndAwardingBody() {
+	Book b = new Book();
+	Individual i2 = new Individual("Wibble", "Wobble");
+	Collective c = new Collective("A Publisher");
+	
+	WorkProducer author = new WorkProducer(WorkProducerType.AUTHOR, i2);
+	WorkProducer awardingBody = new WorkProducer(WorkProducerType.AWARDING_BODY, c);
+	Set<WorkProducer> workProducers = new HashSet<WorkProducer>();
+	workProducers.add(author);
+	workProducers.add(awardingBody);
+	b.setWorkProducers(workProducers);
+	assertFalse(b.areProducersOk());
     }
     
 }

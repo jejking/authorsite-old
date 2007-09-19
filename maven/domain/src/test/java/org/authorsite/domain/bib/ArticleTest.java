@@ -1,5 +1,8 @@
 package org.authorsite.domain.bib;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.authorsite.domain.Collective;
 import org.authorsite.domain.Individual;
 
@@ -62,6 +65,78 @@ public class ArticleTest extends TestCase {
         assertTrue(a4.compareTo(a2) > 0);
         assertTrue(a2.compareTo(a4) < 0);
         
+    }
+    
+    public void testAreProducersOkAuthor() {
+	Article a = new Article();
+	a.addAuthor(new Individual("Foo", "Bar"));
+	assertTrue(a.areProducersOk());
+    }
+    
+    public void testAreProducersOkEditor() {
+	Article a = new Article();
+	a.addEditor(new Individual("Foo", "Bar"));
+	assertTrue(a.areProducersOk());
+    }
+    
+    public void testAreProducersOkAuthorEditor() {
+	Article a = new Article();
+	a.addAuthor(new Individual("Foo", "Bar"));
+	a.addEditor(new Individual("Wibble", "Wobble"));
+	assertTrue(a.areProducersOk());
+    }
+    
+    public void testAreProducersOkTwoAuthors() {
+	Article a = new Article();
+	a.addAuthor(new Individual("Foo", "Bar"));
+	a.addAuthor(new Individual("Wibble", "Wobble"));
+	assertTrue(a.areProducersOk());
+    }
+    
+    public void testAreProducersOkTwoEdtiors() {
+	Article a = new Article();
+	a.addEditor(new Individual("Foo", "Bar"));
+	a.addEditor(new Individual("Wibble", "Wobble"));
+	assertTrue(a.areProducersOk());
+    }
+    
+    public void testAreProducersOkTwoAuthorsTwoEditors() {
+	Article a = new Article();
+	a.addEditor(new Individual("Foo", "Bar"));
+	a.addEditor(new Individual("Wibble", "Wobble"));
+	a.addAuthor(new Individual("Wurst", "Hans"));
+	a.addAuthor(new Individual("Sausage", "Peter"));
+	assertTrue(a.areProducersOk());
+    }
+    
+    public void testAreProducersOkAuthorPublisher() {
+	Individual i = new Individual("Foo", "Bar");
+	Collective c = new Collective("A Publisher");
+	
+	WorkProducer author = new WorkProducer(WorkProducerType.AUTHOR, i);
+	WorkProducer publisher = new WorkProducer(WorkProducerType.PUBLISHER, c);
+	Set<WorkProducer> workProducers = new HashSet<WorkProducer>();
+	workProducers.add(author);
+	workProducers.add(publisher);
+	
+	Article a = new Article();
+	a.setWorkProducers(workProducers);
+	assertFalse(a.areProducersOk());
+    }
+    
+    public void testAreProducersOkAuthorAwardingBody() {
+	Individual i = new Individual("Foo", "Bar");
+	Collective c = new Collective("A Publisher");
+	
+	WorkProducer author = new WorkProducer(WorkProducerType.AUTHOR, i);
+	WorkProducer awardingBody = new WorkProducer(WorkProducerType.AWARDING_BODY, c);
+	Set<WorkProducer> workProducers = new HashSet<WorkProducer>();
+	workProducers.add(author);
+	workProducers.add(awardingBody);
+	
+	Article a = new Article();
+	a.setWorkProducers(workProducers);
+	assertFalse(a.areProducersOk());
     }
     
 }

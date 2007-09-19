@@ -67,23 +67,33 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
     }
 
     /**
-         * Gets publisher.
-         * 
-         * @return publisher, may be <code>null</code>.
-         */
+     * @return publisher, maybe <code>null</code>
+     */
     @Transient
     public AbstractHuman getPublisher() {
-	return this.publisher;
+	if (this.publisher == null) {
+	    Set<AbstractHuman> publishers = super.getWorkProducersOfType(WorkProducerType.PUBLISHER);
+	    if (!publishers.isEmpty()) {
+		this.publisher = publishers.iterator().next();
+	    }
+	}
+        return publisher;
     }
 
+
     /**
-         * Sets publisher.
-         * 
-         * @param publisher
-         *                may be <code>null</code>
-         */
+     * Sets the publisher. If one is already set, this is cleared and
+     * the new one set.
+     * 
+     * @param publisher
+     */
     public void setPublisher(AbstractHuman publisher) {
-	this.publisher = publisher;
+	if (!super.getWorkProducersOfType(WorkProducerType.PUBLISHER).isEmpty()) 
+	{
+	    super.removeAllWorkProducersOfType(WorkProducerType.PUBLISHER);
+	}
+	super.addWorkProducer(WorkProducerType.PUBLISHER, publisher);
+        this.publisher = publisher;
     }
 
     /**
