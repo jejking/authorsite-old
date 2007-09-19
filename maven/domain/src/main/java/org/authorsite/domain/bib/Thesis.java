@@ -71,12 +71,29 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
     }
 
     /**
+     * @param title
+     * @param author
+     * @param awardingBody
+     */
+    public Thesis(String title, Individual author, Collective awardingBody) {
+	super.setTitle(title);
+	this.setAuthor(author);
+	this.setAwardingBody(awardingBody);
+    }
+
+    /**
      * Gets author.
      * 
      * @return author
      */
     @Transient
     public Individual getAuthor() {
+	if (this.author == null) {
+	    Set<AbstractHuman> authors = super.getWorkProducersOfType(WorkProducerType.AUTHOR);
+	    if (!authors.isEmpty()) {
+		this.author = (Individual) authors.iterator().next();
+	    }
+	}
 	return this.author;
     }
 
@@ -86,6 +103,10 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * @param author should not be <code>null</code>
      */
     public void setAuthor(Individual author) {
+	if (!super.getWorkProducersOfType(WorkProducerType.AUTHOR).isEmpty()) {
+	    super.removeAllWorkProducersOfType(WorkProducerType.AUTHOR);
+	}
+	
 	super.addWorkProducer(WorkProducerType.AUTHOR, author);
 	this.author = author;
     }
@@ -97,6 +118,12 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      */
     @Transient
     public Collective getAwardingBody() {
+	if (this.awardingBody == null) {
+	    Set<AbstractHuman> awardingBodies = super.getWorkProducersOfType(WorkProducerType.AWARDING_BODY);
+	    if (!awardingBodies .isEmpty()) {
+		this.awardingBody = (Collective) awardingBodies.iterator().next();
+	    }
+	}
 	return this.awardingBody;
     }
 
@@ -106,6 +133,9 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
      * @param awardingBody should not be <code>null</code>
      */
     public void setAwardingBody(Collective awardingBody) {
+	if (!super.getWorkProducersOfType(WorkProducerType.AWARDING_BODY).isEmpty()) {
+	    super.removeAllWorkProducersOfType(WorkProducerType.AWARDING_BODY);
+	}
 	super.addWorkProducer(WorkProducerType.AWARDING_BODY, awardingBody);
 	this.awardingBody = awardingBody;
     }
