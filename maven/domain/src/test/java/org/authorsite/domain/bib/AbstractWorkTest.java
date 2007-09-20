@@ -1,6 +1,5 @@
 package org.authorsite.domain.bib;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.authorsite.domain.AbstractHuman;
