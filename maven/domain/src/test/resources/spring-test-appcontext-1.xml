@@ -23,6 +23,7 @@
   <bean id="collectiveDao" class="org.authorsite.dao.CollectiveDaoJPA" />
   <bean id="individualDao" class="org.authorsite.dao.IndividualDaoJPA" />
   <bean id="systemUserDao" class="org.authorsite.dao.SystemUserDaoJPA" />
+  <bean id="genericWorkDao" class="org.authorsite.dao.bib.GenericWorkDaoJPA"/>
   
   <bean id="lifecycleTrackingAspect" class="org.authorsite.domain.aspects.LifecycleTrackingAspect" />
 
@@ -40,8 +41,8 @@
 
   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
-    <!--<property name="url" value="jdbc:hsqldb:hsql://localhost/test"/> -->
-    <property name="url" value="jdbc:hsqldb:mem:testdb"/> 
+    <property name="url" value="jdbc:hsqldb:hsql://localhost/test"/>
+    <!-- <property name="url" value="jdbc:hsqldb:mem:testdb"/> -->
     
     <property name="username" value="sa"/>
     <property name="password" value=""/>

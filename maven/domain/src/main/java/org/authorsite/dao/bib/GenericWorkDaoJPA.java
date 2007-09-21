@@ -1,10 +1,20 @@
-/*
- * GenericWorkDaoJPA.java
+/**
+ * This file is part of the authorsite application.
+ *
+ * The authorsite application is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The authorsite application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the authorsite application; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  * 
- * Created on 20.09.2007, 17:52:04
- * 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
  */
 
 package org.authorsite.dao.bib;
@@ -12,6 +22,7 @@ package org.authorsite.dao.bib;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.authorsite.domain.AbstractHuman;
 import org.authorsite.domain.bib.AbstractWork;
 import org.authorsite.domain.bib.WorkProducerType;
@@ -29,49 +40,82 @@ public class GenericWorkDaoJPA implements GenericWorkDao {
 
     private EntityManager entityManager;
 
+    public GenericWorkDaoJPA() {
+        super();
+    }
+        
+    /**
+     * Sets the entity manager reference.
+     * 
+     * <p>IoC use only.</p>
+     * 
+     * @param entityManager
+     */
     @PersistenceContext
     public void setEntityManager(EntityManager entityManager) {
-        this. entityManager = entityManager;
+        this.entityManager = entityManager;
     }
+
     
     @Transactional(readOnly=true)
     public int countWorks() throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Number n = (Number) this.entityManager.createNamedQuery("AbstractWorkCount").getSingleResult();
+        return n.intValue();
     }
 
     @Transactional(readOnly=true)
     public AbstractWork findWorkById(long id) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.entityManager.find(AbstractWork.class, new Long(id));
     }
 
     @Transactional(readOnly=true)
+    @SuppressWarnings("unchecked")
     public List<AbstractWork> findAllWorks() throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Query q = this.entityManager.createNamedQuery("AllAbstractWorks");
+        return q.getResultList();
     }
 
     @Transactional(readOnly=true)
+    @SuppressWarnings("unchecked")
     public List<AbstractWork> findAllWorks(int pageNumber, int pageSize) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Query q = this.entityManager.createNamedQuery("AllAbstractWorks");
+        int startingRow = (pageNumber - 1) * pageSize;
+        q.setFirstResult(startingRow);
+        q.setMaxResults(pageSize);
+        return q.getResultList();
     }
 
     @Transactional(readOnly=true)
+    @SuppressWarnings("unchecked")
     public List<AbstractWork> findWorkByTitle(String title) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Query q = this.entityManager.createNamedQuery("AbstractWorkByTitle");
+        q.setParameter("title", title);
+        return q.getResultList();
     }
 
     @Transactional(readOnly=true)
+    @SuppressWarnings("unchecked")
     public List<AbstractWork> findWorkByTitleWildcard(String title) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Query q = this.entityManager.createNamedQuery("AbstractWorkByTitleWildcard");
+        q.setParameter("title", title);
+        return q.getResultList();
     }
     
     @Transactional(readOnly=true)
+    @SuppressWarnings("unchecked")
     public List<AbstractWork> findWorksWithProducer(AbstractHuman producer) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Query q = this.entityManager.createNamedQuery("AbstractWorksWithProducer");
+        q.setParameter("workProducer", producer);
+        return q.getResultList();
     }
 
     @Transactional(readOnly=true)
-    public List<AbstractWork> findWorksWithProducer(AbstractHuman producer, WorkProducerType workProducerType) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @SuppressWarnings("unchecked")
+    public List<AbstractWork> findWorksWithProducerOfType(AbstractHuman producer, WorkProducerType workProducerType) throws DataAccessException {
+        Query q = this.entityManager.createNamedQuery("AbstractWorksWithProducerOfType");
+        q.setParameter("workProducer", producer);
+        q.setParameter("workProducerType", workProducerType);
+        return q.getResultList();
     }
 
 }

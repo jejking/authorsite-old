@@ -32,6 +32,8 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -60,6 +62,22 @@ import org.hibernate.annotations.IndexColumn;
 @Entity
 @Table(name="Work")
 @Inheritance(strategy=InheritanceType.JOINED)
+@NamedQueries( {
+	@NamedQuery(name = "AbstractWorkCount", query = "select count(aw) from AbstractWork aw"),
+	@NamedQuery(name = "AbstractWorkByTitle", query = "select aw from AbstractWork aw where aw.title = :title"),
+	@NamedQuery(name = "AbstractWorkByTitleWildcard", query = "select aw from AbstractWork aw where aw.title like :title"),
+        @NamedQuery(name = "AbstractWorksWithProducer", query="select aw from AbstractWork aw, " +
+                                                                   "IN (aw.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :workProducer"),
+        @NamedQuery(name= "AbstractWorksWithProducerOfType", query="select aw from AbstractWork aw, " +
+                                                                   "IN (aw.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :workProducer " +
+                                                                   "AND " +
+                                                                   "wp.workProducerType = :workProducerType "),
+        @NamedQuery(name = "AllAbstractWorks", query = "select aw from AbstractWork aw order by aw.id asc")  } 
+)
 public abstract class AbstractWork extends AbstractEntry {
 
     private String title;

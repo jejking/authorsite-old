@@ -45,5 +45,5 @@ public interface GenericWorkDao {
     
     public List<AbstractWork> findWorksWithProducer(AbstractHuman producer) throws DataAccessException;
     
-    public List<AbstractWork> findWorksWithProducer(AbstractHuman producer, WorkProducerType workProducerType) throws DataAccessException;
+    public List<AbstractWork> findWorksWithProducerOfType(AbstractHuman producer, WorkProducerType workProducerType) throws DataAccessException;
 }
