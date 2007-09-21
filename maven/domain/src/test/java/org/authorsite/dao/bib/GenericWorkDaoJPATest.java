@@ -55,6 +55,10 @@ public class GenericWorkDaoJPATest extends AbstractJpaTests {
                 "(id, createdAt, createdBy_id, updatedAt, " +
                 "updatedBy_id, version, nameQualification, name, givenNames, DTYPE)" +
                 " values (0, current_timestamp, 0, current_timestamp, 0, 0, null, 'Wurst', 'Hans', 'Individual')");
+        
+        // create journal "Wibble Studies"
+        jdbcTemplate.execute("insert into WORK (id, version, createdAt, updatedAt, title, date, toDate, createdBy_id, updatedBy_id) " +
+                "");
     
         
     }
