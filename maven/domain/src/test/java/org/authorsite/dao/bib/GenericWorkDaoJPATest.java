@@ -57,11 +57,30 @@ public class GenericWorkDaoJPATest extends AbstractJpaTests {
                 " values (0, current_timestamp, 0, current_timestamp, 0, 0, null, 'Wurst', 'Hans', 'Individual')");
         
         // create journal "Wibble Studies"
-        jdbcTemplate.execute("insert into WORK (id, version, createdAt, updatedAt, title, date, toDate, createdBy_id, updatedBy_id) " +
-                "");
+        jdbcTemplate.execute("insert into WORK (id, version, createdAt, updatedAt," +
+                " title, date, toDate, createdBy_id, updatedBy_id) " +
+                "values( 0, 0, current_timestamp, current_timestamp, 'Wibble Studies', " +
+                "null, null, 0, 0 )");
     
+        jdbcTemplate.execute("insert into JOURNAL (id) VALUES (0)");
         
+        // create journal article 'sausages in history' by hans wurst in "Wibble Studies"
+        jdbcTemplate.execute("insert into WORK (id, version, createdAt, updatedAt," +
+                " title, date, toDate, createdBy_id, updatedBy_id) " +
+                "values( 1, 0, current_timestamp, current_timestamp, 'Sausages in History', " +
+                "null, null, 0, 0 )");
+        
+        jdbcTemplate.execute("insert into ARTICLE (id, issue, pages, volume, journal_id) " +
+                "values ( 1, 'a', '22-23', 'V', 0)" );
+        
+        jdbcTemplate.execute("insert into WORK_WORKPRODUCERS( work_id,workproducertype, abstracthuman_id) " +
+                "values (1, 'AUTHOR', 0) ");
     }
+    
+    public void testCountWorks() throws Exception {
+        assertEquals(2, this.genericWorkDao.countWorks() ) ;
+    }
+            
     
     
 }
