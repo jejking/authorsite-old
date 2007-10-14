@@ -20,6 +20,7 @@
 
 package org.authorsite.dao.bib;
 
+import java.util.List;
 import org.authorsite.dao.AbstractJPATest;
 import org.authorsite.dao.CollectiveDao;
 import org.authorsite.dao.IndividualDao;
@@ -31,6 +32,7 @@ import org.authorsite.domain.bib.Book;
 import org.authorsite.domain.bib.Chapter;
 import org.authorsite.domain.bib.Journal;
 import org.authorsite.domain.bib.Thesis;
+import org.authorsite.domain.bib.WorkProducerType;
 
 /**
  *
@@ -256,4 +258,72 @@ public class GenericWorkDaoJPATest extends AbstractJPATest {
         assertEquals(2, thesis.getWorkProducers().size());
     }
     
+    public void testFindAllWorks() throws Exception {
+        List<AbstractWork> works = this.genericWorkDao.findAllWorks();
+        assertEquals(5, works.size());
+        AbstractWork thesisAw = this.genericWorkDao.findWorkById(2);
+        assertTrue(works.contains(thesisAw));
+    }
+    
+    public void testFindAllWorksPaging() throws Exception {
+        List<AbstractWork> works = this.genericWorkDao.findAllWorks(1, 2);
+        assertEquals(2, works.size());
+        works = this.genericWorkDao.findAllWorks(3, 2);
+        assertEquals(1, works.size());
+    }
+    
+    public void testFindByTitle() throws Exception {
+        List<AbstractWork> works = this.genericWorkDao.findWorkByTitle("Die Wurst in der Geschichte Deutschlands");
+        assertEquals(1, works.size());
+        AbstractWork thesisAw = this.genericWorkDao.findWorkById(2);
+        assertTrue(works.contains(thesisAw));
+    }
+    
+    public void testFindByTitleNotThere() throws Exception {
+        List<AbstractWork> works = this.genericWorkDao.findWorkByTitle("wibble wobble");
+        assertTrue(works.isEmpty());
+    }
+    
+    public void testFindByTitleWildcard() throws Exception {
+        List<AbstractWork> works = this.genericWorkDao.findWorkByTitleWildcard("%Wurst%");
+        assertEquals(2, works.size());
+        AbstractWork thesisAw = this.genericWorkDao.findWorkById(2);
+        assertTrue(works.contains(thesisAw));
+        AbstractWork chapterAw = this.genericWorkDao.findWorkById(4);
+        assertTrue(works.contains(chapterAw));
+    }
+    
+    public void testFindByTitleWildcardNotThere() throws Exception {
+        List<AbstractWork> works = this.genericWorkDao.findWorkByTitleWildcard("%wibble%");
+        assertTrue(works.isEmpty());
+    }
+    
+    public void testFindWorksWithProducer() throws Exception {
+        Individual hansWurst = this.individualDao.findById(0);
+        List<AbstractWork> works = this.genericWorkDao.findWorksWithProducer(hansWurst);
+        assertEquals(2, works.size());
+        
+        AbstractWork thesisAw = this.genericWorkDao.findWorkById(2);
+        assertTrue(works.contains(thesisAw));
+        AbstractWork articleAw = this.genericWorkDao.findWorkById(1);
+        assertTrue(works.contains(articleAw));
+    }
+    
+    public void testFindWorksWithProducerOfType() throws Exception {
+        Individual hansWurst = this.individualDao.findById(0);
+        List<AbstractWork> works = this.genericWorkDao.findWorksWithProducerOfType(hansWurst, WorkProducerType.AUTHOR);
+        
+        assertEquals(2, works.size());
+        
+        AbstractWork thesisAw = this.genericWorkDao.findWorkById(2);
+        assertTrue(works.contains(thesisAw));
+        AbstractWork articleAw = this.genericWorkDao.findWorkById(1);
+        assertTrue(works.contains(articleAw));
+    }
+    
+    public void testFindWorksWithProducerOfTypeNoneMatch() throws Exception {
+        Individual hansWurst = this.individualDao.findById(0);
+        List<AbstractWork> works = this.genericWorkDao.findWorksWithProducerOfType(hansWurst, WorkProducerType.PUBLISHER);
+        assertTrue(works.isEmpty());
+    }
 }
