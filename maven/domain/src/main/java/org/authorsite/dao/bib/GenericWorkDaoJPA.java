@@ -19,6 +19,7 @@
 
 package org.authorsite.dao.bib;
 
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -116,6 +117,24 @@ public class GenericWorkDaoJPA implements GenericWorkDao {
         q.setParameter("workProducer", producer);
         q.setParameter("workProducerType", workProducerType);
         return q.getResultList();
+    }
+
+    @Transactional(readOnly=true)
+    @SuppressWarnings("unchecked")
+    public List<AbstractWork> findWorksBeforeDate(Date date) throws DataAccessException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Transactional(readOnly=true)
+    @SuppressWarnings("unchecked")
+    public List<AbstractWork> findWorksAfterDate(Date date) throws DataAccessException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Transactional(readOnly=true)
+    @SuppressWarnings("unchecked")
+    public List<AbstractWork> findWorksBetweenDates(Date startDate, Date endDate) throws DataAccessException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

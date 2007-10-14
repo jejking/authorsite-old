@@ -117,7 +117,7 @@ public class GenericWorkDaoJPATest extends AbstractJPATest {
         jdbcTemplate.execute("insert into WORK (id, version, createdAt, updatedAt," +
                 " title, date, toDate, createdBy_id, updatedBy_id) " +
                 "values( 1, 1, current_timestamp, current_timestamp, 'Sausages in History', " +
-                "null, null, 0, 0 )");
+                "'2000-01-01', null, 0, 0 )");
         
         jdbcTemplate.execute("insert into ARTICLE (id, issue, pages, volume, journal_id) " +
                 "values ( 1, 'a', '22-23', 'V', 0)" );
@@ -130,7 +130,7 @@ public class GenericWorkDaoJPATest extends AbstractJPATest {
         jdbcTemplate.execute("insert into WORK (id, version, createdAt, updatedAt," +
                 " title, date, toDate, createdBy_id, updatedBy_id) " +
                 "values( 2, 1, current_timestamp, current_timestamp, 'Die Wurst in der Geschichte Deutschlands', " +
-                "null, null, 0, 0 )");
+                "'2001-01-01', '2004-01-01', 0, 0 )");
         
         jdbcTemplate.execute("insert into THESIS (id, degree ) " +
                 "values ( 2, 'D. Phil')" );
@@ -145,7 +145,7 @@ public class GenericWorkDaoJPATest extends AbstractJPATest {
         jdbcTemplate.execute("insert into WORK (id, version, createdAt, updatedAt," +
                 " title, date, toDate, createdBy_id, updatedBy_id) " +
                 "values( 3, 1, current_timestamp, current_timestamp, 'Salami: Really a sausage?', " +
-                "null, null, 0, 0 )");
+                "'2002-01-01', null, 0, 0 )");
         
         jdbcTemplate.execute("insert into BOOK (id, volume ) " +
                 "values ( 3, null)" );
@@ -161,7 +161,7 @@ public class GenericWorkDaoJPATest extends AbstractJPATest {
         jdbcTemplate.execute("insert into WORK (id, version, createdAt, updatedAt," +
                 " title, date, toDate, createdBy_id, updatedBy_id) " +
                 "values( 4, 1, current_timestamp, current_timestamp, 'Salami & Salciccia, Knoblauch und Wurst', " +
-                "null, null, 0, 0 )");
+                "'2003-01-01', '2004-01-01', 0, 0 )");
         
         jdbcTemplate.execute("insert into CHAPTER( id, pages, chapter, book_id) " +
                 "values ( 4, '22-42', '3', 3)" );
@@ -326,4 +326,6 @@ public class GenericWorkDaoJPATest extends AbstractJPATest {
         List<AbstractWork> works = this.genericWorkDao.findWorksWithProducerOfType(hansWurst, WorkProducerType.PUBLISHER);
         assertTrue(works.isEmpty());
     }
+    
+    
 }

@@ -19,6 +19,7 @@
 
 package org.authorsite.dao.bib;
 
+import java.util.Date;
 import java.util.List;
 import org.authorsite.domain.AbstractHuman;
 import org.authorsite.domain.bib.AbstractWork;
@@ -46,4 +47,11 @@ public interface GenericWorkDao {
     public List<AbstractWork> findWorksWithProducer(AbstractHuman producer) throws DataAccessException;
     
     public List<AbstractWork> findWorksWithProducerOfType(AbstractHuman producer, WorkProducerType workProducerType) throws DataAccessException;
+    
+    public List<AbstractWork> findWorksBeforeDate(Date date) throws DataAccessException;
+    
+    public List<AbstractWork> findWorksAfterDate(Date date) throws DataAccessException;
+    
+    public List<AbstractWork> findWorksBetweenDates(Date startDate, Date endDate) throws DataAccessException;
+    
 }
