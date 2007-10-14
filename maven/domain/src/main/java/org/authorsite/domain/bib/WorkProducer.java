@@ -22,6 +22,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
@@ -58,7 +59,7 @@ public class WorkProducer {
     }
 
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=false, fetch=FetchType.EAGER)
     public AbstractHuman getAbstractHuman() {
         return abstractHuman;
     }
