@@ -122,19 +122,26 @@ public class GenericWorkDaoJPA implements GenericWorkDao {
     @Transactional(readOnly=true)
     @SuppressWarnings("unchecked")
     public List<AbstractWork> findWorksBeforeDate(Date date) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Query q = this.entityManager.createNamedQuery("AbstractWorksBeforeDate");
+        q.setParameter("date", date);
+        return q.getResultList();
     }
 
     @Transactional(readOnly=true)
     @SuppressWarnings("unchecked")
     public List<AbstractWork> findWorksAfterDate(Date date) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Query q = this.entityManager.createNamedQuery("AbstractWorksAfterDate");
+        q.setParameter("date", date);
+        return q.getResultList();
     }
 
     @Transactional(readOnly=true)
     @SuppressWarnings("unchecked")
     public List<AbstractWork> findWorksBetweenDates(Date startDate, Date endDate) throws DataAccessException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Query q = this.entityManager.createNamedQuery("AbstractWorksBetweenDates");
+        q.setParameter("startDate", startDate);
+        q.setParameter("endDate", endDate);
+        return q.getResultList();
     }
 
 }

@@ -77,15 +77,15 @@ import org.hibernate.annotations.IndexColumn;
                                                                    "AND " +
                                                                    "wp.workProducerType = :workProducerType "),
         @NamedQuery(name = "AllAbstractWorks", query = "select aw from AbstractWork aw order by aw.id asc"),
-        @NamedQuery(name = "AbstractWorksBeforeDate", query="select aw from AbstractWork aw where aw.workDates.date > :date"),
+        @NamedQuery(name = "AbstractWorksBeforeDate", query="select aw from AbstractWork aw where aw.workDates.date < :date"),
         @NamedQuery(name = "AbstractWorksAfterDate", query="select aw from AbstractWork aw " +
                                                             "where " +
-                                                            "aw.workDates.date < :date or aw.workDates.toDate < :date"),
+                                                            "aw.workDates.date > :date or aw.workDates.toDate > :date"),
         @NamedQuery(name = "AbstractWorksBetweenDates", query = "select aw from AbstractWork aw " +
                                                                   "where " +
-                                                                  "aw.workDates.date > :startDate " +
+                                                                  "(aw.workDates.date >= :startDate OR aw.workDates.toDate >= :startDate) " +
                                                                   "AND " +
-                                                                  "(aw.workDates.date < :endDate OR aw.workDates.toDate < :endDate)")}
+                                                                  "(aw.workDates.date <= :endDate OR aw.workDates.toDate <= :endDate)")}
 )
 public abstract class AbstractWork extends AbstractEntry {
 

@@ -20,6 +20,9 @@
 
 package org.authorsite.dao.bib;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.authorsite.dao.AbstractJPATest;
 import org.authorsite.dao.CollectiveDao;
@@ -327,5 +330,81 @@ public class GenericWorkDaoJPATest extends AbstractJPATest {
         assertTrue(works.isEmpty());
     }
     
+    public void testFindWorksBefore2002() throws Exception {
+        GregorianCalendar gc = new GregorianCalendar(2002, Calendar.JANUARY, 1);
+        Date firstJan2002 = gc.getTime();
+        
+        AbstractWork article = this.genericWorkDao.findWorkById(1);
+        AbstractWork thesis = this.genericWorkDao.findWorkById(2);
+        
+        List<AbstractWork> works = this.genericWorkDao.findWorksBeforeDate(firstJan2002);
+        assertEquals(2, works.size());
+        assertTrue(works.contains(article));
+        assertTrue(works.contains(thesis));
+    }
     
+    public void testFindWorksBefore1999() throws Exception {
+        GregorianCalendar gc = new GregorianCalendar(1999, Calendar.JANUARY, 1);
+        Date date = gc.getTime();
+        
+        List<AbstractWork> works = this.genericWorkDao.findWorksBeforeDate(date);
+        assertTrue(works.isEmpty());
+                
+    }
+    
+    public void testFindWorksAfter2002() throws Exception {
+        GregorianCalendar gc = new GregorianCalendar(2002, Calendar.JANUARY, 1);
+        Date firstJan2002 = gc.getTime();
+        
+        List<AbstractWork> works = this.genericWorkDao.findWorksAfterDate(firstJan2002);
+        AbstractWork thesis = this.genericWorkDao.findWorkById(2);
+        AbstractWork chapter = this.genericWorkDao.findWorkById(4);
+        assertEquals(2, works.size());
+        assertTrue(works.contains(thesis));
+        assertTrue(works.contains(chapter));
+    }
+    
+    public void testFindWorksAfter2005() throws Exception {
+        GregorianCalendar gc = new GregorianCalendar(2005, Calendar.JANUARY, 1);
+        Date date = gc.getTime();
+        
+        List<AbstractWork> works = this.genericWorkDao.findWorksAfterDate(date);
+        assertTrue(works.isEmpty());
+    }
+    
+    public void testFindWorksAfter1999() throws Exception {
+        GregorianCalendar gc = new GregorianCalendar(1999, Calendar.JANUARY, 1);
+        Date date = gc.getTime();
+        
+        List<AbstractWork> works = this.genericWorkDao.findWorksAfterDate(date);
+        assertEquals(4, works.size());
+    }
+    
+    public void testFindWorksBetween1999And2002() throws Exception {
+        GregorianCalendar cal99 = new GregorianCalendar(1999, Calendar.JANUARY, 1);
+        GregorianCalendar cal02 = new GregorianCalendar(2002, Calendar.JANUARY, 1);
+        
+        List<AbstractWork> works = this.genericWorkDao.findWorksBetweenDates(cal99.getTime(), cal02.getTime());
+        assertEquals(3, works.size());
+        AbstractWork thesisAw = this.genericWorkDao.findWorkById(2);
+        assertTrue(works.contains(thesisAw));
+        AbstractWork articleAw = this.genericWorkDao.findWorkById(1);
+        assertTrue(works.contains(articleAw));       
+        AbstractWork bookAw = this.genericWorkDao.findWorkById(3);
+        assertTrue(works.contains(bookAw));
+    }
+    
+    public void testFindWorksBetween2002And2005() throws Exception {
+        GregorianCalendar cal02 = new GregorianCalendar(2002, Calendar.JANUARY, 1);
+        GregorianCalendar cal05 = new GregorianCalendar(2005, Calendar.JANUARY, 1);
+        
+        List<AbstractWork> works = this.genericWorkDao.findWorksBetweenDates(cal02.getTime(), cal05.getTime());
+        assertEquals(3, works.size());
+        AbstractWork thesisAw = this.genericWorkDao.findWorkById(2);
+        assertTrue(works.contains(thesisAw));
+        AbstractWork chapterAw = this.genericWorkDao.findWorkById(4);
+        assertTrue(works.contains(chapterAw));       
+        AbstractWork bookAw = this.genericWorkDao.findWorkById(3);
+        assertTrue(works.contains(bookAw));
+    }
 }
