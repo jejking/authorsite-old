@@ -21,7 +21,7 @@ package org.authorsite.dao.bib;
 import java.util.Date;
 import java.util.List;
 import org.authorsite.domain.AbstractHuman;
-import org.authorsite.domain.bib.Book;
+import org.authorsite.domain.bib.AbstractAuthoredEditedPublishedWork;
 import org.authorsite.domain.bib.Chapter;
 import org.springframework.dao.DataAccessException;
 
@@ -61,6 +61,6 @@ public interface ChapterDao {
     
     public List<Chapter> findChaptersWithAuthorOrEditor(AbstractHuman human) throws DataAccessException;
     
-    public List<Chapter> findChaptersInBook(Book book) throws DataAccessException;
+    public List<Chapter> findChaptersInBook(AbstractAuthoredEditedPublishedWork book) throws DataAccessException;
 
 }

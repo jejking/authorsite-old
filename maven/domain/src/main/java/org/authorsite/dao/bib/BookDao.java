@@ -21,6 +21,7 @@ package org.authorsite.dao.bib;
 import java.util.Date;
 import java.util.List;
 import org.authorsite.domain.AbstractHuman;
+import org.authorsite.domain.bib.AbstractAuthoredEditedPublishedWork;
 import org.authorsite.domain.bib.Book;
 import org.springframework.dao.DataAccessException;
 
@@ -32,13 +33,13 @@ public interface BookDao {
 
     public int countBooks() throws DataAccessException;
     
-    public Book findById(long id) throws DataAccessException;
+    public AbstractAuthoredEditedPublishedWork findById(long id) throws DataAccessException;
     
-    public void deleteBook(Book book) throws DataAccessException;
+    public void deleteBook(AbstractAuthoredEditedPublishedWork book) throws DataAccessException;
     
-    public void saveBook(Book book) throws DataAccessException;
+    public void saveBook(AbstractAuthoredEditedPublishedWork book) throws DataAccessException;
     
-    public Book updateBook(Book book) throws DataAccessException;
+    public AbstractAuthoredEditedPublishedWork updateBook(Book book) throws DataAccessException;
     
     public List<Book> findAllBooks() throws DataAccessException;
     

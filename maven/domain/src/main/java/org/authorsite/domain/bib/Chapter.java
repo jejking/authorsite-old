@@ -85,7 +85,7 @@ public class Chapter extends AbstractAuthoredEditedWork implements Comparable<Ch
      */
     private static final long serialVersionUID = 3191207264639407756L;
 
-    private Book book;
+    private AbstractAuthoredEditedPublishedWork book;
 
     private String pages;
 
@@ -104,7 +104,7 @@ public class Chapter extends AbstractAuthoredEditedWork implements Comparable<Ch
      * @return book
      */
     @ManyToOne(optional=false, fetch=FetchType.EAGER)
-    public Book getBook() {
+    public AbstractAuthoredEditedPublishedWork getBook() {
 	return this.book;
     }
 
@@ -113,7 +113,7 @@ public class Chapter extends AbstractAuthoredEditedWork implements Comparable<Ch
      * 
      * @param book should not be <code>null</code>
      */
-    public void setBook(Book book) {
+    public void setBook(AbstractAuthoredEditedPublishedWork book) {
 	this.book = book;
     }
 
