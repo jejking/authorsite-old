@@ -29,9 +29,9 @@ import org.authorsite.dao.CollectiveDao;
 import org.authorsite.dao.IndividualDao;
 import org.authorsite.domain.Collective;
 import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.AbstractAuthoredEditedPublishedWork;
 import org.authorsite.domain.bib.AbstractWork;
 import org.authorsite.domain.bib.Article;
-import org.authorsite.domain.bib.Book;
 import org.authorsite.domain.bib.Chapter;
 import org.authorsite.domain.bib.Journal;
 import org.authorsite.domain.bib.Thesis;
@@ -221,7 +221,7 @@ public class GenericWorkDaoJPATest extends AbstractJPATest {
         Collective fooPublishingInc = this.collectiveDao.findById(5);
         
         AbstractWork aw = this.genericWorkDao.findWorkById(3);
-        Book book = (Book) aw;
+        AbstractAuthoredEditedPublishedWork book = (AbstractAuthoredEditedPublishedWork) aw;
         assertEquals("Salami: Really a sausage?", book.getTitle());
         assertEquals(1, book.getAuthors().size());
         assertTrue(book.getAuthors().contains(fooBar));
@@ -234,7 +234,7 @@ public class GenericWorkDaoJPATest extends AbstractJPATest {
         Individual fooBar = this.individualDao.findById(2);
         Individual fooBear = this.individualDao.findById(3);
         AbstractWork bookAw = this.genericWorkDao.findWorkById(3);
-        Book book = (Book) bookAw;
+        AbstractAuthoredEditedPublishedWork book = (AbstractAuthoredEditedPublishedWork) bookAw;
         
         AbstractWork chapterAw = this.genericWorkDao.findWorkById(4);
         Chapter chapter = (Chapter) chapterAw;

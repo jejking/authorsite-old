@@ -57,7 +57,7 @@ public class BookTest extends TestCase {
         assertEquals(0,b1.compareTo(b2) );
         assertEquals(0, b2.compareTo(b1));
         
-        Book b3 = new Book();
+        AbstractAuthoredEditedPublishedWork b3 = new Book();
         b3.setId(3);
         b3.addAuthor(i3);
         b3.setPublisher(c4);
@@ -72,7 +72,7 @@ public class BookTest extends TestCase {
     }
     
     public void testAreProducersOkAuthorPublisher() {
-	Book b = new Book();
+	AbstractAuthoredEditedPublishedWork b = new Book();
 	Individual i = new Individual("Foo", "Bar");
 	Collective c = new Collective("A Publisher");
 	b.addAuthor(i);
@@ -81,7 +81,7 @@ public class BookTest extends TestCase {
     }
     
     public void testAreProducersOkAuthorEditorPublisher() {
-	Book b = new Book();
+	AbstractAuthoredEditedPublishedWork b = new Book();
 	Individual i = new Individual("Foo", "Bar");
 	Individual i2 = new Individual("Wibble", "Wobble");
 	Collective c = new Collective("A Publisher");
@@ -92,7 +92,7 @@ public class BookTest extends TestCase {
     }
     
     public void testAreProducersOkTwoAuthorsTwoEditors() {
-	Book b = new Book();
+	AbstractAuthoredEditedPublishedWork b = new Book();
 	Individual i = new Individual("Foo", "Bar");
 	Individual i2 = new Individual("Wibble", "Wobble");
 	Individual i3 = new Individual("Wurst", "Hans");
@@ -107,7 +107,7 @@ public class BookTest extends TestCase {
     }
     
     public void testAreProducersOkEditorsPublisher() {
-	Book b = new Book();
+	AbstractAuthoredEditedPublishedWork b = new Book();
 	Individual i = new Individual("Foo", "Bar");
 	Individual i2 = new Individual("Wibble", "Wobble");
 	Collective c = new Collective("A Publisher");
@@ -118,7 +118,7 @@ public class BookTest extends TestCase {
     }
     
     public void testAreProducersOkAuthorOnly() {
-	Book b = new Book();
+	AbstractAuthoredEditedPublishedWork b = new Book();
 	Individual i = new Individual("Foo", "Bar");
 	Collective c = new Collective("A Publisher");
 	b.addAuthor(i);
@@ -126,7 +126,7 @@ public class BookTest extends TestCase {
     }
     
     public void testAreProducersOkEditorOnly() {
-	Book b = new Book();
+	AbstractAuthoredEditedPublishedWork b = new Book();
 	Individual i2 = new Individual("Wibble", "Wobble");
 	Collective c = new Collective("A Publisher");
 	b.addEditor(i2);
@@ -135,14 +135,14 @@ public class BookTest extends TestCase {
     }
     
     public void testAreProducersOkPublisherOnly() {
-	Book b = new Book();
+	AbstractAuthoredEditedPublishedWork b = new Book();
 	Collective c = new Collective("A Publisher");
 	b.setPublisher(c);
 	assertTrue(b.areProducersOk());	
     }
     
     public void testAreProducersOkTwoPublishers() {
-	Book b = new Book();
+	AbstractAuthoredEditedPublishedWork b = new Book();
 	Individual i2 = new Individual("Wibble", "Wobble");
 	Collective c = new Collective("A Publisher");
 	
@@ -157,7 +157,7 @@ public class BookTest extends TestCase {
     }
     
     public void testAreProducersOkAuthorAndAwardingBody() {
-	Book b = new Book();
+	AbstractAuthoredEditedPublishedWork b = new Book();
 	Individual i2 = new Individual("Wibble", "Wobble");
 	Collective c = new Collective("A Publisher");
 	
