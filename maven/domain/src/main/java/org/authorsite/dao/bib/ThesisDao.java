@@ -35,11 +35,11 @@ public interface ThesisDao {
     
     public Thesis findById(long id) throws DataAccessException;
     
-    public void deleteThesis(Thesis Thesis) throws DataAccessException;
+    public void deleteThesis(Thesis thesis) throws DataAccessException;
     
-    public void saveThesis(Thesis Thesis) throws DataAccessException;
+    public void saveThesis(Thesis thesis) throws DataAccessException;
     
-    public Thesis updateThesis(Thesis Thesis) throws DataAccessException;
+    public Thesis updateThesis(Thesis thesis) throws DataAccessException;
     
     public List<Thesis> findAllTheses() throws DataAccessException;
     

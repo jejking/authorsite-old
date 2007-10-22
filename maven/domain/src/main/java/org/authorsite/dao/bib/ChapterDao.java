@@ -35,11 +35,11 @@ public interface ChapterDao {
     
     public Chapter findById(long id) throws DataAccessException;
     
-    public void deleteChapter(Chapter Chapter) throws DataAccessException;
+    public void deleteChapter(Chapter chapter) throws DataAccessException;
     
-    public void saveChapter(Chapter Chapter) throws DataAccessException;
+    public void saveChapter(Chapter chapter) throws DataAccessException;
     
-    public Chapter updateChapter(Chapter Chapter) throws DataAccessException;
+    public Chapter updateChapter(Chapter chapter) throws DataAccessException;
     
     public List<Chapter> findAllChapters() throws DataAccessException;
     

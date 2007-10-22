@@ -35,11 +35,11 @@ public interface ArticleDao {
     
     public Article findById(long id) throws DataAccessException;
     
-    public void deleteArticle(Article Article) throws DataAccessException;
+    public void deleteArticle(Article article) throws DataAccessException;
     
-    public void saveArticle(Article Article) throws DataAccessException;
+    public void saveArticle(Article article) throws DataAccessException;
     
-    public Article updateArticle(Article Article) throws DataAccessException;
+    public Article updateArticle(Article article) throws DataAccessException;
     
     public List<Article> findAllArticles() throws DataAccessException;
     

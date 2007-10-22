@@ -34,11 +34,11 @@ public interface BookDao {
     
     public Book findById(long id) throws DataAccessException;
     
-    public void deleteBook(Book Book) throws DataAccessException;
+    public void deleteBook(Book book) throws DataAccessException;
     
-    public void saveBook(Book Book) throws DataAccessException;
+    public void saveBook(Book book) throws DataAccessException;
     
-    public Book updateBook(Book Book) throws DataAccessException;
+    public Book updateBook(Book book) throws DataAccessException;
     
     public List<Book> findAllBooks() throws DataAccessException;
     
