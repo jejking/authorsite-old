@@ -21,15 +21,14 @@ package org.authorsite.domain.bib;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
+
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.authorsite.domain.AbstractHuman;
-import org.authorsite.domain.Individual;
 
 /**
  * Class describing a journal as a whole series of regular
@@ -41,6 +40,28 @@ import org.authorsite.domain.Individual;
  * @author jejking
  */
 @Entity
+@NamedQueries( {
+    @NamedQuery(name = "JournalCount", query = "select count(j) from Journal j"),
+    @NamedQuery(name = "JournalsByTitle", query = "select j from Journal j where j.title = :title"),
+    @NamedQuery(name = "JournalsByTitleWildcard", query = "select j from Journal j where j.title like :title"),
+
+        @NamedQuery(name= "JournalsWithPublisher", query="select j from Journal j, " +
+                                                                   "IN (j.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :publisher " +
+                                                                   "AND " +
+                                                                   "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.PUBLISHER "),
+        @NamedQuery(name = "AllJournals", query = "select j from Journal j order by j.id asc"),
+        @NamedQuery(name = "JournalsBeforeDate", query="select j from Journal j where j.workDates.date < :date"),
+        @NamedQuery(name = "JournalsAfterDate", query="select j from Journal j " +
+                                                            "where " +
+                                                            "j.workDates.date > :date or j.workDates.toDate > :date"),
+        @NamedQuery(name = "JournalsBetweenDates", query = "select j from Journal j " +
+                                                                  "where " +
+                                                                  "(j.workDates.date >= :startDate OR j.workDates.toDate >= :startDate) " +
+                                                                  "AND " +
+                                                                  "(j.workDates.date <= :endDate OR j.workDates.toDate <= :endDate)")}
+)
 public class Journal extends AbstractWork implements Comparable<Journal> {
 
     /**

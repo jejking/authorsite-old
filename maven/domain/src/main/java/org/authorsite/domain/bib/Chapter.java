@@ -23,9 +23,10 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
 import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.authorsite.domain.AbstractHuman;
 
 /**
@@ -41,6 +42,42 @@ import org.authorsite.domain.AbstractHuman;
  * @author jejking
  */
 @Entity
+@NamedQueries( {
+    @NamedQuery(name = "ChapterCount", query = "select count(ch) from Chapter ch"),
+    @NamedQuery(name = "ChaptersByTitle", query = "select ch from Chapter ch where ch.title = :title"),
+    @NamedQuery(name = "ChaptersByTitleWildcard", query = "select ch from Chapter ch where ch.title like :title"),
+        @NamedQuery(name= "ChaptersWithAuthor", query="select ch from Chapter ch, " +
+                                                                   "IN (ch.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :author " +
+                                                                   "AND " +
+                                                                   "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.AUTHOR "),
+       @NamedQuery(name= "ChaptersWithEditor", query="select ch from Chapter ch, " +
+                                                                   "IN (ch.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :editor " +
+                                                                   "AND " +
+                                                                   "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.EDITOR "),
+       @NamedQuery(name= "ChaptersWithAuthorOrEditor", query="select ch from Chapter ch, " +
+                                                                   "IN (ch.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :human " +
+                                                                   "AND " +
+                                                                   "(wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.AUTHOR " +
+                                                                   "OR " +
+                                                                   "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.EDITOR ) "),
+        @NamedQuery(name = "AllChapters", query = "select ch from Chapter ch order by ch.id asc"),
+        @NamedQuery(name = "ChaptersBeforeDate", query="select ch from Chapter ch where ch.workDates.date < :date"),
+        @NamedQuery(name = "ChaptersAfterDate", query="select ch from Chapter ch " +
+                                                            "where " +
+                                                            "ch.workDates.date > :date or ch.workDates.toDate > :date"),
+        @NamedQuery(name = "ChaptersBetweenDates", query = "select ch from Chapter ch " +
+                                                                  "where " +
+                                                                  "(ch.workDates.date >= :startDate OR ch.workDates.toDate >= :startDate) " +
+                                                                  "AND " +
+                                                                  "(ch.workDates.date <= :endDate OR ch.workDates.toDate <= :endDate)"),
+        @NamedQuery(name = "ChaptersInBook", query = "select ch from Chapter ch where ch.book = :book order by ch.id asc")}
+)
 public class Chapter extends AbstractAuthoredEditedWork implements Comparable<Chapter> {
 
     /**

@@ -20,14 +20,12 @@ package org.authorsite.domain.bib;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
+
 import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.authorsite.domain.AbstractHuman;
 
 /**
@@ -51,6 +49,48 @@ import org.authorsite.domain.AbstractHuman;
  * 
  */
 @Entity
+@NamedQueries( {
+    @NamedQuery(name = "BookCount", query = "select count(b) from Book b"),
+    @NamedQuery(name = "BooksByTitle", query = "select b from Book b where b.title = :title"),
+    @NamedQuery(name = "BooksByTitleWildcard", query = "select b from Book b where b.title like :title"),
+
+        @NamedQuery(name= "BooksWithAuthor", query="select b from Book b, " +
+                                                                   "IN (b.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :author " +
+                                                                   "AND " +
+                                                                   "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.AUTHOR "),
+       @NamedQuery(name= "BooksWithEditor", query="select b from Book b, " +
+                                                                   "IN (b.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :editor " +
+                                                                   "AND " +
+                                                                   "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.EDITOR "),
+       @NamedQuery(name= "BooksWithAuthorOrEditor", query="select b from Book b, " +
+                                                                   "IN (b.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :human " +
+                                                                   "AND " +
+                                                                   "(wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.AUTHOR " +
+                                                                   "OR " +
+                                                                   "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.EDITOR ) "),
+       @NamedQuery(name= "BooksWithPublisher", query="select b from Book b, " +
+                                                               "IN (b.workProducers) wp " +
+                                                               "WHERE " +
+                                                               "wp.abstractHuman = :publisher " +
+                                                               "AND " +
+                                                               "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.PUBLISHER " ),
+        @NamedQuery(name = "AllBooks", query = "select b from Book b order by b.id asc"),
+        @NamedQuery(name = "BooksBeforeDate", query="select b from Book b where b.workDates.date < :date"),
+        @NamedQuery(name = "BooksAfterDate", query="select b from Book b " +
+                                                            "where " +
+                                                            "b.workDates.date > :date or b.workDates.toDate > :date"),
+        @NamedQuery(name = "BooksBetweenDates", query = "select b from Book b " +
+                                                                  "where " +
+                                                                  "(b.workDates.date >= :startDate OR b.workDates.toDate >= :startDate) " +
+                                                                  "AND " +
+                                                                  "(b.workDates.date <= :endDate OR b.workDates.toDate <= :endDate)")}
+)
 public class Book extends AbstractAuthoredEditedWork implements Comparable<Book> {
 
     private static final long serialVersionUID = 1L;

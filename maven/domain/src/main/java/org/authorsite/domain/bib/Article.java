@@ -23,6 +23,9 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -43,6 +46,43 @@ import org.authorsite.domain.AbstractHuman;
  * @author jejking
  */
 @Entity
+@NamedQueries( {
+    @NamedQuery(name = "ArticleCount", query = "select count(a) from Article a"),
+    @NamedQuery(name = "ArticlesByTitle", query = "select a from Article a where a.title = :title"),
+    @NamedQuery(name = "ArticlesByTitleWildcard", query = "select a from Article a where a.title like :title"),
+
+        @NamedQuery(name= "ArticlesWithAuthor", query="select a from Article a, " +
+                                                                   "IN (a.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :author " +
+                                                                   "AND " +
+                                                                   "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.AUTHOR "),
+       @NamedQuery(name= "ArticlesWithEditor", query="select a from Article a, " +
+                                                                   "IN (a.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :editor " +
+                                                                   "AND " +
+                                                                   "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.EDITOR "),
+       @NamedQuery(name= "ArticlesWithAuthorOrEditor", query="select a from Article a, " +
+                                                                   "IN (a.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :human " +
+                                                                   "AND " +
+                                                                   "(wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.AUTHOR " +
+                                                                   "OR " +
+                                                                   "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.EDITOR ) "),
+        @NamedQuery(name = "AllArticles", query = "select a from Article a order by a.id asc"),
+        @NamedQuery(name = "ArticlesBeforeDate", query="select a from Article a where a.workDates.date < :date"),
+        @NamedQuery(name = "ArticlesAfterDate", query="select a from Article a " +
+                                                            "where " +
+                                                            "a.workDates.date > :date or a.workDates.toDate > :date"),
+        @NamedQuery(name = "ArticlesBetweenDates", query = "select a from Article a " +
+                                                                  "where " +
+                                                                  "(a.workDates.date >= :startDate OR a.workDates.toDate >= :startDate) " +
+                                                                  "AND " +
+                                                                  "(a.workDates.date <= :endDate OR a.workDates.toDate <= :endDate)"),
+        @NamedQuery(name = "ArticlesInJournal", query = "select a from Article a where a.journal = :journal order by a.id asc")}
+)
 public class Article extends AbstractAuthoredEditedWork implements Comparable<Article> {
 
     /**

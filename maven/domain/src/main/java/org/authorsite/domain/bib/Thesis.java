@@ -25,6 +25,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import org.apache.commons.lang.builder.CompareToBuilder;
@@ -50,6 +52,34 @@ import org.authorsite.domain.Individual;
  *
  */
 @Entity
+@NamedQueries( {
+    @NamedQuery(name = "ThesisCount", query = "select count(t) from Thesis t"),
+    @NamedQuery(name = "ThesesByTitle", query = "select t from Thesis t where t.title = :title"),
+    @NamedQuery(name = "ThesesByTitleWildcard", query = "select t from Thesis t where t.title like :title"),
+
+        @NamedQuery(name= "ThesesWithAwardingBody", query="select t from Thesis t, " +
+                                                                   "IN (t.workProducers) wp " +
+                                                                   "WHERE " +
+                                                                   "wp.abstractHuman = :awardingBody " +
+                                                                   "AND " +
+                                                                   "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.AWARDING_BODY "),
+       @NamedQuery(name= "ThesesWithAuthor", query="select t from Thesis t, " +
+                                                       "IN (t.workProducers) wp " +
+                                                       "WHERE " +
+                                                       "wp.abstractHuman = :author " +
+                                                       "AND " +
+                                                       "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.AUTHOR "),
+        @NamedQuery(name = "AllTheses", query = "select t from Thesis t order by t.id asc"),
+        @NamedQuery(name = "ThesesBeforeDate", query="select t from Thesis t where t.workDates.date < :date"),
+        @NamedQuery(name = "ThesesAfterDate", query="select t from Thesis t " +
+                                                            "where " +
+                                                            "t.workDates.date > :date or t.workDates.toDate > :date"),
+        @NamedQuery(name = "ThesesBetweenDates", query = "select t from Thesis t " +
+                                                                  "where " +
+                                                                  "(t.workDates.date >= :startDate OR t.workDates.toDate >= :startDate) " +
+                                                                  "AND " +
+                                                                  "(t.workDates.date <= :endDate OR t.workDates.toDate <= :endDate)")
+                                                                  })
 public class Thesis extends AbstractWork implements Comparable<Thesis> {
 
     /**
