@@ -18,15 +18,12 @@
  */
 package org.authorsite.domain.bib;
 
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
-import org.authorsite.domain.AbstractHuman;
 
 /**
  * Class representing a printed book.
@@ -91,11 +88,9 @@ import org.authorsite.domain.AbstractHuman;
                                                                   "AND " +
                                                                   "(b.workDates.date <= :endDate OR b.workDates.toDate <= :endDate)")}
 )
-public class Book extends AbstractAuthoredEditedWork implements Comparable<Book> {
+public class Book extends AbstractAuthoredEditedPublishedWork implements Comparable<Book> {
 
     private static final long serialVersionUID = 1L;
-
-    private AbstractHuman publisher;
 
     private String volume;
 
@@ -104,36 +99,6 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
      */
     public Book() {
 	super();
-    }
-
-    /**
-     * @return publisher, maybe <code>null</code>
-     */
-    @Transient
-    public AbstractHuman getPublisher() {
-	if (this.publisher == null) {
-	    Set<AbstractHuman> publishers = super.getWorkProducersOfType(WorkProducerType.PUBLISHER);
-	    if (!publishers.isEmpty()) {
-		this.publisher = publishers.iterator().next();
-	    }
-	}
-        return publisher;
-    }
-
-
-    /**
-     * Sets the publisher. If one is already set, this is cleared and
-     * the new one set.
-     * 
-     * @param publisher
-     */
-    public void setPublisher(AbstractHuman publisher) {
-	if (!super.getWorkProducersOfType(WorkProducerType.PUBLISHER).isEmpty()) 
-	{
-	    super.removeAllWorkProducersOfType(WorkProducerType.PUBLISHER);
-	}
-	super.addWorkProducer(WorkProducerType.PUBLISHER, publisher);
-        this.publisher = publisher;
     }
 
     /**
@@ -161,7 +126,7 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
 	StringBuilder sb = new StringBuilder();
 	sb.append(super.toString());
 	sb.append(", Publisher: ");
-	sb.append(this.publisher);
+	sb.append(this.getPublisher());
 	return sb.toString();
     }
 
@@ -174,7 +139,7 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
     public int hashCode() {
 	final int PRIME = 31;
 	int result = super.hashCode();
-	result = PRIME * result + ((this.publisher == null) ? 0 : this.publisher.hashCode());
+	result = PRIME * result + ((this.getPublisher() == null) ? 0 : this.getPublisher().hashCode());
 	result = PRIME * result + ((this.volume == null) ? 0 : this.volume.hashCode());
 	return result;
     }
@@ -191,10 +156,10 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
 	if (getClass() != obj.getClass())
 	    return false;
 	final Book other = (Book) obj;
-	if (this.publisher == null) {
-	    if (other.publisher != null)
+	if (this.getPublisher() == null) {
+	    if (other.getPublisher() != null)
 		return false;
-	} else if (!this.publisher.equals(other.publisher))
+	} else if (!this.getPublisher().equals(other.getPublisher()))
 	    return false;
 	if (this.volume == null) {
 	    if (other.volume != null)
@@ -214,35 +179,6 @@ public class Book extends AbstractAuthoredEditedWork implements Comparable<Book>
 			this.getPublisher(), book.getPublisher())
 		.toComparison();
 
-    }
-    
-    @Override
-    protected boolean areProducersOk() {
-        
-	// 0-n authors
-	
-	// 0-n editors
-	
-	// 0-1 publisher
-	
-	for ( WorkProducerType workProducerType : WorkProducerType.values()) {
-	    if (workProducerType.equals(WorkProducerType.AUTHOR) 
-		    || workProducerType.equals(WorkProducerType.EDITOR)) {
-		continue;
-	    }
-	    Set<AbstractHuman> humans = this.getWorkProducersOfType(workProducerType);
-	    if ( workProducerType.equals(WorkProducerType.PUBLISHER)) {
-		if (humans.size() > 1) {
-		    return false;
-		}
-	    }
-	    else {
-		if ( !humans.isEmpty()) {
-		    return false; // not editor, not author, not publisher. Must be wrong.
-		}
-	    }
-	}
-	return true;
     }
 
 }
