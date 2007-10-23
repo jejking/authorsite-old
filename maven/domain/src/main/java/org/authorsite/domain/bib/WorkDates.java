@@ -71,12 +71,12 @@ public class WorkDates implements Comparable<WorkDates>, Serializable {
      * @param year
      */
     public WorkDates(int year) {
-	this(year, 1, 1);
+	this(year, Calendar.JANUARY, 1);
     }
     
     public WorkDates(int fromYear, int toYear) {
         this(fromYear);
-        this.toDate = this.buildDate(toYear, 1, 1);
+        this.toDate = this.buildDate(toYear, Calendar.JANUARY, 1);
     }
 
     /**

@@ -18,19 +18,18 @@
  */
 package org.authorsite.domain.bib;
 
+
 import java.util.Set;
 
-import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 import org.authorsite.domain.AbstractHuman;
 
-@Entity
+
 public abstract class AbstractAuthoredEditedPublishedWork extends AbstractAuthoredEditedWork {
 
     protected AbstractHuman publisher;
 
-    
     /**
      * @return publisher, maybe <code>null</code>
      */
@@ -61,13 +60,13 @@ public abstract class AbstractAuthoredEditedPublishedWork extends AbstractAuthor
 
     @Override
     protected boolean areProducersOk() {
-
+    
         // 0-n authors
-
+    
         // 0-n editors
-
+    
         // 0-1 publisher
-
+    
         for (WorkProducerType workProducerType : WorkProducerType.values()) {
             if (workProducerType.equals(WorkProducerType.AUTHOR) || workProducerType.equals(WorkProducerType.EDITOR)) {
                 continue;

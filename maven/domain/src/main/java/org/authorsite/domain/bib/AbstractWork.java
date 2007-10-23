@@ -156,8 +156,10 @@ public abstract class AbstractWork extends AbstractEntry {
     }
 
     protected void setWorkProducers(Set<WorkProducer> workProducers) {
-        for (WorkProducer workProducer : workProducers) {
-            this.addWorkProducer(workProducer);
+        if (workProducers != null) {
+            for (WorkProducer workProducer : workProducers) {
+                this.addWorkProducer(workProducer);
+            }    
         }
     }
     

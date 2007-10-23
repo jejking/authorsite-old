@@ -25,7 +25,7 @@ public class ChapterTest extends TestCase {
         c.setName("Foo Publishing Co");
         c.setPlace("here");
         
-        AbstractAuthoredEditedPublishedWork b = new Book();
+        Book b = new Book();
         b.setTitle("Musings on Stuff");
         b.setWorkDates(new WorkDates(2006));
         b.setPublisher(c);

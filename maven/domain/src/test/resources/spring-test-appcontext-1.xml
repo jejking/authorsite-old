@@ -24,6 +24,7 @@
   <bean id="individualDao" class="org.authorsite.dao.IndividualDaoJPA" />
   <bean id="systemUserDao" class="org.authorsite.dao.SystemUserDaoJPA" />
   <bean id="genericWorkDao" class="org.authorsite.dao.bib.GenericWorkDaoJPA"/>
+  <bean id="journalDao" class="org.authorsite.dao.bib.JournalDaoJPA"/>
   
   <bean id="lifecycleTrackingAspect" class="org.authorsite.domain.aspects.LifecycleTrackingAspect" />
 

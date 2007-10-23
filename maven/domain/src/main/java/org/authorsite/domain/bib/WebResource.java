@@ -39,7 +39,7 @@ public class WebResource extends AbstractAuthoredEditedPublishedWork {
     private String url;
     private Date lastChecked;
     private int lastStatusCode;
-    
+
     public WebResource() {
         super();
     }
