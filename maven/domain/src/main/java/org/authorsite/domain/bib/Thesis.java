@@ -110,6 +110,19 @@ public class Thesis extends AbstractWork implements Comparable<Thesis> {
 	this.setAuthor(author);
 	this.setAwardingBody(awardingBody);
     }
+    
+    /**
+     * @param title
+     * @param author
+     * @param awardingBody
+     * @param year
+     */
+    public Thesis(String title, Individual author, Collective awardingBody, int year)
+    {
+        this(title, author, awardingBody);
+        WorkDates workDates = new WorkDates(year);
+        this.setWorkDates(workDates);
+    }
 
     /**
      * Gets author.

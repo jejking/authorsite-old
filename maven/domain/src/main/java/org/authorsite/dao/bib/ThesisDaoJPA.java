@@ -126,7 +126,7 @@ public class ThesisDaoJPA implements ThesisDao {
     @Transactional(readOnly=true)
     public List<Thesis> findThesesWithAuthor(Individual author) throws DataAccessException {
         Query q = this.entityManager.createNamedQuery("ThesesWithAuthor");
-        q.setParameter("publisher", author);
+        q.setParameter("author", author);
         return q.getResultList();
     }
 
@@ -134,7 +134,7 @@ public class ThesisDaoJPA implements ThesisDao {
     @Transactional(readOnly=true)
     public List<Thesis> findThesesWithAwardingBody(Collective awardingBody) throws DataAccessException {
         Query q = this.entityManager.createNamedQuery("ThesesWithAwardingBody");
-        q.setParameter("publisher", awardingBody);
+        q.setParameter("awardingBody", awardingBody);
         return q.getResultList();
     }
     
