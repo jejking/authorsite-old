@@ -93,6 +93,23 @@ public class WorkDates implements Comparable<WorkDates>, Serializable {
 	this.date = this.buildDate(year, month, day);
     }
 
+    /**
+     * @param fromDate
+     * @param toDate
+     */
+    public WorkDates(Date fromDate, Date toDate) {
+	this.setDate(fromDate);
+	this.setToDate(toDate);
+    }
+    
+    /**
+     * @param date
+     */
+    public WorkDates(Date date)
+    {
+	this.setDate(date);
+    }
+
     private Date buildDate(int year, int month, int day) {
         GregorianCalendar gc = new GregorianCalendar();
 	gc.set(Calendar.YEAR, year);

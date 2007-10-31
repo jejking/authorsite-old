@@ -99,10 +99,18 @@ public class Article extends AbstractAuthoredEditedWork implements Comparable<Ar
     private String pages;
 
     /**
-     * Default constructor. 
+     * Default constructor
      */
     public Article() {
 	super();
+    }
+    
+    /**
+     *  
+     * @param title 
+     */
+    public Article(String title) {
+	this.setTitle(title);
     }
 
     /**
