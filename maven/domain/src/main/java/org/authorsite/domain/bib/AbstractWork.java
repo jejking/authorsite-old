@@ -30,6 +30,7 @@ import java.util.TreeSet;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
@@ -149,7 +150,7 @@ public abstract class AbstractWork extends AbstractEntry {
      * @return set of all work producers associated with
      * the work
      */
-    @CollectionOfElements
+    @CollectionOfElements(fetch=FetchType.LAZY)
     @IndexColumn(name="producer_idx")
     public Set<WorkProducer> getWorkProducers() {
         return workProducers;

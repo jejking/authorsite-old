@@ -8,7 +8,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.authorsite.domain.AbstractHuman;
-import org.authorsite.domain.bib.AbstractAuthoredEditedPublishedWork;
 import org.authorsite.domain.bib.Book;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -129,22 +128,22 @@ public class BookDaoJPA implements BookDao {
     }
 
     @Transactional(readOnly=true)
-    public AbstractAuthoredEditedPublishedWork findById(long id) throws DataAccessException {
+    public Book findById(long id) throws DataAccessException {
         return this.entityManager.find(Book.class, new Long(id));
     }
 
     @Transactional(readOnly=false)
-    public void saveBook(AbstractAuthoredEditedPublishedWork book) throws DataAccessException {
+    public void saveBook(Book book) throws DataAccessException {
         this.entityManager.persist(book);
     }
 
     @Transactional(readOnly=false)
-    public AbstractAuthoredEditedPublishedWork updateBook(Book book) throws DataAccessException {
+    public Book updateBook(Book book) throws DataAccessException {
         return this.entityManager.merge(book);
     }
 
     @Transactional(readOnly=false)
-    public void deleteBook(AbstractAuthoredEditedPublishedWork book) throws DataAccessException {
+    public void deleteBook(Book book) throws DataAccessException {
         this.entityManager.remove(book);
     }
 

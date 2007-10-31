@@ -82,6 +82,10 @@ public class Book extends AbstractAuthoredEditedPublishedWork implements Compara
     public Book() {
         super();
     }
+    
+    public Book(String title) {
+        this.setTitle(title);
+    }
 
     /**
      * Gets volume.
