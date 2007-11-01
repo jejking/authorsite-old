@@ -28,6 +28,7 @@
   <bean id="thesisDao" class="org.authorsite.dao.bib.ThesisDaoJPA"/>
   <bean id="bookDao" class="org.authorsite.dao.bib.BookDaoJPA" />
   <bean id="articleDao" class="org.authorsite.dao.bib.ArticleDaoJPA" />
+  <bean id="chapterDao" class="org.authorsite.dao.bib.ChapterDaoJPA" />
   
   <bean id="lifecycleTrackingAspect" class="org.authorsite.domain.aspects.LifecycleTrackingAspect" />
 
