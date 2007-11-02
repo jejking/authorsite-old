@@ -46,7 +46,7 @@ public class WebResourceTest extends TestCase {
     public final void testCheckUrlNonExistent() {
         WebResource webResource = new WebResource();
         webResource.setUrl("http://www.asfasdfa34577afafasfasfasf.as/");
-        System.out.println(webResource.checkUrl());
+        assertEquals(0, webResource.checkUrl());
     }
     
     public final void testCheckUrlNotFound() {

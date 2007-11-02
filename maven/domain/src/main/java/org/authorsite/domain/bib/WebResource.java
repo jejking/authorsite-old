@@ -25,12 +25,39 @@ import java.net.URL;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.apache.log4j.Logger;
 
 @Entity
+@NamedQueries( {
+    @NamedQuery(name = "WebResourceCount", query = "select count(wr) from WebResource wr"),
+    @NamedQuery(name = "WebResourcesByTitle", query = "select wr from WebResource wr where wr.title = :title"),
+    @NamedQuery(name = "WebResourcesByTitleWildcard", query = "select wr from WebResource wr where wr.title like :title"),
+    @NamedQuery(name = "WebResourcesByUrlWildcard", query ="select wr from WebResource wr where wr.url like :url"),
+    @NamedQuery(name = "WebResourcesWithAuthor", query = "select wr from WebResource wr, " + "IN (wr.workProducers) wp " + "WHERE "
+            + "wp.abstractHuman = :author " + "AND "
+            + "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.AUTHOR "),
+    @NamedQuery(name = "WebResourcesWithEditor", query = "select wr from WebResource wr, " + "IN (wr.workProducers) wp " + "WHERE "
+            + "wp.abstractHuman = :editor " + "AND "
+            + "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.EDITOR "),
+    @NamedQuery(name = "WebResourcesWithAuthorOrEditor", query = "select wr from WebResource wr, " + "IN (wr.workProducers) wp "
+            + "WHERE " + "wp.abstractHuman = :human " + "AND "
+            + "(wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.AUTHOR " + "OR "
+            + "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.EDITOR ) "),
+    @NamedQuery(name = "WebResourcesWithPublisher", query = "select wr from WebResource wr, " + "IN (wr.workProducers) wp "
+            + "WHERE " + "wp.abstractHuman = :publisher " + "AND "
+            + "wp.workProducerType = org.authorsite.domain.bib.WorkProducerType.PUBLISHER "),
+    @NamedQuery(name = "AllWebResources", query = "select wr from WebResource wr order by wr.id asc"),
+    @NamedQuery(name = "WebResourcesBeforeDate", query = "select wr from WebResource wr where wr.workDates.date < :date"),
+    @NamedQuery(name = "WebResourcesAfterDate", query = "select wr from WebResource wr " + "where "
+            + "wr.workDates.date > :date or wr.workDates.toDate > :date"),
+    @NamedQuery(name = "WebResourcesBetweenDates", query = "select wr from WebResource wr " + "where "
+            + "(wr.workDates.date >= :startDate OR wr.workDates.toDate >= :startDate) " + "AND "
+            + "(wr.workDates.date <= :endDate OR wr.workDates.toDate <= :endDate)") })
 public class WebResource extends AbstractAuthoredEditedPublishedWork {
 
     private static final Logger LOGGER = Logger.getLogger(WebResource.class);
@@ -87,6 +114,9 @@ public class WebResource extends AbstractAuthoredEditedPublishedWork {
         
     }
     
+    /**
+     * @return HTTP status code, or 0 if an error occurs connnecting
+     */
     public int checkUrl() 
     {
         int responseCode = 0;
@@ -99,6 +129,9 @@ public class WebResource extends AbstractAuthoredEditedPublishedWork {
         catch (IOException e) {
             LOGGER.error("Error handling url", e);
         }
+        
+        this.lastStatusCode = responseCode;
+        this.lastChecked = new Date();
         
         return responseCode;
     }
