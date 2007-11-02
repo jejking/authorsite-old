@@ -85,6 +85,16 @@ public class Chapter extends AbstractAuthoredEditedWork implements Comparable<Ch
     }
 
     /**
+     * @param title
+     * @param book
+     */
+    public Chapter(String title, Book book) {
+        this.setTitle(title);
+        this.setBook(book);
+        this.setWorkDates(book.getWorkDates());
+    }
+
+    /**
      * Gets book.
      * 
      * @return book

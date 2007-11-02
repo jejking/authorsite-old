@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.authorsite.domain.AbstractHuman;
-import org.authorsite.domain.bib.AbstractAuthoredEditedPublishedWork;
+import org.authorsite.domain.bib.Book;
 import org.authorsite.domain.bib.Chapter;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -107,7 +107,7 @@ public class ChapterDaoJPA implements ChapterDao {
 
     @SuppressWarnings("unchecked")
     @Transactional(readOnly=true)
-    public List<Chapter> findChaptersInBook(AbstractAuthoredEditedPublishedWork book) throws DataAccessException {
+    public List<Chapter> findChaptersInBook(Book book) throws DataAccessException {
         Query q = this.entityManager.createNamedQuery("ChaptersInBook");
         q.setParameter("book", book);
         return q.getResultList();

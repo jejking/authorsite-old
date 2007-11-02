@@ -3,9 +3,16 @@
  */
 package org.authorsite.dao.bib;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
 import org.authorsite.dao.AbstractJPATest;
 import org.authorsite.dao.CollectiveDao;
 import org.authorsite.dao.IndividualDao;
+import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.Book;
+import org.authorsite.domain.bib.Chapter;
 
 /**
  * @author jking
@@ -203,112 +210,221 @@ public class ChapterDaoJPATest extends AbstractJPATest {
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#countChapters()}.
      */
     public final void testCountChapters() {
-        fail("Not yet implemented"); // TODO
+        assertEquals(5, this.chapterDao.countChapters());
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findAllChapters()}.
      */
     public final void testFindAllChapters() {
-        fail("Not yet implemented"); // TODO
+        Chapter chapter5 = this.chapterDao.findById(5);
+        Chapter chapter8 = this.chapterDao.findById(8);
+        
+        List<Chapter> chapters = this.chapterDao.findAllChapters();
+        assertEquals(5, chapters.size());
+        assertTrue(chapters.contains(chapter5));
+        assertTrue(chapters.contains(chapter8));
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findAllChapters(int, int)}.
      */
     public final void testFindAllChaptersIntInt() {
-        fail("Not yet implemented"); // TODO
+        Chapter chapter4 = this.chapterDao.findById(4);
+        Chapter chapter8 = this.chapterDao.findById(8);
+        
+        List<Chapter> chapList1 = this.chapterDao.findAllChapters(1, 2);
+        assertEquals(2, chapList1.size());
+        assertTrue(chapList1.contains(chapter4));
+        assertFalse(chapList1.contains(chapter8));
+        
+        List<Chapter> chapList2 = this.chapterDao.findAllChapters(3, 2);
+        assertEquals(1, chapList2.size());
+        assertTrue(chapList2.contains(chapter8));
+       
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findById(long)}.
      */
     public final void testFindById() {
-        fail("Not yet implemented"); // TODO
+        Individual fooBar = this.individualDao.findById(1);
+        Book beesInTheBonnet = this.bookDao.findById(1);
+        
+        Chapter chapter4 = this.chapterDao.findById(4);
+        assertTrue(chapter4.getAuthors().contains(fooBar));
+        assertEquals(beesInTheBonnet, chapter4.getBook());
+        assertEquals("11-20", chapter4.getPages());
+        assertEquals("2", chapter4.getChapter());
+        
+        Chapter chapter6 = this.chapterDao.findById(6);
+        assertEquals(3, chapter6.getWorkProducers().size());
+        assertTrue(chapter6.getEditors().contains(fooBar));
+        
+        Chapter notThere = this.chapterDao.findById(666);
+        assertNull(notThere);
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findChaptersAfterDate(java.util.Date)}.
      */
     public final void testFindChaptersAfterDate() {
-        fail("Not yet implemented"); // TODO
+        GregorianCalendar gc = new GregorianCalendar( 1922, Calendar.JANUARY, 1);
+        Chapter chapter8 = this.chapterDao.findById(8);
+        List<Chapter> chapters = this.chapterDao.findChaptersAfterDate(gc.getTime());
+        assertEquals(1, chapters.size());
+        assertTrue(chapters.contains(chapter8));
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findChaptersBeforeDate(java.util.Date)}.
      */
     public final void testFindChaptersBeforeDate() {
-        fail("Not yet implemented"); // TODO
+        GregorianCalendar gc = new GregorianCalendar( 1922, Calendar.JANUARY, 1);
+        Chapter chapter4 = this.chapterDao.findById(4);
+        Chapter chapter5 = this.chapterDao.findById(5);
+        List<Chapter> chapters = this.chapterDao.findChaptersBeforeDate(gc.getTime());
+        assertEquals(2, chapters.size());
+        assertTrue(chapters.contains(chapter4));
+        assertTrue(chapters.contains(chapter5));
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findChaptersBetweenDates(java.util.Date, java.util.Date)}.
      */
     public final void testFindChaptersBetweenDates() {
-        fail("Not yet implemented"); // TODO
+        GregorianCalendar gcStart = new GregorianCalendar( 1921, Calendar.JANUARY, 1);
+        GregorianCalendar gcEnd = new GregorianCalendar(1922, Calendar.DECEMBER, 1);
+        
+        Chapter chapter6 = this.chapterDao.findById(6);
+        Chapter chapter7 = this.chapterDao.findById(7);
+        
+        List<Chapter> chapters = this.chapterDao.findChaptersBetweenDates(gcStart.getTime(), gcEnd.getTime());
+        assertEquals(2, chapters.size());
+        assertTrue(chapters.contains(chapter6));
+        assertTrue(chapters.contains(chapter7));
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findChaptersByTitle(java.lang.String)}.
      */
     public final void testFindChaptersByTitle() {
-        fail("Not yet implemented"); // TODO
+        Chapter chapter4 = this.chapterDao.findById(4);
+        List<Chapter> chapters = this.chapterDao.findChaptersByTitle("Bees and Wasps");
+        assertEquals(1, chapters.size());
+        assertTrue(chapters.contains(chapter4));
+        
+        List<Chapter> notFound = this.chapterDao.findChaptersByTitle("Blah Wibble Foo");
+        assertTrue(notFound.isEmpty());
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findChaptersByTitleWildcard(java.lang.String)}.
      */
     public final void testFindChaptersByTitleWildcard() {
-        fail("Not yet implemented"); // TODO
+        Chapter chapter7  = this.chapterDao.findById(7);
+        Chapter chapter8  = this.chapterDao.findById(8);
+        List<Chapter> chapters = this.chapterDao.findChaptersByTitleWildcard("%Meadow%");
+        assertEquals(2, chapters.size());
+        assertTrue(chapters.contains(chapter7));
+        assertTrue(chapters.contains(chapter8));
     }
 
     /**
-     * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findChaptersInBook(org.authorsite.domain.bib.AbstractAuthoredEditedPublishedWork)}.
+     * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findChaptersInBook(Book)}.
      */
     public final void testFindChaptersInBook() {
-        fail("Not yet implemented"); // TODO
+        Book book1 = this.bookDao.findById(1);
+        Chapter chapter4 = this.chapterDao.findById(4);
+        Chapter chapter5 = this.chapterDao.findById(5);
+        
+        List<Chapter> chapters = this.chapterDao.findChaptersInBook(book1);
+        assertEquals(2, chapters.size());
+        assertTrue(chapters.contains(chapter4));
+        assertTrue(chapters.contains(chapter5));
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findChaptersWithAuthor(org.authorsite.domain.AbstractHuman)}.
      */
     public final void testFindChaptersWithAuthor() {
-        fail("Not yet implemented"); // TODO
+        Individual honeyBear = this.individualDao.findById(3);
+        Chapter chapter5 = this.chapterDao.findById(5);
+        Chapter chapter6 = this.chapterDao.findById(6);
+        
+        List<Chapter> chapters = this.chapterDao.findChaptersWithAuthor(honeyBear);
+        assertEquals(2, chapters.size());
+        assertTrue(chapters.contains(chapter5));
+        assertTrue(chapters.contains(chapter6));
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findChaptersWithAuthorOrEditor(org.authorsite.domain.AbstractHuman)}.
      */
     public final void testFindChaptersWithAuthorOrEditor() {
-        fail("Not yet implemented"); // TODO
+        Individual fooBar = this.individualDao.findById(1);
+        List<Chapter> chList = this.chapterDao.findChaptersWithAuthorOrEditor(fooBar);
+        assertEquals(4, chList.size());
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#findChaptersWithEditor(org.authorsite.domain.AbstractHuman)}.
      */
     public final void testFindChaptersWithEditor() {
-        fail("Not yet implemented"); // TODO
+        Individual fooBar = this.individualDao.findById(1);
+        Chapter chapter6 = this.chapterDao.findById(6);
+        List<Chapter> chapters = this.chapterDao.findChaptersWithEditor(fooBar);
+        assertEquals(1, chapters.size());
+        assertTrue(chapters.contains(chapter6));
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#saveChapter(org.authorsite.domain.bib.Chapter)}.
      */
     public final void testSaveChapter() {
-        fail("Not yet implemented"); // TODO
+        Individual fooBar = this.individualDao.findById(1);
+        Individual hansWurst = this.individualDao.findById(2);
+        
+        Book book1 = this.bookDao.findById(1);
+        
+        Chapter chapter = new Chapter("My Test Chapter", book1);
+        chapter.setPages("40-42");
+        chapter.setChapter("5");
+        chapter.setCreatedBy(fooBar);
+        chapter.setUpdatedBy(fooBar);
+        chapter.addAuthor(hansWurst);
+        
+        this.chapterDao.saveChapter(chapter);
+        
+        Chapter loaded = this.chapterDao.findById(chapter.getId());
+        assertTrue(loaded.getAuthors().contains(hansWurst));
+        assertEquals(book1, loaded.getBook());
+        assertEquals("40-42", chapter.getPages());
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#updateChapter(org.authorsite.domain.bib.Chapter)}.
      */
     public final void testUpdateChapter() {
-        fail("Not yet implemented"); // TODO
+        Chapter chapter4 = this.chapterDao.findById(4);
+        chapter4.setChapter("23");
+        chapter4.setPages("22-40");
+        this.chapterDao.updateChapter(chapter4);
+        
+        Chapter loaded = this.chapterDao.findById(4);
+        assertEquals("23", loaded.getChapter());
+        assertEquals("22-40", loaded.getPages());
     }
 
     /**
      * Test method for {@link org.authorsite.dao.bib.ChapterDaoJPA#deleteChapter(org.authorsite.domain.bib.Chapter)}.
      */
     public final void testDeleteChapter() {
-        fail("Not yet implemented"); // TODO
+        Chapter chapter4 = this.chapterDao.findById(4);
+        this.chapterDao.deleteChapter(chapter4);
+        
+        Chapter loaded = this.chapterDao.findById(4);
+        assertNull(loaded);
     }
 
 }
