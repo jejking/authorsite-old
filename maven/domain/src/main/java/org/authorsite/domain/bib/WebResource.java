@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -43,6 +42,11 @@ public class WebResource extends AbstractAuthoredEditedPublishedWork {
     public WebResource() {
         super();
     }
+    
+    public WebResource(String title, String url) {
+        super.setTitle(title);
+        this.setUrl(url);
+    }
 
     @Temporal(value = TemporalType.TIMESTAMP)
     public Date getLastChecked() {
@@ -62,11 +66,25 @@ public class WebResource extends AbstractAuthoredEditedPublishedWork {
     }
 
     public String getUrl() {
-        return url;
+        return this.url;
     }
 
+    /**
+     * @param url must be valid URL (See Javadoc for URL Class.)
+     */
     public void setUrl(String url) {
-        this.url = url;
+        if ( url.startsWith("www")) {
+            this.setUrl("http://" + url);
+            return;
+        }
+        try {
+            URL realUrl = new URL( url );
+            this.url = url;
+        }
+        catch (MalformedURLException exception) {
+            throw new IllegalArgumentException( url + " is not a valid url");
+        }
+        
     }
     
     public int checkUrl() 
@@ -75,6 +93,7 @@ public class WebResource extends AbstractAuthoredEditedPublishedWork {
         try {
             URL realUrl = new URL( this.url );
             HttpURLConnection con = (HttpURLConnection) realUrl.openConnection();
+            responseCode = con.getResponseCode();
             con.disconnect();
         }
         catch (IOException e) {
