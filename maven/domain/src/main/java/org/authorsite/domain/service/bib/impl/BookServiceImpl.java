@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.authorsite.domain.service.bib;
+package org.authorsite.domain.service.bib.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.authorsite.dao.bib.BookDao;
 import org.authorsite.domain.AbstractHuman;
 import org.authorsite.domain.bib.Book;
+import org.authorsite.domain.service.bib.BookService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
