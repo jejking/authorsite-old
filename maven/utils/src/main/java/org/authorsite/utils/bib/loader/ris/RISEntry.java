@@ -72,6 +72,7 @@ public class RISEntry {
         return this.mostRecentEntry;
     }
     
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
