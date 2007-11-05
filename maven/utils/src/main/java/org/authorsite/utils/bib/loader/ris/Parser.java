@@ -126,10 +126,4 @@ public class Parser {
         
     }
 
-    public void exportSqlToFile(String fileName) throws IOException {
-        throw new UnsupportedOperationException("not built yet");
-    }
-    
-    
-        
 }

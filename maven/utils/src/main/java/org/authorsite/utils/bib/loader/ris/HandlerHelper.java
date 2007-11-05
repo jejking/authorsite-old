@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.authorsite.domain.Collective;
 import org.authorsite.domain.Individual;
 import org.authorsite.domain.bib.WorkDates;
 
@@ -103,6 +104,10 @@ public class HandlerHelper {
         
         throw new RISException("Do not know how to handle " + yearsString);
         
+    }
+
+    public static Collective getAuthoritativeCollective(String publisherName, String placeName) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     

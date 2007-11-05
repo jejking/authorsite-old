@@ -53,6 +53,7 @@ public class RISEntryLine {
         this.value = this.value + " " + additionalValue.trim();
     }
     
+    @Override
     public String toString() {
         return this.key + "  - " + this.value;
     }

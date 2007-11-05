@@ -6,10 +6,17 @@ import org.authorsite.domain.bib.Article;
 import org.authorsite.domain.Individual;
 import org.authorsite.domain.bib.Journal;
 import org.authorsite.domain.bib.WorkDates;
+import org.authorsite.domain.service.bib.ArticleService;
+import org.authorsite.domain.service.bib.JournalService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 public class ArticleHandler implements RISEntryHandler {
 
+    private ArticleService articleService;
+    private JournalService journalService;
+    
+    @Transactional()
     public void handleEntry(RISEntry entry) throws RISException {
         
         // authors

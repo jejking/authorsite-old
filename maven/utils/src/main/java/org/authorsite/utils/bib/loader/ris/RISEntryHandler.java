@@ -1,4 +1,4 @@
-    package org.authorsite.utils.bib.loader.ris;
+package org.authorsite.utils.bib.loader.ris;
 
 
 public interface RISEntryHandler {

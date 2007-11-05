@@ -6,12 +6,26 @@ import org.authorsite.domain.bib.Book;
 import org.authorsite.domain.bib.Chapter;
 import org.authorsite.domain.Collective;
 import org.authorsite.domain.Individual;
-import org.authorsite.domain.bib.Publisher;
 import org.authorsite.domain.bib.WorkDates;
+import org.authorsite.domain.service.bib.BookService;
+import org.authorsite.domain.service.bib.ChapterService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 public class ChapterHandler implements RISEntryHandler {
 
+    private ChapterService chapterService;
+    private BookService bookService;
+
+    public void setBookService(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+    public void setChapterService(ChapterService chapterService) {
+        this.chapterService = chapterService;
+    }
+    
+    @Transactional
     public void handleEntry(RISEntry entry) throws RISException {
         // authors
         SortedSet<Individual> authoritativeAuthors = HandlerHelper.getAuthoritativeIndividuals(entry, "A1");
@@ -65,8 +79,8 @@ public class ChapterHandler implements RISEntryHandler {
         Collective publisherBean = new Collective();
         publisherBean.setName(publisherName);
         publisherBean.setPlace(publisherPlace);
-        //Collective authoritativePublisher = Bibliography.getInstance().getAuthoritativeCollective(publisherBean);
-        bookBean.setPublisher(new Publisher(bookBean, publisherBean));
+
+        bookBean.setPublisher(publisherBean);
         
         //Book authoritativeBook = Bibliography.getInstance().getAuthoritativeBook( bookBean );
         

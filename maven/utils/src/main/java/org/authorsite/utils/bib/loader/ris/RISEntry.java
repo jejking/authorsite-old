@@ -3,7 +3,6 @@ package org.authorsite.utils.bib.loader.ris;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -94,10 +93,6 @@ public class RISEntry {
         sb.append("ER  -");
         return sb.toString();
     }
-
-
-    
-    
-    
+  
 }
  

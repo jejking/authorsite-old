@@ -3,14 +3,21 @@ package org.authorsite.utils.bib.loader.ris;
 import java.util.SortedSet;
 import org.authorsite.domain.Collective;
 import org.authorsite.domain.Individual;
-import org.authorsite.domain.bib.Author;
-import org.authorsite.domain.bib.AwardingBody;
 import org.authorsite.domain.bib.Thesis;
 import org.authorsite.domain.bib.WorkDates;
+import org.authorsite.domain.service.bib.ThesisService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 public class ThesisHandler implements RISEntryHandler {
 
+    private ThesisService thesisService;
+
+    public void setThesisService(ThesisService thesisService) {
+        this.thesisService = thesisService;
+    }
+    
+    @Transactional
     public void handleEntry(RISEntry entry) throws RISException {
         SortedSet<Individual> authoritativeAuthors = HandlerHelper.getAuthoritativeIndividuals(entry, "A1");
         
@@ -33,8 +40,8 @@ public class ThesisHandler implements RISEntryHandler {
         // assemble the thesis
         Thesis t = new Thesis();
         t.setTitle(title);
-        t.setAuthor(new Author(t, authoritativeAuthors.first()));
-        t.setAwardingBody(new AwardingBody(t, awardingBody));
+        t.setAuthor(authoritativeAuthors.first());
+        t.setAwardingBody(awardingBody);
         t.setDegree(degree);
         t.setWorkDates(year);
         
