@@ -153,6 +153,8 @@ public interface IndividualManagementService {
      * @param name
      * @param givenNames
      * @param nameQualification
+     * @return the individual
+     * @throws DataAccessException 
      */
     @Secured( { "ROLE_EDITOR", "ROLE_ADMINISTRATOR" })
     public Individual createAndSaveIndividual(String name, String givenNames, String nameQualification) throws DataAccessException;

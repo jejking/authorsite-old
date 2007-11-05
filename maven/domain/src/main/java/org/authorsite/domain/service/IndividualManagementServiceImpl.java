@@ -21,7 +21,6 @@ package org.authorsite.domain.service;
 import java.util.List;
 
 import org.acegisecurity.annotation.Secured;
-import org.apache.log4j.Logger;
 import org.authorsite.dao.IndividualDao;
 import org.authorsite.domain.Individual;
 import org.springframework.dao.DataAccessException;
@@ -37,9 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class IndividualManagementServiceImpl implements IndividualManagementService {
 
-    private static final Logger LOGGER = Logger.getLogger(IndividualManagementServiceImpl.class);
     private IndividualDao individualDao;
-
     private IndividualAclManager individualAclManager;
     
 
@@ -103,7 +100,6 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
     @Secured( { "ROLE_ADMINISTRATOR", "ACL_INDIVIDUAL_ADMIN" })
     public void deleteIndividual(Individual i) throws DataAccessException {
         this.individualDao.delete(i);
-        LOGGER.info("Deleted individual: " + i);
         this.individualAclManager.deleteIndividualAcl(i);
     }
 
@@ -169,7 +165,6 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
     @Secured( { "ROLE_EDITOR", "ROLE_ADMINISTRATOR" })
     public void save(Individual i) throws DataAccessException {
         this.individualDao.save(i);
-        LOGGER.info("Created new individual: " + i);
         this.individualAclManager.createIndividualAcl(i);
     }
     
@@ -191,7 +186,6 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
     @Secured( { "ROLE_ADMINISTRATOR", "ACL_INDIVIDUAL_ADMIN" })
     public Individual update(Individual i) throws DataAccessException {
         Individual updated = this.individualDao.update(i);
-        LOGGER.info("Updated individual: " +i);
         return updated;
     }
 
@@ -204,7 +198,5 @@ public class IndividualManagementServiceImpl implements IndividualManagementServ
     public List<Individual> findAllIndividualsPaging(int pageNumber, int pageSize) throws DataAccessException {
         return this.individualDao.findAllIndividuals(pageNumber, pageSize);
     }
-
- 
 
 }

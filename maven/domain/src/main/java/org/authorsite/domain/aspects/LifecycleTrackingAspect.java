@@ -32,14 +32,14 @@ import org.authorsite.security.AuthorsiteUserDetails;
 import org.authorsite.security.SystemUser;
 
 /**
- * Aspect that helps manage the lifecycle metadata on 
- * {@link AbstractEntry} instances - ie. who created them
- * and when, and who updated them and when.
+ * Aspect that helps manage the lifecycle metadata on {@link AbstractEntry}
+ * instances - ie. who created them and when, and who updated them and when.
  * 
- * <p>This is a clear crosscutting concern as it applies
- * to all DAO objects managing {@link AbstractEntry} instances
- * of all types.</p>
- *
+ * <p>
+ * This is a clear crosscutting concern as it applies to all DAO objects
+ * managing {@link AbstractEntry} instances of all types.
+ * </p>
+ * 
  * @author jejking
  */
 @Aspect
@@ -49,63 +49,65 @@ public class LifecycleTrackingAspect {
 
     /** Creates a new instance of LifecycleTrackingAspect */
     public LifecycleTrackingAspect() {
-	super();
+        super();
     }
 
     /**
-     * Injects creation and update metadata into Abstract Entity
-     * objects before they are saved. 
-     *
-     * @param entry any abstract entity may not be <code>null</code>
+     * Injects creation and update metadata into Abstract Entity objects before
+     * they are saved.
+     * 
+     * @param entry
+     *            any abstract entity may not be <code>null</code>
      */
     @Before(value = "execution (public * org.authorsite.dao..*Dao.save*(..)) && args(entry)", argNames = "entry")
     public void addMetaDataOnSave(AbstractEntry entry) {
-	if (entry == null) {
-	    throw new NullPointerException("entry parameter is null!");
-	}
-	Date now = new Date();
-	entry.setCreatedAt(now);
-	entry.setUpdatedAt(now);
-	LOGGER.debug("set created and updated dates to: " + now);
+        if (entry == null) {
+            throw new NullPointerException("entry parameter is null!");
+        }
+        Date now = new Date();
+        entry.setCreatedAt(now);
+        entry.setUpdatedAt(now);
+        LOGGER.debug("set created and updated dates to: " + now);
 
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-	if (auth != null) {
-	    AuthorsiteUserDetails userDetails = (AuthorsiteUserDetails) auth.getPrincipal();
-	    SystemUser user = userDetails.getSystemUser();
-	    Individual individual = user.getIndividual();
-	    entry.setCreatedBy(individual);
-	    entry.setUpdatedBy(individual);
-	    LOGGER.debug("Set created and updated by to: " + individual);
-	}
-        
-        LOGGER.debug("Entry State at end of aspect is.. \n" + entry );
+        if (auth != null) {
+            AuthorsiteUserDetails userDetails = (AuthorsiteUserDetails) auth.getPrincipal();
+            SystemUser user = userDetails.getSystemUser();
+            Individual individual = user.getIndividual();
+            entry.setCreatedBy(individual);
+            entry.setUpdatedBy(individual);
+            LOGGER.debug("Set created and updated by to: " + individual);
+        }
+
+        LOGGER.debug("Entry State at end of aspect is.. \n" + entry);
 
     }
 
     /**
-     * Injects update metadata into Abstract Entity when they
-     * are updated in the database.
+     * Injects update metadata into Abstract Entity when they are updated in the
+     * database.
      * 
-     * @param entry any abstract entry, may not be <code>null</code>
+     * @param entry
+     *            any abstract entry, may not be <code>null</code>
      */
     @Before(value = "execution (public * org.authorsite.dao..*Dao.update*(..)) && args(entry)", argNames = "entry")
     public void updateMetadataOnUpdate(AbstractEntry entry) {
-	if (entry == null) {
-	    throw new NullPointerException("entry parameter is null");
-	}
-	Date now = new Date();
-	entry.setUpdatedAt(now);
-	LOGGER.debug("updated date is: " + now);
+        if (entry == null) {
+            throw new NullPointerException("entry parameter is null");
+        }
+        Date now = new Date();
+        entry.setUpdatedAt(now);
+        LOGGER.debug("updated date is: " + now);
 
-	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	if (auth != null) {
-	    AuthorsiteUserDetails userDetails = (AuthorsiteUserDetails) auth.getPrincipal();
-	    SystemUser user = userDetails.getSystemUser();
-	    Individual individual = user.getIndividual();
-	    entry.setUpdatedBy(individual);
-	    LOGGER.debug("Set updated by to: " + individual);
-	}
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            AuthorsiteUserDetails userDetails = (AuthorsiteUserDetails) auth.getPrincipal();
+            SystemUser user = userDetails.getSystemUser();
+            Individual individual = user.getIndividual();
+            entry.setUpdatedBy(individual);
+            LOGGER.debug("Set updated by to: " + individual);
+        }
     }
 
 }

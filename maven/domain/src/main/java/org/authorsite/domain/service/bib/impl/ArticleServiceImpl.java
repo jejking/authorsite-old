@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.acegisecurity.annotation.Secured;
-import org.apache.log4j.Logger;
 import org.authorsite.dao.bib.ArticleDao;
 import org.authorsite.domain.AbstractHuman;
 import org.authorsite.domain.bib.Article;
@@ -23,8 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ArticleServiceImpl implements ArticleService {
 
-    private static final Logger LOGGER = Logger.getLogger(ArticleServiceImpl.class);
-    
     private ArticleDao articleDao;
     
     /**

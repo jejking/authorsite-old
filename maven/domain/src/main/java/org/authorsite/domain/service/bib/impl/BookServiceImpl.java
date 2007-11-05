@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.acegisecurity.annotation.Secured;
-import org.apache.log4j.Logger;
 import org.authorsite.dao.bib.BookDao;
 import org.authorsite.domain.AbstractHuman;
 import org.authorsite.domain.bib.Book;
@@ -22,8 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BookServiceImpl implements BookService {
 
-    private static final Logger LOGGER = Logger.getLogger(BookServiceImpl.class);
-    
     private BookDao bookDao;
 
     /* (non-Javadoc)
@@ -139,7 +136,6 @@ public class BookServiceImpl implements BookService {
     @Secured( { "ROLE_ADMINISTRATOR", "ROLE_EDITOR" })
     public void saveBook(Book book) throws DataAccessException {
         this.bookDao.saveBook(book);
-        LOGGER.info("Book saved" + book);
     }
 
     /* (non-Javadoc)
@@ -147,7 +143,6 @@ public class BookServiceImpl implements BookService {
      */
     @Secured( { "ROLE_ADMINISTRATOR", "ROLE_EDITOR" })
     public Book updateBook(Book book) throws DataAccessException {
-        LOGGER.info("Book updated" + book);
         return this.bookDao.updateBook(book);
     }
     
@@ -157,6 +152,5 @@ public class BookServiceImpl implements BookService {
     @Secured( { "ROLE_ADMINISTRATOR", "ROLE_EDITOR" })
     public void deleteBook(Book book) throws DataAccessException {
         this.bookDao.deleteBook(book);
-        LOGGER.info("Book deleted" +  book);
     }
 }
