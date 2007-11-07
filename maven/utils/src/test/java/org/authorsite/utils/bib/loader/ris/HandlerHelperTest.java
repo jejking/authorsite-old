@@ -1,13 +1,33 @@
+/**
+ * This file is part of the authorsite application.
+ *
+ * The authorsite application is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The authorsite application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the authorsite application; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * 
+ */
 package org.authorsite.utils.bib.loader.ris;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.SortedSet;
 
 import junit.framework.TestCase;
 
-import org.authorsite.bib.Individual;
-import org.authorsite.bib.WorkDates;
+import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.WorkDates;
 
 
 public class HandlerHelperTest extends TestCase {
@@ -59,7 +79,8 @@ public class HandlerHelperTest extends TestCase {
     public void testGetYear() throws Exception {
         List<String> strings = new ArrayList<String>();
         strings.add("1973");
-        assertEquals(1973, HandlerHelper.extractYear(strings).getYear());
+        GregorianCalendar gc = new GregorianCalendar( 1973, Calendar.JANUARY, 1 );
+        assertEquals(gc.getTime(), HandlerHelper.extractYear(strings).getDate());
         
         List<String> strings2 = new ArrayList<String>();
         strings2.add("1973-75");

@@ -1,32 +1,36 @@
+/**
+ * This file is part of the authorsite application.
+ *
+ * The authorsite application is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The authorsite application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the authorsite application; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * 
+ */
 package org.authorsite.utils.bib.loader.ris;
 
 import java.util.SortedSet;
 
-import org.authorsite.domain.bib.Book;
-import org.authorsite.domain.bib.Chapter;
 import org.authorsite.domain.Collective;
 import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.AbstractWork;
+import org.authorsite.domain.bib.Book;
+import org.authorsite.domain.bib.Chapter;
 import org.authorsite.domain.bib.WorkDates;
-import org.authorsite.domain.service.bib.BookService;
-import org.authorsite.domain.service.bib.ChapterService;
-import org.springframework.transaction.annotation.Transactional;
 
 
 public class ChapterHandler implements RISEntryHandler {
 
-    private ChapterService chapterService;
-    private BookService bookService;
-
-    public void setBookService(BookService bookService) {
-        this.bookService = bookService;
-    }
-
-    public void setChapterService(ChapterService chapterService) {
-        this.chapterService = chapterService;
-    }
-    
-    @Transactional
-    public void handleEntry(RISEntry entry) throws RISException {
+    public AbstractWork buildWorkFromEntry(RISEntry entry) throws RISException {
         // authors
         SortedSet<Individual> authoritativeAuthors = HandlerHelper.getAuthoritativeIndividuals(entry, "A1");
         
@@ -34,7 +38,7 @@ public class ChapterHandler implements RISEntryHandler {
         SortedSet<Individual> authoritativeEditors = HandlerHelper.getAuthoritativeIndividuals(entry, "E1");
         
         // year
-        WorkDates year = HandlerHelper.extractYear(entry.getValues("Y1"));
+        WorkDates workDates = HandlerHelper.extractYear(entry.getValues("Y1"));
         
         // title
         String chapterTitle = HandlerHelper.getFirstString(entry.getValues("T1"));
@@ -71,28 +75,29 @@ public class ChapterHandler implements RISEntryHandler {
         // book publisher place
         String publisherPlace = HandlerHelper.getFirstString(entry.getValues("CY"));
         
-        Book bookBean = new Book();
-        bookBean.addAuthors(bookAuthoritativeAuthors);
-        bookBean.addEditors(bookAuthoritativeEditors);
-        bookBean.setTitle(bookTitle);
-        bookBean.setWorkDates(year);
+        Book book = new Book();
+        book.addAuthors(bookAuthoritativeAuthors);
+        book.addEditors(bookAuthoritativeEditors);
+        book.setTitle(bookTitle);
+        book.setWorkDates(workDates);
+        
         Collective publisherBean = new Collective();
         publisherBean.setName(publisherName);
         publisherBean.setPlace(publisherPlace);
 
-        bookBean.setPublisher(publisherBean);
+        book.setPublisher(publisherBean);
         
-        //Book authoritativeBook = Bibliography.getInstance().getAuthoritativeBook( bookBean );
+        // and now the chapter
         
-        Chapter chapterBean = new Chapter();
-        chapterBean.addAuthors(authoritativeAuthors);
-        chapterBean.addEditors(authoritativeEditors);
-        chapterBean.setTitle(chapterTitle);
-        chapterBean.setWorkDates(year);
-        chapterBean.setPages(pagesBuilder.toString());
-        chapterBean.setBook(bookBean);
+        Chapter chapter = new Chapter();
+        chapter.addAuthors(authoritativeAuthors);
+        chapter.addEditors(authoritativeEditors);
+        chapter.setTitle(chapterTitle);
+        chapter.setWorkDates(workDates);
+        chapter.setPages(pagesBuilder.toString());
+        chapter.setBook(book);
         
-        // Bibliography.getInstance().getAuthoritativeChapter(chapterBean);
+        return chapter;
     }
 
 }

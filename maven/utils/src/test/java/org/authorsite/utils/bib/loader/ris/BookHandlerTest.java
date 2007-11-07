@@ -1,13 +1,29 @@
+/**
+ * This file is part of the authorsite application.
+ *
+ * The authorsite application is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The authorsite application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the authorsite application; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * 
+ */
 package org.authorsite.utils.bib.loader.ris;
 
-import org.authorsite.bib.Book;
-import org.authorsite.bib.Collective;
-import org.authorsite.bib.Individual;
-import org.authorsite.bib.WorkDates;
-
-import com.sun.org.apache.bcel.internal.generic.BIPUSH;
-
 import junit.framework.TestCase;
+
+import org.authorsite.domain.Collective;
+import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.Book;
+import org.authorsite.domain.bib.WorkDates;
 
 public class BookHandlerTest extends TestCase {
 
@@ -46,16 +62,12 @@ public class BookHandlerTest extends TestCase {
         b.addEditor(ww);
         b.setPublisher(fp);
         b.setTitle("Sheep and Wombles");
-        b.setYears(new WorkDates(2005));
+        b.setWorkDates(new WorkDates(2005));
         
         BookHandler handler = new BookHandler();
-        handler.handleEntry(entry);
+        Book assembled = (Book) handler.buildWorkFromEntry(entry);
         
-        assertTrue(Bibliography.getInstance().getIndividuals().containsKey(jk));
-        assertTrue(Bibliography.getInstance().getIndividuals().containsKey(fb));
-        assertTrue(Bibliography.getInstance().getIndividuals().containsKey(ww));
-        assertTrue(Bibliography.getInstance().getCollectives().containsKey(fp));
-        assertTrue(Bibliography.getInstance().getBooks().containsKey(b));
+        assertEquals(b, assembled);
     }
     
     public void testTwoBooksSharedAuthorSharedPublisher() throws Exception {
@@ -88,29 +100,17 @@ public class BookHandlerTest extends TestCase {
         book1.addAuthor(fb);
         book1.setPublisher(fp);
         book1.setTitle("Sheep");
-        book1.setYears(new WorkDates(2004));
+        book1.setWorkDates(new WorkDates(2004));
         
         Book book2 = new Book();
         book2.addAuthor(fb);
         book2.setPublisher(fp);
         book2.setTitle("Goats");
-        book2.setYears(new WorkDates(2005));
+        book2.setWorkDates(new WorkDates(2005));
         
         BookHandler handler = new BookHandler();
-        handler.handleEntry(entry1);
-        handler.handleEntry(entry2);
-        
-        assertTrue(Bibliography.getInstance().getBooks().containsKey(book1));
-        assertTrue(Bibliography.getInstance().getBooks().containsKey(book2));
-        
-        Book aBook1 = Bibliography.getInstance().getAuthoritativeBook(book1);
-        Book aBook2 = Bibliography.getInstance().getAuthoritativeBook(book2);
-        
-        assertTrue(aBook1.getId() > 0);
-        assertTrue(aBook1.getId() > 0);
-        
-        assertSame(aBook1.getAuthors().iterator().next(), aBook2.getAuthors().iterator().next());
-        assertSame(aBook1.getPublisher(), aBook2.getPublisher());
+        Book assembled1 = (Book) handler.buildWorkFromEntry(entry1);
+        Book assembled2 = (Book) handler.buildWorkFromEntry(entry2);
         
     }
     

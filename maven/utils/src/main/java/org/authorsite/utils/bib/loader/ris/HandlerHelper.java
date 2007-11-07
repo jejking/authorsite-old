@@ -44,6 +44,7 @@ public class HandlerHelper {
                     break;
                 case 3:
                     i.setNameQualification(nameComponent);
+                    break;
                 default:
                     break;
                 }
@@ -105,12 +106,6 @@ public class HandlerHelper {
         throw new RISException("Do not know how to handle " + yearsString);
         
     }
-
-    public static Collective getAuthoritativeCollective(String publisherName, String placeName) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    
 
     private static WorkDates extractSingleYear(String yearsString) {
         

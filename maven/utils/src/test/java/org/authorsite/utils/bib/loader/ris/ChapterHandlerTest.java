@@ -1,12 +1,30 @@
+/**
+ * This file is part of the authorsite application.
+ *
+ * The authorsite application is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The authorsite application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the authorsite application; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * 
+ */
 package org.authorsite.utils.bib.loader.ris;
 
-import org.authorsite.bib.Book;
-import org.authorsite.bib.Chapter;
-import org.authorsite.bib.Collective;
-import org.authorsite.bib.Individual;
-import org.authorsite.bib.WorkDates;
-
 import junit.framework.TestCase;
+
+import org.authorsite.domain.Collective;
+import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.Book;
+import org.authorsite.domain.bib.Chapter;
+import org.authorsite.domain.bib.WorkDates;
 
 public class ChapterHandlerTest extends TestCase {
 
@@ -43,26 +61,20 @@ public class ChapterHandlerTest extends TestCase {
         b.addAuthor(jk);
         b.addAuthor(ww);
         b.setPublisher(fp);
-        b.setYears(new WorkDates(2004));
+        b.setWorkDates(new WorkDates(2004));
         b.setTitle("A Compendium of odd Creatures");
         
         Chapter c = new Chapter();
         c.addAuthor(fb);
         c.setTitle("Sheep, Wombles and Goats");
-        c.setYears(new WorkDates(2004));
+        c.setWorkDates(new WorkDates(2004));
         c.setPages("200-210");
         c.setBook(b);
         
         ChapterHandler handler = new ChapterHandler();
-        handler.handleEntry(entry);
-        
-        assertTrue(Bibliography.getInstance().getBooks().containsKey(b));
-        assertTrue(Bibliography.getInstance().getChapters().containsKey(c));
-        
-        Chapter aC = Bibliography.getInstance().getAuthoritativeChapter(c);
-        assertTrue(aC.getId() > 0);
-        assertTrue(aC.getBook().getId() > 0);
-        assertTrue(aC.getBook().equals(b));
+        Chapter assembled = (Chapter) handler.buildWorkFromEntry(entry);
+        assertEquals( c, assembled);
+        assertEquals(b, assembled.getBook());
     }
     
     public void testTwoChaptersFromSameBook() throws Exception {
@@ -111,34 +123,29 @@ public class ChapterHandlerTest extends TestCase {
         b.addAuthor(jk);
         b.addAuthor(ww);
         b.setPublisher(fp);
-        b.setYears(new WorkDates(2004));
+        b.setWorkDates(new WorkDates(2004));
         b.setTitle("A Compendium of odd Creatures");
         
         Chapter c = new Chapter();
         c.addAuthor(fb);
         c.setTitle("Sheep, Wombles and Goats");
-        c.setYears(new WorkDates(2004));
+        c.setWorkDates(new WorkDates(2004));
         c.setPages("200-210");
         c.setBook(b);
         
         Chapter c2 = new Chapter();
         c2.addAuthor(jk);
         c2.setTitle(("An Introduction to Oddness"));
-        c2.setYears(new WorkDates(2004));
+        c2.setWorkDates(new WorkDates(2004));
         c2.setPages("1-10");
         c2.setBook(b);
         
         ChapterHandler handler = new ChapterHandler();
-        handler.handleEntry(entry);
-        handler.handleEntry(entry2);
+        Chapter assembled1 = (Chapter) handler.buildWorkFromEntry(entry);
+        Chapter assembled2 = (Chapter) handler.buildWorkFromEntry(entry2);
         
-        assertTrue(Bibliography.getInstance().getChapters().containsKey(c2));
-        
-        Chapter ac2 = Bibliography.getInstance().getAuthoritativeChapter(c2);
-        Chapter ac1 = Bibliography.getInstance().getAuthoritativeChapter(c);
-        
-        assertSame(ac2.getBook(), ac1.getBook());
-        assertSame(ac2.getAuthors().iterator().next(), ac1.getBook().getAuthors().iterator().next());
+        assertEquals(c, assembled1);
+        assertEquals(c2, assembled2);
     }
     
     public void testTwoChapterSameAuthorsSamePublisherDifferentBooks() throws Exception {
@@ -180,41 +187,35 @@ public class ChapterHandlerTest extends TestCase {
         Book b1 = new Book();
         b1.addAuthor(jk);
         b1.setPublisher(fp);
-        b1.setYears(new WorkDates(2004));
+        b1.setWorkDates(new WorkDates(2004));
         b1.setTitle("A Compendium of odd Creatures");
         
         Book b2 = new Book();
         b2.addAuthor(jk);
         b2.setPublisher(fp);
-        b2.setYears(new WorkDates(2005));
+        b2.setWorkDates(new WorkDates(2005));
         b2.setTitle("More Odd Creatures");
         
         Chapter c = new Chapter();
         c.addAuthor(fb);
         c.setTitle("Sheep, Wombles and Goats");
-        c.setYears(new WorkDates(2004));
+        c.setWorkDates(new WorkDates(2004));
         c.setPages("200-210");
         c.setBook(b1);
         
         Chapter c2 = new Chapter();
         c2.addAuthor(fb);
         c2.setTitle(("An Introduction to Oddness"));
-        c2.setYears(new WorkDates(2005));
+        c2.setWorkDates(new WorkDates(2005));
         c2.setPages("1-10");
         c2.setBook(b2);
         
         ChapterHandler handler = new ChapterHandler();
-        handler.handleEntry(entry);
-        handler.handleEntry(entry2);
+        Chapter assembled1 = (Chapter) handler.buildWorkFromEntry(entry);
+        Chapter assembled2 = (Chapter) handler.buildWorkFromEntry(entry2);
         
-        assertTrue(Bibliography.getInstance().getChapters().containsKey(c2));
-        
-        Chapter ac2 = Bibliography.getInstance().getAuthoritativeChapter(c2);
-        Chapter ac1 = Bibliography.getInstance().getAuthoritativeChapter(c);
-        
-        assertSame(ac2.getBook().getPublisher(), ac1.getBook().getPublisher());
-        assertSame(ac2.getAuthors().iterator().next(), ac1.getAuthors().iterator().next());
-        assertSame(ac2.getBook().getAuthors().iterator().next(), ac1.getBook().getAuthors().iterator().next());
+        assertEquals( c, assembled1);
+        assertEquals( c2, assembled2);
     }
     
 }

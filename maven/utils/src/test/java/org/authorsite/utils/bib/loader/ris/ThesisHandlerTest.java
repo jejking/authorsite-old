@@ -1,32 +1,33 @@
+/**
+ * This file is part of the authorsite application.
+ *
+ * The authorsite application is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The authorsite application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the authorsite application; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * 
+ */
 package org.authorsite.utils.bib.loader.ris;
-
-import org.authorsite.bib.Collective;
-import org.authorsite.bib.Individual;
-import org.authorsite.bib.Thesis;
-import org.authorsite.bib.WorkDates;
 
 import junit.framework.TestCase;
 
+import org.authorsite.domain.Collective;
+import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.Thesis;
+import org.authorsite.domain.bib.WorkDates;
+
 public class ThesisHandlerTest extends TestCase {
 
-    
-    
-    @Override
-    protected void setUp() throws Exception {
-        Bibliography.getInstance().clearIndividuals();
-        Bibliography.getInstance().clearCollectives();
-        Bibliography.getInstance().clearTheses();
-        super.setUp();
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        Bibliography.getInstance().clearIndividuals();
-        Bibliography.getInstance().clearCollectives();
-        Bibliography.getInstance().clearTheses();
-        super.tearDown();
-    }
-
+   
     public void testHandleEntry() throws Exception {
         
         RISEntry thesisEntry = new RISEntry();
@@ -48,24 +49,12 @@ public class ThesisHandlerTest extends TestCase {
         t.setAuthor(jk);
         t.setAwardingBody(ou);
         t.setDegree("D.Phil");
-        t.setYears(new WorkDates(1999));
+        t.setWorkDates(new WorkDates(1999));
         t.setTitle("Writing and Rewriting the First World War");
         
         ThesisHandler handler = new ThesisHandler();
-        handler.handleEntry(thesisEntry);
-        
-        // we now expect to see jk, ou and thesis in Bibliography
-        assertTrue(Bibliography.getInstance().getIndividuals().containsKey(jk));
-        assertTrue(Bibliography.getInstance().getCollectives().containsKey(ou));
-        assertTrue(Bibliography.getInstance().getTheses().containsKey(t));
-        
-        Thesis at = Bibliography.getInstance().getAuthoritativeThesis(t);
-        assertNotSame(t, at); // should return the one created by the handling...
-        assertTrue(at.getId() > 0);
-        assertTrue(at.getAuthor().getId() > 0);
-        assertNotSame(jk, at.getAuthor());
-        assertTrue(at.getAwardingBody().getId() > 0);
-        assertNotSame(ou, at.getAwardingBody());
+        Thesis assembled = (Thesis) handler.buildWorkFromEntry(thesisEntry);
+        assertEquals(t, assembled);
         
     }
     
@@ -109,38 +98,32 @@ public class ThesisHandlerTest extends TestCase {
         jkDphil.setAuthor(jk);
         jkDphil.setAwardingBody(ou);
         jkDphil.setDegree("D.Phil");
-        jkDphil.setYears(new WorkDates(1999));
+        jkDphil.setWorkDates(new WorkDates(1999));
         jkDphil.setTitle("Writing and Rewriting the First World War");
         
         Thesis rwDphil = new Thesis();
         rwDphil.setAuthor(rw);
         rwDphil.setAwardingBody(ou);
         rwDphil.setDegree("D.Phil");
-        rwDphil.setYears(new WorkDates(1981));
+        rwDphil.setWorkDates(new WorkDates(1981));
         rwDphil.setTitle("Ernst J\u00fcnger and the Nature of Political Commitment");
         
         Thesis jkMst = new Thesis();
         jkMst.setAuthor(jk);
         jkMst.setAwardingBody(ou);
         jkMst.setDegree("M.St.");
-        jkMst.setYears(new WorkDates(1995));
+        jkMst.setWorkDates(new WorkDates(1995));
         jkMst.setTitle("History and Time: A Critical Survey of the Secondary Literature on Ernst J\u00fcnger.");
         
         ThesisHandler handler = new ThesisHandler();
-        handler.handleEntry(jkMastersThesisEntry);
-        handler.handleEntry(jkThesisEntry);
-        handler.handleEntry(woodsThesisEntry);
+        Thesis assembled1 = (Thesis) handler.buildWorkFromEntry(jkMastersThesisEntry);
+        Thesis assembled2 = (Thesis) handler.buildWorkFromEntry(jkThesisEntry);
+        Thesis assembled3 = (Thesis) handler.buildWorkFromEntry(woodsThesisEntry);
         
-        assertTrue(Bibliography.getInstance().getIndividuals().containsKey(jk));
-        assertTrue(Bibliography.getInstance().getIndividuals().containsKey(rw));
-        
-        Thesis aJkDphil = Bibliography.getInstance().getAuthoritativeThesis(jkDphil);
-        Thesis aRwDphil = Bibliography.getInstance().getAuthoritativeThesis(rwDphil);
-        Thesis aJkMst = Bibliography.getInstance().getAuthoritativeThesis(jkMst);
-        
-        assertSame(aJkDphil.getAuthor(), aJkMst.getAuthor());
-        assertSame(aJkDphil.getAwardingBody(), aRwDphil.getAwardingBody());
-        assertSame(aJkDphil.getAwardingBody(), aJkMst.getAwardingBody());
+        assertEquals( jkMst, assembled1);
+        assertEquals( jkDphil, assembled2);
+        assertEquals( rwDphil, assembled3);
+        assertEquals( assembled1.getAwardingBody(), assembled3.getAwardingBody());
         
     }
     

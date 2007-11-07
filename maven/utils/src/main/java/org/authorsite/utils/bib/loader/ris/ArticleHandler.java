@@ -1,26 +1,39 @@
+/**
+ * This file is part of the authorsite application.
+ *
+ * The authorsite application is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The authorsite application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the authorsite application; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * 
+ */
 package org.authorsite.utils.bib.loader.ris;
 
 import java.util.SortedSet;
 
-import org.authorsite.domain.bib.Article;
 import org.authorsite.domain.Individual;
+import org.authorsite.domain.bib.AbstractWork;
+import org.authorsite.domain.bib.Article;
 import org.authorsite.domain.bib.Journal;
 import org.authorsite.domain.bib.WorkDates;
-import org.authorsite.domain.service.bib.ArticleService;
-import org.authorsite.domain.service.bib.JournalService;
-import org.springframework.transaction.annotation.Transactional;
 
 
 public class ArticleHandler implements RISEntryHandler {
 
-    private ArticleService articleService;
-    private JournalService journalService;
     
-    @Transactional()
-    public void handleEntry(RISEntry entry) throws RISException {
+    public AbstractWork buildWorkFromEntry(RISEntry entry) throws RISException {
         
         // authors
-        SortedSet<Individual> authoritativeAuthors = HandlerHelper.getAuthoritativeIndividuals(entry, "A1");
+        SortedSet<Individual> authors = HandlerHelper.getAuthoritativeIndividuals(entry, "A1");
         
         // year
         WorkDates years = HandlerHelper.extractYear(entry.getValues("Y1")); 
@@ -35,12 +48,11 @@ public class ArticleHandler implements RISEntryHandler {
         String issue = HandlerHelper.getFirstString(entry.getValues("IS"));
             
         // journal
-        Journal j = null;
+        Journal journal = null;
         String journalTitle = HandlerHelper.getFirstString(entry.getValues("JO"));
         if ( journalTitle != null ) {
-            Journal jBean = new Journal();
-            jBean.setTitle(journalTitle);
-            
+            journal = new Journal();
+            journal.setTitle(journalTitle);
         }
         
         // pages... (papyrus puts thems all as SP, but try and handle EP too
@@ -56,16 +68,16 @@ public class ArticleHandler implements RISEntryHandler {
             pagesBuilder.append(ep);
         }
         
-        Article a = new Article();
-        a.addAuthors(authoritativeAuthors);
-        a.setWorkDates(years);
-        a.setTitle(title);
-        a.setVolume(volume);
-        a.setIssue(issue);
-        a.setJournal(j);
-        a.setPages(pagesBuilder.toString());
+        Article article = new Article();
+        article.addAuthors(authors);
+        article.setWorkDates(years);
+        article.setTitle(title);
+        article.setVolume(volume);
+        article.setIssue(issue);
+        article.setJournal(journal);
+        article.setPages(pagesBuilder.toString());
         
-        
+        return article;
         
     }
 

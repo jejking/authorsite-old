@@ -1,18 +1,29 @@
 package org.authorsite;
 
 import java.io.IOException;
-import org.authorsite.utils.bib.loader.ris.Parser;
+import java.util.List;
+
+import org.authorsite.domain.bib.AbstractWork;
+import org.authorsite.utils.bib.loader.ris.FileParserDriver;
 import org.authorsite.utils.bib.loader.ris.RISException;
 
 /**
- * Hello world!
- *
+ * 
+ * @author jejking
  */
 public class App 
 {
     public static void main( String[] args ) throws IOException, RISException
     {
-        Parser parser = new Parser();
-        parser.readFile(args[0]);
+        FileParserDriver fileParserDriver = new FileParserDriver();
+        List<AbstractWork> workList = fileParserDriver.parseFile(args[0]);
+//        for (AbstractWork work : workList) {
+//            System.out.println(work);
+//        }
+        
+        /*
+         * TestAuthenticationMechanism authenticationMechanism = new TestAuthenticationMechanism();
+	   authenticationMechanism.logUserIn(args[1], args[2]);
+         */
     }
 }
