@@ -12,12 +12,12 @@ import org.springframework.dao.DataAccessException;
  *
  * @author jejking
  */
-public class TestAuthenticationMechanism {
+public class AuthenticationMechanismHelper {
 
     private AuthenticationManager authenticationManager;
     
     /** Creates a new instance of TestAuthenticationMechanism */
-    public TestAuthenticationMechanism() {
+    public AuthenticationMechanismHelper() {
         super();
     }
     
