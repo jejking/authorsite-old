@@ -276,7 +276,9 @@ public class DomainLoader {
 	}
 	
 	Journal newJournal = new Journal();
-	newJournal.setPublisher(this.loadAbstractHuman(journal.getPublisher()));
+	if (journal.getPublisher() != null) {
+            newJournal.setPublisher(this.loadAbstractHuman(journal.getPublisher()));    
+        }
 	newJournal.setTitle(journal.getTitle());
 	newJournal.setWorkDates(journal.getWorkDates());
 	journalService.saveJournal(newJournal);

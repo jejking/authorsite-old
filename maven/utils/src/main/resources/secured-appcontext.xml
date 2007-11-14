@@ -38,7 +38,7 @@
         </property>
     </bean>
     
-    <bean id="authenticationMechanism" class="org.authorsite.security.TestAuthenticationMechanism"/>
+    <bean id="authenticationMechanism" class="org.authorsite.security.AuthenticationMechanismHelper"/>
     
     <bean id="systemUserManagementService" class="org.authorsite.security.SystemUserManagementServiceImpl"/>
     
@@ -174,8 +174,6 @@
             <ref local="attributes"/>
         </property>
     </bean>
-    <bean id="testSecured" class="org.authorsite.security.test.TestSecuredImpl"/>
-    
     
     <bean id="mutableAclService" class="org.acegisecurity.acls.jdbc.JdbcMutableAclService">
         <constructor-arg ref="dataSource"/>

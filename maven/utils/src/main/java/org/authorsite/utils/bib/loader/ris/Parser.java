@@ -23,11 +23,14 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.authorsite.domain.bib.AbstractWork;
 
 
 public class Parser {
 
+    private static final Logger LOGGER = Logger.getLogger(Parser.class);
+    
     private static final String tagStartPattern = "^[A-Z0-9]{2}  -";
     
     private final List<RISEntry> entries = new LinkedList<RISEntry>();
@@ -113,7 +116,7 @@ public class Parser {
                 }
                 
                 if ( line.getKey().equals("ID")) {
-                   System.out.println("Reading ID  " + line.getValue());
+                   LOGGER.info("Reading ID  " + line.getValue());
                    return;
                 }
 
@@ -141,8 +144,7 @@ public class Parser {
             }
         }
         catch (RISException e) {
-            System.err.println("RIS Exception on line " + lineNumber);
-            e.printStackTrace();
+            LOGGER.error("Error reading entry", e);
         }
         
         

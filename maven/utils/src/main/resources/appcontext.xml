@@ -49,7 +49,7 @@
 
   <!-- loader -->
   <bean id="domainLoader" class="org.authorsite.utils.DomainLoader"/>
-  <bean id="risLoader" class="org.authorsite.utils.bib.loader.ris.RisLoader"/> 
+  <bean id="risLoader" class="org.authorsite.utils.bib.loader.ris.RISLoader"/> 
 
 </beans>
 
