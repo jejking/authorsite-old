@@ -104,7 +104,6 @@ public abstract class AbstractAuthoredEditedWork extends AbstractWork {
 	if (editors == null) {
 	    throw new IllegalArgumentException("Editors parameter is null");
 	}
-	boolean addedAll = true;
 	for (AbstractHuman editor : editors) {
 	    this.addEditor(editor);
 	}

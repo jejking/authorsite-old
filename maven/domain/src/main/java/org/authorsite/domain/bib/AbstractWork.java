@@ -262,28 +262,42 @@ public abstract class AbstractWork extends AbstractEntry {
      */
     @Override
     public boolean equals(Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (!(obj instanceof AbstractWork))
-	    return false;
+	if (this == obj) {
+            return true;
+        }
+	if (obj == null) {
+            return false;
+        }
+	    
+	if (!(obj instanceof AbstractWork)) {
+            return false;
+        }
+	    
 	final AbstractWork other = (AbstractWork) obj;
 	if (this.title == null) {
-	    if (other.title != null)
-		return false;
-	} else if (!this.title.equals(other.title))
-	    return false;
+	    if (other.title != null) {
+                return false;
+            }
+	} else if (!this.title.equals(other.title)) {
+            return false;
+        }
 	if (this.workDates == null) {
-	    if (other.workDates != null)
-		return false;
-	} else if (!this.workDates.equals(other.workDates))
-	    return false;
+	    if (other.workDates != null) {
+                return false;
+            }
+		
+	} else if (!this.workDates.equals(other.workDates)) {
+            return false;
+        }
+	    
 	if (this.workProducers == null) {
-	    if (other.workProducers != null)
-		return false;
-	} else if (!Arrays.deepEquals(this.workProducers.toArray(), other.workProducers.toArray()))
-	    return false;
+	    if (other.workProducers != null) {
+                return false;
+            }
+	} else if (!Arrays.deepEquals(this.workProducers.toArray(), other.workProducers.toArray())) {
+            return false;
+        }
+	    
 	return true;
     }
 

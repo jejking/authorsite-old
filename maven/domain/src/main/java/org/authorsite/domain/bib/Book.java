@@ -134,21 +134,30 @@ public class Book extends AbstractAuthoredEditedPublishedWork implements Compara
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (!super.equals(obj))
+        if (!super.equals(obj)) {
             return false;
+        }
+            
         if (getClass() != obj.getClass())
             return false;
         final Book other = (Book) obj;
         if (this.getPublisher() == null) {
-            if (other.getPublisher() != null)
-                return false;
-        } else if (!this.getPublisher().equals(other.getPublisher()))
+            if (other.getPublisher() != null) {
+                    return false;
+                }
+        } 
+        else if (!this.getPublisher().equals(other.getPublisher())) {
             return false;
+        }
+            
         if (this.volume == null) {
-            if (other.volume != null)
-                return false;
-        } else if (!this.volume.equals(other.volume))
+            if (other.volume != null) {
+                    return false;
+                }
+                
+        } else if (!this.volume.equals(other.volume)) {
             return false;
+        }
         return true;
     }
 
