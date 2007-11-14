@@ -10,7 +10,6 @@
 package org.authorsite.security.test;
 
 import org.acegisecurity.annotation.Secured;
-import org.authorsite.security.test.UsernameCollector;
 
 /**
  *

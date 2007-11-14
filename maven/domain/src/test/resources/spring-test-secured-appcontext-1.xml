@@ -38,7 +38,7 @@
         </property>
     </bean>
     
-    <bean id="authenticationMechanism" class="org.authorsite.security.TestAuthenticationMechanism"/>
+    <bean id="authenticationMechanism" class="org.authorsite.security.AuthenticationMechanismHelper"/>
     
     <bean id="systemUserManagementService" class="org.authorsite.security.SystemUserManagementServiceImpl"/>
     
