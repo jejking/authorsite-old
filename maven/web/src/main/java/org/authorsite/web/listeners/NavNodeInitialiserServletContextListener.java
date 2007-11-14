@@ -22,15 +22,13 @@ public class NavNodeInitialiserServletContextListener implements ServletContextL
     
     /** Creates a new instance of NavNodeInitialiserServletContextListener */
     public NavNodeInitialiserServletContextListener() {
-        
+        super();
     }
 
-    @Override
     public void contextDestroyed(ServletContextEvent sce) {
         // do nothing
     }
 
-    @Override
     public void contextInitialized(ServletContextEvent sce) {
         // register people
         XmlNavNodeFactory.buildInstance("/conf/nav/peopleNav.xml",RootNavNode.getInstance());
