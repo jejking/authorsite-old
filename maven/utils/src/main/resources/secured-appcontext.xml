@@ -175,7 +175,7 @@
         </property>
     </bean>
     
-    <bean id="mutableAclService" class="org.acegisecurity.acls.jdbc.JdbcMutableAclService">
+    <bean id="mutableAclService" class="org.authorsite.security.acls.MysqlMutableAclService">
         <constructor-arg ref="dataSource"/>
         <constructor-arg ref="lookupStrategy"/>
         <constructor-arg ref="aclCache"/>
@@ -194,7 +194,7 @@
         </constructor-arg>
     </bean>
     
-    <bean id="lookupStrategy" class="org.acegisecurity.acls.jdbc.BasicLookupStrategy">
+    <bean id="lookupStrategy" class="org.authorsite.security.acls.MysqlLookupStrategy">
         <constructor-arg ref="dataSource"/>
         <constructor-arg ref="aclCache"/>
         <constructor-arg ref="aclAuthorizationStrategy"/>
