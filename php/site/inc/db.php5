@@ -10,6 +10,13 @@ function openDbConnection() {
   try
   {
     $db = new PDO(DB_URL, DB_USER, DB_PWD);
+    $setNamesStmt = $db->prepare("SET NAMES 'utf8'");
+    $setNamesStmt->execute();
+    $setNamesStmt = null;
+    $setCharSetStmt = $db->prepare("SET CHARACTER SET 'utf8'");
+    $setCharSetStmt->execute();
+    $setNamesStmt = null;
+    
     return $db;
   }
   catch (PDOException $e)
@@ -45,6 +52,30 @@ function doCount($tableName, $db) {
     handleDatabaseError($e);
   }
  
+}
+
+/*
+ * Executes statement $queryString. Expects the $queryString
+ * to have no parameters except those defined in a mysql
+ * LIMIT clause.
+ * e.g select * from my_table limit ?, ?;
+ *
+ * Returns the corresponding result set.
+ */
+function doBrowseQuery($db, $queryString, $startRow, $rowCount) {
+  try {
+    $stmt = $db->prepare($queryString);
+    $stmt->bindValue(1, $startRow, PDO::PARAM_INT);
+    $stmt->bindValue(2, $rowCount, PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_BOTH);
+    return $result;
+  }
+  catch (PDOException $e)
+  {
+    handleDatabaseError($e);
+  }
+               
 }
 
 
