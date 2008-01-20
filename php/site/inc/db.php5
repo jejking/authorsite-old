@@ -3,6 +3,8 @@ require('../conf/config.php5');
 
 define('BASE_COUNT_QUERY', 'select count(*) from ');
 
+define('PAGE_SIZE', 20);
+
 /*
  * Returns a db connection
  */
@@ -54,6 +56,24 @@ function doCount($tableName, $db) {
  
 }
 
+
+function doCountWithCondition($tableName, $condition, $db) {
+  try {
+    $queryString = BASE_COUNT_QUERY . $tableName . $condition;
+    $stmt = $db->prepare($queryString);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_BOTH);
+    $stmt = null;
+    $count = $result[0];
+  return $count;
+  }
+  catch (PDOException $e)
+  {
+    handleDatabaseError($e);
+  }
+}
+
+
 /*
  * Executes statement $queryString. Expects the $queryString
  * to have no parameters except those defined in a mysql
@@ -62,11 +82,11 @@ function doCount($tableName, $db) {
  *
  * Returns the corresponding result set.
  */
-function doBrowseQuery($db, $queryString, $startRow, $rowCount) {
+function doBrowseQuery($db, $queryString, $startPage, $rowCount) {
   try {
     $stmt = $db->prepare($queryString);
-    $stmt->bindValue(1, $startRow, PDO::PARAM_INT);
-    $stmt->bindValue(2, $rowCount, PDO::PARAM_INT);
+    $stmt->bindValue(1, $startPage * PAGE_SIZE, PDO::PARAM_INT);
+    $stmt->bindValue(2, PAGE_SIZE, PDO::PARAM_INT);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_BOTH);
     return $result;

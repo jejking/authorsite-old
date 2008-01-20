@@ -8,7 +8,8 @@ require('../inc/db.php5');
 $db = openDbConnection();
 
 // do counts
-$producersCount = doCount('human', $db);
+$individualsCount = doCountWithCondition("human"," where DTYPE = 'Individual'",  $db);
+$collectivesCount = doCountWithCondition("human"," where DTYPE = 'Collective'",  $db);
 $booksCount = doCount('book', $db);
 $articlesCount = doCount('article', $db);
 $chaptersCount = doCount('chapter', $db);
@@ -27,7 +28,8 @@ closeDbConnection($db);
     </head>
     <body>
         <h1>Bibliography</h1>
-        <p><a href="producers.php5">Producers</a> (<?php echo $producersCount ?>)</p>
+        <p><a href="producers.php5?DTYPE=Individual">Individuals</a> (<?php echo $individualsCount ?>)</p>
+        <p><a href="producers.php5?DTYPE=Collective">Collectives</a> (<?php echo $collectivesCount ?>)</p>
         <p><a href="books.php5">Books</a> (<?php echo $booksCount ?>)</p>
         <p><a href="articles.php5">Articles</a> (<?php echo $articlesCount ?>)</p>
         <p><a href="chapters.php5">Chapters</a> (<?php echo $chaptersCount ?>)</p>
