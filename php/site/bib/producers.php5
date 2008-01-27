@@ -83,8 +83,8 @@ function renderCollective($resultRow) {
           }
           echo "</p>";
           
-          renderPaging();
         }
+        renderPaging("producers.php5", $pageNumber, $producerCount);
         ?>
     </body>
 </html> 
