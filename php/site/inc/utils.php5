@@ -37,7 +37,7 @@ function calculateMaxPageNumber($pageSize, $totalCount) {
 function renderPaging($baseUrl, $pageNumber, $totalCount) {
   renderPagingFirstPage($baseUrl, $pageNumber, $totalCount);
   renderPagingPreviousPage($baseUrl, $pageNumber, $totalCount);
-  //renderPagingCentralBlock($baseUrl, $pageNumber, $totalCount);
+  renderPagingCentralBlock($baseUrl, $pageNumber, $totalCount);
   renderPagingNextPage($baseUrl, $pageNumber, $totalCount);
   renderPagingLastPage($baseUrl, $pageNumber, $totalCount);
 }
@@ -90,54 +90,33 @@ function renderPagingLastPage($baseUrl, $pageNumber, $totalCount) {
   echo('</span>');
   echo('</div>');
 }
-/*
-private int pageNumber;
-        private int maxPageNumber;
-        
-        private int minBlockPageNumber;
-        private int maxBlockPageNumber;
-        
-        public CentralBlock(int pageNumber, int maxPageNumber) {
-            this.pageNumber = pageNumber;
-            this.maxPageNumber = maxPageNumber;
-        }
-        
-        public void print(JspWriter out) throws IOException {
 
-            this.minBlockPageNumber = this.pageNumber - 4;
-            int distToMax = this.maxPageNumber - this.pageNumber;
-            this.minBlockPageNumber += distToMax < 2 ? distToMax : 2;
-            if ( this.minBlockPageNumber < 1 )  {
-                this.minBlockPageNumber = 1;
-            }
-            
-            this.maxBlockPageNumber = this.pageNumber + 4;
-            int distToMin = this.pageNumber - 1;
-            this.maxBlockPageNumber -= distToMin < 2 ? distToMin : 2;
-            if (this.maxBlockPageNumber > this.maxPageNumber) {
-                this.maxBlockPageNumber = this.maxPageNumber;
-            }
-            
-            int i = minBlockPageNumber;
-            
-            do {
-                if ( i == this.pageNumber ) {
-                    out.print( " " + i + " " );
-                }
-                else
-                {
-                    out.print(" ");
-                    String title = PagingTag.this.resourceBundle.getString("pager.pageNumber") + " " + i;
-                    String url = buildUrl(PagingTag.this.indexUrl, i, PagingTag.this.pageSize);
-                    printLink(out, url, title, Integer.toString(i) );
-                    out.print(" ");
-                }
-                i++;
-            }
-            while (i <= maxBlockPageNumber);
-            
-        }
-        */
-
+function renderPagingCentralBlock($baseUrl, $pageNumber, $totalCount) {
+   $maxPageNumber = calculateMaxPageNumber(20, $totalCount);
+   
+   
+   $minBlockPageNumber = $pageNumber - 4;
+   if ($minBlockPageNumber < 0)  {
+     $minBlockPageNumber = 0;
+   }
+   
+   $maxBlockPageNumber = $pageNumber + 4;
+   if ($maxBlockPageNumber > $maxPageNumber) {
+     $maxBlockPageNumber = $maxPageNumber;
+   }
+   
+   $i = $minBlockPageNumber;
+   echo ('<span>' . $minBlockPageNumber . ' :: ' . $maxBlockPageNumber . '</span>');
+   do {
+     if ($i == $pageNumber) {
+       echo (' ' . $i . ' ');
+     }
+     else {
+       echo (' <a href="' . $baseUrl . '?pageNumber=' . $i . '">' . $i . '</a>' );
+     }
+     $i++;
+   }
+   while ($i <= $maxBlockPageNumber);
+}
 
 ?>
