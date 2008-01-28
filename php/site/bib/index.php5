@@ -28,8 +28,8 @@ closeDbConnection($db);
     </head>
     <body>
         <h1>Bibliography</h1>
-        <p><a href="producers.php5?DTYPE=Individual">Individuals</a> (<?php echo $individualsCount ?>)</p>
-        <p><a href="producers.php5?DTYPE=Collective">Collectives</a> (<?php echo $collectivesCount ?>)</p>
+        <p><a href="individuals.php5">Individuals</a> (<?php echo $individualsCount ?>)</p>
+        <p><a href="collectives.php5">Collectives</a> (<?php echo $collectivesCount ?>)</p>
         <p><a href="books.php5">Books</a> (<?php echo $booksCount ?>)</p>
         <p><a href="articles.php5">Articles</a> (<?php echo $articlesCount ?>)</p>
         <p><a href="chapters.php5">Chapters</a> (<?php echo $chaptersCount ?>)</p>
