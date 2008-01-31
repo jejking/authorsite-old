@@ -1,5 +1,20 @@
 <?php
 
+function getId($string) {
+  if (is_numeric($string)) {
+    $id = intval($string);
+    if ($id > 0) {
+      return $id;
+    }
+    else {
+      return 0;
+    }
+  }
+  else {
+    return 0;
+  }
+}
+
 function getPageNumber($string, $pageSize, $totalCount) {
   
   if (is_numeric($string)) {
@@ -46,7 +61,7 @@ function renderPagingFirstPage($baseUrl, $pageNumber, $totalCount) {
   echo ('<div class="pager">');
   echo ('<span id="pager.first">');
   if ($pageNumber > 0) {
-    echo('<a href="' . $baseUrl . '?pageNumber=0">&lt;&lt; </a>');
+    echo('<a href="' . $baseUrl . '?pageNumber=0">&lt;&lt;</a> ');
   }
   else {
     echo('&lt;&lt; ');
@@ -57,7 +72,7 @@ function renderPagingFirstPage($baseUrl, $pageNumber, $totalCount) {
 function renderPagingPreviousPage($baseUrl, $pageNumber, $totalCount) {
   echo ('<span id="pager.previous">');
   if ($pageNumber > 0) {
-    echo('<a href="' . $baseUrl . '?pageNumber=' . ($pageNumber - 1) .'">&lt; </a>');  
+    echo('<a href="' . $baseUrl . '?pageNumber=' . ($pageNumber - 1) .'">&lt;</a> ');  
   }
   else   {
     echo('&lt; ');
@@ -69,10 +84,10 @@ function renderPagingNextPage($baseUrl, $pageNumber, $totalCount) {
    echo ('<span id="pager.next">');
    $maxPageNumber = calculateMaxPageNumber(20, $totalCount);
    if($pageNumber >= $maxPageNumber) {
-     echo ('&gt; ');
+     echo (' &gt; ');
    }
    else {
-     echo('<a href="' . $baseUrl . '?pageNumber=' . ($pageNumber + 1) .'">&gt; </a>');
+     echo(' <a href="' . $baseUrl . '?pageNumber=' . ($pageNumber + 1) .'">&gt;</a> ');
    }
    
    echo ('</span>');
@@ -96,17 +111,37 @@ function renderPagingCentralBlock($baseUrl, $pageNumber, $totalCount) {
    
    
    $minBlockPageNumber = $pageNumber - 4;
+   
+   
+   $distToMax = $maxPageNumber - $pageNumber;
+   if ($distToMax < 2) {
+     $minBlockPageNumber = $minBlockPageNumber + $distToMax;
+   }
+   else {
+     $minBlockPageNumber = $minBlockPageNumber + 2;
+   }
+   
    if ($minBlockPageNumber < 0)  {
      $minBlockPageNumber = 0;
    }
    
    $maxBlockPageNumber = $pageNumber + 4;
+   
+   
+   $distToMin = $pageNumber - 1;
+   if ($distToMin < 2) {
+     $maxBlockPageNumber = $maxBlockPageNumber - $distToMin;
+   }
+   else {
+     $maxBlockPageNumber = $maxBlockPageNumber - 2;
+   }
+   
    if ($maxBlockPageNumber > $maxPageNumber) {
      $maxBlockPageNumber = $maxPageNumber;
    }
    
    $i = $minBlockPageNumber;
-   echo ('<span>' . $minBlockPageNumber . ' :: ' . $maxBlockPageNumber . '</span>');
+
    do {
      if ($i == $pageNumber) {
        echo (' ' . $i . ' ');

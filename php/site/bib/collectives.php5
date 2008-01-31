@@ -16,7 +16,7 @@ $resultSet = doBrowseQuery($db, BROWSE_COLLECTIVES_QUERY, $pageNumber, PAGE_SIZE
 
 function renderCollective($resultRow) {
   if ($resultRow['name'] != null) {
-    echo htmlspecialchars($resultRow['name']);
+    echo '<a href="collective.php5?id=' . $resultRow['id'] . '"> '. htmlspecialchars($resultRow['name']) . '</a>';
   }
   if ($resultRow['place'] != null) {
     $place = $resultRow['place'];

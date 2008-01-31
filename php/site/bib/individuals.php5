@@ -3,7 +3,7 @@ require('../inc/headers.php5');
 require('../inc/db.php5');
 require('../inc/utils.php5');
 
-DEFINE ('BROWSE_INDIVIDUALS_QUERY', "SELECT id, name, givennames, place FROM human WHERE DTYPE = 'Individual' ORDER BY name, givennames, place DESC LIMIT ?, ?");
+DEFINE ('BROWSE_INDIVIDUALS_QUERY', "SELECT id, name, givennames FROM human WHERE DTYPE = 'Individual' ORDER BY name, givennames, place DESC LIMIT ?, ?");
 
 
 $db = openDbConnection();
@@ -17,6 +17,7 @@ $resultSet = doBrowseQuery($db, BROWSE_INDIVIDUALS_QUERY, $pageNumber, PAGE_SIZE
 
 
 function renderIndividual($resultRow) {
+   echo ('<a href="individual.php5?id=' . $resultRow['id'] . '">');
   if ($resultRow['name'] != null) {
     echo htmlspecialchars(($resultRow['name']));
     if ($resultRow['givennames'] != null) {
@@ -27,6 +28,7 @@ function renderIndividual($resultRow) {
   if ($resultRow['givennames'] != null) {
     echo htmlspecialchars(($resultRow['givennames']));
   }
+  echo ('</a>');
  
 }
 

@@ -98,5 +98,32 @@ function doBrowseQuery($db, $queryString, $startPage, $rowCount) {
                
 }
 
+function doQueryWithIdParameter($db, $queryString, $id) {
+  try {
+    $stmt = $db->prepare($queryString);
+    $stmt->bindValue(1, $id);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_BOTH);
+    return $result;
+  }
+  catch (PDOException $e)
+  {
+    handleDatabaseError($e);
+  }
+}
+
+function doSimpleQuery($db, $queryString) {
+   try {
+    $stmt = $db->prepare($queryString);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_BOTH);
+    return $result;
+  }
+  catch (PDOException $e)
+  {
+    handleDatabaseError($e);
+  }
+}
+
 
 ?> 
