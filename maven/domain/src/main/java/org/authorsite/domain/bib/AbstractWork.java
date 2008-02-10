@@ -61,7 +61,7 @@ import org.hibernate.annotations.IndexColumn;
  *
  */
 @Entity
-@Table(name="Work")
+@Table(name="work")
 @Inheritance(strategy=InheritanceType.JOINED)
 @NamedQueries( {
 	@NamedQuery(name = "AbstractWorkCount", query = "select count(aw) from AbstractWork aw"),

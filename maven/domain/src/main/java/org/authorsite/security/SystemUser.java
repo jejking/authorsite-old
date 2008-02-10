@@ -30,6 +30,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
+import javax.persistence.Table;
 import org.authorsite.domain.AbstractEntry;
 import org.authorsite.domain.Individual;
 import org.hibernate.annotations.CollectionOfElements;
@@ -57,6 +58,7 @@ import org.hibernate.annotations.CollectionOfElements;
 	@NamedQuery(name = "SystemUserCount", query = "select count(su) from SystemUser su"),
 	@NamedQuery(name = "SystemUserByUserName", query = "select su from SystemUser su where su.userName = :userName"),
         @NamedQuery(name = "AllSystemUsers", query = "select su from SystemUser su order by id asc") })
+@Table(name="systemuser")
 public class SystemUser extends AbstractEntry {
 
     /**
@@ -172,7 +174,7 @@ public class SystemUser extends AbstractEntry {
      * @return set of authorities.
      */
     @CollectionOfElements(fetch = FetchType.EAGER)
-    @JoinTable(name = "SystemUser_Authorities", joinColumns = @JoinColumn(name = "SystemUser_id"))
+    @JoinTable(name = "systemuser_authorities", joinColumns = @JoinColumn(name = "SystemUser_id"))
     public Set<Authority> getAuthorities() {
         if (this.authorities == null) {
             return new HashSet<Authority>();

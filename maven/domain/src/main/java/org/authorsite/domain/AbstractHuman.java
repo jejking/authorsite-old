@@ -30,7 +30,7 @@ import javax.persistence.Table;
  * @author jejking
  */
 @Entity()
-@Table(name = "Human")
+@Table(name = "human")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class AbstractHuman extends AbstractEntry {
 
