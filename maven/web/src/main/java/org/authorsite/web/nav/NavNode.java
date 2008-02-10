@@ -120,5 +120,7 @@ public interface NavNode {
      * @return corresponding node or <code>null</code>
      */
     public NavNode getDescendantByPath(String path);
-   
+    
+    public String viewAsString();
+    
 }

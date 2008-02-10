@@ -11,6 +11,7 @@ package org.authorsite.web.listeners;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import org.apache.log4j.Logger;
 import org.authorsite.web.nav.RootNavNode;
 import org.authorsite.web.nav.XmlNavNodeFactory;
 
@@ -19,6 +20,8 @@ import org.authorsite.web.nav.XmlNavNodeFactory;
  * @author jejking
  */
 public class NavNodeInitialiserServletContextListener implements ServletContextListener {
+    
+    private static final Logger LOGGER = Logger.getLogger(NavNodeInitialiserServletContextListener.class);
     
     /** Creates a new instance of NavNodeInitialiserServletContextListener */
     public NavNodeInitialiserServletContextListener() {
@@ -31,10 +34,14 @@ public class NavNodeInitialiserServletContextListener implements ServletContextL
 
     public void contextInitialized(ServletContextEvent sce) {
         // register people
-        XmlNavNodeFactory.buildInstance("/conf/nav/peopleNav.xml",RootNavNode.getInstance());
+        XmlNavNodeFactory.buildInstance("/conf/nav/peopleNav.xml", RootNavNode.getInstance());
+        LOGGER.debug("initialised people nav");
         
         // register works
         XmlNavNodeFactory.buildInstance("/conf/nav/worksNav.xml", RootNavNode.getInstance());
+        LOGGER.debug("initialised works nav");
+        LOGGER.debug(RootNavNode.getInstance().viewAsString());
+        
     }
 
 }

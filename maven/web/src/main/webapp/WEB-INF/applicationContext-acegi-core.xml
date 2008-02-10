@@ -186,6 +186,8 @@
         </constructor-arg>
     </bean>
     
+    
+    
     <bean id="aclCache" class="org.acegisecurity.acls.jdbc.EhCacheBasedAclCache">
         <constructor-arg>
             <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
@@ -199,6 +201,7 @@
         </constructor-arg>
     </bean>
     
+    <!--
     <bean id="lookupStrategy" class="org.acegisecurity.acls.jdbc.BasicLookupStrategy">
         <constructor-arg>
             <ref bean="dataSource"/>
@@ -213,7 +216,15 @@
             <bean class="org.acegisecurity.acls.domain.ConsoleAuditLogger"/>
         </constructor-arg>
     </bean>
-    
+    -->
+     <bean id="lookupStrategy" class="org.authorsite.security.acls.MysqlLookupStrategy">
+        <constructor-arg ref="dataSource"/>
+        <constructor-arg ref="aclCache"/>
+        <constructor-arg ref="aclAuthorizationStrategy"/>
+        <constructor-arg>
+            <bean class="org.acegisecurity.acls.domain.ConsoleAuditLogger"/>
+        </constructor-arg>
+    </bean>
     
     <bean id="aclAuthorizationStrategy" class="org.acegisecurity.acls.domain.AclAuthorizationStrategyImpl">
         <constructor-arg>

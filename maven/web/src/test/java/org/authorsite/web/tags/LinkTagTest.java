@@ -62,6 +62,22 @@ public class LinkTagTest extends TestCase {
         
     }
     
+    public void testIndividualEdit() {
+        Individual i = new Individual();
+        i.setId(1234);
+        i.setName("Wurst");
+        
+        tag.setAction("edit");
+        
+        assertEquals("/people/individuals/edit/1234", tag.getUrlForObject(i));
+        assertEquals("Wurst", tag.getLinkTextForObject(i));
+        
+        i.setGivenNames("Hans");
+        assertEquals("Wurst, Hans", tag.getLinkTextForObject(i));
+    
+    }
+    
+    
     public void testArticle() {
         Article a = new Article();
         a.setId(1234);

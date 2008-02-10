@@ -97,4 +97,20 @@ public abstract class AbstractNavNode implements NavNode {
         this.navNodeList.clear();
         this.navNodeNameMap.clear();
     }
+
+
+    public String viewAsString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getName());
+        sb.append(" : ");
+        sb.append(this.getPath());
+        sb.append("\n");
+        for (NavNode child : this.navNodeList) {
+            sb.append(child.viewAsString());
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+    
+    
 }

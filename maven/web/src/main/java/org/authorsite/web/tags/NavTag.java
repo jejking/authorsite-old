@@ -58,9 +58,8 @@ public class NavTag extends TagSupport {
 	    out.print("<a href=\"" + url + "\">" + text + "</a>");
 	    out.println("</li>");
 	    
-	    if (childNode.isAncestorOf(uriPathNode)) {
-		printNavNode(depth + 1, childNode, uriPathNode);
-	    }
+            printNavNode(depth + 1, childNode, uriPathNode);
+            
 	}
 	this.printBlanks(depth + 2);
 	out.println("</ul>");

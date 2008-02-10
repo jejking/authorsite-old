@@ -27,15 +27,16 @@ import org.authorsite.security.SystemUser;
 /**
  * Generated tag handler class.
  * @author  jejking
- * @version
+ *
  */
-
 public class LinkTag extends BodyTagSupport {
 
     /**
      * Initialization of entry property.
      */
     private AbstractEntry entry;
+    
+    private String action;
     
     /** Creates new instance of tag handler */
     public LinkTag() {
@@ -49,6 +50,9 @@ public class LinkTag extends BodyTagSupport {
         this.entry = value;
     }
     
+    public void setAction(String action) {
+        this.action = action;
+    }
 
     public String getUrlForObject(AbstractEntry entry) {
         
@@ -85,6 +89,10 @@ public class LinkTag extends BodyTagSupport {
             baseUrl = "/admin/users";
         }
         
+        if (action != null) {
+            baseUrl = baseUrl + "/" + action;
+        }
+        
         if (entry instanceof EmailFolder) {
             EmailFolder folder = (EmailFolder) entry;
             url = baseUrl + folder.getPath();
@@ -93,6 +101,7 @@ public class LinkTag extends BodyTagSupport {
             url = baseUrl + "/" + entry.getId();
         }
         
+                
         if ( pageContext != null ) {
             String contextPath = pageContext.getServletContext().getContextPath();
             return contextPath + url;

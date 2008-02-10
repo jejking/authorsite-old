@@ -23,6 +23,13 @@
        <property name="individualManagementService" ref="individualManagementService"/>
    </bean>
    
+   <bean id="individualsEditController" class="org.authorsite.web.mvc.controllers.IndividualsEditController">
+       <property name="supportedMethods" value="GET,POST"/>
+       <property name="individualManagementService" ref="individualManagementService"/>
+       <property name="commandName" value="individual"/>
+       <property name="commandClass" value="org.authorsite.domain.Individual"/>
+   </bean>
+   
    <bean id="loginController" class="org.authorsite.web.mvc.controllers.auth.LoginController">
        <property name="supportedMethods" value="GET"/>
    </bean>
@@ -59,6 +66,9 @@
                 </entry>
                 <entry key="/people/individuals/index">
                     <ref bean="individualsIndexController"/>
+                </entry>
+                <entry key="/people/individuals/edit/*">
+                    <ref bean="individualsEditController"/>
                 </entry>
                 <entry key="/people/individuals/*">
                     <ref bean="individualsViewController"/>

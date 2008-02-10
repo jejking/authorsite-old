@@ -51,6 +51,7 @@ public class NavTagTest extends TestCase {
         ((AbstractNavNode)RootNavNode.getInstance()).clearChildren();
         
 	XmlNavNodeFactory.buildInstance("/testNav3.xml");
+        XmlNavNodeFactory.buildInstance("/works.xml");
     }
 
     public void testDoStartTag() throws Exception {
@@ -58,5 +59,32 @@ public class NavTagTest extends TestCase {
 	System.out.println(mockJspWriter.getPrinted());
 	
     }
+    
+    public void testWorks() throws Exception {
+        this.request = new MockHttpServletRequest();
+	this.request.addPreferredLocale(Locale.ENGLISH);
+	this.request.setRequestURI("/myWebContext/works/articles/index");
+	this.request.setContextPath("/myWebContext");
+	
+	this.servletContext = new Jee5MockServletContext();
+	this.servletContext.setContextPath("/myWebContext");
+	
+	this.pageContext = new WriterCapableMockPageContext(this.servletContext, request);
+	
+	this.mockJspWriter = new MockJspWriter(1, false);
+	this.pageContext.setMockJspWriter(this.mockJspWriter);
+	
+	navTag = new NavTag();
+	navTag.setPageContext(this.pageContext);
+	
+        ((AbstractNavNode)RootNavNode.getInstance()).clearChildren();
+        
+	XmlNavNodeFactory.buildInstance("/testNav3.xml");
+        XmlNavNodeFactory.buildInstance("/works.xml");
+        
+        navTag.doStartTag();
+	System.out.println(mockJspWriter.getPrinted());
+    }
+    
 
 }

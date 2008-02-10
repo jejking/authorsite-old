@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.authorsite.org/tags/authorsite" prefix="as" %>
 <%@ taglib uri="http://acegisecurity.org/authz" prefix="authz" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ include file="/jsp/fragments/header.jspf" %>
 <%@ include file="/jsp/fragments/nav.jspf" %>    
@@ -51,6 +52,14 @@
         </table>
         
         
+        <authz:authorize ifAnyGranted="ROLE_ADMINISTRATOR, ROLE_EDITOR">
+            <p>
+                <fmt:message key="edit"/> <as:LinkTag action="edit" entry="${individual}"/>
+            </p>
+            <p>
+                <fmt:message key="delete"/> <as:LinkTag action="delete" entry="${individual}"/>
+            </p>
+        </authz:authorize>
     </fmt:bundle>
     
 </div>

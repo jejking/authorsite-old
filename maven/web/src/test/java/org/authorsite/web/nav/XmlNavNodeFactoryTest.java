@@ -85,4 +85,19 @@ public class XmlNavNodeFactoryTest extends TestCase {
 	assertEquals(RootNavNode.getInstance().getResourceBundleName(), collectivesNavNode.getResourceBundleName());
     }
     
+    public void testTwoFiles() {
+        XmlNavNodeFactory.buildInstance("/testNav1.xml", RootNavNode.getInstance());
+        XmlNavNodeFactory.buildInstance("/works.xml", RootNavNode.getInstance());
+        
+        NavNode people = RootNavNode.getInstance().getNamedChild("people");
+        assertNotNull(people);
+        NavNode individuals = people.getNamedChild("individuals");
+        assertNotNull(individuals);
+        
+        NavNode works = RootNavNode.getInstance().getNamedChild("works");
+        assertNotNull(works);
+        NavNode books = works.getNamedChild("books");
+    }
+    
+    
 }
