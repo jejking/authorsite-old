@@ -105,19 +105,19 @@ public final class MysqlLookupStrategy implements LookupStrategy {
     private static String computeRepeatingSql(String repeatingSql, int requiredRepetitions) {
         Assert.isTrue(requiredRepetitions >= 1, "Must be => 1");
 
-        String startSql = "select ACL_OBJECT_IDENTITY.OBJECT_ID_IDENTITY, ACL_ENTRY.ACE_ORDER, "
-            + "ACL_OBJECT_IDENTITY.ID as ACL_ID, " + "ACL_OBJECT_IDENTITY.PARENT_OBJECT, "
-            + "ACL_OBJECT_IDENTITY,ENTRIES_INHERITING, "
-            + "ACL_ENTRY.ID as ACE_ID, ACL_ENTRY.MASK, ACL_ENTRY.GRANTING, "
-            + "ACL_ENTRY.AUDIT_SUCCESS, ACL_ENTRY.AUDIT_FAILURE, "
-            + "ACL_SID.PRINCIPAL as ACE_PRINCIPAL, ACL_SID.SID as ACE_SID, "
-            + "ACLI_SID.PRINCIPAL as ACL_PRINCIPAL, ACLI_SID.SID as ACL_SID, " + "ACL_CLASS.CLASS "
-            + "from ACL_SID ACLI_SID, ACL_CLASS, ACL_OBJECT_IDENTITY "
-            + "LEFT JOIN ACL_ENTRY ON ACL_OBJECT_IDENTITY.ID = ACL_ENTRY.ACL_OBJECT_IDENTITY "
-            + "LEFT JOIN ACL_SID ON ACL_ENTRY.SID = ACL_SID.ID where ACLI_SID.ID = ACL_OBJECT_IDENTITY.OWNER_SID "
-            + "and ACL_CLASS.ID = ACL_OBJECT_IDENTITY.OBJECT_ID_CLASS " + "and ( ";
+        String startSql = "select acl_object_identity.OBJECT_ID_IDENTITY, acl_entry.ACE_ORDER, "
+            + "acl_object_identity.ID as ACL_ID, " + "acl_object_identity.PARENT_OBJECT, "
+            + "acl_object_identity,ENTRIES_INHERITING, "
+            + "acl_entry.ID as ACE_ID, acl_entry.MASK, acl_entry.GRANTING, "
+            + "acl_entry.AUDIT_SUCCESS, acl_entry.AUDIT_FAILURE, "
+            + "acl_sid.PRINCIPAL as ACE_PRINCIPAL, acl_sid.SID as ACE_SID, "
+            + "ACLI_SID.PRINCIPAL as ACL_PRINCIPAL, ACLI_SID.SID as acl_sid, " + "acl_class.CLASS "
+            + "from acl_sid ACLI_SID, acl_class, acl_object_identity "
+            + "LEFT JOIN acl_entry ON acl_object_identity.ID = acl_entry.acl_object_identity "
+            + "LEFT JOIN acl_sid ON acl_entry.SID = acl_sid.ID where ACLI_SID.ID = acl_object_identity.OWNER_SID "
+            + "and acl_class.ID = acl_object_identity.OBJECT_ID_CLASS " + "and ( ";
 
-        String endSql = ") order by ACL_OBJECT_IDENTITY.OBJECT_ID_IDENTITY asc, ACL_ENTRY.ACE_ORDER asc";
+        String endSql = ") order by acl_object_identity.OBJECT_ID_IDENTITY asc, acl_entry.ACE_ORDER asc";
 
         StringBuffer sqlStringBuffer = new StringBuffer();
         sqlStringBuffer.append(startSql);
@@ -214,9 +214,9 @@ public final class MysqlLookupStrategy implements LookupStrategy {
             Sid owner;
 
             if (rs.getBoolean("ACL_PRINCIPAL")) {
-                owner = new PrincipalSid(rs.getString("ACL_SID"));
+                owner = new PrincipalSid(rs.getString("acl_sid"));
             } else {
-                owner = new GrantedAuthoritySid(rs.getString("ACL_SID"));
+                owner = new GrantedAuthoritySid(rs.getString("acl_sid"));
             }
 
             acl = new AclImpl(objectIdentity, id, aclAuthorizationStrategy, auditLogger, parentAcl, null,
@@ -280,7 +280,7 @@ public final class MysqlLookupStrategy implements LookupStrategy {
 
         // Make the "acls" map contain all requested objectIdentities
         // (including markers to each parent in the hierarchy)
-        String sql = computeRepeatingSql("(ACL_OBJECT_IDENTITY.OBJECT_ID_IDENTITY = ? and ACL_CLASS.CLASS = ?)",
+        String sql = computeRepeatingSql("(acl_object_identity.OBJECT_ID_IDENTITY = ? and acl_class.CLASS = ?)",
                 objectIdentities.length);
 
         jdbcTemplate.query(sql,
@@ -330,7 +330,7 @@ public final class MysqlLookupStrategy implements LookupStrategy {
         Assert.notNull(acls, "ACLs are required");
         Assert.notEmpty(findNow, "Items to find now required");
 
-        String sql = computeRepeatingSql("(ACL_OBJECT_IDENTITY.ID = ?)", findNow.size());
+        String sql = computeRepeatingSql("(acl_object_identity.ID = ?)", findNow.size());
 
         jdbcTemplate.query(sql,
             new PreparedStatementSetter() {
