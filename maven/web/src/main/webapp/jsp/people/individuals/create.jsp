@@ -16,6 +16,7 @@
         </h1>
         <authz:authorize ifAnyGranted="ROLE_ADMINISTRATOR, ROLE_EDITOR">
             <form:form commandName="individual">
+                <form:errors path="*"/>
                 <table>
                     <tbody>
                         <tr>

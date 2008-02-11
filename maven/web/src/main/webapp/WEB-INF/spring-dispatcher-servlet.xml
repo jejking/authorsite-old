@@ -26,8 +26,10 @@
    <bean id="individualsEditController" class="org.authorsite.web.mvc.controllers.IndividualsEditController">
        <property name="supportedMethods" value="GET,POST"/>
        <property name="individualManagementService" ref="individualManagementService"/>
+       <property name="formView" value="people/individuals/edit"/>
        <property name="commandName" value="individual"/>
        <property name="commandClass" value="org.authorsite.domain.Individual"/>
+       <property name="validator" ref="individualValidator"/>
    </bean>
    
    <bean id="individualsDeleteController" class="org.authorsite.web.mvc.controllers.IndividualsDeleteController">
@@ -41,6 +43,7 @@
        <property name="formView" value="people/individuals/create"/>
        <property name="commandName" value="individual"/>
        <property name="commandClass" value="org.authorsite.domain.Individual"/>
+       <property name="validator" ref="individualValidator"/>
    </bean>
    
    <bean id="loginController" class="org.authorsite.web.mvc.controllers.auth.LoginController">
@@ -51,6 +54,8 @@
        <property name="supportedMethods" value="GET"/>
    </bean>
 
+   <bean id="individualValidator" class="org.authorsite.web.validators.IndividualValidator"/>
+   
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/jsp/"/>
