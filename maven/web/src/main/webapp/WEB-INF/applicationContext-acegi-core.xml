@@ -173,8 +173,9 @@
         </property>
     </bean>
     
+    <!--
     <bean id="mutableAclService" class="org.acegisecurity.acls.jdbc.JdbcMutableAclService">
-    <!--<bean id="mutableAclService" class="org.authorsite.security.DerbyJdbcMutableAclService"> -->
+    
         <constructor-arg>
             <ref bean="dataSource"/>
         </constructor-arg> 
@@ -185,8 +186,13 @@
             <ref bean="aclCache"/>
         </constructor-arg>
     </bean>
+    -->
     
-    
+    <bean id="mutableAclService" class="org.authorsite.security.acls.MysqlMutableAclService">
+        <constructor-arg ref="dataSource"/>
+        <constructor-arg ref="lookupStrategy"/>
+        <constructor-arg ref="aclCache"/>
+    </bean>
     
     <bean id="aclCache" class="org.acegisecurity.acls.jdbc.EhCacheBasedAclCache">
         <constructor-arg>

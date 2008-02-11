@@ -30,6 +30,19 @@
        <property name="commandClass" value="org.authorsite.domain.Individual"/>
    </bean>
    
+   <bean id="individualsDeleteController" class="org.authorsite.web.mvc.controllers.IndividualsDeleteController">
+       <property name="supportedMethods" value="GET"/>
+       <property name="individualManagementService" ref="individualManagementService"/>
+   </bean>
+   
+   <bean id="individualsCreateController" class="org.authorsite.web.mvc.controllers.IndividualsCreateController">
+       <property name="supportedMethods" value="GET,POST"/>
+       <property name="individualManagementService" ref="individualManagementService"/>
+       <property name="formView" value="people/individuals/create"/>
+       <property name="commandName" value="individual"/>
+       <property name="commandClass" value="org.authorsite.domain.Individual"/>
+   </bean>
+   
    <bean id="loginController" class="org.authorsite.web.mvc.controllers.auth.LoginController">
        <property name="supportedMethods" value="GET"/>
    </bean>
@@ -67,8 +80,14 @@
                 <entry key="/people/individuals/index">
                     <ref bean="individualsIndexController"/>
                 </entry>
+                <entry key="/people/individuals/create">
+                    <ref bean="individualsCreateController"/>
+                </entry>
                 <entry key="/people/individuals/edit/*">
                     <ref bean="individualsEditController"/>
+                </entry>
+                <entry key="/people/individuals/delete/*">
+                    <ref bean="individualsDeleteController"/>
                 </entry>
                 <entry key="/people/individuals/*">
                     <ref bean="individualsViewController"/>

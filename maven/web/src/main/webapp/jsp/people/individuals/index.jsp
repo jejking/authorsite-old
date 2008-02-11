@@ -14,6 +14,14 @@
             <fmt:message key="individuals-header"/>
         </h1>
         
+        <authz:authorize ifAnyGranted="ROLE_ADMINISTRATOR, ROLE_EDITOR">
+            <!-- link to create -->
+            <p>
+                <fmt:message key="create.individual" var="createIndividualMessage"/>
+                <c:url var="createUrl" value="/people/individuals/create"/>
+                <a href="${createUrl}">${createIndividualMessage}</a>
+            </p>
+        </authz:authorize>
         <table>
             <thead>
                 <tr>

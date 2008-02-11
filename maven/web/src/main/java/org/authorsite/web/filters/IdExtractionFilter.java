@@ -58,7 +58,7 @@ public class IdExtractionFilter implements Filter {
          */
         String[] pathComponents = uri.split("/");
         Long idLong = null;
-        if ( !pathComponents[pathComponents.length - 1].equals(("index"))) {
+        if ( !pathComponents[pathComponents.length - 1].equals(("index")) && !pathComponents[pathComponents.length - 1].equals(("create"))  ) {
             try {
                 idLong = new Long(Long.parseLong(pathComponents[pathComponents.length - 1]));
                 request.setAttribute("id", idLong);
