@@ -1,51 +1,19 @@
 <?php
-require('../inc/headers.php5');
-require('../inc/db.php5');
-require('../inc/utils.php5');
+require_once('../inc/headers.php5');
+require_once('../inc/db.php5');
+require_once('../inc/utils.php5');
+require_once('../types/Collective.php');
+try {
+    $db = openDbConnection();
 
-DEFINE ('BROWSE_COLLECTIVES_QUERY', "SELECT id, name, givennames, place FROM human WHERE DTYPE = 'Collective' ORDER BY name, givennames, place DESC LIMIT ?, ?");
+    $collectivesCount = Collective::count($db);
+    $pageNumber = getPageNumber($_GET['pageNumber'], PAGE_SIZE, $collectivesCount);
 
-
-
-$db = openDbConnection();
-$producerCount = doCountWithCondition("human"," where DTYPE = 'Collective'",  $db);
-$pageNumber = getPageNumber($_GET['pageNumber'], PAGE_SIZE, $producerCount);
-
-$resultSet = doBrowseQuery($db, BROWSE_COLLECTIVES_QUERY, $pageNumber, PAGE_SIZE);
-
-
-function renderCollective($resultRow) {
-  if ($resultRow['name'] != null) {
-    echo '<a href="collective.php5?id=' . $resultRow['id'] . '"> '. htmlspecialchars($resultRow['name']) . '</a>';
-  }
-  if ($resultRow['place'] != null) {
-    $place = $resultRow['place'];
-    echo htmlspecialchars(" ($place)");
-  }
+    $collectives = Collective::getPage($pageNumber, AbstractEntry::PAGE_SIZE, $db);
+    closeDbConnection($db);
+    require_once('../view/renderCollectives.php5');
 }
-
-
-?>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Work Producers (Collectives)</title>
-        <link rel="stylesheet" type="text/css" href="css/main.css"/>
-    </head>
-    <body>
-        <h1>Work Producers (Collectives)</h1>
-        <?php
-        foreach ($resultSet as $resultRow) {
-          echo "<p>\n";
-          renderCollective($resultRow);
-          echo "</p>";
-          
-        }
-        renderPaging("collectives.php5", $pageNumber, $indidivualsCount);
-        ?>
-    </body>
-</html> 
-
-<?php
-$result = null;
-closeDbConnection($db);
+catch (PDOException $pdoExeption) {
+    require_once('../view/500.php');
+}
 ?>

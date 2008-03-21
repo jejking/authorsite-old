@@ -1,39 +1,20 @@
 <?php
-require('../inc/headers.php5');
-require('../inc/db.php5');
-require('../inc/utils.php5');
-
-require('../inc/getWorksSummary.php5');
-DEFINE('LOAD_COLLECTIVE_QUERY' , "select name, place FROM human WHERE DTYPE = 'Collective' and id = ?;");
-
-
+require_once('../inc/headers.php5');
+require_once('../inc/db.php5');
+require_once('../inc/utils.php5');
+require_once('../types/Collective.php');
 $db = openDbConnection();
 
 $collectiveId = getId($_GET['id']);
   
-$collectiveResultSet = doQueryWithIdParameter($db, LOAD_COLLECTIVE_QUERY, $collectiveId);
-$foundCollective = false;
+$collective = Collective::get($collectiveId, $db);
 
-// only do rest if we actually find the collective
-if (count($collectiveResultSet) == 1) {
-  $foundCollective = true;
-}
-
-if ($foundCollective) {
-  $booksProducedResultSet = doQueryWithIdParameter($db, BOOKS_PRODUCED_QUERY, $collectiveId);
-  $articlesProducedResultSet = doQueryWithIdParameter($db, ARTICLES_PRODUCED_QUERY, $collectiveId);
-  $thesesProducedResultSet = doQueryWithIdParameter($db, THESES_PRODUCED_QUERY, $collectiveId);
-  $chaptersProducedResultSet = doQueryWithIdParameter($db, CHAPTERS_PRODUCED_QUERY, $collectiveId);
-  $webResourcesProducedResultSet = doQueryWithIdParameter($db, WEB_RESOURCES_PRODUCED_QUERY, $collectiveId);
-}
-
-closeDbConnection($db);
-
-if ($foundCollective) {
-  include('../view/renderCollective.php5');
+if (!is_null($collective)) {
+    $worksCounts = $collective->getWorksCountSummary($db);
+    require('../view/renderCollective.php5');
 }
 else {
-  include('../view/collectiveNotFound.php5');
+    require ('../view/404.php');
 }
-
+closeDbConnection($db);
 ?>

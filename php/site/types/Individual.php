@@ -4,7 +4,7 @@ require_once 'AbstractHuman.php';
 final class Individual extends AbstractHuman {
     
     const BROWSE_INDIVIDUALS_QUERY = 
-    	"SELECT id, name, nameQualification, givennames FROM human WHERE DTYPE = 'Individual' ORDER BY name, givennames, place DESC";
+    	"SELECT id, name, nameQualification, givennames FROM human WHERE DTYPE = 'Individual' ORDER BY name, givennames, nameQualification DESC";
     
     const GET_INDIVIDUAL_QUERY = "SELECT id, name, nameQualification, givennames FROM human WHERE DTYPE = 'Individual' AND id = ?";
     
