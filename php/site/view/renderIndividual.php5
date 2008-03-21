@@ -1,24 +1,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Work Producer (Individual <?php echo ($individualId) ?>)</title>
+        <title>
+            <?php 
+                echo $individual->name; 
+                if ($individual->givenNames != null) {
+                    echo ', ';
+                    echo $individual->givenNames;
+                }
+                echo '(' . $individual->id . ')';
+            ?>
+        </title>
         <link rel="stylesheet" type="text/css" href="css/main.css"/>
     </head>
     <body>
-        <h1>Work Producer (Individual)</h1>
+        <h1>
+			<?php
+                echo (htmlspecialchars( $individual->name));
+                if ($individual->givenNames != null) {
+                    echo ', ';
+                    echo $individual->givenNames;
+                }
+			 ?>
+		</h1>
         
-        <h2>Details</h2>
-        <table>
-          <tr>
-            <td>Name</td>
-            <td><?php echo (htmlspecialchars( $individualResultSet[0]['name'])); ?></td>
-          </tr>
-          <tr>
-            <td>Given Names</td>
-            <td><?php echo (htmlspecialchars( $individualResultSet[0]['givennames'])); ?></td>
-          </tr>
-        </table>
-        
-        <?php require ('viewWorksSummaryUtil.php5') ?>
+        <?php require_once('renderWorksCounts.php5') ?>
         
     </body>
 </html> 

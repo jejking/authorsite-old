@@ -1,14 +1,11 @@
 <?php
-
-/*
- provides lists 
- */
-require('../inc/headers.php5');
-require('../inc/db.php5');
+require_once('../inc/headers.php5');
+require_once('../inc/db.php5');
+require_once('../types/Individual.php');
 $db = openDbConnection();
 
 // do counts
-$individualsCount = doCountWithCondition("human"," where DTYPE = 'Individual'",  $db);
+$individualsCount = Individual::count($db);
 $collectivesCount = doCountWithCondition("human"," where DTYPE = 'Collective'",  $db);
 $booksCount = doCount('book', $db);
 $articlesCount = doCount('article', $db);

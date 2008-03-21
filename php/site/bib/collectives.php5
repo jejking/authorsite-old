@@ -40,7 +40,7 @@ function renderCollective($resultRow) {
           echo "</p>";
           
         }
-        renderPaging("collectives.php5", $pageNumber, $producerCount);
+        renderPaging("collectives.php5", $pageNumber, $indidivualsCount);
         ?>
     </body>
 </html> 

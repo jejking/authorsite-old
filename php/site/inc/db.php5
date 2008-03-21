@@ -98,6 +98,26 @@ function doBrowseQuery($db, $queryString, $startPage, $rowCount) {
                
 }
 
+function doParameterisedBrowseQuery($db,$queryString, $params, $startPage, $rowCount) {
+  try {
+    $i = 1;
+    $stmt = $db->prepare($queryString);
+    foreach ($params as $param) {
+      $stmt->bindValue($i, $param);
+      $i++;
+    }
+    $stmt->bindValue($i + 1, $startPage * PAGE_SIZE, PDO::PARAM_INT);
+    $stmt->bindValud($i + 1, PAGE_SIZE, PD0::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_BOTH);
+    return $result;
+  }
+  catch (PDOException $e)
+  {
+    handleDatabaseError($e);
+  }
+}
+
 function doQueryWithIdParameter($db, $queryString, $id) {
   try {
     $stmt = $db->prepare($queryString);
@@ -123,6 +143,27 @@ function doSimpleQuery($db, $queryString) {
   {
     handleDatabaseError($e);
   }
+}
+
+function doParameterisedQuery($db, $query, $params) {
+  try {
+    $i = 1;
+    $stmt = $db->prepare($queryString);
+    foreach ($params as $param) {
+      $stmt->bindValue($i, $param);
+      $i++;
+    }
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_BOTH);
+    return $result;
+  }
+  catch (PDOException $e) {
+    handleDatabaseError($e);
+  }
+}
+
+function getFirstColumnFromResult($result) {
+  return $result[0];
 }
 
 
