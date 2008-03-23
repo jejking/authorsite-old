@@ -1,6 +1,6 @@
 <?php
 include 'AbstractAuthoredEditoredWork.php';
-abstract class AuthoredEditoredPublishedWork extends AbstractAuthoredEditoredWork  {
+abstract class AuthoredEditedPublishedWork extends AbstractAuthoredEditedWork  {
     
     public $publisher;
     

@@ -1,6 +1,6 @@
 <?php
 require_once 'AbstractEntry.php';
-require_once 'AbstractWork.php';
+require_once 'Constants.php';
 /**
  * Class representing shared data and functionality 
  * between collectives and individuals.
@@ -8,11 +8,6 @@ require_once 'AbstractWork.php';
  * @author jejking
  */
 abstract class AbstractHuman extends AbstractEntry {
-    
-    const AUTHOR = 'AUTHOR';
-    const EDITOR = 'EDITOR';
-    const PUBLISHER = 'PUBLISHER';
-    const AWARDING_BODY = 'AWARDING_BODY';
     
     const BOOKS_PRODUCED_QUERY =
         "SELECT workproducertype, count(wwp.work_id) AS theCount 
@@ -70,31 +65,31 @@ abstract class AbstractHuman extends AbstractEntry {
         // books
         $booksCount = AbstractEntry::doQueryWithIdParameter(AbstractHuman::BOOKS_PRODUCED_QUERY, $this->id, $db);
         if (count($booksCount) > 0) {
-            $countsArray[AbstractWork::BOOK] = AbstractHuman::buildHumanWorksCountSummary($booksCount);    
+            $countsArray[Constants::BOOK] = AbstractHuman::buildHumanWorksCountSummary($booksCount);    
         }
         
         // articles
         $articlesCount = AbstractEntry::doQueryWithIdParameter(AbstractHuman::ARTICLES_PRODUCED_QUERY, $this->id, $db);
         if (count($articlesCount) > 0) {
-            $countsArray[AbstractWork::ARTICLE] = AbstractHuman::buildHumanWorksCountSummary($articlesCount);    
+            $countsArray[Constants::ARTICLE] = AbstractHuman::buildHumanWorksCountSummary($articlesCount);    
         }
                 
         // theses
         $thesesCount = AbstractEntry::doQueryWithIdParameter(AbstractHuman::THESES_PRODUCED_QUERY, $this->id, $db);
         if (count($thesesCount) > 0) {
-            $countsArray[AbstractWork::THESIS] = AbstractHuman::buildHumanWorksCountSummary($thesesCount);    
+            $countsArray[Constants::THESIS] = AbstractHuman::buildHumanWorksCountSummary($thesesCount);    
         }
                 
         // chapters
         $chaptersCount = AbstractEntry::doQueryWithIdParameter(AbstractHuman::CHAPTERS_PRODUCED_QUERY, $this->id, $db);
         if (count($chaptersCount) > 0) {
-            $countsArray[AbstractWork::CHAPTER] = AbstractHuman::buildHumanWorksCountSummary($chaptersCount);    
+            $countsArray[Constants::CHAPTER] = AbstractHuman::buildHumanWorksCountSummary($chaptersCount);    
         }
                 
         // web resources
         $webResourcesCount = AbstractEntry::doQueryWithIdParameter(AbstractHuman::WEB_RESOURCES_PRODUCED_QUERY, $this->id, $db);
         if (count($webResourcesCount) > 0) {
-            $countsArray[AbstractWork::WEB_RESOURCE] = AbstractHuman::buildHumanWorksCountSummary($webResourcesCount);    
+            $countsArray[Constants::WEB_RESOURCE] = AbstractHuman::buildHumanWorksCountSummary($webResourcesCount);    
         }
         
         return $countsArray;

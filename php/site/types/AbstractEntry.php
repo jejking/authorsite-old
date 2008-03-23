@@ -91,7 +91,7 @@ abstract class AbstractEntry {
      * @param db connection $db
      * @return result set
      */
-    protected function doSimpleQuery($queryString, $db) {
+    protected static function doSimpleQuery($queryString, $db) {
 
         $stmt = $db->prepare($queryString);
         $stmt->execute();
@@ -108,10 +108,10 @@ abstract class AbstractEntry {
      * @param db connection $db
      * @return result set, probably just with one row
      */
-    protected function doQueryWithIdParameter($queryString, $id, $db) {
+    protected static function doQueryWithIdParameter($queryString, $id, $db) {
 
         $stmt = $db->prepare($queryString);
-        $stmt->bindValue(1, $id);
+        $stmt->bindValue(1, $id, PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_BOTH);
         return $result;

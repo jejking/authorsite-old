@@ -1,5 +1,5 @@
 <?php
-include 'AbstractHuman.php';
+require_once('AbstractHuman.php');
 final class Collective extends AbstractHuman {
     
     const BROWSE_COLLECTIVES_QUERY = 

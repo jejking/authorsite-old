@@ -1,5 +1,5 @@
 <?php
-include 'AbstractWork.php';
+require_once ('AbstractWork.php');
 abstract class AbstractAuthoredEditoredWork extends AbstractWork {
     
     public $authors;

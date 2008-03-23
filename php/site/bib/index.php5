@@ -2,13 +2,15 @@
 require_once('../inc/headers.php5');
 require_once('../inc/db.php5');
 require_once('../types/Individual.php');
+require_once('../types/Collective.php');
+require_once('../types/Article.php');
 $db = openDbConnection();
 
 // do counts
 $individualsCount = Individual::count($db);
-$collectivesCount = doCountWithCondition("human"," where DTYPE = 'Collective'",  $db);
+$collectivesCount = Collective::count($db);
 $booksCount = doCount('book', $db);
-$articlesCount = doCount('article', $db);
+$articlesCount = Article::count($db);
 $chaptersCount = doCount('chapter', $db);
 $thesesCount = doCount('thesis', $db);
 $webResourcesCount = doCount('webresource', $db);

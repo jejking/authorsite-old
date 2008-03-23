@@ -9,6 +9,6 @@ if (stristr($_SERVER["HTTP_ACCEPT"], "application/xhtml+xml") || stristr($_SERVE
     header("Content-Type: text/html; charset=utf-8");
     header("Vary: Accept");
 }
-
+error_reporting(E_ERROR);
 // cache instructions could come here 
 ?> 

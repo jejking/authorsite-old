@@ -1,16 +1,16 @@
 <?php
     $workTypeMap = array();
-    $workTypeMap[AbstractWork::ARTICLE] = 'Articles';
-    $workTypeMap[AbstractWork::BOOK] = 'Books';
-    $workTypeMap[AbstractWork::CHAPTER] = 'Chapters';
-    $workTypeMap[AbstractWork::THESIS] = 'Theses';
-    $workTypeMap[AbstractWork::WEB_RESOURCE] = 'Web Resources';
+    $workTypeMap[Constants::ARTICLE] = 'Articles';
+    $workTypeMap[Constants::BOOK] = 'Books';
+    $workTypeMap[Constants::CHAPTER] = 'Chapters';
+    $workTypeMap[Constants::THESIS] = 'Theses';
+    $workTypeMap[Constants::WEB_RESOURCE] = 'Web Resources';
     
     $relTypeMap = array();
-    $relTypeMap[AbstractHuman::AUTHOR] = 'Authored';
-    $relTypeMap[AbstractHuman::EDITOR] = 'Edited';
-    $relTypeMap[AbstractHuman::AWARDING_BODY] = 'Awarded';
-    $relTypeMap[AbstractHuman::PUBLISHER] = 'Published';
+    $relTypeMap[Constants::AUTHOR] = 'Authored';
+    $relTypeMap[Constants::EDITOR] = 'Edited';
+    $relTypeMap[Constants::AWARDING_BODY] = 'Awarded';
+    $relTypeMap[Constants::PUBLISHER] = 'Published';
 ?>
 
 <table>
