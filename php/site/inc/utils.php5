@@ -157,17 +157,17 @@ function renderPagingCentralBlock($baseUrl, $pageNumber, $totalCount) {
 function renderHuman($human) {
     if ($human instanceof Individual) {
         echo ('<a href="individual.php5?id=' . $human->id . '">');
-        echo ($human->name);
+        echo (htmlspecialchars($human->name));
         if (!is_null($human->givenNames)) {
-            echo (', ' . $human->givenNames);
+            echo (', ' . htmlspecialchars($human->givenNames));
         }
         echo ('</a>');
     }
     else {
         echo ('<a href="collective.php5?id=' . $human->id . '">');
-        echo ($human->name);
+        echo (htmlspecialchars($human->name));
         if (!is_null($human->place)) {
-            echo (' ('. $human->place . ')');
+            echo (' ('. htmlspecialchars($human->place) . ')');
         }
         echo ('</a>');
     }

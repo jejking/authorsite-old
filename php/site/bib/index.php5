@@ -4,17 +4,19 @@ require_once('../inc/db.php5');
 require_once('../types/Individual.php');
 require_once('../types/Collective.php');
 require_once('../types/Article.php');
+require_once('../types/Book.php');
+require_once('../types/Journal.php');
 $db = openDbConnection();
 
 // do counts
 $individualsCount = Individual::count($db);
 $collectivesCount = Collective::count($db);
-$booksCount = doCount('book', $db);
+$booksCount = Book::count($db);
 $articlesCount = Article::count($db);
 $chaptersCount = doCount('chapter', $db);
 $thesesCount = doCount('thesis', $db);
 $webResourcesCount = doCount('webresource', $db);
-$journalsCount = doCount('journal', $db);
+$journalsCount = Journal::count($db);
 
 closeDbConnection($db);
 

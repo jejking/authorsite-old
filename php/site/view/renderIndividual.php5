@@ -7,7 +7,6 @@
                     echo ', ';
                     echo $individual->givenNames;
                 }
-                echo '(' . $individual->id . ')';
             ?>
         </title>
         <link rel="stylesheet" type="text/css" href="css/main.css"/>

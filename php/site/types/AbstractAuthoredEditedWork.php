@@ -1,6 +1,6 @@
 <?php
 require_once ('AbstractWork.php');
-abstract class AbstractAuthoredEditoredWork extends AbstractWork {
+abstract class AbstractAuthoredEditedWork extends AbstractWork {
     
     public $authors;
     public $editors;

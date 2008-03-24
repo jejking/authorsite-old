@@ -1,7 +1,7 @@
 <?php
 require_once('AbstractAuthoredEditedWork.php');
 require_once('Journal.php');
-final class Article extends AbstractAuthoredEditoredWork {
+final class Article extends AbstractAuthoredEditedWork {
     
     const GET_ARTICLES_CORE_QUERY = 
     	'SELECT a.id, a.pages, a.issue, a.volume, a.journal_id, wa.date, wa.toDate, wa.title AS article_title, 
