@@ -154,4 +154,23 @@ function renderPagingCentralBlock($baseUrl, $pageNumber, $totalCount) {
    while ($i <= $maxBlockPageNumber);
 }
 
+function renderHuman($human) {
+    if ($human instanceof Individual) {
+        echo ('<a href="individual.php5?id=' . $human->id . '">');
+        echo ($human->name);
+        if (!is_null($human->givenNames)) {
+            echo (', ' . $human->givenNames);
+        }
+        echo ('</a>');
+    }
+    else {
+        echo ('<a href="collective.php5?id=' . $human->id . '">');
+        echo ($human->name);
+        if (!is_null($human->place)) {
+            echo (' ('. $human->place . ')');
+        }
+        echo ('</a>');
+    }
+}
+
 ?>

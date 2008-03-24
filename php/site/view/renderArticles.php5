@@ -2,25 +2,6 @@
 require_once '../inc/utils.php5';
 ob_flush();
 
-function renderHuman($human) {
-    if ($human instanceof Individual) {
-        echo ('<a href="individual.php5?id=' . $human->id . '">');
-        echo ($human->name);
-        if (!is_null($human->givenNames)) {
-            echo (', ' . $human->givenNames);
-        }
-        echo ('</a>');
-    }
-    else {
-        echo ('<a href="collective.php5?id=' . $human->id . '">');
-        echo ($human->name);
-        if (!is_null($human->place)) {
-            echo (' ('. $human->place . ')');
-        }
-        echo ('</a>');
-    }
-}
-
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <head>

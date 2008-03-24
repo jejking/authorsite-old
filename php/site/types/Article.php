@@ -16,7 +16,7 @@ final class Article extends AbstractAuthoredEditoredWork {
 		 FROM article a, work wa, work wj
 		 WHERE a.id = wa.id
 		 AND a.journal_id = wj.id
-		 and a.journal_id = ?';
+		 and a.id = ?';
     
         
     public $journal;

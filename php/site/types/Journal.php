@@ -11,7 +11,13 @@ final class Journal extends AbstractWork {
     const BROWSE_JOURNALS_QUERY = 
         "SELECT w.id, w.title, w.date, w.toDate
     	 FROM work w, journal j 
-    	 WHERE w.id = j.id";
+    	 WHERE w.id = j.id
+    	 ORDER BY title ASC";
+    
+    const COUNT_ARTICLES_QUERY = 
+        "SELECT count(*) 
+        FROM article a
+        WHERE a.journal_id = ?";
     
     function __construct($id, $title, $fromDate, $toDate) {
         parent::__construct($id, $title, $fromDate, $toDate);
@@ -48,6 +54,19 @@ final class Journal extends AbstractWork {
             array_push($resultArray, $journal);
         }
         return $resultArray;
+    }
+    
+    /**
+     * Counts articles which are known to be
+     * published in the journal.
+     * 
+     * @param dbConnection $db
+     * @return integer count
+     */
+    function getArticlesCount($db) {
+        $resultSet = AbstractEntry::doQueryWithIdParameter(Journal::COUNT_ARTICLES_QUERY, $this->id, $db);
+        $resultSetRow = $resultSet[0];
+        return $resultSetRow[0];
     }
     
     private static function buildJournal($resultSetRow) {
