@@ -9,11 +9,14 @@ final class Book extends AbstractAuthoredEditedPublishedWork {
 		 WHERE b.id = w.id
 		 ORDER BY w.title ASC';
     
-    const GET_SINGLE_ARTICLE_CORE_QUERY = 
-         'SELECT b.id, b.date, b.toDate, b.title
+    const GET_SINGLE_BOOK_CORE_QUERY = 
+         'SELECT b.id, w.date, w.toDate, w.title
 		 FROM book b, work w
 		 WHERE b.id = w.id
     	 and b.id = ?';
+    
+    const GET_CHAPTER_COUNT_QUERY = 
+        'SELECT count(*) from chapter where book_id = ?';
     
     function __construct($id, $title, $fromDate, $toDate, $authors, $editors, $publisher) {
         parent::__construct($id, $title, $fromDate, $toDate, $authors, $editors, $publisher);
@@ -50,9 +53,15 @@ final class Book extends AbstractAuthoredEditedPublishedWork {
         foreach ($coreResultSet as $coreResultSetRow) {
             $workProducers = AbstractWork::getWorkProducersForWork($coreResultSetRow['id'], $db);
             $book = Book::buildBook($coreResultSetRow, $workProducers);
-            array_push($resultArray, $article);
+            array_push($resultArray, $book);
         }
         return $resultArray;
+    }
+    
+    public function getChaptersCount($db) {
+        $resultSet = AbstractEntry::doQueryWithIdParameter(Book::GET_CHAPTER_COUNT_QUERY, $this->id, $db);
+        $resultSetRow = $resultSet[0];
+        return $resultSetRow[0];
     }
     
     private static function buildBook($coreResultSetRow, $workProducers) {

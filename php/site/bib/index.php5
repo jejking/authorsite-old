@@ -6,6 +6,8 @@ require_once('../types/Collective.php');
 require_once('../types/Article.php');
 require_once('../types/Book.php');
 require_once('../types/Journal.php');
+require_once('../types/Chapter.php');
+require_once('../types/Thesis.php');
 $db = openDbConnection();
 
 // do counts
@@ -13,8 +15,8 @@ $individualsCount = Individual::count($db);
 $collectivesCount = Collective::count($db);
 $booksCount = Book::count($db);
 $articlesCount = Article::count($db);
-$chaptersCount = doCount('chapter', $db);
-$thesesCount = doCount('thesis', $db);
+$chaptersCount = Chapter::count($db);
+$thesesCount = Thesis::count($db);
 $webResourcesCount = doCount('webresource', $db);
 $journalsCount = Journal::count($db);
 

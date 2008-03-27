@@ -57,7 +57,7 @@ abstract class AbstractWork extends AbstractEntry {
             return new Individual($id, $name, $nameQualification, $givenNames);
         }
         else {
-            return new Collective($id, $name, $nameQualfication, $place);
+            return new Collective($id, $name, $nameQualification, $place);
         }
     }
 

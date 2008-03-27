@@ -166,10 +166,33 @@ function renderHuman($human) {
     else {
         echo ('<a href="collective.php5?id=' . $human->id . '">');
         echo (htmlspecialchars($human->name));
+        echo ('</a>');
         if (!is_null($human->place)) {
             echo (' ('. htmlspecialchars($human->place) . ')');
         }
+        
+    }
+}
+
+function renderPublisher($human) {
+    if ($human instanceof Individual) {
+        renderHuman($human);
+    }
+    else {
+        echo htmlspecialchars($human->place);
+        echo ': ';
+        echo ('<a href="collective.php5?id=' . $human->id . '">');
+        echo (htmlspecialchars($human->name));
         echo ('</a>');
+    }
+}
+
+function renderAwardingBody($collective) {
+    echo ('<a href="collective.php5?id=' . $collective->id . '">');
+    echo (htmlspecialchars($collective->name));
+    echo ('</a>');
+    if (!is_null($collective->place)) {
+        echo ' (' . $collective->place . ')'; 
     }
 }
 
