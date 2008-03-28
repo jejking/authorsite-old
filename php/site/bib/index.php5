@@ -8,6 +8,7 @@ require_once('../types/Book.php');
 require_once('../types/Journal.php');
 require_once('../types/Chapter.php');
 require_once('../types/Thesis.php');
+require_once('../types/WebResource.php');
 $db = openDbConnection();
 
 // do counts
@@ -17,7 +18,7 @@ $booksCount = Book::count($db);
 $articlesCount = Article::count($db);
 $chaptersCount = Chapter::count($db);
 $thesesCount = Thesis::count($db);
-$webResourcesCount = doCount('webresource', $db);
+$webResourcesCount = WebResource::count($db);
 $journalsCount = Journal::count($db);
 
 closeDbConnection($db);
