@@ -69,7 +69,7 @@ final class WebResource extends AbstractAuthoredEditedPublishedWork {
         $fromDate = $coreResultSetRow['date'];
         $toDate = $coreResultSetRow['toDate'];
         
-        $url = $coreResultSetRow['degree'];
+        $url = $coreResultSetRow['url'];
         $lastChecked = $coreResultSetRow['lastChecked'];
         $lastStatusCode = $coreResultSetRow['lastStatusCode'];
         $authors = $workProducers[Constants::AUTHOR];

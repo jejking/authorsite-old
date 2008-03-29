@@ -4,7 +4,7 @@ ob_flush();
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <head>
-        <title>Books</title>
+        <title>Theses</title>
         <link rel="stylesheet" type="text/css" href="css/main.css"/>
     </head>
     <body>

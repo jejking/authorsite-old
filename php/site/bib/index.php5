@@ -39,6 +39,6 @@ closeDbConnection($db);
         <p><a href="chapters.php5">Chapters</a> (<?php echo $chaptersCount ?>)</p>
         <p><a href="theses.php5">Theses</a> (<?php echo $thesesCount ?>)</p>
         <p><a href="journals.php5">Journals</a> (<?php echo $journalsCount ?>)</p>
-        <p><a href="webresources.php5">Web Resources</a> (<?php echo $webResourcesCount ?>)</p>
+        <p><a href="webResources.php5">Web Resources</a> (<?php echo $webResourcesCount ?>)</p>
     </body>
 </html>
