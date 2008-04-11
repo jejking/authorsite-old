@@ -1,8 +1,9 @@
 <?php
-require_once('../inc/headers.php5');
-require_once('../inc/db.php5');
-require_once('../inc/utils.php5');
-require_once('../types/Journal.php');
+require_once('../shared/utils/headers.php5');
+require_once('../shared/utils/db.php5');
+require_once('../shared/utils/utils.php5');
+
+require_once('types/Journal.php');
 
 
 try {
@@ -13,10 +14,10 @@ try {
 
     $journals = Journal::getPage($pageNumber, AbstractEntry::PAGE_SIZE, $db);
     closeDbConnection($db);
-    require_once('../view/renderJournals.php5');
+    require_once('view/renderJournals.php5');
 }
 catch (PDOException $pdoExeption) {
-    require_once('../view/500.php');
+    require_once('../errors/500.php5');
 }
 ?>
  

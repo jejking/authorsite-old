@@ -1,14 +1,14 @@
 <?php
-require_once('../inc/headers.php5');
-require_once('../inc/db.php5');
-require_once('../types/Individual.php');
-require_once('../types/Collective.php');
-require_once('../types/Article.php');
-require_once('../types/Book.php');
-require_once('../types/Journal.php');
-require_once('../types/Chapter.php');
-require_once('../types/Thesis.php');
-require_once('../types/WebResource.php');
+require_once('../shared/utils/headers.php5');
+require_once('../shared/utils/db.php5');
+require_once('../shared/types/Individual.php');
+require_once('../shared/types/Collective.php');
+require_once('types/Article.php');
+require_once('types/Book.php');
+require_once('types/Journal.php');
+require_once('types/Chapter.php');
+require_once('types/Thesis.php');
+require_once('types/ExternalWebResource.php');
 $db = openDbConnection();
 
 // do counts
@@ -18,7 +18,7 @@ $booksCount = Book::count($db);
 $articlesCount = Article::count($db);
 $chaptersCount = Chapter::count($db);
 $thesesCount = Thesis::count($db);
-$webResourcesCount = WebResource::count($db);
+$externalWebResourcesCount = ExternalWebResource::count($db);
 $journalsCount = Journal::count($db);
 
 closeDbConnection($db);
@@ -39,6 +39,6 @@ closeDbConnection($db);
         <p><a href="chapters.php5">Chapters</a> (<?php echo $chaptersCount ?>)</p>
         <p><a href="theses.php5">Theses</a> (<?php echo $thesesCount ?>)</p>
         <p><a href="journals.php5">Journals</a> (<?php echo $journalsCount ?>)</p>
-        <p><a href="webResources.php5">Web Resources</a> (<?php echo $webResourcesCount ?>)</p>
+        <p><a href="externalWebResources.php5">External Web Resources</a> (<?php echo $externalWebResourcesCount ?>)</p>
     </body>
 </html>

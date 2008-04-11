@@ -1,8 +1,9 @@
 <?php
-require_once('../inc/headers.php5');
-require_once('../inc/db.php5');
-require_once('../inc/utils.php5');
-require_once('../types/Journal.php');
+require_once('../shared/utils/headers.php5');
+require_once('../shared/utils/db.php5');
+require_once('../shared/utils/utils.php5');
+
+require_once('types/Journal.php');
 
 $db = openDbConnection();
 
@@ -12,10 +13,10 @@ $journal = Journal::get($journalId, $db);
 
 if (!is_null($journal)) {
     $articlesCount = $journal->getArticlesCount($db);
-    require('../view/renderJournal.php5');
+    require('view/renderJournal.php5');
 }
 else {
-    require ('../view/404.php');
+    require ('../errors/404.php5');
 }
 closeDbConnection($db);
 ?>
