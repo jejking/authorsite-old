@@ -19,8 +19,7 @@
   </form>
   </div>
   <div id="body">
-    <div id="tabs">
-      <ul>
+      <ul id="tabs">
         {if !isset($activeTab) or $activeTab =='content'}
         <li class="active">
         {else}
@@ -50,7 +49,6 @@
           <a href="/search/index.php5">search</a>
         </li>
       </ul>
-    </div>
     <div id="content">
     
     
