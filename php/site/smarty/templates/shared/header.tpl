@@ -10,7 +10,7 @@
 	<div id="title">
     <h1>{$headerTitle|default:"authorsite.org"}</h1>
   </div>
-    <form action="/search/search.php" method="post">
+    <form action="/search/search.php5" method="post">
       <div id="search">
         <span>Search: </span>
         <input type="text" size="20" name="term"/>
