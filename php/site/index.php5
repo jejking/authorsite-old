@@ -1,17 +1,9 @@
 <?php
-require_once('libs/smarty/Smarty.class.php');
-
-$smarty = new Smarty();
-
-$smarty->template_dir = 'smarty/templates/';
-$smarty->compile_dir  = 'smarty/templates_c/';
-$smarty->config_dir   = 'smarty/configs/';
-$smarty->cache_dir    = 'smarty/cache/';
-
-$smarty->assign('name','Ned');
-
-//** un-comment the following line to show the debug console
-//$smarty->debugging = true;
-
-$smarty->display('index.tpl');
+ob_start();
+$host  = $_SERVER['HTTP_HOST'];
+$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+$extra = 'content/index.php5';
+header("Location: http://$host$uri/$extra");
+ob_flush();
+exit;
 ?>
