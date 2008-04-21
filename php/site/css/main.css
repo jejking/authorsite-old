@@ -42,39 +42,39 @@ body {
 
 
 #tabs {
-	float: left;
-	margin-left: 10px;
-	margin-bottom: 0px;
-	margin-top: 0px;
-	margin-right: 0px;
-	list-style: none;
-	padding: 0;
+    float: left;
+    margin-left: 10px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    list-style: none;
+    padding: 0;
 }
 
 #tabs li {
-	float: left;
-	margin: 0; 
-	display: inline;
-	list-style-type: none;
-	line-height: 1.5em;
+    float: left;
+    margin: 0; 
+    display: inline;
+    list-style-type: none;
+    line-height: 1.5em;
 }
 
 #tabs a {
-			float: left;
-padding-left: 0.5em;
-	padding-right: 0.5em;
-	margin-bottom: 0px;
-	background: #f3f3f3;
-		font-size: 10px;
-		font-weight: bold;
-		text-decoration: none;
-		color: #666;
-		margin-right: 0.5em;
+    float: left;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin-bottom: 0px;
+    background: #f3f3f3;
+    font-size: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #666;
+    margin-right: 0.5em;
 }
 
 #tabs a:hover, #tabs li.active a {
-	background: #fff;
-	
+    background: #fff;
+    
 }
 
 #content {
@@ -86,7 +86,7 @@ padding-left: 0.5em;
     padding-left: 1em;
     padding-right: 1em;
     padding-bottom: 3em;
-
+    
 }
 
 #footer {
