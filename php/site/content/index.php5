@@ -1,17 +1,20 @@
 <?php
-require_once('../libs/smarty/Smarty.class.php');
+require_once('../shared/utils/initPage.php5');
+require_once('../shared/utils/db.php5');
+require_once('../shared/utils/utils.php5');
+require_once('types/TextContent.php5');
+$db = openDbConnection();
 
-$smarty = new Smarty();
+$content_name = 'index';
 
-$smarty->template_dir = '../smarty/templates/';
-$smarty->compile_dir  = '../smarty/templates_c/';
-$smarty->config_dir   = '../smarty/configs/';
-$smarty->cache_dir    = '../smarty/cache/';
+$textContent = TextContent::getByName($content_name, $db);
 
-$smarty->assign('name','Ned');
+if (is_null($textContent)) {
+    
+    $textContent = TextContent::getDefaultIndex();    
+}
+$smarty->assign('textContent', $textContent);
+$smarty->display('content/textContent.tpl');
 
-//** un-comment the following line to show the debug console
-//$smarty->debugging = true;
 
-$smarty->display('index.tpl');
 ?>

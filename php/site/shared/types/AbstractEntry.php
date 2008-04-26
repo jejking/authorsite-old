@@ -116,5 +116,28 @@ abstract class AbstractEntry {
         $result = $stmt->fetchAll(PDO::FETCH_BOTH);
         return $result;
     }
+    
+    protected static function doQueryWithSingleParamter($querystring, $param, $db) {
+        $stmt = $db->prepare($queryString);
+        $stmt->bindValue(1, $id);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_BOTH);
+        return $result;
+    }
+    
+    protected static function doQueryWithMultipleParameters($querystring, $paramArray, $db) {
+        $stmt = $db->prepare($querystring);
+        $i = 1;
+        $stmt = $db->prepare($queryString);
+        foreach ($params as $param) {
+          $stmt->bindValue($i, $param);
+          $i++;
+        }
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_BOTH);
+        return $result;
+    }
+    
+
 }
 ?>

@@ -15,6 +15,16 @@ function getId($string) {
   }
 }
 
+function getCleanContentName($string) {
+    // only letters and digits and underscore
+    if (preg_match('/\w/', $string) == 1) {
+        return $string;
+    }
+    else {
+        return null;
+    }
+}
+
 function getPageNumber($string, $pageSize, $totalCount) {
   
   if (is_numeric($string)) {
