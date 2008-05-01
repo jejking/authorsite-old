@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule /content/text/(.+) /content/text.php5?name=$1 [L]
+
