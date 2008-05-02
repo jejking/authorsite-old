@@ -117,9 +117,9 @@ abstract class AbstractEntry {
         return $result;
     }
     
-    protected static function doQueryWithSingleParamter($querystring, $param, $db) {
+    protected static function doQueryWithSingleParamter($queryString, $param, $db) {
         $stmt = $db->prepare($queryString);
-        $stmt->bindValue(1, $id);
+        $stmt->bindValue(1, $param);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_BOTH);
         return $result;

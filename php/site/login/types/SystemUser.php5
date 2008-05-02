@@ -1,6 +1,6 @@
 <?php
-include_once('shared/types/Individual.php');
-include_once('shared/types/AbstractEntry.php');
+include_once('../shared/types/Individual.php');
+include_once('../shared/types/AbstractEntry.php');
 
 final class SystemUser extends AbstractEntry {
     
@@ -8,6 +8,11 @@ final class SystemUser extends AbstractEntry {
     	"SELECT su.id, su.enabled as isEnabled, su.password as passwordHash, su.userName as username, h.name, h.nameQualification, h.givenNames 
     	 FROM systemuser su, human h 
     	 WHERE su.id = ? AND su.id = h.id";
+    
+    const GET_SYSTEM_USER_BY_USERNAME_QUERY = 
+        "SELECT su.id, su.enabled as isEnabled, su.password as passwordHash, su.userName as username, h.name, h.nameQualification, h.givenNames 
+    	 FROM systemuser su, human h 
+    	 WHERE su.userName = ? AND su.id = h.id";
     
     const BROWSE_SYSTEM_USERS_QUERY = 
         "SELECT su.id, su.enabled as isEnabled, su.password as passwordHash, su.userName as username, h.name, h.nameQualification, h.givenNames 
@@ -56,6 +61,21 @@ final class SystemUser extends AbstractEntry {
     static function getPage($pageNumber, $pageSize, $db) {
         $resultSet = AbstractEntry::doPagingQuery(SystemUser::BROWSE_SYSTEM_USERS_QUERY, $pageNumber, $pageSize, $db);
         return SystemUser::buildArrayofSystemUsers($resultSet);
+    }
+    
+    /**
+     * Looks up user by username.
+     *
+     * @param string $username
+     * @param database connection $db
+     * @return SystemUser
+     */
+    static function getByUsername($username, $db) {
+        $resultSet = AbstractEntry::doQueryWithSingleParamter(SystemUser::GET_SYSTEM_USER_BY_USERNAME_QUERY, $username, $db);
+        if (count($resultSet) == 0) {
+            return null;
+        }
+        return SystemUser::buildSystemUserFromResultSetRow($resultSet[0]);
     }
     
     /**

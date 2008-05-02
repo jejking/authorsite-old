@@ -27,7 +27,7 @@
         {/if}
           <a href="/content/index.php5">content</a>
         </li>
-        {if $activeTab =='bibliography'}
+        {if $activeTab == 'bibliography'}
         <li class="active">
         {else}
         <li>
@@ -48,7 +48,23 @@
         {/if}
           <a href="/search/index.php5">search</a>
         </li>
+        {if $activeTab == 'login'}
+        <li class="active">
+        {else}
+        <li>
+        {/if}
+        {if isset($smarty.session.systemuser_username)}
+        	<a href="/login/logout.php5">logout</a>
+    	{else}
+    		<a href="/login/login.php5">login</a>
+		{/if}
+		</li>
       </ul>
+      {if isset($smarty.session.systemuser_username)}
+      	<div id="loggedInUser">
+      		Logged in as: {$smarty.session.systemuser_username}.
+      	</div>
+      {/if}
     <div id="content">
     
     
