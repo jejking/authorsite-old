@@ -10,6 +10,17 @@ abstract class AbstractWork extends AbstractEntry {
 	 WHERE wwp.abstractHuman_id = h.id
 	 AND wwp.work_id = ?";
     
+    const INSERT_ABSTRACT_WORK_QUERY = 
+    	"INSERT INTO work (createdAt, updatedAt, version, toDate, date, title, updatedBy_id, createdBy_id)
+		VALUES (now(), now(), 0, ?, ?, ?, ?, ?)";
+    
+    const DELETE_ABSTRACT_WORK_QUERY = 
+    	"DELETE FROM work WHERE id = ?";
+    
+    const CREATE_WORK_WORKPRODUCER_RELATIONSHIP_QUERY = 
+        "INSERT INTO work_workproducers (Work_id, workProducerType, abstractHuman_id) 
+        VALUES (?, ?, ?)";
+    
     public $title;
     public $fromDate;
     public $toDate;
@@ -21,6 +32,39 @@ abstract class AbstractWork extends AbstractEntry {
         $this->toDate = $toDate;
     }
 
+    /**
+     * Inserts base abstract work row.
+     * 
+     * The method should be invoked from a transaction initiated
+     * in a subclass.
+     *
+     * @param AbstractWork $abstractEntry
+     * @param Individual $user
+     * @param PDO $db
+     * @return int id generated
+     */
+    public static function insert($abstractEntry, $user, $db) {
+        $params = array();
+        array_push($params, $abstractEntry->toDate);
+        array_push($params, $abstractEntry->fromDate);
+        array_push($params, $abstractEntry->title);
+        array_push($params, $user->id);
+        array_push($params, $user->id);
+        $id = AbstractEntry::doInsertWithMultipleParameters(AbstractWork::INSERT_ABSTRACT_WORK_QUERY, $params, $db);
+        return $id;
+    }
+    
+    /**
+     * Deletes the abstract work row. You must make sure that
+     * any "child" tables have been deleted before calling
+     * this function.
+     *
+     * @param int $id
+     * @param PDO $db
+     */
+    public static function delete($id, $db) {
+        AbstractEntry::doDeleteQuery(AbstractWork::DELETE_ABSTRACT_WORK_QUERY, $id, $db);
+    }
  
     /**
      * Retrieves the work producers and their relationships 
@@ -59,6 +103,22 @@ abstract class AbstractWork extends AbstractEntry {
         else {
             return new Collective($id, $name, $nameQualification, $place);
         }
+    }
+    
+    /**
+     * Creates a work-work producer relationship.
+     *
+     * @param int $workId
+     * @param int $producerId (individual or collective)
+     * @param string $relationship
+     * @param PDO $db
+     */
+    protected static function createWorkWorkProducerRelationship($workId, $producerId, $relationship, $db) {
+        $params = array();
+        array_push($params, $workId);
+        array_push($params, $relationship);
+        array_push($params, $producerId);
+        AbstractEntry::doInsertWithMultipleParameters(AbstractWork::CREATE_WORK_WORKPRODUCER_RELATIONSHIP_QUERY, $params, $db);
     }
 
 }

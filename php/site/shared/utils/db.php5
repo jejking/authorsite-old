@@ -1,17 +1,15 @@
 <?php
 require('../conf/config.php5');
 
-define('BASE_COUNT_QUERY', 'select count(*) from ');
 
-define('PAGE_SIZE', 20);
-
-/*
- * Returns a db connection
+/**
+ * @return PDO
  */
 function openDbConnection() {
   try
   {
     $db = new PDO(DB_URL, DB_USER, DB_PWD);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $setNamesStmt = $db->prepare("SET NAMES 'utf8'");
     $setNamesStmt->execute();
     $setNamesStmt = null;
@@ -26,6 +24,32 @@ function openDbConnection() {
     handleDatabaseError($e);
   }
 }
+
+/**
+ * Gets db connection with write privileges.
+ *
+ * @return PDO
+ */
+function openDbConnectionToWrite() {
+try
+  {
+    $db = new PDO(DB_URL, DB_WRITE_USER, DB_WRITE_PWD);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $setNamesStmt = $db->prepare("SET NAMES 'utf8'");
+    $setNamesStmt->execute();
+    $setNamesStmt = null;
+    $setCharSetStmt = $db->prepare("SET CHARACTER SET 'utf8'");
+    $setCharSetStmt->execute();
+    $setNamesStmt = null;
+    
+    return $db;
+  }
+  catch (PDOException $e)
+  {
+    handleDatabaseError($e);
+  }
+}
+
 
 function closeDbConnection($db) {
   $db = null;

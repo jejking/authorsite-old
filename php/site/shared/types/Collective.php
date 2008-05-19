@@ -45,6 +45,18 @@ final class Collective extends AbstractHuman {
         return Collective::buildArrayOfCollectives($resultSet);
     }
     
+    static function insert($individual, $user, $db) {
+        // TODO build
+    }
+    
+    static function delete($id, $db) {
+        // TODO
+    }
+    
+    static function isSafeToDelete($id, $db) {
+        // TODO
+    }
+    
     private static function buildArrayOfCollectives($resultSet) {
         $collectives = array();
         foreach ($resultSet as $resultSetRow) {

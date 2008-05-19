@@ -16,5 +16,6 @@ $uriParts = explode("/", $uri );
 $smarty->assign("activeTab", $uriParts[1]);
 
 define('PAGE_SIZE', 20);
+error_reporting(E_ALL);
 
 ?>

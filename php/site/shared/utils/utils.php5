@@ -25,6 +25,12 @@ function getCleanContentName($string) {
     }
 }
 
+function getCleanTitle($string) {
+    // TODO think of a regex to allow
+    // only letters, digits, punctuation and the space character
+    return $string;
+}
+
 function getPageNumber($string, $pageSize, $totalCount) {
   
   if (is_numeric($string)) {

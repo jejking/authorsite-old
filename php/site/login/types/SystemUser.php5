@@ -91,7 +91,20 @@ final class SystemUser extends AbstractEntry {
      * @return string hashed password
      */
     public static function createPasswordHash($username, $plainTextPassword) {
+        
         return hash('sha256', $plainTextPassword . '{' . $username . '}');
+    }
+    
+    static function insert($individual, $user, $db) {
+        // TODO build
+    }
+    
+    static function delete($id, $db) {
+        // TODO
+    }
+    
+    static function isSafeToDelete($id, $db) {
+        // TODO
     }
     
     /**
