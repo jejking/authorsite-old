@@ -21,7 +21,14 @@ final class TextContent extends AbstractWork {
 		 FROM content tc, work w
 		 WHERE tc.id = w.id
 		 AND tc.DTYPE = 'TextContent'
-		 AND tc.name = ?";
+		 AND tc.content_name = ?";
+    
+    const INSERT_TEXT_CONTENT_QUERY = 
+        "INSERT INTO content (id, DTYPE, content_name, mime_type, text_content)
+		 VALUES (?, ?, ?, ?, ?)";
+    
+    const DELETE_TEXT_CONTENT_QUERY = 
+        "DELETE FROM content WHERE id = ?";
     
     public $content_name;
     public $mimeType;
@@ -60,12 +67,13 @@ final class TextContent extends AbstractWork {
     }
     
     static function getByName($name, $db) {
-        $coreResultSet = AbstractEntry::doQueryWithSingleParamter(GET_SINGLE_TEXT_CONTENT_BY_NAME_CORE_QUERY, $name, $db);
+        $coreResultSet = AbstractEntry::doQueryWithSingleParamter(TextContent::GET_SINGLE_TEXT_CONTENT_BY_NAME_CORE_QUERY, $name, $db);
         if (count($coreResultSet) == 0) {
             return null;
         }
-        $workProducers = AbstractWork::getWorkProducersForWork($id, $db);
         $coreResultSetRow = $coreResultSet[0];
+        $workProducers = AbstractWork::getWorkProducersForWork($coreResultSetRow['id'], $db);
+        
         return TextContent::buildTextContent($coreResultSetRow, $workProducers);
     }
 
@@ -89,20 +97,76 @@ final class TextContent extends AbstractWork {
         }
         return $resultArray;
     }
+    
+    /**
+     * Inserts new text content.
+     *
+     * @param TextContent $textContent
+     * @param Individual $user
+     * @param PDO $db
+     * @return int
+     */
+    static function insert($textContent, $user, $db) {
+        $db->beginTransaction();
+        
+        $id = AbstractWork::insert($textContent, $user, $db);
+        $params = array();
+        array_push($params, $id);
+        array_push($params, "TextContent");
+        array_push($params, $textContent->content_name);
+        array_push($params, $textContent->mimeType);
+        array_push($params, $textContent->content);
+        
+        AbstractEntry::doInsertWithMultipleParameters(TextContent::INSERT_TEXT_CONTENT_QUERY, $params, $db);
+        
+        AbstractWork::createWorkWorkProducerRelationship($id, $user->id, Constants::AUTHOR, $db);
+        
+        $db->commit();
+        
+        $textContent->id = $id;
+        return $id;
+    }
+    
+    /**
+     * Deletes specified text content.
+     *
+     * @param int $id
+     * @param PDO $db
+     */
+    static function delete($id, $db) {
+        $db->beginTransaction();
+        
+        AbstractEntry::doDeleteQuery(TextContent::DELETE_TEXT_CONTENT_QUERY, $id, $db);
+        AbstractEntry::delete($id, $db);
+        
+        $db->commit();
+    }
+    
+    /**
+     * Specifies if the content is safe to delete.
+     *
+     * @param int $id
+     * @param PDO $db
+     */
+    static function isSafeToDelete($id, $db) {
+        return true;
+    }
 
     private static function buildTextContent($coreResultSetRow, $workProducers) {
         $authors = $workProducers[Constants::AUTHOR];
         $author = $authors[0];
         
         $id = $coreResultSetRow['id'];
+        $title = $coreResultSetRow['title'];
         $content_name = $coreResultSetRow['content_name'];
-        $mimeType = $coreResultSetRow['mimeType'];
+        $mimeType = $coreResultSetRow['mime_type'];
         $content = $coreResultSetRow['text_content'];
         
         $fromDate = $coreResultSetRow['date'];
         $toDate = $coreResultSetRow['toDate'];
         
         $textContent = new TextContent($id, $title, $fromDate, $toDate, $content_name, $mimeType, $content, $author);
+        return $textContent;
     }
     
 }

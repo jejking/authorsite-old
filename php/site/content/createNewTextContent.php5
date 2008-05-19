@@ -16,14 +16,26 @@ if (is_null($suppliedName)) {
     $smarty->assign("generalErrorMessage", "Please supply an appropriate name (A-Z, a-z, 0-9, and _ or -)");
     $hasInputErrors;
 }
+
+$suppliedTitle = getCleanTitle($_POST['title']);
+if (is_null($suppliedTitle)) {
+    $smarty->assign("generalErrorMessage", "Please supply an appropriate title");
+}
 ob_flush();
 $newTextContent = $_POST['newTextContent'];
-// we should now validate the submitted text for dodgy stuff
+// TODO we should now validate the submitted text for dodgy stuff
 
-$db = openDbConnection();
+$db = openDbConnectionToWrite();
 $author = Individual::get($_SESSION['systemuser_id'], $db);
-$textContent = new TextContent(1, $suppliedName, mktime(), mktime(), $suppliedName, "text/html", $newTextContent,  $author);
+$textContent = new TextContent(1, $title, date_create(), date_create(), $suppliedName, "text/html", $newTextContent,  $author);
+
+// do the insert into the database, get the ID
+TextContent::insert($textContent, $author, $db);
+
+// create a message ("created text content with ID x" for smarty)
+
 $smarty->assign("textContent", $textContent);
 $smarty->display('content/textContent.tpl');
+
 
 ?>
