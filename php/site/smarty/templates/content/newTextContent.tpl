@@ -4,9 +4,20 @@
 <div id="textContent">
 
 	<form method="post" action="/content/createNewTextContent.php5">
-		<p>
-			Content Name: <input type="text" size="20" name="name" value="{$name}"/>
-		</p>
+		<table>
+			<tr>
+				<td>Content Name (for URL): </td>
+				<td>
+					<input type="text" size="40" name="name" value="{$name}"/>
+				</td>
+			</tr>
+			<tr>
+				<td>Content Title: </td>
+				<td>
+					<input type="text" size="40" name="title" value="{$title}"/>
+				</td>
+			</tr>
+		</table>
 		{php}
 			$fckEditor = $this->get_template_vars("fckEditor");
 			$fckEditor->Create();
