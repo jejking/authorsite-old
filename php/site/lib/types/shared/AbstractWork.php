@@ -1,7 +1,7 @@
 <?php
-require_once ('AbstractEntry.php');
-require_once ('Individual.php');
-require_once ('Collective.php');
+require_once ('types/shared/AbstractEntry.php');
+require_once ('types/shared/Individual.php');
+require_once ('types/shared/Collective.php');
 abstract class AbstractWork extends AbstractEntry {
 
     const GET_WORKPRODUCERS_QUERY = 

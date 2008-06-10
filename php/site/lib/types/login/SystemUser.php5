@@ -1,6 +1,6 @@
 <?php
-include_once('../shared/types/Individual.php');
-include_once('../shared/types/AbstractEntry.php');
+require_once('types/shared/Individual.php');
+require_once('types/shared/AbstractEntry.php');
 
 final class SystemUser extends AbstractEntry {
     

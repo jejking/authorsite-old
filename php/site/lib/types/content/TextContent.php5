@@ -1,5 +1,5 @@
 <?php
-include_once('../shared/types/AbstractWork.php');
+require_once('types/shared/AbstractWork.php');
 final class TextContent extends AbstractWork {
     
     const GET_TEXT_CONTENT_CORE_QUERY = 

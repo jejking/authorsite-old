@@ -1,6 +1,6 @@
 <?php
-require_once('AbstractAuthoredEditedPublishedWork.php');
-require_once('../shared/types/Constants.php');
+require_once('types/bib/AbstractAuthoredEditedPublishedWork.php');
+require_once('Constants.php');
 final class Book extends AbstractAuthoredEditedPublishedWork {
     
     const GET_BOOKS_CORE_QUERY = 
@@ -62,6 +62,18 @@ final class Book extends AbstractAuthoredEditedPublishedWork {
         $resultSet = AbstractEntry::doQueryWithIdParameter(Book::GET_CHAPTER_COUNT_QUERY, $this->id, $db);
         $resultSetRow = $resultSet[0];
         return $resultSetRow[0];
+    }
+    
+    static function insert($individual, $user, $db) {
+        // TODO build
+    }
+    
+    static function delete($id, $db) {
+        // TODO
+    }
+    
+    static function isSafeToDelete($id, $db) {
+        // TODO
     }
     
     private static function buildBook($coreResultSetRow, $workProducers) {

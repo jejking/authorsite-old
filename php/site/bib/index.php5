@@ -1,14 +1,14 @@
 <?php
-require_once('../shared/utils/headers.php5');
-require_once('../shared/utils/db.php5');
-require_once('../shared/types/Individual.php');
-require_once('../shared/types/Collective.php');
-require_once('types/Article.php');
-require_once('types/Book.php');
-require_once('types/Journal.php');
-require_once('types/Chapter.php');
-require_once('types/Thesis.php');
-require_once('types/ExternalWebResource.php');
+require_once('utils/initPage.php5');
+require_once('utils/db.php5');
+require_once('types/shared/Individual.php');
+require_once('types/shared/Collective.php');
+require_once('types/bib/Article.php');
+require_once('types/bib/Book.php');
+require_once('types/bib/Journal.php');
+require_once('types/bib/Chapter.php');
+require_once('types/bib/Thesis.php');
+require_once('types/bib/ExternalWebResource.php');
 $db = openDbConnection();
 
 // do counts

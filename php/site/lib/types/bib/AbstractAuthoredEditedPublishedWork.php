@@ -1,5 +1,5 @@
 <?php
-require_once('AbstractAuthoredEditedWork.php');
+require_once('types/bib/AbstractAuthoredEditedWork.php');
 abstract class AbstractAuthoredEditedPublishedWork extends AbstractAuthoredEditedWork  {
     
     public $publisher;

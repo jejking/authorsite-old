@@ -1,5 +1,5 @@
 <?php
-require_once('AbstractAuthoredEditedPublishedWork.php');
+require_once('types/bib/AbstractAuthoredEditedPublishedWork.php');
 
 final class ExternalWebResource extends AbstractAuthoredEditedPublishedWork {
     
@@ -43,24 +43,36 @@ final class ExternalWebResource extends AbstractAuthoredEditedPublishedWork {
     }
     
     static function getAll($db) {
-        $coreResultSet = AbstractEntry::doSimpleQuery(WebResource::GET_WEBRESOURCES_CORE_QUERY, $db);
+        $coreResultSet = AbstractEntry::doSimpleQuery(ExternalWebResource::GET_WEBRESOURCES_CORE_QUERY, $db);
         $resultArray = array();
         foreach ($coreResultSet as $coreResultSetRow) {
             $workProducers = AbstractWork::getWorkProducersForWork($coreResultSetRow['id'], $db);
-            $webResource = WebResource::buildWebResource($coreResultSetRow, $workProducers);
+            $webResource = ExternalWebResource::buildWebResource($coreResultSetRow, $workProducers);
             array_push($resultArray, $webResource);
         }
         return $resultArray;
     }
     
     static function get($id, $db) {
-        $coreResultSet = AbstractEntry::doQueryWithIdParameter(WebResource::GET_SINGLE_WEBRESOURCE_CORE_QUREY, $id, $db);
+        $coreResultSet = AbstractEntry::doQueryWithIdParameter(ExternalWebResource::GET_SINGLE_WEBRESOURCE_CORE_QUREY, $id, $db);
         if (count($coreResultSet) == 0) {
             return null;
         }
         $workProducers = AbstractWork::getWorkProducersForWork($id, $db);
         $coreResultSetRow = $coreResultSet[0];
-        return WebResource::buildWebResource($coreResultSetRow, $workProducers);
+        return ExternalWebResource::buildWebResource($coreResultSetRow, $workProducers);
+    }
+    
+    static function insert($individual, $user, $db) {
+        // TODO build
+    }
+    
+    static function delete($id, $db) {
+        // TODO
+    }
+    
+    static function isSafeToDelete($id, $db) {
+        // TODO
     }
     
     private static function buildWebResource($coreResultSetRow, $workProducers) {

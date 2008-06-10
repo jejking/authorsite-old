@@ -1,9 +1,8 @@
 <?php
-require_once('../shared/utils/headers.php5');
-require_once('../shared/utils/db.php5');
-require_once('../shared/utils/utils.php5');
-
-require_once('types/ExternalWebResource.php');
+require_once('utils/initPage.php5');
+require_once('utils/db.php5');
+require_once('utils/utils.php5');
+require_once('types/bib/ExternalWebResource.php');
 
 
 try {

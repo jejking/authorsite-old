@@ -1,9 +1,9 @@
 <?php
 ob_start();
-require_once('../shared/utils/initPage.php5');
-require_once('../shared/utils/db.php5');
-require_once('../shared/utils/utils.php5');
-require_once('types/TextContent.php5');
+require_once('utils/initPage.php5');
+require_once('utils/db.php5');
+require_once('utils/utils.php5');
+require_once('types/content/TextContent.php5');
 $name = getCleanContentName($_GET['name']);
 if (is_null($name)) {
     // do a 404

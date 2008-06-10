@@ -1,7 +1,7 @@
 <?php
-require_once('AbstractAuthoredEditedWork.php');
-require_once('Book.php');
-require_once('../shared/types/Constants.php');
+require_once('types/bib/AbstractAuthoredEditedWork.php');
+require_once('types/bib/Book.php');
+require_once('Constants.php');
 final class Chapter extends AbstractAuthoredEditedWork {
     
     public $book;
@@ -66,6 +66,18 @@ final class Chapter extends AbstractAuthoredEditedWork {
             array_push($resultArray, $chapter);
         }
         return $resultArray;
+    }
+    
+    static function insert($individual, $user, $db) {
+        // TODO build
+    }
+    
+    static function delete($id, $db) {
+        // TODO
+    }
+    
+    static function isSafeToDelete($id, $db) {
+        // TODO
     }
     
     private static function buildChapter($coreResultSet, $bookWorkProducers, $chapterWorkProducers) {

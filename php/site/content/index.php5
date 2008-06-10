@@ -1,8 +1,8 @@
 <?php
-require_once('../shared/utils/initPage.php5');
-require_once('../shared/utils/db.php5');
-require_once('../shared/utils/utils.php5');
-require_once('types/TextContent.php5');
+require_once('utils/initPage.php5');
+require_once('utils/db.php5');
+require_once('utils/utils.php5');
+require_once('types/content/TextContent.php5');
 $db = openDbConnection();
 
 $content_name = 'index';

@@ -1,5 +1,5 @@
 <?php
-require_once('../shared/types/AbstractWork.php');
+require_once('types/shared/AbstractWork.php');
 
 final class Thesis extends AbstractWork {
     
@@ -60,6 +60,18 @@ final class Thesis extends AbstractWork {
             array_push($resultArray, $thesis);
         }
         return $resultArray;
+    }
+    
+    static function insert($individual, $user, $db) {
+        // TODO build
+    }
+    
+    static function delete($id, $db) {
+        // TODO
+    }
+    
+    static function isSafeToDelete($id, $db) {
+        // TODO
     }
     
    

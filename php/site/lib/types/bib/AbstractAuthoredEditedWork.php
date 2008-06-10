@@ -1,5 +1,5 @@
 <?php
-require_once ('../shared/types/AbstractWork.php');
+require_once ('types/shared/AbstractWork.php');
 abstract class AbstractAuthoredEditedWork extends AbstractWork {
     
     public $authors;

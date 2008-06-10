@@ -1,5 +1,5 @@
 <?php
-require_once 'AbstractEntry.php';
+require_once 'types/shared/AbstractEntry.php';
 require_once 'Constants.php';
 /**
  * Class representing shared data and functionality 

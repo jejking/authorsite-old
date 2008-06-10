@@ -1,5 +1,5 @@
 <?php
-require_once 'AbstractHuman.php';
+require_once 'types/shared/AbstractHuman.php';
 
 final class Individual extends AbstractHuman {
     

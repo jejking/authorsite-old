@@ -1,6 +1,6 @@
 <?php
-require_once('AbstractAuthoredEditedWork.php');
-require_once('Journal.php');
+require_once('types/bib/AbstractAuthoredEditedWork.php');
+require_once('types/bib/Journal.php');
 final class Article extends AbstractAuthoredEditedWork {
     
     const GET_ARTICLES_CORE_QUERY = 
@@ -66,6 +66,19 @@ final class Article extends AbstractAuthoredEditedWork {
             array_push($resultArray, $article);
         }
         return $resultArray;
+    }
+    
+    
+    static function insert($individual, $user, $db) {
+        // TODO build
+    }
+    
+    static function delete($id, $db) {
+        // TODO
+    }
+    
+    static function isSafeToDelete($id, $db) {
+        // TODO
     }
     
     private static function buildArticle($coreResultSetRow, $workProducers) {

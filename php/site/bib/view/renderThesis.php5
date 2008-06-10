@@ -1,5 +1,5 @@
 <?php
-require_once '../shared/utils/utils.php5';
+require_once 'utils/utils.php5';
 ob_flush();
 
 ?>
