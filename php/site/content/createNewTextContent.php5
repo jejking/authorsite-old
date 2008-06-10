@@ -21,7 +21,7 @@ $suppliedTitle = getCleanTitle($_POST['title']);
 if (is_null($suppliedTitle)) {
     $smarty->assign("generalErrorMessage", "Please supply an appropriate title");
 }
-ob_flush();
+
 $newTextContent = $_POST['newTextContent'];
 // TODO we should now validate the submitted text for dodgy stuff
 
@@ -32,10 +32,11 @@ $textContent = new TextContent(1, $title, date_create(), date_create(), $supplie
 // do the insert into the database, get the ID
 TextContent::insert($textContent, $author, $db);
 
-// create a message ("created text content with ID x" for smarty)
+// do a redirect to the page
 
-$smarty->assign("textContent", $textContent);
-$smarty->display('content/textContent.tpl');
-
-
+$host  = $_SERVER['HTTP_HOST'];
+$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+$extra = 'content/text/' . $suppliedName;
+header("Location: http://$host$uri/$extra");
+ob_flush();
 ?>
