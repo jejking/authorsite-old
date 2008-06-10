@@ -1,5 +1,10 @@
 <?php
 
+function getCleanContentName($string) {
+    return $string;
+}
+
+    
 function getId($string) {
   if (is_numeric($string)) {
     $id = intval($string);

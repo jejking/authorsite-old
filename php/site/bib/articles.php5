@@ -2,7 +2,7 @@
 require_once('utils/initPage.php5');
 require_once('utils/db.php5');
 require_once('utils/utils.php5');
-require_once('types/Article.php');
+require_once('types/bib/Article.php');
 
 
 try {

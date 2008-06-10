@@ -1,6 +1,6 @@
 <?php
 ob_start();
-require_once('../shared/utils/initPage.php5');
+require_once('utils/initPage.php5');
 if (isset($_SESSION['systemuser_id'])) {
     unset($_SESSION['systemuser_id']);
     unset($_SESSION['systemuser_username']);
