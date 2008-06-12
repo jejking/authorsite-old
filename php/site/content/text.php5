@@ -13,10 +13,12 @@ else {
     $db = openDbConnection();
     $textContent = TextContent::getByName($name, $db);
     if (is_null($textContent)) {
+        // if logged in and content does not exist, allow user to create it
         if (isset($_SESSION['systemuser_id'])) {
             include ('newTextContent.php5');
         }
         else {
+            // otherwise 404
             include('../errors/404.php5');
         }
     }

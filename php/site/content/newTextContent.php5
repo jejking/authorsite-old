@@ -1,7 +1,8 @@
 <?php
-require_once('../shared/utils/initPage.php5');
-require_once('../shared/utils/utils.php5');
+require_once('utils/initPage.php5');
+require_once('utils/utils.php5');
 require_once('_fckUtil.php5');
+
 if (!isset($newTextContent)) {
     $fckEditor = getFckEditor($smarty, "newTextContent", "<p>Please enter some content here.</p>");    
 }
