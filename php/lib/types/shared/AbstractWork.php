@@ -45,8 +45,20 @@ abstract class AbstractWork extends AbstractEntry {
      */
     public static function insert($abstractEntry, $user, $db) {
         $params = array();
-        array_push($params, $abstractEntry->toDate);
-        array_push($params, $abstractEntry->fromDate);
+        if (is_null($abstractEntry->toDate)) {
+            array_push($params, null);
+        }
+        else {
+            array_push($params, date_format($abstractEntry->toDate, 'Y-m-d'));    
+        }
+        
+        if (is_null($abstractEntry->fromDate)) {
+            array_push($params, null);
+        }
+        else {
+            array_push($params, date_format($abstractEntry->fromDate, 'Y-m-d'));
+        }
+        
         array_push($params, $abstractEntry->title);
         array_push($params, $user->id);
         array_push($params, $user->id);

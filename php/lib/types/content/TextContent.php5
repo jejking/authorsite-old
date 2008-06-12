@@ -107,6 +107,7 @@ final class TextContent extends AbstractWork {
      * @return int
      */
     static function insert($textContent, $user, $db) {
+        
         $db->beginTransaction();
         
         $id = AbstractWork::insert($textContent, $user, $db);

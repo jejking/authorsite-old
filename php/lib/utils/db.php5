@@ -27,6 +27,26 @@ function openDbConnection() {
   }
 }
 
+function openDbConnectionToWrite() {
+try
+  {
+    $db = new PDO(DB_URL, DB_WRITE_USER, DB_WRITE_PWD);
+    $db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $setNamesStmt = $db->prepare("SET NAMES 'utf8'");
+    $setNamesStmt->execute();
+    $setNamesStmt = null;
+    $setCharSetStmt = $db->prepare("SET CHARACTER SET 'utf8'");
+    $setCharSetStmt->execute();
+    $setNamesStmt = null;
+    
+    return $db;
+  }
+  catch (PDOException $e)
+  {
+    handleDatabaseError($e);
+  }
+}
+
 function closeDbConnection($db) {
   $db = null;
 }
