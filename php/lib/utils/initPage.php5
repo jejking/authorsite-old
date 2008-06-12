@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once ('../login/types/SystemUser.php5');
-require_once('../libs/smarty/Smarty.class.php');
+require_once ('types/login/SystemUser.php5');
+require_once('smarty/Smarty.class.php');
 
 $smarty = new Smarty();
 
