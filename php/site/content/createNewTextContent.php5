@@ -1,9 +1,11 @@
 <?php
+ob_start();
 require_once('utils/initPage.php5');
 require_once('utils/db.php5');
 require_once('utils/utils.php5');
 require_once('types/content/TextContent.php5');
 require_once('types/shared/Individual.php');
+require_once('_fckUtil.php5');
 
 $hasInputErrors = false;
 if (!isset($_POST['name'])) {
@@ -16,11 +18,15 @@ if (is_null($suppliedName)) {
     $smarty->append("generalErrorMessage", "Please supply an appropriate name (A-Z, a-z, 0-9, and _ or -)");
     $hasInputErrors = true;
 }
+$smarty->assign("name", $suppliedName);
 
 $suppliedTitle = getCleanTitle($_POST['title']);
 if (is_null($suppliedTitle)) {
     $smarty->append("generalErrorMessage", "Please supply an appropriate title");
     $hasInputErrors = true;
+}
+else {
+    $smarty->assign("title", $suppliedTitle);
 }
 
 $newTextContent = $_POST['newTextContent'];
@@ -38,10 +44,10 @@ else if (strlen($newTextContent) == 0) {
 if (!$hasInputErrors) {
     $db = openDbConnectionToWrite();
     $author = Individual::get($_SESSION['systemuser_id'], $db);
-    $textContent = new TextContent(1, $title, date_create(), date_create(), $suppliedName, "text/html", $newTextContent,  $author);
+    $textContent = new TextContent(1, $suppliedTitle, new DateTime(), new DateTime(), $suppliedName, "text/html", $newTextContent,  $author);
 
-    // do the insert into the database, get the ID
-    TextContent::insert($textContent, $author, $db);
+    // do the insert into the database
+    $id = TextContent::insert($textContent, $author, $db);
 
     // do a redirect to the page
 
@@ -52,7 +58,9 @@ if (!$hasInputErrors) {
     ob_flush();
 }
 else {
-    
+    // rerender new text content template
+    $fckEditor = getFckEditor($smarty, "newTextContent", $newTextContent);
+    $smarty->display("content/newTextContent.tpl");
 }
 
 ?>
