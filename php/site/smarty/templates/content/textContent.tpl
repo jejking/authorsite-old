@@ -19,9 +19,9 @@ else pack into a div... *}
 	<div id="textContentMetadata">
 		Created by {$textContent->author->name}
 		{if !is_null($textContent->author->givenNames)}
-		, {$textContent->author->givenNames}
-		{/if}.
-		
+		, {$textContent->author->givenNames}.
+		{/if}
+		at {$textContent->formattedCreatedAt}.
 	</div>
 
 </div>
