@@ -1,5 +1,6 @@
 <?php
 session_start();
+header("Content-Type: text/html; charset=utf-8");
 require_once ('types/login/SystemUser.php5');
 require_once('smarty/Smarty.class.php');
 

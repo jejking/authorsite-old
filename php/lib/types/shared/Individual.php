@@ -4,14 +4,33 @@ require_once 'types/shared/AbstractHuman.php';
 final class Individual extends AbstractHuman {
     
     const BROWSE_INDIVIDUALS_QUERY = 
-    	"SELECT id, name, nameQualification, givennames FROM human WHERE DTYPE = 'Individual' ORDER BY name, givennames, nameQualification DESC";
+    	"SELECT id, createdAt, updatedAt, name, nameQualification, givennames 
+    	FROM human WHERE DTYPE = 'Individual' 
+    	ORDER BY name, givennames, nameQualification DESC";
     
-    const GET_INDIVIDUAL_QUERY = "SELECT id, name, nameQualification, givennames FROM human WHERE DTYPE = 'Individual' AND id = ?";
+    const GET_INDIVIDUAL_QUERY = 
+    	"SELECT id, createdAt, updatedAt, name, nameQualification, givennames 
+    	FROM human WHERE DTYPE = 'Individual' AND id = ?";
     
+    /**
+     * Given names.
+     *
+     * @var string
+     */
     public $givenNames;
     
-    function  __construct($id, $name, $nameQualification, $givenNames) {
-        parent::__construct($id, $name, $nameQualification);
+    /**
+     * Constructs instance.
+     *
+     * @param int $id
+     * @param DateTime $createdAt
+     * @param DateTime $updatedAt
+     * @param string $name
+     * @param string $nameQualification
+     * @param string $givenNames
+     */
+    function  __construct($id, $createdAt, $updatedAt, $name, $nameQualification, $givenNames) {
+        parent::__construct($id, $createdAt, $updatedAt, $name, $nameQualification);
         $this->givenNames = $givenNames;
     }
     
@@ -76,10 +95,12 @@ final class Individual extends AbstractHuman {
     
     private static function buildIndividual($resultSetRow) {
         $id = $resultSetRow['id'];
+        $createdAt = new DateTime($resultSetRow['createdAt']);
+        $updatedAt = new DateTime($resultSetRow['updatedAt']);
         $name = $resultSetRow['name'];
         $nameQualification = $resultSetRow['nameQualification'];
         $givenNames = $resultSetRow['givennames'];
-        $individual = new Individual($id, $name, $nameQualification, $givenNames);
+        $individual = new Individual($id, $createdAt, $updatedAt, $name, $nameQualification, $givenNames);
         return $individual;
     }
 }

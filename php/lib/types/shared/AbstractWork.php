@@ -5,7 +5,8 @@ require_once ('types/shared/Collective.php');
 abstract class AbstractWork extends AbstractEntry {
 
     const GET_WORKPRODUCERS_QUERY = 
-    "SELECT wwp.workProducerType, h.id, h.DTYPE, h.name, h.nameQualification, h.givenNames, h.place
+    "SELECT wwp.workProducerType, h.id, h.createdAt, h.updatedAt, 
+        h.DTYPE, h.name, h.nameQualification, h.givenNames, h.place
 	 FROM work_workproducers wwp, human h
 	 WHERE wwp.abstractHuman_id = h.id
 	 AND wwp.work_id = ?";
@@ -25,8 +26,18 @@ abstract class AbstractWork extends AbstractEntry {
     public $fromDate;
     public $toDate;
 
-    function __construct($id, $title, $fromDate, $toDate) {
-        parent::__construct($id);
+    /**
+     * Constructs instance.
+     *
+     * @param int $id
+     * @param DateTime $createdAt
+     * @param DateTime $updatedAt
+     * @param name $title
+     * @param DateTime $fromDate
+     * @param DateTime $toDate
+     */
+    function __construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate) {
+        parent::__construct($id, $createdAt, $updatedAt);
         $this->title = $title;
         $this->fromDate = $fromDate;
         $this->toDate = $toDate;
@@ -104,16 +115,18 @@ abstract class AbstractWork extends AbstractEntry {
     
     private static function buildHumanFromResultSetRow($resultSetRow) {
         $id = $resultSetRow['id'];
+        $createdAt = new DateTime($resultSetRow['createdAt']);
+        $updatedAt = new DateTime($resultSetRow['updatedAt']);
         $type = $resultSetRow['DTYPE'];
         $name = $resultSetRow['name'];
         $nameQualification = $resultSetRow['nameQualification'];
         $givenNames = $resultSetRow['givenNames'];
         $place = $resultSetRow['place'];
         if ($type == 'Individual') {
-            return new Individual($id, $name, $nameQualification, $givenNames);
+            return new Individual($id, $createdAt, $updatedAt, $name, $nameQualification, $givenNames);
         }
         else {
-            return new Collective($id, $name, $nameQualification, $place);
+            return new Collective($id, $createdAt, $updatedAt, $name, $nameQualification, $place);
         }
     }
     

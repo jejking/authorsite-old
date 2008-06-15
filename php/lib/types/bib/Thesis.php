@@ -4,13 +4,13 @@ require_once('types/shared/AbstractWork.php');
 final class Thesis extends AbstractWork {
     
     const GET_THESES_CORE_QUERY = 
-        'SELECT t.id, t.degree, w.date, w.toDate, w.title
+        'SELECT t.id, w.createdAt, w.updatedAt, t.degree, w.date, w.toDate, w.title
 		 FROM thesis t, work w
 		 WHERE t.id = w.id
 		 ORDER BY w.title ASC';
     
     const GET_SINGLE_THESIS_CORE_QUREY = 
-        'SELECT t.id, t.degree, w.date, w.toDate, w.title
+        'SELECT t.id, w.createdAt, w.updatedAt, t.degree, w.date, w.toDate, w.title
 		 FROM thesis t, work w
 		 WHERE t.id = w.id
 		 AND t.id = ?';
@@ -19,8 +19,22 @@ final class Thesis extends AbstractWork {
     public $awardingBody;
     public $degree;
     
-    function __construct($id, $title, $fromDate, $toDate, $author, $awardingBody, $degree) {
-        parent::__construct($id, $title, $fromDate, $toDate);
+    /**
+     * Constructs instance of thesis.
+     *
+     * @param integer $id
+     * @param DateTime $createdAt
+     * @param DateTime $updatedAt
+     * @param string $title
+     * @param DateTime $fromDate
+     * @param DateTime $toDate
+     * @param AbstractHuman $author
+     * @param AbstractHuman $awardingBody
+     * @param string $degree
+     */
+    function __construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, $author, 
+            $awardingBody, $degree) {
+        parent::__construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate);
         $this->author = $author;
         $this->awardingBody = $awardingBody; 
         $this->degree = $degree;
@@ -77,6 +91,8 @@ final class Thesis extends AbstractWork {
    
     private static function buildThesis($coreResultSetRow, $workProducers) {
         $id = $coreResultSetRow['id'];
+        $createdAt = new DateTime($coreResultSetRow['createdAt']);
+        $updatedAt = new DateTime($coreResultSetRow['updatedAt']);
         $title = $coreResultSetRow['title'];
         $fromDate = $coreResultSetRow['date'];
         $toDate = $coreResultSetRow['toDate'];
@@ -88,7 +104,8 @@ final class Thesis extends AbstractWork {
         $awardingBodies = $workProducers[Constants::AWARDING_BODY];
         $awardingBody = $awardingBodies[0];
         
-        return new Thesis($id, $title, $fromDate, $toDate, $author, $awardingBody, $degree);
+        return new Thesis($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, $author, 
+                    $awardingBody, $degree);
     }
 }
 ?>

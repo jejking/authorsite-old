@@ -10,10 +10,40 @@ abstract class AbstractEntry {
     const PAGE_SIZE = 20;
 
     public $id;
-
-    function __construct($id) {
+    
+	/**
+     * Date elemement created.
+     *
+     * @var DateTime
+     */
+    public $createdAt;
+    
+    public $formattedCreatedAt;
+    
+	/**
+     * Date element last updated.
+     *
+     * @var DateTime
+     */
+    public $updatedAt;
+    
+    public $formattedUpdatedAt;
+    
+    /**
+     * Constructs basic entry.
+     *
+     * @param int $id
+     * @param DateTime $createdAt
+     * @param DateTime $updatedAt
+     */
+    function __construct($id, $createdAt, $updatedAt) {
         $this->id = $id;
+        $this->createdAt = $createdAt;
+        $this->formattedCreatedAt = date_format($createdAt, "r");
+        $this->updatedAt = $updatedAt;
+        $this->formatUpdatedAt = date_format($updatedAt, "r");
     }
+
 
     /**
      * Counts the entries of the type held in the database.

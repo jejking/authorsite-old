@@ -35,9 +35,23 @@ final class TextContent extends AbstractWork {
     public $content;
     public $author;
 
-    function __construct($id, $title, $fromDate, $toDate, $content_name, $mimeType, $content, $author) {
+    /**
+     * Constructs instance.
+     *
+     * @param int $id
+     * @param DateTime $createdAt
+     * @param DateTime $updatedAt
+     * @param name $title
+     * @param DateTime $fromDate
+     * @param DateTime $toDate
+     * @param string $content_name
+     * @param string $mimeType
+     * @param string $content
+     * @param Individual $author
+     */
+    function __construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, $content_name, $mimeType, $content, $author) {
         
-        parent::__construct($id, $title, $fromDate, $toDate);
+        parent::__construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate);
         $this->content_name = $content_name;
         $this->mimeType = $mimeType;
         $this->content = $content;
@@ -47,9 +61,9 @@ final class TextContent extends AbstractWork {
     
     static function getDefaultIndex() {
         
-        return new TextContent(0, 'index', date("d-M-Y"), date("d-M-Y"), 
+        return new TextContent(0, new DateTime(), new DateTime(), 'index', new DateTime(), new DateTime(), 
             'index', 'text/plain', 'Default content holder. Login to add content',
-             new Individual(0, 'Root', null, null));
+             new Individual(0, new DateTime(), new DateTime(), 'Root', null, null));
     }
     
     static function count($db) {

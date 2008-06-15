@@ -1,16 +1,20 @@
 <?php
 require_once('types/bib/AbstractAuthoredEditedPublishedWork.php');
 require_once('Constants.php');
+/**
+ * Class describing a book.
+ *
+ */
 final class Book extends AbstractAuthoredEditedPublishedWork {
     
     const GET_BOOKS_CORE_QUERY = 
-    	'SELECT b.id, w.date, w.toDate, w.title
+    	'SELECT b.id, w.createdAt, w.updatedAt, w.date, w.toDate, w.title
 		 FROM book b, work w
 		 WHERE b.id = w.id
 		 ORDER BY w.title ASC';
     
     const GET_SINGLE_BOOK_CORE_QUERY = 
-         'SELECT b.id, w.date, w.toDate, w.title
+         'SELECT b.id, w.createdAt, w.updatedAt, w.date, w.toDate, w.title
 		 FROM book b, work w
 		 WHERE b.id = w.id
     	 and b.id = ?';
@@ -18,8 +22,24 @@ final class Book extends AbstractAuthoredEditedPublishedWork {
     const GET_CHAPTER_COUNT_QUERY = 
         'SELECT count(*) from chapter where book_id = ?';
     
-    function __construct($id, $title, $fromDate, $toDate, $authors, $editors, $publisher) {
-        parent::__construct($id, $title, $fromDate, $toDate, $authors, $editors, $publisher);
+    /**
+     * Constructs new instance.
+     *
+     * @param integer $id
+     * @param DateTime $createdAt
+     * @param DateTime $updatedAt
+     * @param string $title
+     * @param DateTime $fromDate
+     * @param DateTime $toDate
+     * @param array $authors array of abstract humans
+     * @param array $editors array of abstract humans
+     * @param AbstractHuman $publisher
+     */
+    function __construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, 
+                    $authors, $editors, $publisher) {
+        
+        parent::__construct($id, $createdAt, $updatedAt, $title,
+                $fromDate, $toDate, $authors, $editors, $publisher);
     }
     
     static function count($db) {
@@ -78,6 +98,8 @@ final class Book extends AbstractAuthoredEditedPublishedWork {
     
     private static function buildBook($coreResultSetRow, $workProducers) {
         $id = $coreResultSetRow['id'];
+        $createdAt = new DateTime($coreResultSetRow['createdAt']);
+        $updatedAt = new DateTime($coreResultSetRow['updatedAt']);
         $title = $coreResultSetRow['title'];
         $fromDate = $coreResultSetRow['date'];
         $toDate = $coreResultSetRow['toDate'];
@@ -85,7 +107,8 @@ final class Book extends AbstractAuthoredEditedPublishedWork {
         $editors = $workProducers[Constants::EDITOR];
         $publishers = $workProducers[Constants::PUBLISHER];
         $publisher = $publishers[0];
-        return new Book($id, $title, $fromDate, $toDate, $authors, $editors, $publisher);
+        return new Book($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, 
+            $authors, $editors, $publisher);
     }
 }
 ?>

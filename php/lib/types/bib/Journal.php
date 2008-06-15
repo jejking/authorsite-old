@@ -3,13 +3,13 @@ require_once ('types/shared/AbstractWork.php');
 final class Journal extends AbstractWork {
     
     const GET_SINGLE_JOURNAL_QUERY = 
-    	"SELECT w.id, w.title, w.date, w.toDate
+    	"SELECT w.id, w.createdAt, w.updatedAt, w.title, w.date, w.toDate
     	 FROM work w, journal j 
     	 WHERE w.id = j.id 
     	 AND j.id = ?";
     
     const BROWSE_JOURNALS_QUERY = 
-        "SELECT w.id, w.title, w.date, w.toDate
+        "SELECT w.id, w.createdAt, w.updatedAt, w.title, w.date, w.toDate
     	 FROM work w, journal j 
     	 WHERE w.id = j.id
     	 ORDER BY title ASC";
@@ -19,8 +19,8 @@ final class Journal extends AbstractWork {
         FROM article a
         WHERE a.journal_id = ?";
     
-    function __construct($id, $title, $fromDate, $toDate) {
-        parent::__construct($id, $title, $fromDate, $toDate);
+    function __construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate) {
+        parent::__construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate);
     }
    
    
@@ -83,10 +83,12 @@ final class Journal extends AbstractWork {
     
     private static function buildJournal($resultSetRow) {
         $id = $resultSetRow['id'];
+        $createdAt = new DateTime($coreResultSetRow['createdAt']);
+        $updatedAt = new DateTime($coreResultSetRow['updatedAt']);
         $title = $resultSetRow['title'];
         $fromDate = $resultSetRow['date'];
         $toDate = $resultSetRow['toDate'];
-        return new Journal($id, $title, $fromDate, $toDate);
+        return new Journal($id, $createdAt, $updatedAt, $title, $fromDate, $toDate);
     }
 }
 ?>

@@ -4,27 +4,42 @@ require_once('types/bib/Book.php');
 require_once('Constants.php');
 final class Chapter extends AbstractAuthoredEditedWork {
     
+    /**
+     * Book in which the chapter was published.
+     *
+     * @var Book.
+     */
     public $book;
+    
+    /**
+     * Designator of chapter within the book it was published.
+     *
+     * @var string
+     */
     public $chapter;
     
     const GET_CHAPTERS_CORE_QUERY = 
-    	'SELECT c.id, c.pages, c.chapter, wc.date, wc.toDate, wc.title AS chapter_title, 
-    		wb.id as book_id, wb.title AS book_title, wb.date AS book_date, wb.toDate AS book_toDate
+    	'SELECT c.id, wc.createdAt AS chapterCreatedAt, wc.updatedAt AS chapterUpdatedAt, 
+    	    c.pages, c.chapter, wc.date, wc.toDate, wc.title AS chapter_title, 
+    		wb.id as book_id, wb.createdAt AS bookCreatedAt, wb.updatedAt AS bookUpdatedAt, 
+    		wb.title AS book_title, wb.date AS book_date, wb.toDate AS book_toDate
 		 FROM chapter c, work wc, work wb
 		 WHERE c.id = wc.id
 		 AND c.book_id = wb.id
 		 ORDER BY wc.title ASC';
     
     const GET_SINGLE_CHAPTER_CORE_QUERY = 
-         'SELECT c.id, c.pages, c.chapter, wc.date, wc.toDate, wc.title AS chapter_title, 
-    		wb.id as book_id, wb.title AS book_title, wb.date AS book_date, wb.toDate AS book_toDate
+         'SELECT c.id, wc.createdAt AS chapterCreatedAt, wc.updatedAt AS chapterUpdatedAt, 
+            c.pages, c.chapter, wc.date, wc.toDate, wc.title AS chapter_title, 
+    		wb.id as book_id, wb.createdAt AS bookCreatedAt, wb.updatedAt AS bookUpdatedAt, 
+    		wb.title AS book_title, wb.date AS book_date, wb.toDate AS book_toDate
 		 FROM chapter c, work wc, work wb
 		 WHERE c.id = wc.id
 		 AND c.book_id = wb.id
 		 AND c.id = ?';
     
-    function __construct($id, $title, $fromDate, $toDate, $authors, $editors, $book, $chapter) {
-        parent::__construct($id, $title, $fromDate, $toDate, $authors, $editors);
+    function __construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, $authors, $editors, $book, $chapter) {
+        parent::__construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, $authors, $editors);
         $this->book = $book;
         $this->chapter = $chapter;
     }
@@ -83,6 +98,8 @@ final class Chapter extends AbstractAuthoredEditedWork {
     private static function buildChapter($coreResultSet, $bookWorkProducers, $chapterWorkProducers) {
         // book
         $bookId = $coreResultSet['book_id'];
+        $bookCreatedAt = new DateTime($coreResultSet['bookCreatedAt']);
+        $bookUpdatedAt = new DateTime($coreResultSet['bookUpdatedAt']);
         $bookTitle = $coreResultSet['book_title'];
         $bookFromDate = $coreResultSet['book_date'];
         $bookToDate = $coreResultSet['book_toDate'];
@@ -90,9 +107,12 @@ final class Chapter extends AbstractAuthoredEditedWork {
         $bookEditors = $bookWorkProducers[Constants::EDITOR];
         $bookPublishers = $bookWorkProducers[constants::PUBLISHER];
         $bookPublisher = $bookPublishers[0];
-        $book = new Book($bookId, $bookTitle, $bookFromDate, $bookToDate, $bookAuthors, $bookEditors, $bookPublisher);
+        $book = new Book($bookId, $bookCreatedAt, $bookUpdatedAt, $bookTitle, $bookFromDate, $bookToDate, $bookAuthors, $bookEditors, $bookPublisher);
         
+        // rest of chapter
         $chapterId = $coreResultSet['id'];
+        $chapterCreatedAt = new DateTime($coreResultSet['chapterCreatedAt']);
+        $chapterUpdatedAt = new DateTime($coreResultSet['chapterUpdatedAt']);
         $chapterDesignator = $coreResultSet['chapter'];
         $chapterTitle = $coreResultSet['chapter_title'];
         $chapterFromDate = $coreResultSet['date'];
@@ -100,7 +120,8 @@ final class Chapter extends AbstractAuthoredEditedWork {
         $chapterAuthors = $chapterWorkProducers[Constants::AUTHOR];
         $chapterEditors = $chapterWorkProducers[Constants::EDITOR];
         
-        $chapter = new Chapter($chapterId, $chapterTitle, $chapterFromDate, $chapterToDate, $chapterAuthors, $chapterEditors, $book, $chapterDesignator);
+        $chapter = new Chapter($chapterId, $chapterCreatedAt, $chapterUpdatedAt, $chapterTitle, 
+                    $chapterFromDate, $chapterToDate, $chapterAuthors, $chapterEditors, $book, $chapterDesignator);
         return $chapter;
     }
 }

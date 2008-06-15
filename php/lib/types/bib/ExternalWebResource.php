@@ -4,24 +4,43 @@ require_once('types/bib/AbstractAuthoredEditedPublishedWork.php');
 final class ExternalWebResource extends AbstractAuthoredEditedPublishedWork {
     
     const GET_WEBRESOURCES_CORE_QUERY = 
-        'SELECT wr.id, wr.url, wr.lastChecked, wr.lastStatusCode, w.date, w.toDate, w.title
+        'SELECT wr.id, w.createdAt, w.updatedAt, wr.url, wr.lastChecked, wr.lastStatusCode, w.date, w.toDate, w.title
 		 FROM webresource wr, work w
 		 WHERE wr.id = w.id
 		 ORDER BY w.title ASC';
     
     const GET_SINGLE_WEBRESOURCE_CORE_QUREY = 
-        'SELECT wr.id, wr.url, wr.lastChecked, wr.lastStatusCode, w.date, w.toDate, w.title
+        'SELECT wr.id, w.createdAt, w.updatedAt, wr.url, wr.lastChecked, wr.lastStatusCode, w.date, w.toDate, w.title
 		 FROM webresource wr, work w
 		 WHERE wr.id = w.id
 		 AND wr.id = ?';
     
-    
+    /**
+     * URL.
+     *
+     * @var string
+     */
     public $url;
+    
+    /**
+     * Date last checked.
+     *
+     * @var DateTime
+     */
     public $lastChecked;
+    
+    /**
+     * HTTP status code at time of last check.
+     *
+     * @var integer
+     */
     public $lastStatusCode;
     
-    function __construct($id, $title, $fromDate, $toDate, $authors, $editors, $publisher, $url, $lastChecked, $lastStatusCode) {
-        parent::__construct($id, $title, $fromDate, $toDate, $authors, $editors, $publisher);
+    function __construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, $authors, 
+            $editors, $publisher, $url, $lastChecked, $lastStatusCode) {
+        
+        parent::__construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, 
+            $authors, $editors, $publisher);
         $this->url = $url;
         $this->lastChecked = $lastChecked;
         $this->lastStatusCode = $lastStatusCode;
@@ -77,6 +96,8 @@ final class ExternalWebResource extends AbstractAuthoredEditedPublishedWork {
     
     private static function buildWebResource($coreResultSetRow, $workProducers) {
         $id = $coreResultSetRow['id'];
+        $createdAt = new DateTime($coreResultSetRow['createdAt']);
+        $updatedAt = new DateTime($coreResultSetRow['updatedAt']);
         $title = $coreResultSetRow['title'];
         $fromDate = $coreResultSetRow['date'];
         $toDate = $coreResultSetRow['toDate'];
@@ -89,7 +110,8 @@ final class ExternalWebResource extends AbstractAuthoredEditedPublishedWork {
         $publishers = $workProducers[Constants::PUBLISHER];
         $publisher = $publishers[0];
         
-        return new ExternalWebResource($id, $title, $fromDate, $toDate, $authors, $editors, $publisher, $url, $lastChecked, $lastStatusCode);
+        return new ExternalWebResource($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, 
+                $authors, $editors, $publisher, $url, $lastChecked, $lastStatusCode);
         
     }
 }

@@ -4,8 +4,23 @@ abstract class AbstractAuthoredEditedPublishedWork extends AbstractAuthoredEdite
     
     public $publisher;
     
-    function __construct($id, $title, $fromDate, $toDate,$authors, $editors, $publisher) {
-        parent::__construct($id, $title, $fromDate, $toDate, $authors, $editors);
+    /**
+     * Constructs instance.
+     *
+     * @param integer $id
+     * @param DateTime $createdAt
+     * @param DateTime $updatedAt
+     * @param string $title
+     * @param DateTime $fromDate
+     * @param DateTime $toDate
+     * @param array $authors
+     * @param array $editors
+     * @param AbstractHuman $publisher
+     */
+    function __construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, 
+            $authors, $editors, $publisher) {
+        
+        parent::__construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, $authors, $editors);
         $this->publisher = $publisher;
     }
 }

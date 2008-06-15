@@ -47,8 +47,17 @@ abstract class AbstractHuman extends AbstractEntry {
     public $name;
     public $nameQualification;
 
-    function __construct($id, $name, $nameQualification) {
-        parent::__construct($id);
+    /**
+     * Constructs abstract human.
+     *
+     * @param int $id
+     * @param DateTime $createdAt
+     * @param DateTime $updatedAt
+     * @param string $name
+     * @param string $nameQualification
+     */
+    function __construct($id, $createdAt, $updatedAt, $name, $nameQualification) {
+        parent::__construct($id, $createdAt, $updatedAt);
         $this->name = $name;
         $this->nameQualification = $nameQualification;
     }
