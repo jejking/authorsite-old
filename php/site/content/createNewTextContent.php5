@@ -1,6 +1,7 @@
 <?php
 ob_start();
 require_once('utils/initPage.php5');
+require_once('../login/loginNeeded.php5');
 require_once('utils/db.php5');
 require_once('utils/utils.php5');
 require_once('types/content/TextContent.php5');
@@ -44,7 +45,8 @@ else if (strlen($newTextContent) == 0) {
 if (!$hasInputErrors) {
     $db = openDbConnectionToWrite();
     $author = Individual::get($_SESSION['systemuser_id'], $db);
-    $textContent = new TextContent(1, $suppliedTitle, new DateTime(), new DateTime(), $suppliedName, "text/html", $newTextContent,  $author);
+    $textContent = new TextContent(1, new DateTime(), new DateTime(), $suppliedTitle, new DateTime(), new DateTime(),
+         $suppliedName, "text/html", $newTextContent, $author);
 
     // do the insert into the database
     $id = TextContent::insert($textContent, $author, $db);

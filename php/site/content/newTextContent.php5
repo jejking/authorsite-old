@@ -1,5 +1,6 @@
 <?php
 require_once('utils/initPage.php5');
+require_once('../login/loginNeeded.php5');
 require_once('utils/utils.php5');
 require_once('_fckUtil.php5');
 

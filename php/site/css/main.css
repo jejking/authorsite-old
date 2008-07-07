@@ -96,3 +96,38 @@ body {
     text-align: center;
     font-size: x-small;
 }
+
+#textContentMetadata {
+	padding-top: 2em;
+	font-size: x-small;
+	margin-left: 2em;
+	margin-right: 2em;
+}
+
+#contentEditLinks {
+    
+  background-color: #f7e5e5;
+
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-right-style: solid;
+  border-top-width: 2px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-top-color: red;
+  border-bottom-color: red;
+  border-left-color: red;
+  border-right-color: red;
+}
+
+span.adminOptions {
+    
+  font-weight: bolder;
+  color: red;
+}

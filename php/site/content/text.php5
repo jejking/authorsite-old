@@ -23,7 +23,15 @@ else {
         }
     }
     else {
+        // normal case, render content...
+        if (isset($_SESSION['systemuser_id'])) {
+            $smarty->assign('editable', true);
+        }
+        else {
+            $smarty->assign('editable', false);
+        }
         $smarty->assign('textContent', $textContent);
+        $smarty->assign('title', $textContent->title);
         $smarty->display('content/textContent.tpl');
     }
 }

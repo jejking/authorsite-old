@@ -2,3 +2,4 @@ RewriteEngine On
 RewriteBase /
 RewriteRule content/text/(.+) content/text.php5?name=$1
 
+RewriteRule bib/individual/(.+) bib/individual.php5?id=$1
