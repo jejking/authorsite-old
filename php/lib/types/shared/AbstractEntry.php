@@ -41,7 +41,7 @@ abstract class AbstractEntry {
         $this->createdAt = $createdAt;
         $this->formattedCreatedAt = date_format($createdAt, "r");
         $this->updatedAt = $updatedAt;
-        $this->formatUpdatedAt = date_format($updatedAt, "r");
+        $this->formattedUpdatedAt = date_format($updatedAt, "r");
     }
 
 
@@ -226,6 +226,16 @@ abstract class AbstractEntry {
         return $result;
     }
     
+    protected static function doUpdateQuery($queryString, $params, $db) {
+        $stmt = $db->prepare($querystring);
+        $i = 1;
+        foreach ($params as $param) {
+          $stmt->bindValue($i, $param);
+          $i++;
+        }
+        $stmt->execute();
+    }
+    
     /**
      * Executes database update having bound params in array to the prepared statement.
      *
@@ -255,7 +265,7 @@ abstract class AbstractEntry {
      */
     protected static function doDeleteQuery($queryString, $id, $db) {
         $stmt = $db->prepare($queryString);
-        $stmt->bindColumn(1, $id, PDO::PARAM_INT);
+        $stmt->bindValue(1, $id, PDO::PARAM_INT);
         $stmt->execute();
     }
     

@@ -12,6 +12,7 @@ function openDbConnection() {
   try
   {
     $db = new PDO(DB_URL, DB_USER, DB_PWD);
+    $db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $setNamesStmt = $db->prepare("SET NAMES 'utf8'");
     $setNamesStmt->execute();
     $setNamesStmt = null;

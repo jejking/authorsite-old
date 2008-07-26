@@ -5,17 +5,23 @@ require_once('types/shared/AbstractEntry.php');
 final class SystemUser extends AbstractEntry {
     
     const GET_SYSTEM_USER_QUERY = 
-    	"SELECT su.id, su.enabled as isEnabled, su.password as passwordHash, su.userName as username, h.name, h.nameQualification, h.givenNames 
+    	"SELECT su.id, su.createdAt, su.updatedAt, su.enabled as isEnabled, 
+    	   su.password as passwordHash, su.userName as username, 
+    	   h.createdAt as hCreatedAt, h.updatedAt as hUpdatedAt, h.name, h.nameQualification, h.givenNames 
     	 FROM systemuser su, human h 
     	 WHERE su.id = ? AND su.id = h.id";
     
     const GET_SYSTEM_USER_BY_USERNAME_QUERY = 
-        "SELECT su.id, su.enabled as isEnabled, su.password as passwordHash, su.userName as username, h.name, h.nameQualification, h.givenNames 
+        "SELECT su.id, su.createdAt, su.updatedAt, su.enabled as isEnabled, 
+         su.password as passwordHash, su.userName as username, 
+         h.createdAt as hCreatedAt, h.updatedAt as hUpdatedAt, h.name, h.nameQualification, h.givenNames 
     	 FROM systemuser su, human h 
     	 WHERE su.userName = ? AND su.id = h.id";
     
     const BROWSE_SYSTEM_USERS_QUERY = 
-        "SELECT su.id, su.enabled as isEnabled, su.password as passwordHash, su.userName as username, h.name, h.nameQualification, h.givenNames 
+        "SELECT su.id, su.createdAt, su.updatedAt, su.enabled as isEnabled, 
+         su.password as passwordHash, su.userName as username, 
+         h.createdAt as hCreatedAt, h.updatedAt as hUpdatedAt, h.name, h.nameQualification, h.givenNames
     	 FROM systemuser su, human h 
     	 WHERE su.id = h.id 
     	 ORDER BY username";
@@ -27,11 +33,12 @@ final class SystemUser extends AbstractEntry {
     
     
     
-    function __construct($id, $username, $passwordHash, $isEnabled, $individual) {
-        parent::__construct($id);
+    function __construct($id, $createdAt, $updatedAt, $username, $passwordHash, $isEnabled, $individual) {
+        parent::__construct($id, $createdAt, $updatedAt);
         $this->username = $username;
         $this->passwordHash = $passwordHash;
         $this->isEnabled = $isEnabled;
+        $this->individual = $individual;
     }
     
 	/**
@@ -136,16 +143,20 @@ final class SystemUser extends AbstractEntry {
     private static function buildSystemUserFromResultSetRow($resultSetRow) {
         
         $id = $resultSetRow['id'];
+        $createdAt = new DateTime($resultSetRow['createdAt']);
+        $updatedAt = new DateTime($resultSetRow['updatedAt']);
         $username = $resultSetRow['username'];
         $passwordHash = $resultSetRow['passwordHash'];
         $isEnabled = $resultSetRow['isEnabled'];
         
         $name = $resultSetRow['name'];
+        $hCreatedAt = new DateTime($resultSetRow['hCreatedAt']);
+        $hUpdatedAt = new DateTime($resultSetRow['hUpdatedAt']);
         $nameQualification = $resultSetRow['nameQualification'];
         $givenNames = $resultSetRow['givenNames'];
         
-        $individual = new Individual($id, $name, $nameQualification, $givenNames);
-        $systemUser = new SystemUser($id, $username, $passwordHash, $isEnabled, $individual);
+        $individual = new Individual($id, $hCreatedAt,$hUpdatedAt, $name, $nameQualification, $givenNames);
+        $systemUser = new SystemUser($id, $createdAt, $updatedAt, $username, $passwordHash, $isEnabled, $individual);
         return $systemUser;
         	
     }

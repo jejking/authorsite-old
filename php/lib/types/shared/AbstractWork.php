@@ -5,18 +5,30 @@ require_once ('types/shared/Collective.php');
 abstract class AbstractWork extends AbstractEntry {
 
     const GET_WORKPRODUCERS_QUERY = 
-    "SELECT wwp.workProducerType, h.id, h.createdAt, h.updatedAt, 
-        h.DTYPE, h.name, h.nameQualification, h.givenNames, h.place
-	 FROM work_workproducers wwp, human h
-	 WHERE wwp.abstractHuman_id = h.id
-	 AND wwp.work_id = ?";
-    
+        "SELECT wwp.workProducerType, h.id, h.createdAt, h.updatedAt, 
+            h.DTYPE, h.name, h.nameQualification, h.givenNames, h.place
+    	 FROM work_workproducers wwp, human h
+    	 WHERE wwp.abstractHuman_id = h.id
+    	 AND wwp.work_id = ?";
+        
     const INSERT_ABSTRACT_WORK_QUERY = 
     	"INSERT INTO work (createdAt, updatedAt, version, toDate, date, title, updatedBy_id, createdBy_id)
-		VALUES (now(), now(), 0, ?, ?, ?, ?, ?)";
+		VALUES (now(), now(), 1, ?, ?, ?, ?, ?)";
     
     const DELETE_ABSTRACT_WORK_QUERY = 
     	"DELETE FROM work WHERE id = ?";
+    
+    const DELETE_WORK_PRODUCERS_QUERY = 
+        "DELETE FROM work_workproducers
+         WHERE Work_id = ?";
+    
+    const UPDATE_UPDATED_BY_ONLY_ABSTRACT_WORK_QUERY = 
+        "UPDATE work SET updatedAt = now(), updatedBy_id = ? 
+         WHERE id = ?";
+    
+    const UPDATE_TITLE_ABSTRACT_WORK_QUERY = 
+        "UPDATE work SET updatedAt = now(), updatedBy_id = ?, title = ? 
+             WHERE id = ?";
     
     const CREATE_WORK_WORKPRODUCER_RELATIONSHIP_QUERY = 
         "INSERT INTO work_workproducers (Work_id, workProducerType, abstractHuman_id) 
@@ -78,6 +90,37 @@ abstract class AbstractWork extends AbstractEntry {
     }
     
     /**
+     * Enter description here...
+     *
+     * @param int  $id
+     * @param int $updatedById
+     * @param PDO $db
+     */
+    public static function update($id, $updatedById, $db) {
+        $stmt = $db->prepare(AbstractWork::UPDATE_UPDATED_BY_ONLY_ABSTRACT_WORK_QUERY);
+        $stmt->bindValue(1, $updatedById, PDO::PARAM_INT);
+        $stmt->bindValue(2, $id, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+    
+    /**
+     * Updates title of entry, recording who did so and when.
+     *
+     * @param int $id
+     * @param int $updatedById
+     * @param string $title
+     * @param PDO $db
+     */
+    public static function updateTitle($id, $updatedById, $title, $db)
+    {
+        $stmt = $db->prepare(AbstractWork::UPDATE_TITLE_ABSTRACT_WORK_QUERY);
+        $stmt->bindValue(1, $updatedById, PDO::PARAM_INT);
+        $stmt->bindValue(2, $title, PDO::PARAM_STR);
+        $stmt->bindValue(3, $id, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+    
+    /**
      * Deletes the abstract work row. You must make sure that
      * any "child" tables have been deleted before calling
      * this function.
@@ -86,6 +129,7 @@ abstract class AbstractWork extends AbstractEntry {
      * @param PDO $db
      */
     public static function delete($id, $db) {
+        AbstractEntry::doDeleteQuery(AbstractWork::DELETE_WORK_PRODUCERS_QUERY, $id, $db);
         AbstractEntry::doDeleteQuery(AbstractWork::DELETE_ABSTRACT_WORK_QUERY, $id, $db);
     }
  
