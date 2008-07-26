@@ -6,9 +6,9 @@
   <!-- imprint, copyright, usage rights, date -->
   (C) {$copyrightHolder|default:"authorsite.org"}, 
   {if isset($copyrightDate) }
-    ({$copyrightDate|date_format:"%Y"}).
+    ,{$copyrightDate|date_format:"%Y"}.
   {else}
-    ({$smarty.now|date_format:"%Y"}).
+    {$smarty.now|date_format:"%Y"}.
   {/if}
   {if isset($usage) }
     {$usage}.

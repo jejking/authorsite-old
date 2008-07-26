@@ -28,6 +28,10 @@ else pack into a div... *}
 		Created by 
 		<a href="/bib/individual/{$textContent->author->id}">{$textContent->author->name}{if !is_null($textContent->author->givenNames)}, {$textContent->author->givenNames}{/if}</a>
 		on {$textContent->formattedCreatedAt}.
+		{foreach from=$textContent->editors item=editor}
+		Updated by <a href="/bib/individual/{$editor->id}">{$editor->name}{if !is_null($editor->givenNames)}, {$editor->givenNames}{/if}</a>.
+		{/foreach}
+		Last update on {$textContent->formattedUpdatedAt}.
 	</div>
 
 </div>
