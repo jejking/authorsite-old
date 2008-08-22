@@ -37,6 +37,12 @@ abstract class AbstractWork extends AbstractEntry {
     public $title;
     public $fromDate;
     public $toDate;
+    
+    public $fromYear;
+    public $toYear;
+    
+    public $formattedFromDate;
+    public $formattedToDate;
 
     /**
      * Constructs instance.
@@ -53,6 +59,15 @@ abstract class AbstractWork extends AbstractEntry {
         $this->title = $title;
         $this->fromDate = $fromDate;
         $this->toDate = $toDate;
+        
+        $this->fromYear = date_format($fromDate, "Y");
+        $this->formattedFromDate = date_format($fromDate, "j M Y");
+        if (!is_null($toDate)) {
+            $this->toYear = date_format($toDate, "Y");
+            $this->formattedToDate = date_format($toDate, "j M Y");
+        }
+        
+        
     }
 
     /**

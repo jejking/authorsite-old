@@ -101,8 +101,13 @@ final class Book extends AbstractAuthoredEditedPublishedWork {
         $createdAt = new DateTime($coreResultSetRow['createdAt']);
         $updatedAt = new DateTime($coreResultSetRow['updatedAt']);
         $title = $coreResultSetRow['title'];
-        $fromDate = $coreResultSetRow['date'];
-        $toDate = $coreResultSetRow['toDate'];
+        $fromDate = new DateTime($coreResultSetRow['date']);
+        if (!is_null($coreResultSetRow['toDate'])) {
+            $toDate = new DateTime($coreResultSetRow['toDate']);    
+        }
+        else {
+            $toDate = null;     
+        }
         $authors = $workProducers[Constants::AUTHOR];
         $editors = $workProducers[Constants::EDITOR];
         $publishers = $workProducers[Constants::PUBLISHER];
