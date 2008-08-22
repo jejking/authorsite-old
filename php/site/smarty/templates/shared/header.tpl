@@ -27,7 +27,7 @@
         {/if}
           <a href="/content/index.php5">content</a>
         </li>
-        {if $activeTab == 'bibliography'}
+        {if $activeTab == 'bib'}
         <li class="active">
         {else}
         <li>
