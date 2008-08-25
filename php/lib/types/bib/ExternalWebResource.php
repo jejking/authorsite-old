@@ -30,6 +30,13 @@ final class ExternalWebResource extends AbstractAuthoredEditedPublishedWork {
     public $lastChecked;
     
     /**
+     * Formatted string of date when last checked.
+     *
+     * @var string
+     */
+    public $formattedLastChecked;
+    
+    /**
      * HTTP status code at time of last check.
      *
      * @var integer
@@ -44,6 +51,9 @@ final class ExternalWebResource extends AbstractAuthoredEditedPublishedWork {
         $this->url = $url;
         $this->lastChecked = $lastChecked;
         $this->lastStatusCode = $lastStatusCode;
+        if (!is_null($lastChecked)) {
+            $this->formattedLastChecked = date_format($lastChecked, "r");
+        }
     }
     
     static function count($db) {
@@ -99,11 +109,16 @@ final class ExternalWebResource extends AbstractAuthoredEditedPublishedWork {
         $createdAt = new DateTime($coreResultSetRow['createdAt']);
         $updatedAt = new DateTime($coreResultSetRow['updatedAt']);
         $title = $coreResultSetRow['title'];
-        $fromDate = $coreResultSetRow['date'];
-        $toDate = $coreResultSetRow['toDate'];
+        $fromDate = new DateTime($coreResultSetRow['date']);
+        if (!is_null($coreResultSetRow['toDate'])) {
+            $toDate = new DateTime($coreResultSetRow['toDate']);
+        }
+        else {
+            $toDate = null;
+        }
         
         $url = $coreResultSetRow['url'];
-        $lastChecked = $coreResultSetRow['lastChecked'];
+        $lastChecked = new DateTime($coreResultSetRow['lastChecked']);
         $lastStatusCode = $coreResultSetRow['lastStatusCode'];
         $authors = $workProducers[Constants::AUTHOR];
         $editors = $workProducers[Constants::EDITOR];

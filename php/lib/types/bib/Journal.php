@@ -86,8 +86,13 @@ final class Journal extends AbstractWork {
         $createdAt = new DateTime($coreResultSetRow['createdAt']);
         $updatedAt = new DateTime($coreResultSetRow['updatedAt']);
         $title = $resultSetRow['title'];
-        $fromDate = $resultSetRow['date'];
-        $toDate = $resultSetRow['toDate'];
+        $fromDate = new DateTime($resultSetRow['date']);
+        if (!is_null($resultSetRow['toDate'])) {
+            $toDate = new DateTime($resultSetRow['toDate']);
+        }
+        else {
+            $toDate = null;
+        }
         return new Journal($id, $createdAt, $updatedAt, $title, $fromDate, $toDate);
     }
 }

@@ -18,6 +18,13 @@ final class Chapter extends AbstractAuthoredEditedWork {
      */
     public $chapter;
     
+    /**
+     * Designates pages in the book where the chapter is located.
+     *
+     * @var string
+     */
+    public $pages;
+    
     const GET_CHAPTERS_CORE_QUERY = 
     	'SELECT c.id, wc.createdAt AS chapterCreatedAt, wc.updatedAt AS chapterUpdatedAt, 
     	    c.pages, c.chapter, wc.date, wc.toDate, wc.title AS chapter_title, 
@@ -38,10 +45,11 @@ final class Chapter extends AbstractAuthoredEditedWork {
 		 AND c.book_id = wb.id
 		 AND c.id = ?';
     
-    function __construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, $authors, $editors, $book, $chapter) {
+    function __construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, $authors, $editors, $book, $chapter, $pages) {
         parent::__construct($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, $authors, $editors);
         $this->book = $book;
         $this->chapter = $chapter;
+        $this->pages = $pages;
     }
     
     static function count($db) {
@@ -101,8 +109,13 @@ final class Chapter extends AbstractAuthoredEditedWork {
         $bookCreatedAt = new DateTime($coreResultSet['bookCreatedAt']);
         $bookUpdatedAt = new DateTime($coreResultSet['bookUpdatedAt']);
         $bookTitle = $coreResultSet['book_title'];
-        $bookFromDate = $coreResultSet['book_date'];
-        $bookToDate = $coreResultSet['book_toDate'];
+        $bookFromDate = new DateTime($coreResultSet['book_date']);
+        if (!is_null($coreResultSet['book_toDate'])) {
+            $bookToDate = new DateTime($coreResultSet['book_toDate']);    
+        }
+        else {
+            $bookToDate = null;
+        }
         $bookAuthors = $bookWorkProducers[Constants::AUTHOR];
         $bookEditors = $bookWorkProducers[Constants::EDITOR];
         $bookPublishers = $bookWorkProducers[constants::PUBLISHER];
@@ -114,14 +127,20 @@ final class Chapter extends AbstractAuthoredEditedWork {
         $chapterCreatedAt = new DateTime($coreResultSet['chapterCreatedAt']);
         $chapterUpdatedAt = new DateTime($coreResultSet['chapterUpdatedAt']);
         $chapterDesignator = $coreResultSet['chapter'];
+        $chapterPages = $coreResultSet['pages'];
         $chapterTitle = $coreResultSet['chapter_title'];
-        $chapterFromDate = $coreResultSet['date'];
-        $chapterToDate = $coreResultSet['toDate'];
+        $chapterFromDate = new DateTime($coreResultSet['date']);
+        if (!is_null($coreResultSet['toDate'])) {
+            $chapterToDate = new DateTime($coreResultSet['toDate']);
+        }
+        else {
+            $chapterToDate = null;
+        }
         $chapterAuthors = $chapterWorkProducers[Constants::AUTHOR];
         $chapterEditors = $chapterWorkProducers[Constants::EDITOR];
         
         $chapter = new Chapter($chapterId, $chapterCreatedAt, $chapterUpdatedAt, $chapterTitle, 
-                    $chapterFromDate, $chapterToDate, $chapterAuthors, $chapterEditors, $book, $chapterDesignator);
+                    $chapterFromDate, $chapterToDate, $chapterAuthors, $chapterEditors, $book, $chapterDesignator, $chapterPages);
         return $chapter;
     }
 }

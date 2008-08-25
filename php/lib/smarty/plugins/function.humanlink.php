@@ -18,11 +18,12 @@
             $return = $return . $human->id;
             $return = $return . '">';
             $return = $return . htmlspecialchars($human->name);
+            $return = $return . '</a>';
             if (!is_null($human->place)) {
-                $return = $return . "(" . htmlspecialchars($human->place) . ")";
+                $return = $return . " (" . htmlspecialchars($human->place) . ")";
             }    
         }
-        $return = $return . '</a>';
+        
         return $return;
     }
 ?>  

@@ -129,15 +129,30 @@ final class Article extends AbstractAuthoredEditedWork {
         $createdAt = new DateTime($coreResultSetRow['articleCreatedAt']);
         $updatedAt = new DateTime($coreResultSetRow['articleUpdatedAt']);
         $title = $coreResultSetRow['article_title'];
-        $fromDate = $coreResultSetRow['date'];
-        $toDate = $coreResultSetRow['toDate'];
+        $fromDate = new DateTime($coreResultSetRow['date']);
+        if (!is_null($coreResultSetRow['toDate'])) {
+            $toDate = new DateTime($coreResultSetRow['toDate']);    
+        }
+        else {
+            $toDate = null;
+        }
         $authors = $workProducers[Constants::AUTHOR];
         $editors = $workProducers[Constants::EDITOR];
         
-        $journal = new Journal($coreResultSetRow['journal_id'], new DateTime($coreResultSetRow['journalCreatedAt']), 
-                        new DateTime($coreResultSetRow['journalUpdatedAt']),
-                        $coreResultSetRow['journal_title'], $coreResultSetRow['journal_date'], 
-                        $coreResultSetRow['journal_toDate']);
+        // journal data
+        $journal_id = $coreResultSetRow['journal_id'];
+        $journal_created_at = new DateTime($coreResultSetRow['journalCreatedAt']);
+        $jounal_updated_at = new DateTime($coreResultSetRow['journalUpdatedAt']);
+        $journal_title = $coreResultSetRow['journal_title'];
+        $journal_date = new DateTime($coreResultSetRow['journal_date']);
+        if (!is_null($coreResultSetRow['journal_toDate'])) {
+            $journal_to_date = new DateTime($coreResultSetRow['journal_date']);
+        }
+        else {
+            $journal_to_date = null;
+        }
+        $journal = new Journal($journal_id, $journal_created_at, $jounal_updated_at,
+                        $journal_title, $journal_date, $journal_to_date);
         
         $volume = $coreResultSetRow['volume'];
         $issue = $coreResultSetRow['issue'];

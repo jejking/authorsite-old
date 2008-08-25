@@ -237,8 +237,8 @@ final class TextContent extends AbstractWork {
         $mimeType = $coreResultSetRow['mime_type'];
         $content = $coreResultSetRow['text_content'];
         
-        $fromDate = $coreResultSetRow['date'];
-        $toDate = $coreResultSetRow['toDate'];
+        $fromDate = new DateTime($coreResultSetRow['date']);
+        $toDate = new DateTime($coreResultSetRow['toDate']);
         
         $textContent = new TextContent($id, $createdAt, $updatedAt, $title, $fromDate, $toDate, 
                         $content_name, $mimeType, $content, $author, $editors);
