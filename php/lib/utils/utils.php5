@@ -33,7 +33,7 @@ function getPageNumber($string, $pageSize, $totalCount) {
       return 0;
     }
     
-    $maxPageNumber = calculateMaxPageNumber($pageSize, $totalCount);
+    $maxPageNumber = utilsCalculateMaxPageNumber($pageSize, $totalCount);
     if ( $pageNumber > $maxPageNumber) {
       return $maxPageNumber;
     }
@@ -47,7 +47,7 @@ function getPageNumber($string, $pageSize, $totalCount) {
   }
 }
 
-function calculateMaxPageNumber($pageSize, $totalCount) {
+function utilsCalculateMaxPageNumber($pageSize, $totalCount) {
   $maxPageNumber = intval($totalCount / $pageSize) - 1;
   if ($maxPageNumber < 0) {
     return 0;
@@ -57,111 +57,6 @@ function calculateMaxPageNumber($pageSize, $totalCount) {
     $maxPageNumber = $maxPageNumber + 1;
   }
   return $maxPageNumber;
-}
-
-function renderPaging($baseUrl, $pageNumber, $totalCount) {
-  renderPagingFirstPage($baseUrl, $pageNumber, $totalCount);
-  renderPagingPreviousPage($baseUrl, $pageNumber, $totalCount);
-  renderPagingCentralBlock($baseUrl, $pageNumber, $totalCount);
-  renderPagingNextPage($baseUrl, $pageNumber, $totalCount);
-  renderPagingLastPage($baseUrl, $pageNumber, $totalCount);
-}
-
-function renderPagingFirstPage($baseUrl, $pageNumber, $totalCount) {
-  echo ('<div class="pager">');
-  echo ('<span id="pager.first">');
-  if ($pageNumber > 0) {
-    echo('<a href="' . $baseUrl . '?pageNumber=0">&lt;&lt;</a> ');
-  }
-  else {
-    echo('&lt;&lt; ');
-  }
-  echo ('</span>');
-}
-
-function renderPagingPreviousPage($baseUrl, $pageNumber, $totalCount) {
-  echo ('<span id="pager.previous">');
-  if ($pageNumber > 0) {
-    echo('<a href="' . $baseUrl . '?pageNumber=' . ($pageNumber - 1) .'">&lt;</a> ');  
-  }
-  else   {
-    echo('&lt; ');
-  }
-  echo ('</span>');
-}
-
-function renderPagingNextPage($baseUrl, $pageNumber, $totalCount) {
-   echo ('<span id="pager.next">');
-   $maxPageNumber = calculateMaxPageNumber(20, $totalCount);
-   if($pageNumber >= $maxPageNumber) {
-     echo (' &gt; ');
-   }
-   else {
-     echo(' <a href="' . $baseUrl . '?pageNumber=' . ($pageNumber + 1) .'">&gt;</a> ');
-   }
-   
-   echo ('</span>');
-}
-
-function renderPagingLastPage($baseUrl, $pageNumber, $totalCount) {
-  echo('<span id="page.last">');
-  $maxPageNumber = calculateMaxPageNumber(20, $totalCount);
-  if ($pageNumber >=$maxPageNumber ) {
-      echo('&gt;&gt;');
-  }
-  else {
-    echo('<a href="'. $baseUrl .'?pageNumber=' . $maxPageNumber . '">&gt;&gt;</a>');
-  }
-  echo('</span>');
-  echo('</div>');
-}
-
-function renderPagingCentralBlock($baseUrl, $pageNumber, $totalCount) {
-   $maxPageNumber = calculateMaxPageNumber(20, $totalCount);
-   
-   
-   $minBlockPageNumber = $pageNumber - 4;
-   
-   
-   $distToMax = $maxPageNumber - $pageNumber;
-   if ($distToMax < 2) {
-     $minBlockPageNumber = $minBlockPageNumber + $distToMax;
-   }
-   else {
-     $minBlockPageNumber = $minBlockPageNumber + 2;
-   }
-   
-   if ($minBlockPageNumber < 0)  {
-     $minBlockPageNumber = 0;
-   }
-   
-   $maxBlockPageNumber = $pageNumber + 4;
-   
-   
-   $distToMin = $pageNumber - 1;
-   if ($distToMin < 2) {
-     $maxBlockPageNumber = $maxBlockPageNumber - $distToMin;
-   }
-   else {
-     $maxBlockPageNumber = $maxBlockPageNumber - 2;
-   }
-   
-   if ($maxBlockPageNumber > $maxPageNumber) {
-     $maxBlockPageNumber = $maxPageNumber;
-   }
-   
-   $i = $minBlockPageNumber;
-
-   do {
-     if ($i == $pageNumber) {
-       echo (' ' . $i . ' ');
-     }
-     else {
-       echo (' <a href="' . $baseUrl . '?pageNumber=' . $i . '">' . $i . '</a>' );
-     }
-     $i++;
-   }
-   while ($i <= $maxBlockPageNumber);
 }
 
 function renderHuman($human) {
