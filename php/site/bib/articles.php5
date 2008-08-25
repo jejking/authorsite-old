@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once('utils/initPage.php5');
 require_once('utils/db.php5');
 require_once('utils/utils.php5');
@@ -13,7 +14,12 @@ try {
 
     $articles = Article::getPage($pageNumber, AbstractEntry::PAGE_SIZE, $db);
     closeDbConnection($db);
-    require_once('view/renderArticles.php5');
+    $smarty->assign("title", "authorsite.org - bibliography - articles");
+    
+    $smarty->assign("articlesCount", $chaptersCount);
+    $smarty->assign("pageNumber", $pageNumber);
+    $smarty->assign("articles", $articles);
+    $smarty->display("bib/articles.tpl");
 }
 catch (PDOException $pdoExeption) {
     require_once('../errors/500.php5');

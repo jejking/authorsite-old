@@ -19,34 +19,34 @@
         </thead>
         <tbody>
             <tr>
-                <td><a href="/bib/books.php5">Books</a></td>
+                <td><a href="/bib/books/index">Books</a></td>
                 <td>{$booksCount}</td>
                 <td>Published, printed books.</td>
             </tr>
             <tr>
-                <td><a href="/bib/chapters.php5">Chapters</a></td>
+                <td><a href="/bib/chapters/index">Chapters</a></td>
                 <td>{$chaptersCount}</td>
                 <td>Chapters (essays, articles) contained in published, printed books.</td>
             </tr>
             <tr>
-                <td><a href="/bib/articles.php5">Articles</a></td>
+                <td><a href="/bib/articles/index">Articles</a></td>
                 <td>{$articlesCount}</td>
                 <td>Articles published in printed journals.</td>
             </tr>
             <tr>
-                <td><a href="/bib/journals.php5">Journals</a></td>
+                <td><a href="/bib/journals/index">Journals</a></td>
                 <td>{$journalsCount}</td>
                 <td>Printed journals and other serials</td>
             </tr>
             <tr>
-                <td><a href="/bib/theses.php5">Theses</a></td>
+                <td><a href="/bib/theses/index">Theses</a></td>
                 <td>{$thesesCount}</td>
                 <td>Unpublished theses and dissertations accepted for university degrees.</td>
             </tr>
             <tr>
-                <td><a href="/bib/books.php5">Books</a></td>
-                <td>{$booksCount}</td>
-                <td>Published, printed books.</td>
+                <td><a href="/bib/externalWebResources/index">Web Resources</a></td>
+                <td>{$externalWebResourcesCount}</td>
+                <td>External web based resources.</td>
             </tr>
         </tbody>
     </table>
@@ -62,12 +62,12 @@
         </thead>
         <tbody>
             <tr>
-                <td><a href="/bib/individuals.php5">Individuals</a></td>
+                <td><a href="/bib/individuals/index">Individuals</a></td>
                 <td>{$individualsCount}</td>
                 <td>Distinct, individual human beings who have authored, edited works.</td>
             </tr>
             <tr>
-                <td><a href="/bib/collectives.php5">Collectives</a></td>
+                <td><a href="/bib/collectives/index">Collectives</a></td>
                 <td>{$collectivesCount}</td>
                 <td>Organisations such as publishing houses, universities, who have been involved in the production of works.</td>
             </tr>

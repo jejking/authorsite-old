@@ -11,7 +11,14 @@ try {
 
     $collectives = Collective::getPage($pageNumber, AbstractEntry::PAGE_SIZE, $db);
     closeDbConnection($db);
-    require_once('view/renderCollectives.php5');
+    
+    $smarty->assign("title", "authorsite.org - bibliography - collectives");
+    
+    $smarty->assign("collectivesCount", $collectivesCount);
+    $smarty->assign("pageNumber", $pageNumber);
+    $smarty->assign("collectives", $collectives);
+    $smarty->display("bib/collectives.tpl");
+    
 }
 catch (PDOException $pdoExeption) {
     require_once('../errors/500.php5');

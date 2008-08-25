@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once('utils/initPage.php5');
 require_once('utils/db.php5');
 require_once('utils/utils.php5');
@@ -13,7 +14,12 @@ try {
 
     $externalWebResources = ExternalWebResource::getPage($pageNumber, AbstractEntry::PAGE_SIZE, $db);
     closeDbConnection($db);
-    require_once('view/renderExternalWebResources.php5');
+    $smarty->assign("title", "authorsite.org - bibliography - web resources");
+    
+    $smarty->assign("externalWebResourcesCount", $externalWebResourcesCount);
+    $smarty->assign("pageNumber", $pageNumber);
+    $smarty->assign("externalWebResources", $externalWebResources);
+    $smarty->display("bib/externalWebResources.tpl");
 }
 catch (PDOException $pdoExeption) {
     require_once('../errors/500.php5');

@@ -25,28 +25,28 @@
         {else}
         <li>
         {/if}
-          <a href="/content/index.php5">content</a>
+          <a href="/content/text/index">content</a>
         </li>
         {if $activeTab == 'bib'}
         <li class="active">
         {else}
         <li>
         {/if}
-          <a href="/bib/index.php5">bibliography</a>
+          <a href="/bib/index">bibliography</a>
         </li>
         {if $activeTab == 'community'}
         <li class="active">
         {else}
         <li>
         {/if}
-        <a href="/community/index.php5">community</a>
+        <a href="/community/index">community</a>
         </li>
         {if $activeTab == 'search'}
         <li class="active">
         {else}
         <li>
         {/if}
-          <a href="/search/index.php5">search</a>
+          <a href="/search/search">search</a>
         </li>
         {if $activeTab == 'login'}
         <li class="active">
@@ -70,3 +70,4 @@
     
     
 
+    
