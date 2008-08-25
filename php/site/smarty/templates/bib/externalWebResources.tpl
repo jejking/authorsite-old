@@ -39,4 +39,5 @@
 
 </table>
 
+{pager baseUrl = "/bib/externalWebResources/index" pageNumber = $pageNumber totalCount = $externalWebResourcesCount}
 {include file="shared/footer.tpl"}

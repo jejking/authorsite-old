@@ -7,7 +7,7 @@ try {
     $db = openDbConnection();
 
     $individualsCount = Individual::count($db);
-    $pageNumber = getPageNumber($_GET['pageNumber'], PAGE_SIZE, $individualCount);
+    $pageNumber = getPageNumber($_GET['pageNumber'], PAGE_SIZE, $individualsCount);
 
     $individuals = Individual::getPage($pageNumber, AbstractEntry::PAGE_SIZE, $db);
     closeDbConnection($db);

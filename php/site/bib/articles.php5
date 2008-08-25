@@ -16,7 +16,7 @@ try {
     closeDbConnection($db);
     $smarty->assign("title", "authorsite.org - bibliography - articles");
     
-    $smarty->assign("articlesCount", $chaptersCount);
+    $smarty->assign("articlesCount", $articlesCount);
     $smarty->assign("pageNumber", $pageNumber);
     $smarty->assign("articles", $articles);
     $smarty->display("bib/articles.tpl");

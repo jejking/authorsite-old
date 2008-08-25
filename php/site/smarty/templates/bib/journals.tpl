@@ -19,4 +19,6 @@
 
 </table>
 
+{pager baseUrl = "/bib/journals/index" pageNumber = $pageNumber totalCount = $journalsCount}
+
 {include file="shared/footer.tpl"}

@@ -126,6 +126,12 @@ body {
   border-right-color: red;
 }
 
+div.pager {
+	text-align: center;
+	padding-top: 1em;
+	font-size: larger;
+}
+
 span.adminOptions {
     
   font-weight: bolder;
