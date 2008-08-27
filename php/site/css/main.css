@@ -137,3 +137,7 @@ span.adminOptions {
   font-weight: bolder;
   color: red;
 }
+
+span.bookTitle {
+  font-style:italic;
+}

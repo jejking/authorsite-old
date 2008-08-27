@@ -16,10 +16,10 @@
         {foreach from=$articles item=article}
             <tr>
                 <td class="workTitle">
-                    <a href="/bib/article/{$article->id}">{$article->title}</a>
+                    <a href="/bib/articles/{$article->id}">{$article->title}</a>
                 </td>
                 <td class="articleJournal">
-                    <a href="/bib/journal/{$article->journal->id}">{$article->journal->title}</a>
+                    <a href="/bib/journals/{$article->journal->id}">{$article->journal->title}</a>
                 </td>
                 <td class="pages">
                     {$journal->pages}

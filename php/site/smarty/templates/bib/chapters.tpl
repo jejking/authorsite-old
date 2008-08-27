@@ -16,10 +16,10 @@
         {foreach from=$chapters item=chapter}
             <tr>
                 <td class="workTitle">
-                    <a href="/bib/chapter/{$chapter->id}">{$chapter->title}</a>
+                    <a href="/bib/chapters/{$chapter->id}">{$chapter->title}</a>
                 </td>
                 <td class="chapterBook">
-                    <a href="/bib/book/{$chapter->book->id}">{$chapter->book->title}</a>
+                    <a href="/bib/books/{$chapter->book->id}">{$chapter->book->title}</a>
                 </td>
                 <td class="pages">
                     {$chapter->pages}

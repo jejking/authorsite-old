@@ -15,7 +15,7 @@
         {foreach from=$externalWebResources item=externalWebResource}
             <tr>
                 <td class="workTitle">
-                    <a href="/bib/externalWebResource/{$externalWebResource->id}">{$externalWebResource->title}</a>
+                    <a href="/bib/externalWebResources/{$externalWebResource->id}">{$externalWebResource->title}</a>
                 </td>
                 <td class="workDates">
                     {$externalWebResource->fromYear} {if $externalWebResource->toYear != null} - {$externalWebResource->toYear}{/if}

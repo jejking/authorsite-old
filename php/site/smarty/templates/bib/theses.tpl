@@ -15,10 +15,10 @@
         {foreach from=$theses item=thesis}
             <tr>
                 <td class="workTitle">
-                    <a href="/bib/thesis/{$thesis->id}">{$thesis->title}</a>
+                    <a href="/bib/theses/{$thesis->id}">{$thesis->title}</a>
                 </td>
                 <td class="thesisAuthor">
-                    <a href="/bib/individual/{$thesis->author->id}">{humanlink arg=$thesis->author}</a>
+                    {humanlink arg=$thesis->author}
                 </td>
                 <td class="thesisDegree">
                     {$thesis->degree}

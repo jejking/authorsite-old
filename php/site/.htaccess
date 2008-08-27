@@ -2,7 +2,7 @@ RewriteEngine On
 RewriteBase /
 RewriteRule content/text/(.+) content/text.php5?name=$1
 
-RewriteRule bib/([a-z]+)/([1-9]+) bib/$1.php5?id=$2
+RewriteRule bib/([a-z]+)s/([1-9]+) bib/$1.php5?id=$2
 
 RewriteRule bib/([a-zA-Z]+)s/index bib/$1s.php5
 

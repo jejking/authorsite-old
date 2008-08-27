@@ -15,7 +15,7 @@
         {foreach from=$books item=book}
             <tr>
                 <td class="workTitle">
-                    <a href="/bib/book/{$book->id}">{$book->title}</a>
+                    <a href="/bib/books/{$book->id}">{$book->title}</a>
                 </td>
                 <td class="workDates">
                     {$book->fromYear} {if $book->toYear != null} - {$book->toYear}{/if}
