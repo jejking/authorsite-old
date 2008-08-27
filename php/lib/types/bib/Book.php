@@ -57,6 +57,12 @@ final class Book extends AbstractAuthoredEditedPublishedWork {
         return $resultArray;
     }
 
+    /**
+     * Gets the book with specified id or null.
+     * @param int $id
+     * @param DBO $db
+     * @return Book
+     */
     static function get($id, $db) {
         $coreResultSet = AbstractEntry::doQueryWithIdParameter(Book::GET_SINGLE_BOOK_CORE_QUERY, $id, $db);
         if (count($coreResultSet) == 0) {
