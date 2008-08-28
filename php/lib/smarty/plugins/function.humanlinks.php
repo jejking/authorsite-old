@@ -5,16 +5,22 @@
 
         // list of humans to be rendered
         $humans = $params['arg'];
-        
-        for ($i = 0; $i < count($humans); $i++) {
+
+        $count = count($humans);
+
+        for ($i = 0; $i < $count; $i++) {
                 $return = $return . humanlink($humans[$i]);
                 
-                /*if ($i < count($humans) - 2) {
+                // add an "and" where count > 1 and i == count - 2
+                if ($count > 1 && $i == ($count - 2)) {
+
+                    $return = $return . ' and ';
+                }
+
+                // add a ", " where count > 1 and i < count - 2
+                if ($count > 1 && $i < ($count - 2)) {
                     $return = $return . ', ';
                 }
-                else {
-                    $return = $return . ' and ';
-                }*/
             }
         
         return $return;
