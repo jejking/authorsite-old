@@ -39,7 +39,7 @@
     <property name="jpaVendorAdapter">
         <bean
         class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-           <property name="showSql" value="false" />
+           <property name="showSql" value="true" />
            <property name="generateDdl" value="true" />
            <property name="databasePlatform" value="org.hibernate.dialect.HSQLDialect" />
         </bean>
@@ -48,12 +48,15 @@
 
   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
-    <!--<property name="url" value="jdbc:hsqldb:hsql://localhost/test"/>-->
+    <!--<property name="url" value="jdbc:hsqldb:hsql://localhost/test"/> -->
     <property name="url" value="jdbc:hsqldb:mem:testdb"/>
     
     <property name="username" value="sa"/>
     <property name="password" value=""/>
+
   </bean>
+
+
 
   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
     <property name="entityManagerFactory" ref="entityManagerFactory"/>

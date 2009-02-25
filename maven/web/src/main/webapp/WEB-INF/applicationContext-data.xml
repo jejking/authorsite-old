@@ -60,7 +60,7 @@
    
    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
     <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-    <property name="url" value="jdbc:mysql://localhost:3306/authorsite?characterEncoding=utf8" />
+    <property name="url" value="jdbc:mysql://localhost:3306/authorsite2?characterEncoding=utf8" />
     <property name="username" value="as_owner" />
     <property name="password" value="as_owner"/>
     <property name="initialSize" value="1"/>

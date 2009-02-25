@@ -27,8 +27,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.authorsite.domain.AbstractHuman;
 
 /**
