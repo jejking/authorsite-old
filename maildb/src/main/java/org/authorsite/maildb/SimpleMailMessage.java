@@ -209,6 +209,8 @@ public class SimpleMailMessage {
         if (this.attachments != null && !this.attachments.isEmpty()) {
             builder.append(this.attachments.size() + " attachment(s)");
         }
+        builder.append("\n");
+        builder.append("\n");
         return builder.toString();
     }
 

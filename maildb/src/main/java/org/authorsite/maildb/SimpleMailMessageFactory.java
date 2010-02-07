@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Folder;
@@ -61,11 +62,21 @@ public class SimpleMailMessageFactory {
 
         // set all the properties on the EmailMessage
         logger.debug("loading basic properties");
-        message.setDateSent(in.getSentDate());
+        if (in.getSentDate() != null) {
+            message.setDateSent(in.getSentDate());
+        }
+        else {
+            message.setDateSent(in.getReceivedDate());
+        }
+
 
         message.setSubject(in.getSubject());
         
         message.setMesgId(handleHeader(message, in, "Message-Id"));
+        if (message.getMesgId() == null) {
+            // oops, got lost in the process somwhere
+            message.setMesgId(UUID.randomUUID().toString());
+        }
         message.setInReplyTo(handleHeader(message, in, "In-Reply-To"));
         message.setMesgReferences(handleHeader(message, in, "References"));
 
@@ -232,10 +243,20 @@ public class SimpleMailMessageFactory {
         if (o instanceof Multipart) {
             logger.debug("handling a Multipart body part 0");
             Multipart mp = (Multipart) o;
-            BodyPart bp = mp.getBodyPart(0);
-            if (bp.getContent() instanceof String) {
-                message.setText(bp.getContent().toString());
+            if (mp.getContentType().equals("multipart/related") || mp.getContentType().equals("multipart/alternative")) {
+                int count = mp.getCount();
+                for (int i = 0; i < count; i++) {
+                    BodyPart bp = mp.getBodyPart(i);
+                    if (bp.getContentType().equals("text/plain")) {
+                        message.setText(bp.getContent().toString());
+                    }
+                    
+                }
+                
+            } else {
+                message.setText("Could not find plain text in multipart...");
             }
+            
         } else if (o instanceof String) { // should be just a string
             message.setText(in.getContent().toString());
         }
