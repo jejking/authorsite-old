@@ -19,12 +19,10 @@ import org.springframework.stereotype.Repository;
  */
 public class SimpleMailMessageDao {
 
-    private DataSource dataSource;
     private SimpleJdbcInsert insert;
     private JdbcTemplate jdbcTemplate;
 
     public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
         this.insert = new SimpleJdbcInsert(dataSource).withTableName("SIMPLE_MAIL_MESSAGE").usingGeneratedKeyColumns("ID");
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }

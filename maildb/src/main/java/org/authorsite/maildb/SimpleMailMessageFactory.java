@@ -16,6 +16,7 @@ import javax.mail.Message;
 import javax.mail.Multipart;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMultipart;
 import org.apache.log4j.Logger;
 import org.htmlparser.Parser;
 import org.htmlparser.visitors.TextExtractingVisitor;
@@ -176,11 +177,7 @@ public class SimpleMailMessageFactory {
             if (i == 0 && bp.getContent() instanceof String) {
                 continue; // this counts as the msg body, so ignore
             }
-            if (bp.getContent() instanceof String) {
-                handleStringAttachment(message, bp);
-            } else if (bp.getContent() instanceof Multipart) { // go off recursively...
-                handleParts(message, (Multipart) bp.getContent());
-            } else {
+            if (bp.getDisposition() != null && bp.getDisposition().startsWith("Attachment")) {
                 handleBinaryAttachment(message, bp);
             }
         }
@@ -208,7 +205,13 @@ public class SimpleMailMessageFactory {
         binContent.setSize(bp.getSize());
         binContent.setDescription(bp.getDescription());
         binContent.setDisposition(bp.getDisposition());
-        binContent.setFileName(bp.getFileName());
+        if (bp.getFileName() != null) {
+            binContent.setFileName(bp.getFileName());
+        }
+        else {
+            binContent.setFileName("file");
+        }
+        
         binContent.setMimeType(bp.getContentType());
 
         message.addAttachment(binContent);
@@ -240,19 +243,18 @@ public class SimpleMailMessageFactory {
         logger.debug("handling Message Body for text content");
         Object o;
         o = in.getContent();
-        if (o instanceof Multipart) {
+        if (o instanceof MimeMultipart) {
             logger.debug("handling a Multipart body part 0");
-            Multipart mp = (Multipart) o;
-            if (mp.getContentType().equals("multipart/related") || mp.getContentType().equals("multipart/alternative")) {
+            MimeMultipart mp = (MimeMultipart) o;
+            if (mp.getContentType().startsWith("multipart/alternative")) {
                 int count = mp.getCount();
                 for (int i = 0; i < count; i++) {
                     BodyPart bp = mp.getBodyPart(i);
-                    if (bp.getContentType().equals("text/plain")) {
+                    if (bp.getContentType().startsWith("text/plain")) {
                         message.setText(bp.getContent().toString());
                     }
                     
                 }
-                
             } else {
                 message.setText("Could not find plain text in multipart...");
             }

@@ -20,7 +20,12 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+    <bean id="attachmentDao" class="org.authorsite.maildb.AttachmentDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
     <bean id="mboxLoaderService" class="org.authorsite.maildb.MboxLoaderService">
         <property name="simpleMailMessageDao" ref="simpleMessageDao"/>
+        <property name="attachmentDao" ref="attachmentDao"/>
     </bean>
 </beans>
