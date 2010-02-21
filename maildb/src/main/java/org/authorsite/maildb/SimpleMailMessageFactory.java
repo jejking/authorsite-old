@@ -14,6 +14,7 @@ import javax.mail.BodyPart;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.Multipart;
+import javax.mail.Part;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMultipart;
@@ -174,10 +175,7 @@ public class SimpleMailMessageFactory {
         partCount = multipart.getCount();
         for (int i = 0; i < partCount; i++) {
             BodyPart bp = multipart.getBodyPart(i);
-            if (i == 0 && bp.getContent() instanceof String) {
-                continue; // this counts as the msg body, so ignore
-            }
-            if (bp.getDisposition() != null && bp.getDisposition().startsWith("Attachment")) {
+            if (bp.getDisposition() != null && bp.getDisposition().equalsIgnoreCase(Part.ATTACHMENT)) {
                 handleBinaryAttachment(message, bp);
             }
         }
